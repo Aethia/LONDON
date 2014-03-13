@@ -1,0 +1,14 @@
+<cartes>
+	<carte>
+		<nom>Pauvres</nom>
+		<periode>A</periode>
+	</carte>
+	<carte>
+		<nom>Pauvres</nom>
+		<periode>B</periode>
+	</carte>
+	<carte>
+		<nom>Pauvres</nom>
+		<periode>C</periode>
+	</carte>
+</cartes>
