@@ -27,6 +27,7 @@ public class CartesManager {
 	      try
 	      {
 	         //On crée un nouveau document JDOM avec en argument le fichier XML
+	    	 System.out.println(System.getProperty("user.dir"));
 	         document = sxb.build(new File("ressources/Objects/cartes.xml"));
 	      }
 	      catch(Exception e){}
