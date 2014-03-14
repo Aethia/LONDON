@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Aethia/Desktop/eclipse-java-kepler-SR1-win32/eclipse/plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Aethia/Downloads/jdom-2.0.5/jdom-2.0.5.jar"/>
+	<classpathentry kind="lib" path="libs/junit.jar"/>
+	<classpathentry kind="lib" path="libs/jdom-2.0.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
