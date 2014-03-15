@@ -11,7 +11,7 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-        System.out.println(CartesManager.getCartes());
+       // System.out.println(CartesManager.getCartes());
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "LondonGame";
 		cfg.width = 1280;
