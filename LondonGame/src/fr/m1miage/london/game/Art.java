@@ -2,15 +2,28 @@ package fr.m1miage.london.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 public class Art {
 	public static TextureRegion bg;
+	public static TextureRegion player1Button;
+	
+	
+	
+	
 	public static TextureRegion[][] fnt;
 	
 	public static void load () {
 		bg = load("ressources/Images/background.png", 1280, 720);
 		fnt = split("ressources/Images/guys.png", 6, 6);
+	//	player1Button = load("ressources/Images/joueur1.png", 512, 1024);
+		
+		
+        
 	}
 	
 	public static TextureRegion load (String name, int width, int height) {

@@ -10,7 +10,11 @@ import com.badlogic.gdx.math.Matrix4;
 import fr.m1miage.london.game.Art;
 import fr.m1miage.london.game.LondonGame;
 
-
+/**
+ * 
+ * Source : https://github.com/libgdx/libgdx (inspiré de)
+ * 
+ */
 public abstract class Screen {
 	private final String[] chars = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", ".,!?:;\"'+-=/\\< "};
 	protected static Random random = new Random();
@@ -47,7 +51,7 @@ public abstract class Screen {
 			for (int ys = 0; ys < chars.length; ys++) {
 				int xs = chars[ys].indexOf(ch);
 				if (xs >= 0) {
-					draw(Art.fnt[xs][ys + 12], x + i * 6, y);
+					draw(Art.fnt[xs][ys + 9], x + i * 6, y);
 				}
 			}
 		}
