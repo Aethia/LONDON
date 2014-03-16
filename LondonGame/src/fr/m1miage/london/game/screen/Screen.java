@@ -3,9 +3,11 @@ package fr.m1miage.london.game.screen;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import fr.m1miage.london.game.Art;
 import fr.m1miage.london.game.LondonGame;
@@ -18,8 +20,9 @@ import fr.m1miage.london.game.LondonGame;
 public abstract class Screen {
 	private final String[] chars = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", ".,!?:;\"'+-=/\\< "};
 	protected static Random random = new Random();
-	private LondonGame londonG;
+	private static LondonGame londonG;
 	public SpriteBatch spriteBatch;
+	protected Stage stage; //** stage holds the Buttons **//
 
 	public void removed () {
 		spriteBatch.dispose();
@@ -32,9 +35,14 @@ public abstract class Screen {
 
 		spriteBatch = new SpriteBatch(100);
 		spriteBatch.setProjectionMatrix(projection);
+		
+		stage = new Stage(1280, 720, true); 
+		stage.clear();
+		Gdx.input.setInputProcessor(stage); //** stage is responsive **//
+		
 	}
 
-	protected void setScreen (Screen screen) {
+	public static void setScreen (Screen screen) {
 		londonG.setScreen(screen);
 	}
 

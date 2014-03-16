@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 import fr.m1miage.london.game.Art;
+import fr.m1miage.london.game.Buttons;
 
 
 
@@ -23,17 +24,26 @@ public class MainMenuScreen extends Screen {
 	@Override
 	public void render() {
 		// TODO Auto-generated method stub
+
 		spriteBatch.begin();
-		draw(Art.bg, 0, 0);
-		drawString("Choisissez votre joueur", 550, 10);
-		//draw(Art.player1Button, 200, 50);
 		
+		draw(Art.bg, 0, 0);
+		 
+		drawString("Choisissez votre joueur", 500, 10);
+		//draw(Art.player1Button, 200, 50);
 		
 		
 		String msg = "COPYRIGHT Aethia 2014";
 		drawString(msg, 2, 720 -6 -2);
-
+		
+		
+		stage.addActor(Buttons.button);
+		
+		stage.act();
+		
 		spriteBatch.end();
+		
+		stage.draw();
 	}
 
 	
