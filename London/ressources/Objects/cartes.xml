@@ -1,14 +1,33 @@
 <cartes>
 	<carte>
+		<id>1</id>
 		<nom>Pauvres</nom>
+		<prix>0</prix>
+		<couleur>Gris</couleur>
 		<periode>A</periode>
+		<image>img</image>
 	</carte>
 	<carte>
-		<nom>Pauvres</nom>
+		<id>2</id>
+		<nom>Forces de Police</nom>
+		<prix>2</prix>
+		<couleur>Rose</couleur>
 		<periode>B</periode>
+		<image>img</image>
+		<ptsVictoire>0</ptsVictoire>
+		<id_EffActivation>1</id_EffActivation>
+		<id_CoutActivation>1</id_CoutActivation>
+		<aRetourner>true</aRetourner>
+		<ptsVictActivation>2</ptsVictActivation>
+		<ptsPauvretePerdus>0</ptsPauvretePerdus>
+		<ptsPauvreteGagnes>0</ptsPauvreteGagnes>
 	</carte>
 	<carte>
+		<id>3</id>
 		<nom>Pauvres</nom>
+		<prix>0</prix>
 		<periode>C</periode>
+		<couleur>Gris</couleur>
+		<image>img</image>
 	</carte>
 </cartes>
