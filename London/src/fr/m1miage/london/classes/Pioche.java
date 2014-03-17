@@ -1,10 +1,10 @@
 package fr.m1miage.london.classes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Pioche {
-	ArrayList<Carte> lesCartes = new ArrayList<Carte>(); 
-	int nb_cartes;
+	private List<Carte> laPioche = new ArrayList<Carte>(); 
 	
 	// constucteur
 	public Pioche(){
@@ -12,23 +12,23 @@ public class Pioche {
 	
 	// ajouter carte dans la pioche
 	public void ajouterCarte(Carte c){
-		lesCartes.add(c);
+		laPioche.add(c);
 	}
 	// retourner la première carte du de la pioche
 	public Carte TirerUneCarte() {
-		Carte tmp = lesCartes.get(0);
-		lesCartes.remove(0);
+		Carte tmp = laPioche.get(0);
+		laPioche.remove(0);
 		return tmp;
 	}
 	
 	// vider la pioche
 	public void viderPioche() {
-		lesCartes.clear();
+		laPioche.clear();
 	}
 	
 	// obtenir le nb de cartes restantes dans la pioche
 	public int getNbCartes(){
-		return this.nb_cartes;
+		return laPioche.size();
 	}
 	
 }
