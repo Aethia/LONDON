@@ -14,7 +14,7 @@ public class Joueur {
 	// l'argent dont il dispose
 	int argent;
 	// les zones de construction qu'il peut posséder
-	HashSet<TasDeCartes> zones_construction =  new HashSet<TasDeCartes>() ;
+	HashSet<Pile> zones_construction =  new HashSet<Pile>() ;
 	
 	// constructeur
 	public Joueur(int id, String nom, Color couleur, int point_pauvrete,
