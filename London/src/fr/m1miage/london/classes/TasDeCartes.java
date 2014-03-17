@@ -1,5 +1,8 @@
 package fr.m1miage.london.classes;
 
-public class TasDeCartes {
+import java.util.ArrayList;
 
+public class TasDeCartes {
+	ArrayList<Carte> lesCartes = new ArrayList<Carte>(); 
+	int nb_cartes;
 }
