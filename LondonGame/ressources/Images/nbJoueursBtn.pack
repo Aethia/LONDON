@@ -1,0 +1,28 @@
+nb_joueurs.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ButtonOff
+	rotate: false
+	xy: 1, 1
+	size: 88, 88
+	split: 0, 0, 0, 0
+	orig: 126, 256
+	offset: 5, 0
+	index:-1
+ButtonOver
+	rotate: false
+	xy: 1, 88
+	size: 88, 88
+	split: 0, 0, 0, 0
+	orig: 126, 256
+	offset:0, 0
+	index:-1
+ButtonOn
+	rotate: false
+	xy: 1, 174
+	size: 88, 88
+	split: 0, 0, 0, 0
+	orig: 126, 256
+	offset:0, 0
+	index:-1

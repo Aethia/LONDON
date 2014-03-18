@@ -21,6 +21,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
+import fr.m1miage.london.game.graphics.Art;
+import fr.m1miage.london.game.graphics.Buttons;
+import fr.m1miage.london.game.graphics.Fonts;
 import fr.m1miage.london.game.screen.MainMenuScreen;
 import fr.m1miage.london.game.screen.Screen;
 
@@ -35,7 +38,7 @@ public class LondonGame implements ApplicationListener {
 	@Override
 	public void create() {	
 		
-
+		Fonts.load();
 		Art.load();
 
 		Buttons.load();

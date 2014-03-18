@@ -1,7 +1,7 @@
 package fr.m1miage.london.game.screen;
 
-import fr.m1miage.london.game.Art;
-import fr.m1miage.london.game.Buttons;
+import fr.m1miage.london.game.graphics.Art;
+import fr.m1miage.london.game.graphics.Buttons;
 
 public class GameScreen extends Screen{
 

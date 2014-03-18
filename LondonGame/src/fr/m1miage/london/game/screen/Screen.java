@@ -9,8 +9,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import fr.m1miage.london.game.Art;
 import fr.m1miage.london.game.LondonGame;
+import fr.m1miage.london.game.graphics.Art;
+import fr.m1miage.london.game.graphics.Prefs;
 
 /**
  * 
@@ -31,12 +32,12 @@ public abstract class Screen {
 	public final void init (LondonGame londonG) {
 		this.londonG = londonG;
 		Matrix4 projection = new Matrix4();
-		projection.setToOrtho(0, 1280, 720, 0, -1, 1);
+		projection.setToOrtho(0, Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, 0, -1, 1);
 
 		spriteBatch = new SpriteBatch(100);
 		spriteBatch.setProjectionMatrix(projection);
 		
-		stage = new Stage(1280, 720, true); 
+		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage); //** stage is responsive **//
 		

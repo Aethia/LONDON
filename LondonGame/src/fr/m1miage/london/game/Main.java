@@ -4,6 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 import fr.m1miage.london.db.CartesManager;
+import fr.m1miage.london.game.graphics.Prefs;
 
 
 public class Main {
@@ -14,8 +15,8 @@ public class Main {
        // System.out.println(CartesManager.getCartes());
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "LondonGame";
-		cfg.width = 1280;
-		cfg.height = 720;
+		cfg.width = Prefs.LARGEUR_FENETRE;
+		cfg.height = Prefs.HAUTEUR_FENETRE;
 		
 		new LwjglApplication(new LondonGame(), cfg);
 	}

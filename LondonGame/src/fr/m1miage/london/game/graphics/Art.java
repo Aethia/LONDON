@@ -1,4 +1,4 @@
-package fr.m1miage.london.game;
+package fr.m1miage.london.game.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,7 +20,7 @@ public class Art {
 	public static TextureRegion plateau_jeu_test;
 	
 	public static void load () {
-		bg = load("ressources/Images/background.png", 1280, 720);
+		bg = load("ressources/Images/background.png", 1400, 800);
 		fnt = split("ressources/Images/guys.png", 6, 6);
 		plateau_jeu_test = load("ressources/Images/plateau_jeu_test.png", 512, 512);
 		
