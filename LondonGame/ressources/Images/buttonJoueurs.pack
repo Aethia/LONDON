@@ -5,16 +5,16 @@ repeat: none
 ButtonOff
 	rotate: false
 	xy: 8, 1
-	size: 270, 700
+	size: 88, 88
 	split: 0, 0, 0, 0
-	orig: 1024, 512
+	orig: 512, 256
 	offset: 0, 0
 	index:-1
 ButtonOn
 	rotate: false
 	xy: 258, 1
-	size: 270, 700
+	size: 88, 88
 	split: 0, 0, 0, 0
-	orig: 1024, 512
+	orig: 512, 256
 	offset:0, 0
 	index:-1
