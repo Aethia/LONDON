@@ -21,6 +21,13 @@ public class Main {
 	public int getNb_cartes() {
 		return lesCartes.size();
 	}
+
+	@Override
+	public String toString() {
+		return "Main [lesCartes=" + lesCartes + "]";
+	}
 	
+	
+
 	
 }

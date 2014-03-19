@@ -150,7 +150,10 @@ public class Carte {
 
 	@Override
 	public String toString() {
-		return "Carte [nom=" + nom + ", periode=" + periode + "]";
+		String tmp = "";
+		tmp += "id : "+this.id_carte+"\n";
+		tmp += "nom : "+this.nom+"\n";
+		return tmp;
 	}
 	
 	

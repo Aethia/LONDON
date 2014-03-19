@@ -11,10 +11,6 @@ public class CarteTest {
 		fail("Not yet implemented");
 	}
 
-	@Test
-	public void testCarteIntStringStringIntStringIntIntIntStringIntBooleanIntIntIntInt() {
-		fail("Not yet implemented");
-	}
 
 	@Test
 	public void testGetNom() {
