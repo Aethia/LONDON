@@ -60,5 +60,7 @@ public class Partie {
 		for(Joueur i: listeJoueurs){
 			System.out.println(i.toString());
 		}
+		
+		
 	}
 }
