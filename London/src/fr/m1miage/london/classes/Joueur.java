@@ -17,7 +17,7 @@ public class Joueur {
 	
 	private int montantEmprunts;
 	// les zones de construction qu'il peut posséder
-	private int ZoneConstruction;
+	private ZoneConstruction zoneConstruction;
 	
 	private Main mainDuJoueur;
 	
@@ -72,8 +72,8 @@ public class Joueur {
 	}
 
 
-	public Set<Pile> getZone_construction() {
-		return zone_construction;
+	public ZoneConstruction getZone_construction() {
+		return zoneConstruction;
 	}
 
 
