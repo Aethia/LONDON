@@ -4,11 +4,55 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class PileTest {
+import fr.m1miage.london.classes.Carte;
+import fr.m1miage.london.classes.Pile;
 
+public class PileTest {
+	
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void TestGetNbPiles(){
+		Pile p = new Pile();
+		assertEquals(0, p.getNbPiles());
+		p.addPile();
+		assertEquals(1, p.getNbPiles());
+		p.addPile();
+		p.addPile();
+		p.addPile();
+		assertEquals(4, p.getNbPiles());
+	}
+	
+	@Test
+	public void testAjoutePileAvecCarte(){
+		Pile p = new Pile();
+		Carte c = new Carte(1,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		p.addPile(c);
+		assertEquals(1, p.getCartesPile(0).get(0).getId_carte());
+		Carte c1 = new Carte(2,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		p.ajouterCarte(0, c1);
+		assertEquals(2, p.getCartesPile(0).get(1).getId_carte());
+		Carte c3 = new Carte(3,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		p.addPile(c3);
+		assertEquals(3, p.getCartesPile(1).get(0).getId_carte());
+	}
+	
+	@Test (expected=IndexOutOfBoundsException.class)
+	public void testNbCartesParPileEx(){
+		Pile p = new Pile();
+		p.getCartesPile(1);				
+	}
+	
+	@Test
+	public void testNbCartesParPile(){
+		Pile p = new Pile();
+		Carte c = new Carte(1,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		p.addPile(c);
+		assertEquals(1, p.getNbCartesPile(0));
+		Carte c1 = new Carte(2,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		p.ajouterCarte(0, c1);
+		assertEquals(2, p.getNbCartesPile(0));
+		Carte c3 = new Carte(3,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		p.addPile(c3);
+		assertEquals(1, p.getNbCartesPile(1));
 	}
 
 }

@@ -16,9 +16,7 @@ public class Pioche {
 	}
 	// retourner la première carte du de la pioche
 	public Carte TirerUneCarte() {
-		Carte tmp = laPioche.get(0);
-		laPioche.remove(0);
-		return tmp;
+		return laPioche.remove(0);
 	}
 	
 	// vider la pioche
@@ -29,6 +27,11 @@ public class Pioche {
 	// obtenir le nb de cartes restantes dans la pioche
 	public int getNbCartes(){
 		return laPioche.size();
+	}
+	
+	// obtenir la liste de cartes
+	public List<Carte> getCartes(){
+		return this.laPioche;
 	}
 	
 }

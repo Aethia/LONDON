@@ -12,6 +12,9 @@ import fr.m1miage.london.classes.Main;
 public class MainTest {
 
 	@Test
+	/*
+	 * méthode de test d'ajout de carte dans la main
+	 */
 	public void testAdd(){
 		Main m = new Main();
 		Carte c = new Carte(1,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
@@ -20,6 +23,9 @@ public class MainTest {
 	}
 	
 	@Test (expected=IndexOutOfBoundsException.class)
+	/*
+	 * test de suppression avec un indice incorrect
+	 */
 	public void testSupprimerParIndiceException(){
 		Main m = new Main();
 		m.supprimerCarteParIndice(-1);
@@ -30,6 +36,9 @@ public class MainTest {
 	}
 	
 	@Test
+	/*
+	 * test de suppression d'une carte dans la main par les indice
+	 */
 	public void testsupprimerParIndice(){
 		Main m = new Main();
 		Carte c1 = new Carte(1,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
@@ -39,6 +48,9 @@ public class MainTest {
 	}
 	
 	@Test
+	/*
+	 * simulation de fin de tour avec trop de cartes
+	 */
 	public void testFinDeTour(){
 		Main m = new Main();
 		for(int i=0;i<11;i++)
@@ -57,6 +69,9 @@ public class MainTest {
 	}
 	
 	@Test
+	/*
+	 * test de suppression d'une carte dans la main par les id
+	 */
 	public void testSupprimerParId(){
 		Main m = new Main();
 		Carte c1 = new Carte(1,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
@@ -66,6 +81,9 @@ public class MainTest {
 	}
 	
 	@Test
+	/*
+	 * test du calcul du nb de cartes dans la main
+	 */
 	public void testNbCartes(){
 		Main m = new Main();
 		assertEquals(0, m.getNb_cartes());
@@ -77,6 +95,9 @@ public class MainTest {
 	}
 	
 	@Test
+	/*
+	 * test de l'affichage de la main
+	 */
 	public void testToString() {
 		Carte c = new Carte(1,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
 		Carte c1 = new Carte(1,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
@@ -90,6 +111,9 @@ public class MainTest {
 	}
 	
 	@Test
+	/*
+	 * test de la méthode pour savoir si le joueur peut finir son tour ou non
+	 */
 	public void testQteCarteFinDeTour(){
 		Main m = new Main();
 		for(int i=0;i<9;i++)
