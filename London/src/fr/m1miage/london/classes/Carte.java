@@ -153,6 +153,7 @@ public class Carte {
 		String tmp = "";
 		tmp += "id : "+this.id_carte+"\n";
 		tmp += "nom : "+this.nom+"\n";
+		tmp += "periode : "+this.periode+"\n";
 		return tmp;
 	}
 	

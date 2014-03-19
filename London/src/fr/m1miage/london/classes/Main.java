@@ -24,7 +24,19 @@ public class Main {
 
 	@Override
 	public String toString() {
-		return "Main [lesCartes=" + lesCartes + "]";
+		String tmp = "";
+		for(Carte c : lesCartes) {
+			tmp += c.toString();
+			tmp += "----------\n";
+		}
+		return tmp;
+	}
+	
+	public Boolean VerifierQteCarteFinDeTour(){
+		if (this.getNb_cartes() <= 9)
+			return true;
+		else
+			return false;
 	}
 	
 	
