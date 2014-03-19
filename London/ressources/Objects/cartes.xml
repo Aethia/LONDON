@@ -1,3 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE cartes 
+[
+<!ELEMENT cartes (carte+)>
+<!ELEMENT carte (id, nom, prix, couleur, periode, image, 
+Activation?, aRetourner?, ptsVictActivation?, ptsPauvretePerdus?,
+ptsPauvreteGagnes?, id_EffActiation?>
+<!ELEMENT Activation(id_Activation, MontantActivation?, CouleurActivation?)>
+
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT nom (#PCDATA)>
+<!ELEMENT prix (#PCDATA)>
+<!ELEMENT couleur (#PCDATA)>
+<!ELEMENT periode (#PCDATA)>
+<!ELEMENT image (#PCDATA)>
+
+<!ATTLIST carte aRetourner (true | false) #REQUIRED>
+<!ELEMENT ptsVictActivation (#PCDATA)>
+<!ELEMENT ptsPauvretePerdus (#PCDATA)>
+<!ELEMENT ptsPauvreteGagnes (#PCDATA)>
+<!ELEMENT id_EffActiation (#PCDATA)>
+
+<!ELEMENT id_Activation (#PCDATA)>
+<!ELEMENT MontantActivation (#PCDATA)>
+<!ELEMENT CouleurActivation (#PCDATA)>
+
+]>
+
 <cartes>
 	<carte>
 		<id>1</id>
@@ -16,7 +44,17 @@
 		<image>img</image>
 		<ptsVictoire>0</ptsVictoire>
 		<id_EffActivation>1</id_EffActivation>
-		<id_CoutActivation>1</id_CoutActivation>
+		<Activation>
+			<id_Activation>
+			1
+			</id_Activation>
+			<MontantActivation>
+			3
+			</MontnantActivation>
+			<CouleurActivation>
+			Rose
+			</CouleurActivation>
+		</Activation>
 		<aRetourner>true</aRetourner>
 		<ptsVictActivation>2</ptsVictActivation>
 		<ptsPauvretePerdus>0</ptsPauvretePerdus>
