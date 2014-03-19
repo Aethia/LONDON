@@ -7,8 +7,9 @@ public class London {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
-	        System.out.println(CartesManager.getCartes());
+		Partie partie = new Partie();
+		partie.lancerPartie();
+	        //System.out.println(CartesManager.getCartes());
 	        
 	}
 
