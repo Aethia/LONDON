@@ -46,7 +46,7 @@ public class CartesManager {
 	         
 	         String nom = courant.getChild("nom").getText();
 	         String periode = courant.getChild("periode").getText();
-	         cartes.add(new Carte(nom, periode));
+	        // cartes.add(new Carte(nom, periode));
 	      }
 	      
 	      return cartes;
