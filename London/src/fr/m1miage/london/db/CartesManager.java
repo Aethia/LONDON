@@ -24,10 +24,11 @@ public class CartesManager {
 		//source : http://cynober.developpez.com/tutoriel/java/xml/jdom/
 		//On crée une instance de SAXBuilder
 		SAXBuilder sxb = new SAXBuilder();
+
 		try
 		{
 			//On crée un nouveau document JDOM avec en argument le fichier XML
-			document = sxb.build(new File("ressources/Objects/cartes.xml"));
+			document = sxb.build("ressources/Objects/cartes.xml");
 		}
 		catch(Exception e){}
 		//On initialise un nouvel élément racine avec l'élément racine du document.
