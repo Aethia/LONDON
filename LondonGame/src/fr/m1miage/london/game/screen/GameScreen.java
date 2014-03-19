@@ -10,15 +10,12 @@ public class GameScreen extends Screen{
 		// TODO Auto-generated method stub
 		spriteBatch.begin();
 		
-		draw(Art.bg, 0, 0);
+		draw(Art.bgPartie, 0, 0);
 		draw(Art.plateau_jeu_test,350,50);
 
-		drawString("Voici le jeu", 500, 10);
-		//draw(Art.player1Button, 200, 50);
-
-
+		
 		String msg = "COPYRIGHT Aethia 2014";
-		drawString(msg, 2, 720 -6 -2);
+		drawString(msg, 2, 800 -6 -2);
 
 
 		spriteBatch.end();

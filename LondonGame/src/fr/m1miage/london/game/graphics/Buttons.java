@@ -1,7 +1,9 @@
 package fr.m1miage.london.game.graphics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -26,14 +28,18 @@ public class Buttons {
 	private static BitmapFont font; //** same as that used in Tut 7 **//
 
 
-	public static TextButton[] buttonsNbj=new TextButton[4] ; //** the button - the only actor in program **//
-
+	public static Map<Integer,TextButton> buttonsNbj=new HashMap<Integer,TextButton>() ; //** the button - the only actor in program **//
+	public static int idBtnSelected=0;
+	
+	public static TextButton btnValider;
+	
+	
 	private static void boutonNbJoueurs(){
 		TextureAtlas btnNbJoueursAtlas = new TextureAtlas("ressources/Images/nbJoueursBtn.pack"); //** button atlas image **//
 		final Skin buttonSkin = new Skin();
 		buttonSkin.addRegions(btnNbJoueursAtlas); //** skins for on and off **//
-		int i=0;
-		for(i=0;i<4;i++){
+		int i;
+		for(i=2;i<6;i++){
 
 			final TextButtonStyle style = new TextButtonStyle(); //** Button properties **//
 			style.up = buttonSkin.getDrawable("ButtonOff");
@@ -45,36 +51,30 @@ public class Buttons {
 			b.setPosition(450+(i*100), 575); //** Button location **//
 			b.setHeight(75); //** Button Height **//
 			b.setWidth(75); //** Button Width **//
-			buttonsNbj[i]= b;
+			buttonsNbj.put(i, b);
 		}
-
-		for(i=0;i<4;i++){
-			TextButton b = buttonsNbj[i];
+		//pour chaque bouton, on va attribuer un listener
+		for(i=2;i<6;i++){
 			final int num = i;
-			b.addListener(new InputListener(){
+			buttonsNbj.get(i).addListener(new InputListener(){
 				
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {
 					// TODO Auto-generated method stub
-					System.out.println("num : "+num + "checked : "+buttonsNbj[num].isChecked());
-					if(!buttonsNbj[num].isChecked()){
-						buttonsNbj[num].setChecked(true);
-						System.out.println("dans le if :"+buttonsNbj[num].isChecked());
-						System.out.println(""+num);
-						buttonsNbj[num].getStyle().up = buttonSkin.getDrawable("ButtonOn");
-						buttonsNbj[num].getStyle().over = buttonSkin.getDrawable("ButtonOn");
-						//b.toggle();
-						for(TextButton tb : buttonsNbj){
-							if(tb!=buttonsNbj[num]){
-								tb.getStyle().up = buttonSkin.getDrawable("ButtonOff");
-								tb.getStyle().over = buttonSkin.getDrawable("ButtonOver");
-							}
-						}
-					}else{
-						buttonsNbj[num].setChecked(true);
+					TextButton btnSelected  = buttonsNbj.get(num);
+					//aucun de deja selectionné
+					if(idBtnSelected!=num && idBtnSelected!=0){ //deselectionner l'ancien
+						
+						TextButton btnDeselect = buttonsNbj.get(idBtnSelected);
+						btnDeselect.getStyle().up = buttonSkin.getDrawable("ButtonOff");
+						btnDeselect.getStyle().over = buttonSkin.getDrawable("ButtonOver");
 					}
-					return false;
+					idBtnSelected=num;
+					btnSelected.getStyle().up = buttonSkin.getDrawable("ButtonOn");
+					btnSelected.getStyle().over = buttonSkin.getDrawable("ButtonOn");
+					System.out.println("Bouton selectionné : " + idBtnSelected);
+					return true;
 				}				
 
 			});
@@ -97,10 +97,37 @@ public class Buttons {
 		style.font = font;
 		button = new TextButton("", style); //** Button text and style **//
 
-		button.setPosition(100, -100); //** Button location **//
-		button.setHeight(700); //** Button Height **//
-		button.setWidth(280); //** Button Width **//
+		button.setPosition(600, 120); //** Button location **//
+		button.setHeight(430); //** Button Height **//
+		button.setWidth(160); //** Button Width **//
 		button.addListener(new InputListener() {
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				// TODO Auto-generated method stub
+			//a dev
+				return super.touchDown(event, x, y, pointer, button);
+			}
+		});
+
+	}
+	
+	
+	private static void boutonValider(){
+		TextureAtlas buttonJoueursAtlas = new TextureAtlas("ressources/Images/buttonValider.pack"); //** button atlas image **// 
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(buttonJoueursAtlas); //** skins for on and off **//        
+		TextButtonStyle style = new TextButtonStyle(); //** Button properties **//
+		style.up = buttonSkin.getDrawable("ButtonOff");
+		style.font = font;
+		
+		btnValider = new TextButton("", style); //** Button text and style **//
+
+		btnValider.setPosition(600, -150); //** Button location **//
+		btnValider.setHeight(256); //** Button Height **//
+		btnValider.setWidth(256); //** Button Width **//
+		btnValider.addListener(new InputListener() {
 
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
@@ -111,9 +138,7 @@ public class Buttons {
 				return super.touchDown(event, x, y, pointer, button);
 			}
 		});
-
 	}
-
 
 	public static void load () {
 		font = new BitmapFont(Gdx.files.internal("ressources/Fnt/arial.fnt")); //** font 
@@ -122,7 +147,7 @@ public class Buttons {
 
 		boutonNbJoueurs();
 		boutonChoixJoueur();
-
+		boutonValider();
 
 
 

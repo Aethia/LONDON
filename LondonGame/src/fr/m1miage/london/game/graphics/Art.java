@@ -15,12 +15,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
  */
 public class Art {
 	public static TextureRegion bg;
+	public static TextureRegion bgPartie;
 	public static TextureRegion[][] fnt;
 	
 	public static TextureRegion plateau_jeu_test;
 	
 	public static void load () {
 		bg = load("ressources/Images/background.png", 1400, 800);
+		bgPartie = load("ressources/Images/backgroundPartie.png", 1400, 800);
 		fnt = split("ressources/Images/guys.png", 6, 6);
 		plateau_jeu_test = load("ressources/Images/plateau_jeu_test.png", 512, 512);
 		

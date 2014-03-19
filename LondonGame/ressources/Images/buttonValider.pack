@@ -1,20 +1,12 @@
-joueur1.png
+btnValider.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 ButtonOff
 	rotate: false
 	xy: 1, 1
-	size: 160, 430
+	size: 256, 256
 	split: 0, 0, 0, 0
 	orig: 1024, 512
 	offset: 0, 0
-	index:-1
-ButtonOn
-	rotate: false
-	xy: 191, 1
-	size: 160, 430
-	split: 0, 0, 0, 0
-	orig: 1024, 512
-	offset:0, 0
 	index:-1
