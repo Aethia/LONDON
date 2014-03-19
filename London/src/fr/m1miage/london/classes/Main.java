@@ -13,6 +13,27 @@ public class Main {
 	public void ajouterCarte(Carte c){
 		lesCartes.add(c);
 	}
+	
+	// suppression d'une carte dans la main par l'indice dans la main
+	public void supprimerCarteParIndice(int indice){
+		try {
+			lesCartes.remove(indice);
+		}
+		catch (IndexOutOfBoundsException e){
+			throw new IndexOutOfBoundsException("erreur lors de la suppression");
+		}
+	}
+	
+	// suppression d'une carte dans la main par l'id de carte
+	public Boolean supprimerCarteParId(int idCarte){
+		for (Carte c : lesCartes) {
+			if (c.getId_carte() == idCarte) {
+				lesCartes.remove(c);
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public List<Carte> getLesCartes() {
 		return lesCartes;

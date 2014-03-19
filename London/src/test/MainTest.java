@@ -2,6 +2,8 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.Scanner;
+
 import org.junit.Test;
 
 import fr.m1miage.london.classes.Carte;
@@ -15,7 +17,52 @@ public class MainTest {
 		Carte c = new Carte(1,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
 		m.ajouterCarte(c);
 		assertEquals(1, m.getLesCartes().get(0).getId_carte());
-
+	}
+	
+	@Test (expected=IndexOutOfBoundsException.class)
+	public void testSupprimerParIndiceException(){
+		Main m = new Main();
+		m.supprimerCarteParIndice(-1);
+		m.supprimerCarteParIndice(0);
+		Carte c1 = new Carte(1,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		m.ajouterCarte(c1);
+		m.supprimerCarteParIndice(1);		
+	}
+	
+	@Test
+	public void testsupprimerParIndice(){
+		Main m = new Main();
+		Carte c1 = new Carte(1,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		m.ajouterCarte(c1);
+		m.supprimerCarteParIndice(0);
+		assertEquals(0, m.getNb_cartes());
+	}
+	
+	@Test
+	public void testFinDeTour(){
+		Main m = new Main();
+		for(int i=0;i<11;i++)
+			m.ajouterCarte(new Carte((i+1),"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1));
+		Scanner lectureClavier = new Scanner(System.in);
+		int id;
+		while (m.VerifierQteCarteFinDeTour() == false) {
+			System.out.println("Vous possédez trop de cartes pour pouvoir finir votre tour :");
+			System.out.println(m);
+			id = lectureClavier.nextInt();
+			if (!m.supprimerCarteParId(id)){
+				System.out.println("Carte introuvable!");
+			}	
+		}
+		
+	}
+	
+	@Test
+	public void testSupprimerParId(){
+		Main m = new Main();
+		Carte c1 = new Carte(1,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		m.ajouterCarte(c1);
+		assertEquals(true, m.supprimerCarteParId(1));
+		assertEquals(false, m.supprimerCarteParId(2));
 	}
 	
 	@Test
