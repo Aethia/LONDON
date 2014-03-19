@@ -3,13 +3,13 @@ package fr.m1miage.london.classes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pile {
+public class ZoneConstruction{
 	
 	// liste a deux dimensions de la pile de cartes devant le joueur
 	private ArrayList<ArrayList<Carte>> cartes; 
 	
 
-	public Pile(){
+	public ZoneConstruction(){
 		cartes = new ArrayList<ArrayList<Carte>>();  
 	}
 	

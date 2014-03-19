@@ -5,13 +5,13 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import fr.m1miage.london.classes.Carte;
-import fr.m1miage.london.classes.Pile;
+import fr.m1miage.london.classes.ZoneConstruction;
 
-public class PileTest {
+public class ZoneConstructionTest {
 	
 	@Test
 	public void TestGetNbPiles(){
-		Pile p = new Pile();
+		ZoneConstruction p = new ZoneConstruction();
 		assertEquals(0, p.getNbPiles());
 		p.addPile();
 		assertEquals(1, p.getNbPiles());
@@ -23,7 +23,7 @@ public class PileTest {
 	
 	@Test
 	public void testAjoutePileAvecCarte(){
-		Pile p = new Pile();
+		ZoneConstruction p = new ZoneConstruction();
 		Carte c = new Carte(1,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
 		p.addPile(c);
 		assertEquals(1, p.getCartesPile(0).get(0).getId_carte());
@@ -37,13 +37,13 @@ public class PileTest {
 	
 	@Test (expected=IndexOutOfBoundsException.class)
 	public void testNbCartesParPileEx(){
-		Pile p = new Pile();
+		ZoneConstruction p = new ZoneConstruction();
 		p.getCartesPile(1);				
 	}
 	
 	@Test
 	public void testNbCartesParPile(){
-		Pile p = new Pile();
+		ZoneConstruction p = new ZoneConstruction();
 		Carte c = new Carte(1,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
 		p.addPile(c);
 		assertEquals(1, p.getNbCartesPile(0));
