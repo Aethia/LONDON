@@ -21,7 +21,6 @@ id_EffActivation*, Activation?)>
 <!ELEMENT ptsVictActivation (#PCDATA)>
 <!ELEMENT ptsPauvretePerdus (#PCDATA)>
 <!ELEMENT ptsPauvreteGagnes (#PCDATA)>
-<!ELEMENT id_EffActiation (#PCDATA)>
 <!ELEMENT MontantGagne (#PCDATA)>
 
 <!ELEMENT id_Activation (#PCDATA)>
