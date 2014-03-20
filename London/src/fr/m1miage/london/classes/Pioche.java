@@ -31,7 +31,7 @@ public class Pioche {
 	
 	// obtenir la liste de cartes
 	public List<Carte> getCartes(){
-		return this.laPioche;
+		return new ArrayList<Carte>(this.laPioche);
 	}
 	
 }

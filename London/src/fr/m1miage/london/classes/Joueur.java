@@ -2,6 +2,7 @@ package fr.m1miage.london.classes;
 
 import java.awt.Color;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Joueur {
@@ -81,7 +82,33 @@ public class Joueur {
 		return mainDuJoueur;
 	}
 	
+	public Main getMainDuJoueurCopie() {
+		return mainDuJoueur.clone();
+	}
 	
+	public void ajouterCarteMain(Carte c){
+		this.mainDuJoueur.ajouterCarte(c);
+	}
+	
+	public void supprimerCarteMainParIndice(int indice){
+		this.mainDuJoueur.supprimerCarteParIndice(indice);
+	}
+	
+	public Boolean supprimerCarteMainParId(int idCarte){
+		return this.mainDuJoueur.supprimerCarteParId(idCarte);
+	}
+	
+	public Boolean VerifierFinDeTour(){
+		return this.mainDuJoueur.VerifierQteCarteFinDeTour();
+	}
+	
+	public List<Carte> getLesCartes() {
+		return this.mainDuJoueur.getLesCartes();
+	}
+
+	public int getNb_cartes() {
+		return this.mainDuJoueur.getNb_cartes();
+	}
 	
 
 }

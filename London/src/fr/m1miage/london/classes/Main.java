@@ -3,7 +3,7 @@ package fr.m1miage.london.classes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
+public class Main implements Cloneable{
 	private List<Carte> lesCartes = new ArrayList<Carte>(); 
 	
 	public Main(){
@@ -58,6 +58,17 @@ public class Main {
 			return true;
 		else
 			return false;
+	}
+	
+	public Main clone() {
+	    Main main = null;
+	    try {
+	    	main = (Main) super.clone();
+	    } catch(CloneNotSupportedException cnse) {
+	      	cnse.printStackTrace(System.err);
+	    }
+	    // on renvoie le clone
+	    return main;
 	}
 	
 	
