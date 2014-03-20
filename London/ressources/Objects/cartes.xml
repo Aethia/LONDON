@@ -233,7 +233,7 @@ id_EffActivation*, Activation?)>
 		<couleur>bleu</couleur>
 		<periode>B</periode>
 		<image>carte37.png</image>
-		<id_EffActivation>8</id_EffActivation>
+		<id_EffActivation>7</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -266,7 +266,7 @@ id_EffActivation*, Activation?)>
 		<couleur>rose</couleur>
 		<periode>B</periode>
 		<image>carte39.png</image>
-		<id_EffActivation>9</id_EffActivation>
+		<id_EffActivation>8</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -301,7 +301,7 @@ id_EffActivation*, Activation?)>
 		<couleur>rose</couleur>
 		<periode>B</periode>
 		<image>carte41.png</image>
-		<id_EffActivation>10</id_EffActivation>
+		<id_EffActivation>9</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -456,7 +456,7 @@ id_EffActivation*, Activation?)>
 		<periode>B</periode>
 		<image>carte50.png</image>
 		<ptsVictoire>2</ptsVictoire>
-		<id_EffActivation>12</id_EffActivation>
+		<id_EffActivation>11</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -497,7 +497,7 @@ id_EffActivation*, Activation?)>
 		<periode>B</periode>
 		<image>carte53.png</image>
 		<ptsVictoire>3</ptsVictoire>
-		<id_EffActivation>13</id_EffActivation>
+		<id_EffActivation>4</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -512,7 +512,7 @@ id_EffActivation*, Activation?)>
 		<couleur>brun</couleur>
 		<periode>B</periode>
 		<image>carte54.png</image>
-		<id_EffActivation>14</id_EffActivation>
+		<id_EffActivation>12</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -527,6 +527,7 @@ id_EffActivation*, Activation?)>
 		<periode>B</periode>
 		<image>carte55.png</image>
 		<ptsVictoire>1</ptsVictoire>
+		<id_EffActivation>13</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -543,7 +544,7 @@ id_EffActivation*, Activation?)>
 		<couleur>brun</couleur>
 		<periode>B</periode>
 		<image>carte56.png</image>
-		<id_EffActivation>15</id_EffActivation>
+		<id_EffActivation>14</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -558,7 +559,7 @@ id_EffActivation*, Activation?)>
 		<couleur>brun</couleur>
 		<periode>B</periode>
 		<image>carte57.png</image>
-		<id_EffActivation>16</id_EffActivation>
+		<id_EffActivation>15</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -591,7 +592,7 @@ id_EffActivation*, Activation?)>
 		<couleur>brun</couleur>
 		<periode>B</periode>
 		<image>carte59.png</image>
-		<id_EffActivation>17</id_EffActivation>
+		<id_EffActivation>15</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -633,7 +634,7 @@ id_EffActivation*, Activation?)>
 		<periode>B</periode>
 		<image>carte62.png</image>
 		<ptsVictoire>2</ptsVictoire>
-		<id_EffActivation>18</id_EffActivation>
+		<id_EffActivation>11</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -647,7 +648,7 @@ id_EffActivation*, Activation?)>
 		<couleur>bleu</couleur>
 		<periode>B</periode>
 		<image>carte63.png</image>
-		<id_EffActivation>19</id_EffActivation>
+		<id_EffActivation>7</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -681,8 +682,8 @@ id_EffActivation*, Activation?)>
 		<couleur>brun</couleur>
 		<periode>B</periode>
 		<image>carte28.png</image>
-		<id_EffActivation>20</id_EffActivation>
-		<id_EffActivation>21</id_EffActivation>
+		<id_EffActivation>16</id_EffActivation>
+		<id_EffActivation>17</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -709,7 +710,7 @@ id_EffActivation*, Activation?)>
 		<couleur>brun</couleur>
 		<periode>B</periode>
 		<image>carte67.png</image>
-		<id_EffActivation>22</id_EffActivation>
+		<id_EffActivation>12</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -743,7 +744,7 @@ id_EffActivation*, Activation?)>
 		<periode>B</periode>
 		<image>carte69.png</image>
 		<ptsVictoire>3</ptsVictoire>
-		<id_EffActivation>23</id_EffActivation>
+		<id_EffActivation>18</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -775,7 +776,7 @@ id_EffActivation*, Activation?)>
 		<couleur>rose</couleur>
 		<periode>B</periode>
 		<image>carte28.png</image>
-		<id_EffActivation>24</id_EffActivation>
+		<id_EffActivation>19</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -794,7 +795,7 @@ id_EffActivation*, Activation?)>
 		<periode>B</periode>
 		<image>carte72.png</image>
 		<ptsVictoire>2</ptsVictoire>
-		<id_EffActivation>25</id_EffActivation>
+		<id_EffActivation>20</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -812,7 +813,7 @@ id_EffActivation*, Activation?)>
 		<periode>B</periode>
 		<image>carte73.png</image>
 		<ptsVictoire>3</ptsVictoire>
-		<id_EffActivation>26</id_EffActivation>
+		<id_EffActivation>4</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -827,7 +828,8 @@ id_EffActivation*, Activation?)>
 		<couleur>brun</couleur>
 		<periode>B</periode>
 		<image>carte74.png</image>
-		<id_EffActivation>27</id_EffActivation>
+		<id_EffActivation>16</id_EffActivation>
+		<id_EffActivation>17</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
@@ -846,7 +848,7 @@ id_EffActivation*, Activation?)>
 		<couleur>rose</couleur>
 		<periode>B</periode>
 		<image>carte75.png</image>
-		<id_EffActivation>28</id_EffActivation>
+		<id_EffActivation>21</id_EffActivation>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
