@@ -5,7 +5,7 @@
 <!ELEMENT carte (id, nom, prix, couleur, periode, image, ptsVictoire?, 
 id_EffActivation*, Activation?)>
 <!ELEMENT Activation (CoutActivation?, GainActivation?)>
-<!ELEMENT CoutActivation (id_Activation, MontantActivation?, CouleurActivation?, aRetourner?)>
+<!ELEMENT CoutActivation (id_Activation, MontantActivation?, CouleurActivation?, aRetourner)>
 <!ELEMENT GainActivation (ptsVictActivation?, ptsPauvretePerdus?, ptsPauvreteGagnes?, MontantGagne?)>
 
 <!ELEMENT id (#PCDATA)>
@@ -132,6 +132,7 @@ id_EffActivation*, Activation?)>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
+				<aRetourner>false</aRetourner>
 			</CoutActivation>
 			<GainActivation>
 				<ptsPauvretePerdus>1</ptsPauvretePerdus>
@@ -185,6 +186,7 @@ id_EffActivation*, Activation?)>
 		<ptsVictoire>5</ptsVictoire><Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
+				<aRetourner>false</aRetourner>
 			</CoutActivation>
 		</Activation>
 	</carte>
@@ -412,6 +414,7 @@ id_EffActivation*, Activation?)>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
+				<aRetourner>false</aRetourner>
 			</CoutActivation>
 			<GainActivation>
 				<ptsVictActivation>1</ptsVictActivation>
@@ -438,6 +441,7 @@ id_EffActivation*, Activation?)>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
+				<aRetourner>false</aRetourner>
 			</CoutActivation>
 			<GainActivation>
 				<ptsVictActivation>2</ptsVictActivation>
@@ -459,6 +463,7 @@ id_EffActivation*, Activation?)>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
+				<aRetourner>false</aRetourner>
 			</CoutActivation>
 		</Activation>
 	</carte>
@@ -515,6 +520,7 @@ id_EffActivation*, Activation?)>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
+				<aRetourner>false</aRetourner>
 			</CoutActivation>
 		</Activation>
 	</carte>
@@ -530,6 +536,7 @@ id_EffActivation*, Activation?)>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
+				<aRetourner>false</aRetourner>
 			</CoutActivation>
 			<GainActivation>
 				<MontantGagne>2</MontantGagne>
@@ -577,6 +584,7 @@ id_EffActivation*, Activation?)>
 			<CoutActivation>
 				<id_Activation>1</id_Activation>
 				<MontantActivation>4</MontantActivation>
+				<aRetourner>false</aRetourner>
 			</CoutActivation>
 			<GainActivation>
 				<ptsVictActivation>1</ptsVictActivation>
@@ -610,6 +618,7 @@ id_EffActivation*, Activation?)>
 			<CoutActivation>
 				<id_Activation>1</id_Activation>
 				<MontantActivation>4</MontantActivation>
+				<aRetourner>false</aRetourner>
 			</CoutActivation>
 			<GainActivation>
 				<ptsVictActivation>1</ptsVictActivation>
@@ -637,6 +646,7 @@ id_EffActivation*, Activation?)>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
+				<aRetourner>false</aRetourner>
 			</CoutActivation>
 		</Activation>
 	</carte>
@@ -713,6 +723,7 @@ id_EffActivation*, Activation?)>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
+				<aRetourner>false</aRetourner>
 			</CoutActivation>
 		</Activation>
 	</carte>
@@ -747,6 +758,7 @@ id_EffActivation*, Activation?)>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
+				<aRetourner>false</aRetourner>
 			</CoutActivation>
 		</Activation>
 	</carte>
@@ -761,6 +773,7 @@ id_EffActivation*, Activation?)>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
+				<aRetourner>false</aRetourner>
 			</CoutActivation>
 			<GainActivation>
 				<ptsVictActivation>1</ptsVictActivation>
@@ -798,6 +811,7 @@ id_EffActivation*, Activation?)>
 		<Activation>
 			<CoutActivation>
 				<id_Activation>0</id_Activation>
+				<aRetourner>false</aRetourner>
 			</CoutActivation>
 			<GainActivation>
 				<ptsVictActivation>2</ptsVictActivation>
