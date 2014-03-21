@@ -16,7 +16,7 @@ public class Quartier {
 	// métro possible sur le quartier ?
 	private boolean metro;
 	// y'a-t-il un métro sur le quartier ?
-	private boolean metro_posé;
+	private boolean metro_pose;
 
 	// le joueur propriétaire du quartier
 	private Joueur proprietaireQuartier;
@@ -29,7 +29,7 @@ public class Quartier {
 
 	public Quartier(int id, String nom, int prix, int point_victoire,
 			int nb_carte_a_piocher, boolean investir_possible,
-			List<Quartier> quartiersAdjacents, boolean metro, boolean metro_posé) {
+			List<Quartier> quartiersAdjacents, boolean metro) {
 		super();
 		this.id = id;
 		this.nom = nom;
@@ -39,7 +39,7 @@ public class Quartier {
 		this.investir_possible = investir_possible;
 		this.quartiersAdjacents = quartiersAdjacents;
 		this.metro = metro;
-		this.metro_posé = false;
+		this.metro_pose = false;
 		this.proprietaireQuartier=null;
 		this.proprietaireMetro = null;
 	}
@@ -87,12 +87,12 @@ public class Quartier {
 		this.metro = metro;
 	}
 
-	public boolean isMetro_posé() {
-		return metro_posé;
+	public boolean isMetro_pose() {
+		return metro_pose;
 	}
 
-	public void setMetro_posé(boolean metro_posé) {
-		this.metro_posé = metro_posé;
+	public void setMetro_posé(boolean metro_pose) {
+		this.metro_pose = metro_pose;
 	}
 
 	public Joueur getProprietaireQuartier() {

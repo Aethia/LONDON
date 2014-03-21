@@ -4,12 +4,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 
 import fr.m1miage.london.classes.Carte;
+import fr.m1miage.london.classes.CoutActivation;
+import fr.m1miage.london.classes.Effet;
 
 public class CartesManager {
 	static Document document;
@@ -20,6 +23,9 @@ public class CartesManager {
 	}
 
 	public static List<Carte> getCartes(){
+		/* Avant de charger les cartes, charger les effets. => objets Effet dans Carte*/
+		Map<Integer,Effet> effets = EffetsManager.getEffets();
+
 		List<Carte> cartes = new ArrayList<Carte>();
 		//source : http://cynober.developpez.com/tutoriel/java/xml/jdom/
 		//On crée une instance de SAXBuilder
@@ -40,65 +46,84 @@ public class CartesManager {
 		Iterator<?> i = listeCartes.iterator();
 		while(i.hasNext())
 		{
-			//On recrée l'Element courant à chaque tour de boucle afin de
-			//pouvoir utiliser les méthodes propres aux Element comme :
-			//sélectionner un nœud fils, modifier du texte, etc...
 			Element courant = (Element)i.next();
+			//elements obligatoires : id, nom, prix, couleur, periode, image
 			Integer id = Integer.parseInt(courant.getChild("id").getText());
 			String nom = courant.getChild("nom").getText();
 			Integer prix = Integer.parseInt(courant.getChild("prix").getText());
 			String couleur = courant.getChild("couleur").getText();
-
 			String periode = courant.getChild("periode").getText();
 			String image = courant.getChild("image").getText();
 
-			Integer pointsVictoire = 0;
+			Carte carte = new Carte(id,nom,periode,prix,couleur,image);
+
+			/*--------------------   elements non obligatoires --------------------*/
+			Integer pointsVictoire = 0; 
 			if(courant.getChild("ptsVictoire") != null){
 				pointsVictoire = Integer.parseInt(courant.getChild("ptsVictoire").getText());
 			}
+			/* plusieurs effets, on va recuperer l'id et le chercher dans la hashmap effets */
+			List<Element> listeEffets = courant.getChildren("id_EffActivation");
+			for(Element eft:listeEffets){
+				int e = Integer.parseInt(eft.getText());
+				if(effets.containsKey(e)==true){
+					if(effets.get(e).getType()==1){
+						carte.setEffet_passif(effets.get(e));
+					}else{
+						carte.setEffet_actif(effets.get(e));
+					}
+				}else{
+					System.err.println("Problème dans le chargement de la carte, l'effet " + e +" n'existe pas.");
+				}
+			}
 
-			Integer idEffet = 0;
-			if(courant.getChild("id_Effet") != null){
-				idEffet = Integer.parseInt(courant.getChild("id_Effet").getText());
+			/*s'il existe une balise activation, on va chercher d'autres elts*/
+			if(courant.getChild("Activation")!=null){
+				Element activ = courant.getChild("Activation");
+				/*-------------- s'il y a un cout d'activation --------------*/
+				if(activ.getChild("CoutActivation")!=null){
+					Element coutActiv = activ.getChild("CoutActivation");
+					CoutActivation coutActivationObject= new CoutActivation();
+					if(coutActiv.getChild("id_Activation")!=null){
+						coutActivationObject.setTypeActiv(Integer.parseInt(coutActiv.getChild("id_Activation").getText()));
+					}
+					if(coutActiv.getChild("MontantActivation")!=null){
+						coutActivationObject.setLivresAPayer(Integer.parseInt(coutActiv.getChild("MontantActivation").getText()));
+					}
+					if(coutActiv.getChild("CouleurActivation")!=null){
+						coutActivationObject.setCouleurADefausser(coutActiv.getChild("CouleurActivation").getText());
+					}
+					if(coutActiv.getChild("aRetourner")!=null){
+						if(coutActiv.getChild("aRetourner").getText()=="true"){
+							coutActivationObject.setaRetourner(true);
+						}else{
+							coutActivationObject.setaRetourner(false);
+						}
+						
+					}
+					
+				}
+
+				/*------------- s'il y a un gain apres l'activation -----------*/
+				if(activ.getChild("GainActivation")!=null){
+					Element gainActiv = activ.getChild("GainActivation");
+					if(gainActiv.getChild("ptsVictActivation")!=null){
+						carte.setPtsVictActivation(Integer.parseInt(gainActiv.getChild("ptsVictActivation").getText()));
+					}
+					if(gainActiv.getChild("ptsPauvretePerdus")!=null){
+						carte.setPtsPauvretePerdus(Integer.parseInt(gainActiv.getChild("ptsPauvretePerdus").getText()));
+					}
+					if(gainActiv.getChild("ptsPauvreteGagnes")!=null){
+						carte.setPtsPauvreteGagnes(Integer.parseInt(gainActiv.getChild("ptsPauvreteGagnes").getText()));
+					}
+					if(gainActiv.getChild("MontantGagne")!=null){
+						carte.setArgentActivation(Integer.parseInt(gainActiv.getChild("MontantGagne").getText()));
+					}
+					
+				}
 			}
-			
-			Integer idEffetActivation = 0;
-			if(courant.getChild("id_EffActivation")!=null){
-				idEffetActivation = Integer.parseInt(courant.getChild("id_EffActivation").getText());
-			}
-			
-			
-			Integer id_CoutActivation = 0;
-			if(courant.getChild("id_CoutActivation")!=null){
-				id_CoutActivation = Integer.parseInt(courant.getChild("id_CoutActivation").getText());
-			}
-			boolean aRetourner = false;
-			if(courant.getChild("aRetourner")!=null){
-				aRetourner = Boolean.parseBoolean(courant.getChild("aRetourner").getText());
-			}
-			
-			
-			Integer argentActivation = 0;
-			if(courant.getChild("argentActivation")!=null){
-				argentActivation = Integer.parseInt(courant.getChild("argentActivation").getText());
-			}
-			Integer ptsVictActivation = 0;
-			if(courant.getChild("ptsVictActivation")!=null){
-				ptsVictActivation = Integer.parseInt(courant.getChild("ptsVictActivation").getText());
-			}
-			Integer ptsPauvretePerdus = 0;
-			if(courant.getChild("ptsPauvretePerdus")!=null){
-				ptsPauvretePerdus = Integer.parseInt(courant.getChild("ptsPauvretePerdus").getText());
-			}
-			Integer ptsPauvreteGagnes = 0;
-			if(courant.getChild("ptsPauvreteGagnes")!=null){
-				ptsPauvreteGagnes = Integer.parseInt(courant.getChild("ptsPauvreteGagnes").getText());
-			}
-			
-		
-			cartes.add(new Carte(id, nom, periode, prix, couleur, pointsVictoire, idEffet
-					, idEffetActivation, image, id_CoutActivation, aRetourner, argentActivation,
-					ptsVictActivation, ptsPauvretePerdus, ptsPauvreteGagnes));
+
+			cartes.add(carte);
 		}
 
 		return cartes;

@@ -2,8 +2,7 @@
 <!DOCTYPE quartiers 
 [
 <!ELEMENT quartiers (quartier+)>
-<!ELEMENT quartier (id, nom, PossibleInvest, prix, nbCarteAPiocher, ptsVictoire, QuartierAdja+, AvecPont*, SudTamise, Metro)>
-<!ELEMENT Metro (PossibleMetro, MetroPose)>
+<!ELEMENT quartier (id, nom, PossibleInvest, prix, nbCarteAPiocher, ptsVictoire, QuartierAdja+, AvecPont*, SudTamise, PossibleMetro)>
 
 <!ELEMENT id (#PCDATA)>
 <!ELEMENT nom (#PCDATA)>
@@ -15,7 +14,6 @@
 <!ELEMENT AvecPont (#PCDATA)>
 <!ELEMENT SudTamise (#PCDATA)>
 <!ELEMENT PossibleMetro (#PCDATA)>
-<!ELEMENT MetroPose (#PCDATA)>
 ]>
 
 <quartiers>
@@ -26,19 +24,16 @@
 		<prix>8</prix>
 		<nbCarteAPiocher>4</nbCarteAPiocher>
 		<ptsVictoire>6</ptsVictoire>
-		<QuartierAdja>Westminster</QuartierAdja>
-	    <QuartierAdja>Southwark et Bermondsey</QuartierAdja>
-	    <QuartierAdja>St. Marylebone</QuartierAdja>
-	    <QuartierAdja>St. Pancras</QuartierAdja>
-	    <QuartierAdja>Islington et Stoke Newington</QuartierAdja>
-	    <QuartierAdja>Hackney</QuartierAdja>
-	    <QuartierAdja>Bethnal Green, Stepney et Poplar</QuartierAdja>
+		<QuartierAdja>3</QuartierAdja>
+	    <QuartierAdja>2</QuartierAdja>
+	    <QuartierAdja>4</QuartierAdja>
+	    <QuartierAdja>6</QuartierAdja>
+	    <QuartierAdja>7</QuartierAdja>
+	    <QuartierAdja>8</QuartierAdja>
+	    <QuartierAdja>9</QuartierAdja>
 	    <AvecPont>1</AvecPont>
 		<SudTamise>false</SudTamise>
-		<Metro>
-		  <PossibleMetro>true</PossibleMetro>
-		  <MetroPose>fasle</MetroPose>
-		</Metro>
+		<PossibleMetro>true</PossibleMetro>
 	</quartier>
 	<quartier>
 		<id>2</id>
@@ -47,17 +42,14 @@
 		<prix>5</prix>
 		<nbCarteAPiocher>4</nbCarteAPiocher>
 		<ptsVictoire>4</ptsVictoire>
-		<QuartierAdja>City</QuartierAdja>
-	    <QuartierAdja>Bethnal Green, Stepney et Poplar</QuartierAdja>
-	    <QuartierAdja>Deptford</QuartierAdja>
-	    <QuartierAdja>Camberwell</QuartierAdja>
-	    <QuartierAdja>Lambeth</QuartierAdja>
+		<QuartierAdja>1</QuartierAdja>
+	    <QuartierAdja>9</QuartierAdja>
+	    <QuartierAdja>11</QuartierAdja>
+	    <QuartierAdja>13</QuartierAdja>
+	    <QuartierAdja>14</QuartierAdja>
 	    <AvecPont>1</AvecPont>
 		<SudTamise>true</SudTamise>
-		<Metro>
-		  <PossibleMetro>true</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>true</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>3</id>
@@ -66,18 +58,15 @@
 		<prix>8</prix>
 		<nbCarteAPiocher>2</nbCarteAPiocher>
 		<ptsVictoire>6</ptsVictoire>
-		<QuartierAdja>City</QuartierAdja>
-	    <QuartierAdja>St. Marylebone</QuartierAdja>
-	    <QuartierAdja>Paddington</QuartierAdja>
-	    <QuartierAdja>Kensington</QuartierAdja>
-	    <QuartierAdja>Lambeth</QuartierAdja>
-	    <QuartierAdja>Fulham et Chelsea</QuartierAdja>
+		<QuartierAdja>1</QuartierAdja>
+	    <QuartierAdja>4</QuartierAdja>
+	    <QuartierAdja>20</QuartierAdja>
+	    <QuartierAdja>19</QuartierAdja>
+	    <QuartierAdja>14</QuartierAdja>
+	    <QuartierAdja>17</QuartierAdja>
 	    <AvecPont>14</AvecPont>
 		<SudTamise>false</SudTamise>
-		<Metro>
-		  <PossibleMetro>true</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>true</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>4</id>
@@ -86,16 +75,13 @@
 		<prix>5</prix>
 		<nbCarteAPiocher>3</nbCarteAPiocher>
 		<ptsVictoire>4</ptsVictoire>
-		<QuartierAdja>City</QuartierAdja>
-	    <QuartierAdja>Paddington</QuartierAdja>
-	    <QuartierAdja>Westminster</QuartierAdja>
-	    <QuartierAdja>St. Pancras</QuartierAdja>
-	    <QuartierAdja>Hampstead</QuartierAdja>
+		<QuartierAdja>1</QuartierAdja>
+	    <QuartierAdja>20</QuartierAdja>
+	    <QuartierAdja>3</QuartierAdja>
+	    <QuartierAdja>6</QuartierAdja>
+	    <QuartierAdja>5</QuartierAdja>
 		<SudTamise>false</SudTamise>
-		<Metro>
-		  <PossibleMetro>true</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>true</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>5</id>
@@ -104,13 +90,10 @@
 		<prix>7</prix>
 		<nbCarteAPiocher>2</nbCarteAPiocher>
 		<ptsVictoire>5</ptsVictoire>
-		<QuartierAdja>St. Marylebone</QuartierAdja>
-    	<QuartierAdja>St. Pancras</QuartierAdja>
+		<QuartierAdja>4</QuartierAdja>
+    	<QuartierAdja>6</QuartierAdja>
 		<SudTamise>false</SudTamise>
-		<Metro>
-		  <PossibleMetro>false</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>false</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>6</id>
@@ -119,15 +102,12 @@
 		<prix>5</prix>
 		<nbCarteAPiocher>3</nbCarteAPiocher>
 		<ptsVictoire>4</ptsVictoire>
-		<QuartierAdja>City</QuartierAdja>
-	    <QuartierAdja>St. Marylebone</QuartierAdja>
-	    <QuartierAdja>Hampstead</QuartierAdja>
-	    <QuartierAdja>Islington et Stoke Newington</QuartierAdja>
+		<QuartierAdja>1</QuartierAdja>
+	    <QuartierAdja>4</QuartierAdja>
+	    <QuartierAdja>5</QuartierAdja>
+	    <QuartierAdja>7</QuartierAdja>
 		<SudTamise>false</SudTamise>
-		<Metro>
-		  <PossibleMetro>true</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>true</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>7</id>
@@ -136,14 +116,11 @@
 		<prix>4</prix>
 		<nbCarteAPiocher>4</nbCarteAPiocher>
 		<ptsVictoire>3</ptsVictoire>
-		<QuartierAdja>City</QuartierAdja>
-	    <QuartierAdja>St. Pancras</QuartierAdja>
-	    <QuartierAdja>Hackney</QuartierAdja>
+		<QuartierAdja>1</QuartierAdja>
+	    <QuartierAdja>6</QuartierAdja>
+	    <QuartierAdja>8</QuartierAdja>
 		<SudTamise>false</SudTamise>
-		<Metro>
-		  <PossibleMetro>true</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>true</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>8</id>
@@ -152,14 +129,11 @@
 		<prix>3</prix>
 		<nbCarteAPiocher>5</nbCarteAPiocher>
 		<ptsVictoire>2</ptsVictoire>
-		<QuartierAdja>City</QuartierAdja>
-	    <QuartierAdja>Bethnal Green, Stepney et Poplar</QuartierAdja>
-	    <QuartierAdja>Islington et Stoke Newington</QuartierAdja>
+		<QuartierAdja>1</QuartierAdja>
+	    <QuartierAdja>9</QuartierAdja>
+	    <QuartierAdja>7</QuartierAdja>
 		<SudTamise>false</SudTamise>
-		<Metro>
-		  <PossibleMetro>true</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>true</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>9</id>
@@ -168,13 +142,10 @@
 		<prix>3</prix>
 		<nbCarteAPiocher>5</nbCarteAPiocher>
 		<ptsVictoire>3</ptsVictoire>
-		<QuartierAdja>City</QuartierAdja>
-    	<QuartierAdja>Hackney</QuartierAdja>
+		<QuartierAdja>1</QuartierAdja>
+    	<QuartierAdja>8</QuartierAdja>
 		<SudTamise>false</SudTamise>
-		<Metro>
-		  <PossibleMetro>true</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>true</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>10</id>
@@ -183,13 +154,10 @@
 		<prix>3</prix>
 		<nbCarteAPiocher>5</nbCarteAPiocher>
 		<ptsVictoire>2</ptsVictoire>
-		<QuartierAdja>Deptford</QuartierAdja>
-    	<QuartierAdja>Lewisham</QuartierAdja>
+		<QuartierAdja>11</QuartierAdja>
+    	<QuartierAdja>12</QuartierAdja>
 		<SudTamise>true</SudTamise>
-		<Metro>
-		  <PossibleMetro>false</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>false</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>11</id>
@@ -198,15 +166,12 @@
 		<prix>3</prix>
 		<nbCarteAPiocher>5</nbCarteAPiocher>
 		<ptsVictoire>2</ptsVictoire>
-		<QuartierAdja>Lewisham</QuartierAdja>
-	    <QuartierAdja>Greenwich</QuartierAdja>
-	    <QuartierAdja>Southwark et Bermondsey</QuartierAdja>
-	    <QuartierAdja>Camberwell</QuartierAdja>
+		<QuartierAdja>12</QuartierAdja>
+	    <QuartierAdja>10</QuartierAdja>
+	    <QuartierAdja>2</QuartierAdja>
+	    <QuartierAdja>13</QuartierAdja>
 		<SudTamise>true</SudTamise>
-		<Metro>
-		  <PossibleMetro>false</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>false</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>12</id>
@@ -215,14 +180,11 @@
 		<prix>3</prix>
 		<nbCarteAPiocher>5</nbCarteAPiocher>
 		<ptsVictoire>2</ptsVictoire>
-		<QuartierAdja>Greenwich</QuartierAdja>
-	    <QuartierAdja>Deptford</QuartierAdja>
-	    <QuartierAdja>Camberwell</QuartierAdja>
+		<QuartierAdja>10</QuartierAdja>
+	    <QuartierAdja>11</QuartierAdja>
+	    <QuartierAdja>13</QuartierAdja>
 		<SudTamise>true</SudTamise>
-		<Metro>
-		  <PossibleMetro>false</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>false</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>13</id>
@@ -231,15 +193,12 @@
 		<prix>4</prix>
 		<nbCarteAPiocher>4</nbCarteAPiocher>
 		<ptsVictoire>3</ptsVictoire>
-		<QuartierAdja>Deptford</QuartierAdja>
-	    <QuartierAdja>Lewisham</QuartierAdja>
-	    <QuartierAdja>Southwark et Bermondsey</QuartierAdja>
-	    <QuartierAdja>Lambeth</QuartierAdja>
+		<QuartierAdja>11</QuartierAdja>
+	    <QuartierAdja>12</QuartierAdja>
+	    <QuartierAdja>2</QuartierAdja>
+	    <QuartierAdja>14</QuartierAdja>
 		<SudTamise>true</SudTamise>
-		<Metro>
-		  <PossibleMetro>false</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>false</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>14</id>
@@ -248,17 +207,14 @@
 		<prix>4</prix>
 		<nbCarteAPiocher>4</nbCarteAPiocher>
 		<ptsVictoire>3</ptsVictoire>
-		<QuartierAdja>Camberwell</QuartierAdja>
-	    <QuartierAdja>Wandsworth</QuartierAdja>
-	    <QuartierAdja>Battersea</QuartierAdja>
-	    <QuartierAdja>Southwark et Bermondsey</QuartierAdja>
-	    <QuartierAdja>Westminster</QuartierAdja>
+		<QuartierAdja>13</QuartierAdja>
+	    <QuartierAdja>16</QuartierAdja>
+	    <QuartierAdja>15</QuartierAdja>
+	    <QuartierAdja>2</QuartierAdja>
+	    <QuartierAdja>3</QuartierAdja>
 	    <AvecPont>3</AvecPont>
 		<SudTamise>true</SudTamise>
-		<Metro>
-		  <PossibleMetro>false</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>false</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>15</id>
@@ -267,15 +223,12 @@
 		<prix>4</prix>
 		<nbCarteAPiocher>4</nbCarteAPiocher>
 		<ptsVictoire>3</ptsVictoire>
-		<QuartierAdja>Wandsworth</QuartierAdja>
-	    <QuartierAdja>Lambeth</QuartierAdja>
-	    <QuartierAdja>Fulham et Chelsea</QuartierAdja>
+		<QuartierAdja>16</QuartierAdja>
+	    <QuartierAdja>14</QuartierAdja>
+	    <QuartierAdja>17</QuartierAdja>
 	    <AvecPont>17</AvecPont>
 		<SudTamise>true</SudTamise>
-		<Metro>
-		  <PossibleMetro>false</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>false</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>16</id>
@@ -284,15 +237,12 @@
 		<prix>4</prix>
 		<nbCarteAPiocher>3</nbCarteAPiocher>
 		<ptsVictoire>3</ptsVictoire>
-		<QuartierAdja>Battersea</QuartierAdja>
-	    <QuartierAdja>Lambeth</QuartierAdja>
-	    <QuartierAdja>Fulham et Chelsea</QuartierAdja>
+		<QuartierAdja>15</QuartierAdja>
+	    <QuartierAdja>14</QuartierAdja>
+	    <QuartierAdja>17</QuartierAdja>
 	    <AvecPont>17</AvecPont>
 		<SudTamise>true</SudTamise>
-		<Metro>
-		  <PossibleMetro>false</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>false</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>17</id>
@@ -301,18 +251,15 @@
 		<prix>7</prix>
 		<nbCarteAPiocher>2</nbCarteAPiocher>
 		<ptsVictoire>5</ptsVictoire>
-		<QuartierAdja>Wandsworth</QuartierAdja>
-	    <QuartierAdja>Battersea</QuartierAdja>
-	    <QuartierAdja>Westminster</QuartierAdja>
-	    <QuartierAdja>Hammersmith</QuartierAdja>
-	    <QuartierAdja>Kensington</QuartierAdja>
+		<QuartierAdja>16</QuartierAdja>
+	    <QuartierAdja>15</QuartierAdja>
+	    <QuartierAdja>3</QuartierAdja>
+	    <QuartierAdja>18</QuartierAdja>
+	    <QuartierAdja>19</QuartierAdja>
 	    <AvecPont>16</AvecPont>
 	    <AvecPont>15</AvecPont>
 		<SudTamise>false</SudTamise>
-		<Metro>
-		  <PossibleMetro>false</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>false</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>18</id>
@@ -321,13 +268,10 @@
 		<prix>6</prix>
 		<nbCarteAPiocher>3</nbCarteAPiocher>
 		<ptsVictoire>4</ptsVictoire>
-		<QuartierAdja>Fulham et Chelsea</QuartierAdja>
-    	<QuartierAdja>Kensington</QuartierAdja>
+		<QuartierAdja>17</QuartierAdja>
+    	<QuartierAdja>19</QuartierAdja>
 		<SudTamise>false</SudTamise>
-		<Metro>
-		  <PossibleMetro>false</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>false</PossibleMetro>
   	</quartier>
   	<quartier>
 		<id>19</id>
@@ -336,15 +280,12 @@
 		<prix>7</prix>
 		<nbCarteAPiocher>2</nbCarteAPiocher>
 		<ptsVictoire>5</ptsVictoire>
-		<QuartierAdja>Hammersmith</QuartierAdja>
-	    <QuartierAdja>Fulham et Chelsea</QuartierAdja>
-	    <QuartierAdja>Westminster</QuartierAdja>
-	    <QuartierAdja>Paddington</QuartierAdja>
+		<QuartierAdja>18</QuartierAdja>
+	    <QuartierAdja>17</QuartierAdja>
+	    <QuartierAdja>3</QuartierAdja>
+	    <QuartierAdja>20</QuartierAdja>
 		<SudTamise>false</SudTamise>
-		<Metro>
-		  <PossibleMetro>false</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>false</PossibleMetro>
 	  </quartier>
 	  <quartier>
 		<id>20</id>
@@ -353,13 +294,10 @@
 		<prix>5</prix>
 		<nbCarteAPiocher>3</nbCarteAPiocher>
 		<ptsVictoire>4</ptsVictoire>
-		<QuartierAdja>Kensington</QuartierAdja>
-	    <QuartierAdja>Westminster</QuartierAdja>
-	    <QuartierAdja>St. Marylebone</QuartierAdja>
+		<QuartierAdja>19</QuartierAdja>
+	    <QuartierAdja>3</QuartierAdja>
+	    <QuartierAdja>4</QuartierAdja>
 		<SudTamise>false</SudTamise>
-		<Metro>
-		  <PossibleMetro>false</PossibleMetro>
-		  <MetroPose>false</MetroPose>
-		</Metro>
+		<PossibleMetro>false</PossibleMetro>
   	</quartier>
  </quartiers>
