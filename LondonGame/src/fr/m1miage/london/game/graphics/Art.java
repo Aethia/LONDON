@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
+import fr.m1miage.london.game.form.MenuForm;
+
 /**
  * 
  * @author Aethia
@@ -21,10 +23,13 @@ public class Art {
 	public static TextureRegion plateau_jeu_test;
 	
 	public static void load () {
+		Fonts.load();
+		Buttons.load();
+		MenuForm.load();
 		bg = load("ressources/Images/background.png", 1400, 800);
 		bgPartie = load("ressources/Images/backgroundPartie.png", 1400, 800);
 		fnt = split("ressources/Images/guys.png", 6, 6);
-		plateau_jeu_test = load("ressources/Images/plateau_jeu_test.png", 512, 512);
+		plateau_jeu_test = load("ressources/Images/plateau_jeu_test.png", 1024, 1024);
 		
 	//	player1Button = load("ressources/Images/joueur1.png", 512, 1024);
 		

@@ -38,12 +38,8 @@ public class LondonGame implements ApplicationListener {
 	@Override
 	public void create() {	
 		
-		Fonts.load();
+		
 		Art.load();
-
-		Buttons.load();
-
-
 		setScreen(new MainMenuScreen());
 		
 		
