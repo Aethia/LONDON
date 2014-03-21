@@ -2,9 +2,11 @@ package fr.m1miage.london.db;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -22,11 +24,11 @@ public class CartesManager {
 
 	}
 
-	public static List<Carte> getCartes(){
+	public static Set<Carte> getCartes(){
 		/* Avant de charger les cartes, charger les effets. => objets Effet dans Carte*/
 		Map<Integer,Effet> effets = EffetsManager.getEffets();
 
-		List<Carte> cartes = new ArrayList<Carte>();
+		Set<Carte> cartes = new HashSet<Carte>();
 		//source : http://cynober.developpez.com/tutoriel/java/xml/jdom/
 		//On crée une instance de SAXBuilder
 		SAXBuilder sxb = new SAXBuilder();
@@ -58,9 +60,9 @@ public class CartesManager {
 			Carte carte = new Carte(id,nom,periode,prix,couleur,image);
 
 			/*--------------------   elements non obligatoires --------------------*/
-			Integer pointsVictoire = 0; 
+			
 			if(courant.getChild("ptsVictoire") != null){
-				pointsVictoire = Integer.parseInt(courant.getChild("ptsVictoire").getText());
+				carte.setPointsVictoire(Integer.parseInt(courant.getChild("ptsVictoire").getText()));
 			}
 			/* plusieurs effets, on va recuperer l'id et le chercher dans la hashmap effets */
 			List<Element> listeEffets = courant.getChildren("id_EffActivation");
@@ -94,7 +96,7 @@ public class CartesManager {
 						coutActivationObject.setCouleurADefausser(coutActiv.getChild("CouleurActivation").getText());
 					}
 					if(coutActiv.getChild("aRetourner")!=null){
-						if(coutActiv.getChild("aRetourner").getText()=="true"){
+						if(coutActiv.getChild("aRetourner").getText().equals("true")){
 							coutActivationObject.setaRetourner(true);
 						}else{
 							coutActivationObject.setaRetourner(false);

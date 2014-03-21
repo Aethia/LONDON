@@ -244,7 +244,7 @@ public class Carte {
 		if(coutActivation!=null){
 			msg.append("Cout de l'activation : ").append(coutActivation.toString());
 		}
-		msg.append("\t £ gagnés à l'activation : ").append(argentActivation);
+		msg.append("\n\t £ gagnés à l'activation : ").append(argentActivation);
 		msg.append(" - Points de victoire activation : ").append(ptsVictActivation);
 		msg.append(" - Points de pauvretés perdus : ").append(ptsPauvretePerdus);
 		msg.append(" - Points de pauvretés gagnés : ").append(ptsPauvreteGagnes).append("\n");
