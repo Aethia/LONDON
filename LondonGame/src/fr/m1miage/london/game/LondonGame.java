@@ -2,6 +2,8 @@ package fr.m1miage.london.game;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -21,6 +23,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
+import fr.m1miage.london.classes.Quartier;
+import fr.m1miage.london.db.QuartiersManager;
 import fr.m1miage.london.game.graphics.Art;
 import fr.m1miage.london.game.graphics.Buttons;
 import fr.m1miage.london.game.graphics.Fonts;
@@ -30,14 +34,15 @@ import fr.m1miage.london.game.screen.Screen;
 public class LondonGame implements ApplicationListener {
 
 	private Screen screen;
-
+	public Map<Integer, Quartier>quartiers= new HashMap<Integer, Quartier>();
 	
 
 
 
 	@Override
 	public void create() {	
-		
+		//a modifier et a mettre dans partie.java
+		Map<Integer, Quartier>quartiers = QuartiersManager.getQuartiers();
 		
 		Art.load();
 		setScreen(new MainMenuScreen());
