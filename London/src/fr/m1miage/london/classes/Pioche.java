@@ -39,7 +39,6 @@ public class Pioche {
 		laPioche.addAll(rndmB);
 		laPioche.addAll(rndmC);
 		
-		System.out.println(laPioche.toString());
 	}
 	
 	// ajouter carte dans la pioche
@@ -47,7 +46,7 @@ public class Pioche {
 		laPioche.add(c);
 	}
 	// retourner la première carte du de la pioche
-	public Carte TirerUneCarte() {
+	public Carte tirerUneCarte() {
 		Carte tmp = laPioche.get(0);
 		laPioche.remove(0);
 		return tmp;
@@ -61,6 +60,14 @@ public class Pioche {
 	// obtenir le nb de cartes restantes dans la pioche
 	public int getNbCartes(){
 		return laPioche.size();
+	}
+	
+	public List<Carte> tirerNCartes(int nbCartes){
+		List<Carte> cartes = new ArrayList<Carte>();
+		for(int i = 0; i<nbCartes; i++){
+			cartes.add(laPioche.get(i));
+		}
+		return cartes;
 	}
 	
 }

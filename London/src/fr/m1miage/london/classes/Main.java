@@ -22,5 +22,14 @@ public class Main {
 		return lesCartes.size();
 	}
 	
+	public void ajouterCartes(List<Carte> cartes){
+		lesCartes.addAll(cartes);
+	}
+
+	@Override
+	public String toString() {
+		return "Main [lesCartes=" + lesCartes.toString() + "]";
+	}
+	
 	
 }
