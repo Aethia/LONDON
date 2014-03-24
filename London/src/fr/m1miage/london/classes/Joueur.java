@@ -92,6 +92,10 @@ public class Joueur {
 				+ montantEmprunts + ", mainDuJoueur=" + mainDuJoueur + "]";
 	}
 	
+	public void afficherMain(){
+		System.out.println("Joueur "+nom+"\n Main : "+mainDuJoueur.toString());
+	}
+	
 	
 	
 	
