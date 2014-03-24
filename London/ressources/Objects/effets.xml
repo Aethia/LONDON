@@ -1,0 +1,143 @@
+<effets>
+	<effet>
+		<id>1</id>
+		<texte>Vous ne dépensez pas de carte quand vous placez celle-ci dans votre zone de construction.</texte>
+		<type>1</type>
+	</effet>
+	<effet>
+		<id>2</id>
+		<texte>Vous prenez la carte de votre choix depuis l’étalage de cartes et vous la placez sur elle.</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>3</id>
+		<texte>Payez £1 pour changer la couleur d'une de vos cartes.</texte>
+		<type>1</type>
+	</effet>
+	<effet>
+		<id>4</id>
+		<texte>Vous pouvez retourner cette carte à la place de celle que vous venez d'activer.</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>5</id>
+		<texte>Défaussez cette carte pour piocher deux autres cartes.</texte>
+		<type>1</type>
+	</effet>
+	<effet>
+		<id>6</id>
+		<texte>Défaussez cette carte pour poser deux autres cartes sur la zone de construction.</texte>
+		<type>1</type>
+	</effet>
+	<effet>
+		<id>7</id>
+		<texte>Prenez 1 PV pour chaque carte autre que brune présente dans votre zone de construction (celle-ci incluse).</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>8</id>
+		<texte>Donnez au joueur de votre choix un de vos points de pauvreté.</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>9</id>
+		<texte>Un joueur de votre choix doit prendre deux points de pauvreté depuis le stock.</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>10</id>
+		<texte>Prenez £2 à chacun des autres joueurs.</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>11</id>
+		<texte>Prenez £1 pour chaque carte brune dans votre zone de construction.</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>12</id>
+		<texte>Gagnez £1 pour chaque quartier que vous avez investi.</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>13</id>
+		<texte>Une fois par tour, vous pouvez échanger une carte de votre main avec une carte de l'étalage.</texte>
+		<type>1</type>
+	</effet>
+	<effet>
+		<id>14</id>
+		<texte>Perdez un point de pauvreté par carte de votre main que vous placez sur l'étalage (jusqu'à 3 cartes).</texte>
+		<type>2</type>
+	</effet>
+	
+	<effet>
+		<id>15</id>
+		<texte>Gagnez £2 pour chacun de vos quartiers adjacents à la Tamise.</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>16</id>
+		<texte>Placez £1 de la banque sur cette carte chaque fois que vous placez une carte dans votre zone de construction.</texte>
+		<type>1</type>
+	</effet>
+	<effet>
+		<id>17</id>
+		<texte>Prenez l'argent placé sur cette carte.</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>18</id>
+		<texte>Au début de votre tour, vous pouvez regarder les trois premières cartes de la pioche. Vous pouvez ensuite choisir d'en prendre une ou de prendre une carte de l'étalage.</texte>
+		<type>1</type>
+	</effet>
+	<effet>
+		<id>19</id>
+		<texte>Chaque autre joueur doit payer £1 à la banque pour chaque quartier que vous avez investi.</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>20</id>
+		<texte>Quand vous faites un emprunt à la banque, prenez £12 au lieu de £10.</texte>
+		<type>1</type>
+	</effet>
+	<effet>
+		<id>21</id>
+		<texte>Gagnez 1 VP et perdez un point de pauvreté par carte de votre main que vous placez sur l'étalage (jusqu'à 3 cartes).</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>22</id>
+		<texte>Placez deux marqueurs de métro. Payez £3 de plus si vous devez traverser la Tamise.</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>23</id>
+		<texte>Prenez £2 pour chaque quartier au sud de la Tamise que vous avez investi.</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>24</id>
+		<texte>Les cartes de votre main ne génèrent pas de points de pauvreté. </texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>25</id>
+		<texte>Prenez £2 pour chaque quartier au nord de la Tamise que vous avez investi.</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>26</id>
+		<texte>Activez une carte une seconde fois. La seconde activation ne nécessite pas de carte supplémentaire.</texte>
+		<type>2</type>
+	</effet>
+	<effet>
+		<id>27</id>
+		<texte>Vous pouvez choisir de prendre zéro, une, ou deux cartes au début de votre tour.</texte>
+		<type>1</type>
+	</effet>
+	<effet>
+		<id>28</id>
+		<texte>Prenez £1 et perdez un point de pauvreté pour chaque carte "Pauvres" que vous placez sur l'étalage.</texte>
+		<type>2</type>
+	</effet>
+</effets>

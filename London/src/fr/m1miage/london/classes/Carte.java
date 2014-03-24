@@ -7,51 +7,46 @@ public class Carte {
 	private int prix;
 	private String couleur;
 	private int pointsVictoire; //points de victoire gagnés en fin de partie
-	
-	
-	private int id_effet;
-	private int id_effet_activation;
+
+
+	private Effet effet_passif;
+	private Effet effet_actif;
 	private boolean desactivee;
 	private String image;
-	
+
 	//zone bas de carte => lors de l'activation
 	//voir page 3 du manuel
-	private int id_CoutActivation; //argent ou carte
-	private boolean aRetourner;
+	private CoutActivation coutActivation; //argent ou carte
+
 	private int argentActivation;
 	private int ptsVictActivation;
 	private int ptsPauvretePerdus;
 	private int ptsPauvreteGagnes;
-	
-	
+
+
 	public Carte(){
 	}
-	
 
-	
+
+
+
+
+
+
 	public Carte(int id_carte, String nom, String periode, int prix,
-			String couleur, int pointsVictoire, int id_effet,
-			int id_effet_activation, String image,
-			int id_CoutActivation, boolean aRetourner, int argentActivation,
-			int ptsVictActivation, int ptsPauvretePerdus, int ptsPauvreteGagnes) {
+			String couleur, String image) {
 		super();
 		this.id_carte = id_carte;
 		this.nom = nom;
 		this.periode = periode;
 		this.prix = prix;
 		this.couleur = couleur;
-		this.pointsVictoire = pointsVictoire;
-		this.id_effet = id_effet;
-		this.id_effet_activation = id_effet_activation;
-		this.desactivee = false;
 		this.image = image;
-		this.id_CoutActivation = id_CoutActivation;
-		this.aRetourner = aRetourner;
-		this.argentActivation = argentActivation;
-		this.ptsVictActivation = ptsVictActivation;
-		this.ptsPauvretePerdus = ptsPauvretePerdus;
-		this.ptsPauvreteGagnes = ptsPauvreteGagnes;
 	}
+
+
+
+
 
 
 
@@ -63,7 +58,7 @@ public class Carte {
 		return periode;
 	}
 
-	
+
 	public int getId_carte() {
 		return id_carte;
 	}
@@ -88,14 +83,15 @@ public class Carte {
 
 
 
-	public int getId_effet() {
-		return id_effet;
+
+	public Effet getEffet_passif() {
+		return effet_passif;
 	}
 
 
 
-	public int getId_effet_activation() {
-		return id_effet_activation;
+	public Effet getEffet_actif() {
+		return effet_actif;
 	}
 
 
@@ -112,17 +108,9 @@ public class Carte {
 
 
 
-	public int getId_CoutActivation() {
-		return id_CoutActivation;
+	public CoutActivation coutActivation() {
+		return coutActivation;
 	}
-
-
-
-	public boolean isaRetourner() {
-		return aRetourner;
-	}
-
-
 
 	public int getArgentActivation() {
 		return argentActivation;
@@ -148,11 +136,124 @@ public class Carte {
 
 
 
+	public void setPointsVictoire(int pointsVictoire) {
+		this.pointsVictoire = pointsVictoire;
+	}
+
+
+
+
+
+
+
+	public void setEffet_passif(Effet effet_passif) {
+		this.effet_passif = effet_passif;
+	}
+
+
+
+
+
+
+
+	public void setEffet_actif(Effet effet_actif) {
+		this.effet_actif = effet_actif;
+	}
+
+
+
+
+
+
+
+	public void setDesactivee(boolean desactivee) {
+		this.desactivee = desactivee;
+	}
+
+
+
+
+
+
+
+	public void setcoutActivation(CoutActivation coutActivation) {
+		this.coutActivation = coutActivation;
+	}
+
+
+
+
+
+
+
+
+	public void setArgentActivation(int argentActivation) {
+		this.argentActivation = argentActivation;
+	}
+
+
+
+
+
+
+
+	public void setPtsVictActivation(int ptsVictActivation) {
+		this.ptsVictActivation = ptsVictActivation;
+	}
+
+
+
+
+
+
+
+	public void setPtsPauvretePerdus(int ptsPauvretePerdus) {
+		this.ptsPauvretePerdus = ptsPauvretePerdus;
+	}
+
+
+
+
+
+
+
+	public void setPtsPauvreteGagnes(int ptsPauvreteGagnes) {
+		this.ptsPauvreteGagnes = ptsPauvreteGagnes;
+	}
+
+
+
+
+
+
+
 	@Override
 	public String toString() {
-		return "Carte [nom=" + nom + ", periode=" + periode + "]";
+
+		StringBuilder msg = new StringBuilder();
+		msg.append("Carte n°").append(id_carte).append(" : \n");
+		msg.append("\t Nom : ").append(nom).append(" -  Periode ").append(periode);
+		msg.append(" - Prix : ").append(prix).append(" - Couleur : ").append(couleur);
+		msg.append("\n\t Points de victoires en fin de partie : ").append(pointsVictoire);
+		if(effet_passif!=null){
+			msg.append("\n\t Effet passif : ").append(effet_passif.toString());
+		}
+		if(effet_actif!=null){
+			msg.append("\t Effet actif : ").append(effet_actif.toString());
+		}
+		if(coutActivation!=null){
+			msg.append("Cout de l'activation : ").append(coutActivation.toString());
+		}
+		msg.append("\n\t £ gagnés à l'activation : ").append(argentActivation);
+		msg.append(" - Points de victoire activation : ").append(ptsVictActivation);
+		msg.append(" - Points de pauvretés perdus : ").append(ptsPauvretePerdus);
+		msg.append(" - Points de pauvretés gagnés : ").append(ptsPauvreteGagnes).append("\n");
+		return msg.toString();
 	}
-	
-	
-	
+
+
+
+
+
+
 }
