@@ -3,7 +3,7 @@ package fr.m1miage.london.classes;
 public class Effet {
 	private int idEffet;
 	private String nomEffet;
-	private int type;
+	private int type; //1 = passif, 2 = actif
 	
 	public Effet(){
 		
@@ -29,15 +29,15 @@ public class Effet {
 
 	@Override
 	public String toString() {
-		String msg="Effet \n\t";
-				msg+="id : "+ idEffet + " - texte : " + nomEffet + " de type ";
+		StringBuilder msg= new StringBuilder(); //"Effet \n\t";
+				msg.append("id : ").append(idEffet).append(" - texte : ").append(nomEffet).append(" de type ");
 		if(type==1){
-			msg+="passif.\n";
+			msg.append("passif.\n");
 		}else{
-			msg+="actif.\n";
+			msg.append("actif.\n");
 		}
 		
-		return msg;
+		return msg.toString();
 	}
 
 	
