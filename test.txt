@@ -1,4 +1,1 @@
-test
-Test Myriam
-test xml
-test classes
+test myriam
