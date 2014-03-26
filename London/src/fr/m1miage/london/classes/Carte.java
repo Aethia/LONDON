@@ -1,6 +1,6 @@
 package fr.m1miage.london.classes;
 
-public class Carte {
+public class Carte implements Cloneable {
 	private int id_carte;
 	private String nom;
 	private String periode;

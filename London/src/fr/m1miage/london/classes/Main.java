@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main implements Cloneable{
+	// les cartes qui constituent la main
 	private List<Carte> lesCartes = new ArrayList<Carte>(); 
 	
 	public Main(){
@@ -34,11 +35,17 @@ public class Main implements Cloneable{
 		}
 		return false;
 	}
-
+	
+	/*
+	 * retourner (une copie) des cartes de la main
+	 */
 	public List<Carte> getLesCartes() {
-		return lesCartes;
+		return new ArrayList<Carte>(lesCartes) ;
 	}
 
+	/*
+	 * retourner le nb de cartes dans la main
+	 */
 	public int getNb_cartes() {
 		return lesCartes.size();
 	}
@@ -53,6 +60,9 @@ public class Main implements Cloneable{
 		return tmp;
 	}
 	
+	/*
+	 * vérifier si le joueur peut ou non finir son tour
+	 */
 	public Boolean VerifierQteCarteFinDeTour(){
 		if (this.getNb_cartes() <= 9)
 			return true;
@@ -60,6 +70,11 @@ public class Main implements Cloneable{
 			return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 * implémentation de l'interface Clonable
+	 */
 	public Main clone() {
 	    Main main = null;
 	    try {

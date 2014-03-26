@@ -16,8 +16,7 @@ public class Quartier {
 	// métro possible sur le quartier ?
 	private boolean metro;
 	// y'a-t-il un métro sur le quartier ?
-	private boolean metro_posé;
-
+	private boolean metro_pose;
 	// le joueur propriétaire du quartier
 	private Joueur proprietaireQuartier;
 	// le joueur propriétaire du métro !
@@ -39,7 +38,7 @@ public class Quartier {
 		this.investir_possible = investir_possible;
 		this.quartiersAdjacents = quartiersAdjacents;
 		this.metro = metro;
-		this.metro_posé = false;
+		this.metro_pose = false;
 		this.proprietaireQuartier=null;
 		this.proprietaireMetro = null;
 	}
@@ -88,11 +87,11 @@ public class Quartier {
 	}
 
 	public boolean isMetro_posé() {
-		return metro_posé;
+		return metro_pose;
 	}
 
 	public void setMetro_posé(boolean metro_posé) {
-		this.metro_posé = metro_posé;
+		this.metro_pose = metro_posé;
 	}
 
 	public Joueur getProprietaireQuartier() {

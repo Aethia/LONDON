@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pioche {
+	// lex cartes de la pioche
 	private List<Carte> laPioche = new ArrayList<Carte>(); 
 	
 	// constucteur
