@@ -27,33 +27,22 @@ public class MenuForm {
 	private static int distBtn = 80;
 	private static int top = 540;
 
-	private static BitmapFont font; //** same as that used in Tut 7 **//
+	 //** same as that used in Tut 7 **//
 
 	public static void load(){
-		font = new BitmapFont(Gdx.files.internal("ressources/Fnt/fnt1.fnt")); //** font 
 		//background
 		menu_bg = Art.load("ressources/Images/menu_background.png", 256, 512);
 
 		/* Parametres Boutons */
-		TextureAtlas btnNbJoueursAtlas = new TextureAtlas("ressources/Images/btnMenu.pack");
-		Skin buttonSkin = new Skin();
-		buttonSkin.addRegions(btnNbJoueursAtlas);
-		TextButtonStyle style = new TextButtonStyle(); //** Button properties **//
-		style.up = buttonSkin.getDrawable("ButtonOff");
-		style.over = buttonSkin.getDrawable("ButtonOver");
-		style.font = font;
-		style.fontColor = Color.WHITE;
-
-
-		zoneConstructionBtn = new TextButton("Zone de construction",style); //** Button text and style **//
+		zoneConstructionBtn = new TextButton("Zone de construction",Buttons.styleInGameMenu); //** Button text and style **//
 		zoneConstructionBtn.setPosition(90, top); //** Button location **//
 		sizeOfButton(zoneConstructionBtn);
 
-		etalageCartesBtn = new TextButton("Etalage de cartes",style); //** Button text and style **//
+		etalageCartesBtn = new TextButton("Etalage de cartes",Buttons.styleInGameMenu); //** Button text and style **//
 		etalageCartesBtn.setPosition(90, (top-distBtn)); //** Button location **//
 		sizeOfButton(etalageCartesBtn);
 
-		quartiersBtn = new TextButton("Quartiers",style); //** Button text and style **//
+		quartiersBtn = new TextButton("Quartiers",Buttons.styleInGameMenu); //** Button text and style **//
 		quartiersBtn.setPosition(90, (top-distBtn*2)); //** Button location **//
 		sizeOfButton(quartiersBtn);
 		quartiersBtn.addListener(new InputListener(
@@ -68,7 +57,7 @@ public class MenuForm {
 				return super.touchDown(event, x, y, pointer, button);
 			}});
 
-		emprunterBtn = new TextButton("Emprunter",style); //** Button text and style **//
+		emprunterBtn = new TextButton("Emprunter",Buttons.styleInGameMenu); //** Button text and style **//
 		emprunterBtn.setPosition(90, (top-distBtn*3)); //** Button location **//
 		sizeOfButton(emprunterBtn);
 

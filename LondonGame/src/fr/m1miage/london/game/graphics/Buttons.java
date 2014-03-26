@@ -22,17 +22,31 @@ import fr.m1miage.london.game.screen.GameScreen;
 import fr.m1miage.london.game.screen.Screen;
 
 public class Buttons {
-
+	/*----- boutons de style liste in game ------*/
+	public static BitmapFont fontBtnGame;
+	public static TextButtonStyle styleInGameMenu;
 
 	public static TextButton button; //** the button - the only actor in program **//
 	private static BitmapFont font; //** same as that used in Tut 7 **//
 
 
-	public static Map<Integer,TextButton> buttonsNbj=new HashMap<Integer,TextButton>() ; //** the button - the only actor in program **//
+	public static Map<Integer,TextButton> buttonsNbj=new HashMap<Integer,TextButton>() ; //boutons nombre de joueurs
 	public static int idBtnSelected=0;
 	
 	public static TextButton btnValider;
 	
+	
+	private static void boutonStyleInGame(){
+		TextureAtlas btnNbJoueursAtlas = new TextureAtlas("ressources/Images/btnMenu.pack");
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnNbJoueursAtlas);
+		
+		styleInGameMenu = new TextButtonStyle();
+		styleInGameMenu.up = buttonSkin.getDrawable("ButtonOff");
+		styleInGameMenu.over = buttonSkin.getDrawable("ButtonOver");
+		styleInGameMenu.font = Buttons.fontBtnGame;
+		styleInGameMenu.fontColor = Color.WHITE;
+	}
 	
 	private static void boutonNbJoueurs(){
 		TextureAtlas btnNbJoueursAtlas = new TextureAtlas("ressources/Images/nbJoueursBtn.pack"); //** button atlas image **//
@@ -143,12 +157,12 @@ public class Buttons {
 	public static void load () {
 		font = new BitmapFont(Gdx.files.internal("ressources/Fnt/arial.fnt")); //** font 
 
-
+		fontBtnGame = new BitmapFont(Gdx.files.internal("ressources/Fnt/fnt1.fnt")); //** font 
 
 		boutonNbJoueurs();
 		boutonChoixJoueur();
 		boutonValider();
-
+		boutonStyleInGame();
 
 
 

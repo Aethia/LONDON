@@ -34,7 +34,7 @@ import fr.m1miage.london.game.screen.Screen;
 public class LondonGame implements ApplicationListener {
 
 	private Screen screen;
-	public Map<Integer, Quartier>quartiers= new HashMap<Integer, Quartier>();
+	public static Map<Integer, Quartier>quartiers= new HashMap<Integer, Quartier>();
 	
 
 
@@ -42,7 +42,7 @@ public class LondonGame implements ApplicationListener {
 	@Override
 	public void create() {	
 		//a modifier et a mettre dans partie.java
-		Map<Integer, Quartier>quartiers = QuartiersManager.getQuartiers();
+		quartiers = QuartiersManager.getQuartiers();
 		
 		Art.load();
 		setScreen(new MainMenuScreen());

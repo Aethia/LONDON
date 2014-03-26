@@ -4,17 +4,17 @@ filter: Nearest,Nearest
 repeat: none
 ButtonOff
 	rotate: false
-	xy: 1, 1
-	size: 215, 60
+	xy: 4, 1
+	size: 215, 55
 	split: 0, 0, 0, 0
-	orig: 215, 60
+	orig: 215, 55
 	offset: 0, 0
 	index:-1
 ButtonOver
 	rotate: false
-	xy: 1, 61
-	size: 215, 60
+	xy: 4, 61
+	size: 215, 55
 	split: 0, 0, 0, 0
-	orig: 215, 60
+	orig: 215, 55
 	offset: 0, 0
 	index:-1
