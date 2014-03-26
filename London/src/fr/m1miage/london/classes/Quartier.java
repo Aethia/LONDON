@@ -98,9 +98,6 @@ public class Quartier {
 		return metro_pose;
 	}
 
-	public void setMetro_posé(boolean metro_pose) {
-		this.metro_pose = metro_pose;
-	}
 
 	public Joueur getProprietaireQuartier() {
 		return proprietaireQuartier;
