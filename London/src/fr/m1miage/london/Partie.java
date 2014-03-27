@@ -95,10 +95,68 @@ public class Partie {
 		
 	}
 	
+	// la boucle de jeu
 	public void lancerJeu(){
+		// on initialise le premier joueur
 		joueurActif = 0;
-		System.out.println("patie lancée c'est au tour de "+listeJoueurs.get(joueurActif));
-		joueurSuivant();
-		System.out.println("patie lancée c'est au tour de "+listeJoueurs.get(joueurActif));
+		// on joue tant qu'il y a des cartes dans la pioche
+		while (pioche.getNbCartes() > 0){
+			// le joueur actif doit choisir une action
+			System.out.println("c'est au tour de "+listeJoueurs.get(joueurActif).getNom()+", que fais-tu ?");
+			System.out.println(" -- Les Actions --");
+			System.out.println("1. Jouer une carte (poser une carte devant soi)");
+			System.out.println("2. Restaurer la ville (activer des cartes)");
+			System.out.println("3. Investir (acheter un quartier)");
+			System.out.println("4. Piocher 3 cartes");
+			System.out.println(" -- Autre --");
+			System.out.println("5. Contracter un prêt");
+			System.out.println("6. Consulter mes cartes en main");
+			System.out.println("7. Consulter l'étalage de cartes");
+			System.out.println("8. Finir mon tour");
+			switch(sc.nextInt()){
+				case 1: {
+					System.out.println("vous voulez jouer une carte");
+					break;
+				}
+					
+				case 2: {
+					System.out.println("Vous voulez restaurer la ville");
+					break;
+				}
+					
+				case 3: {
+					System.out.println("Vous voulez investir");
+					break;
+				}
+					
+				case 4: {
+					System.out.println("Vous voulez piocher 3 cartes");
+					break;
+				}
+					
+				case 5: {
+					System.out.println("Vous voulez contracter un prêt");
+					break;
+				}
+				case 6: {
+					System.out.println("Vous voulez consulter vos cartes en main");
+					break;
+				}
+				case 7: {
+					System.out.println("Vous voulez consulter l'étalage de cartes");
+					break;
+				}
+				case 8: {
+					System.out.println("Vous voulez finir votre tour");
+					joueurSuivant();
+					break;
+				}
+				
+				default: {
+					System.out.println("Je n'ai pas compris votre choix");
+					break;
+				}
+			}
+		}
 	}
 }

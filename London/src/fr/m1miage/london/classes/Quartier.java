@@ -33,7 +33,7 @@ public class Quartier {
 		this.metro_pose=false;
 		this.nom = new String();
 	}
-
+	
 	
 	public void investirQuartier(Joueur joueur){
 		this.proprietaireQuartier = joueur;

@@ -10,7 +10,6 @@ public class London {
 		Partie partie = new Partie();
 		partie.init();
 		partie.lancerJeu();
-	        //System.out.println(CartesManager.getCartes());
 	        
 	}
 

@@ -31,7 +31,7 @@ public class Joueur {
 		this.id = id;
 		this.nom = nom;
 		this.couleur = couleur;
-		this.argent=
+		this.argent= Regles.ARGENT;
 		this.point_pauvrete = Regles.PTPAUVRETE;
 		this.argent = Regles.ARGENT;
 		point_victoire=0;
