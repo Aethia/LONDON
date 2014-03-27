@@ -28,6 +28,7 @@ import fr.m1miage.london.db.QuartiersManager;
 import fr.m1miage.london.game.graphics.Art;
 import fr.m1miage.london.game.graphics.Buttons;
 import fr.m1miage.london.game.graphics.Fonts;
+import fr.m1miage.london.game.screen.CreationPartieScreen;
 import fr.m1miage.london.game.screen.MainMenuScreen;
 import fr.m1miage.london.game.screen.Screen;
 

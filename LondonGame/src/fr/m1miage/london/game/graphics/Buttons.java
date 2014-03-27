@@ -26,6 +26,8 @@ public class Buttons {
 	public static BitmapFont fontBtnGame;
 	public static TextButtonStyle styleInGameMenu;
 
+	public static TextButtonStyle styleInGameMenuDisabled;
+	
 	public static TextButton button; //** the button - the only actor in program **//
 	private static BitmapFont font; //** same as that used in Tut 7 **//
 
@@ -35,6 +37,17 @@ public class Buttons {
 	
 	public static TextButton btnValider;
 	
+	private static void boutonStyleInGameDisabled(){
+		TextureAtlas btnNbJoueursAtlas = new TextureAtlas("ressources/Images/btnMenu.pack");
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnNbJoueursAtlas);
+		
+		styleInGameMenuDisabled = new TextButtonStyle();
+		styleInGameMenuDisabled.up = buttonSkin.getDrawable("ButtonDisabled");
+		styleInGameMenuDisabled.over = buttonSkin.getDrawable("ButtonDisabled");
+		styleInGameMenuDisabled.font = Buttons.fontBtnGame;
+		styleInGameMenuDisabled.fontColor = Color.WHITE;
+	}
 	
 	private static void boutonStyleInGame(){
 		TextureAtlas btnNbJoueursAtlas = new TextureAtlas("ressources/Images/btnMenu.pack");
@@ -71,7 +84,7 @@ public class Buttons {
 		for(i=2;i<6;i++){
 			final int num = i;
 			buttonsNbj.get(i).addListener(new InputListener(){
-				
+
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {
@@ -163,7 +176,7 @@ public class Buttons {
 		boutonChoixJoueur();
 		boutonValider();
 		boutonStyleInGame();
-
+		boutonStyleInGameDisabled();
 
 
 	}

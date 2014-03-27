@@ -37,9 +37,7 @@ public abstract class Screen {
 		spriteBatch = new SpriteBatch(100);
 		spriteBatch.setProjectionMatrix(projection);
 		
-		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
-		stage.clear();
-		Gdx.input.setInputProcessor(stage); //** stage is responsive **//
+		 //** stage is responsive **//
 		
 	}
 

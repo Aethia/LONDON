@@ -18,3 +18,11 @@ ButtonOver
 	orig: 215, 55
 	offset: 0, 0
 	index:-1
+ButtonDisabled
+	rotate: false
+	xy: 4, 122
+	size: 215, 55
+	split: 0, 0, 0, 0
+	orig: 215, 55
+	offset: 0, 0
+	index:-1
