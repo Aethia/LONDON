@@ -79,7 +79,6 @@ public class Partie {
 		
 		// on distribue les cartes (los cartos en espagnol)
 		for(Joueur i: listeJoueurs){
-			System.out.println("Hello");
 			i.ajouterCartesMain(pioche.tirerNCartes(Regles.NBCARTESDEPART));
 		}
 	}
@@ -92,23 +91,28 @@ public class Partie {
 		else {
 			joueurActif++;
 		}
-		
 	}
+	
+
 	
 	// la boucle de jeu
 	public void lancerJeu(){
+		Boolean actionEffectuee = false;
 		// on initialise le premier joueur
 		joueurActif = 0;
 		// on joue tant qu'il y a des cartes dans la pioche
 		while (pioche.getNbCartes() > 0){
+			
 			// le joueur actif doit choisir une action
-			System.out.println("c'est au tour de "+listeJoueurs.get(joueurActif).getNom()+", que fais-tu ?");
-			System.out.println(" -- Les Actions --");
-			System.out.println("1. Jouer une carte (poser une carte devant soi)");
-			System.out.println("2. Restaurer la ville (activer des cartes)");
-			System.out.println("3. Investir (acheter un quartier)");
-			System.out.println("4. Piocher 3 cartes");
-			System.out.println(" -- Autre --");
+			System.out.println("c'est au tour de "+listeJoueurs.get(joueurActif).getNom()+", que faites vous ?");
+			if (!actionEffectuee) {
+				System.out.println(" -- Les Actions --");
+				System.out.println("1. Jouer une carte (poser une carte devant soi)");
+				System.out.println("2. Restaurer la ville (activer des cartes)");
+				System.out.println("3. Investir (acheter un quartier)");
+				System.out.println("4. Piocher 3 cartes");
+				System.out.println(" -- Autre --");				
+			}		
 			System.out.println("5. Contracter un prêt");
 			System.out.println("6. Consulter mes cartes en main");
 			System.out.println("7. Consulter l'étalage de cartes");
@@ -117,22 +121,46 @@ public class Partie {
 			// switch de l'action
 			switch(sc.nextInt()){
 				case 1: {
+					// si une action a déjà été faite dans le tour
+					if (actionEffectuee) {
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
+						break;
+					}
 					System.out.println("vous voulez jouer une carte");
+					actionEffectuee = true;
 					break;
 				}
 					
 				case 2: {
+					// si une action a déjà été faite dans le tour
+					if (actionEffectuee) {
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
+						break;
+					}
 					System.out.println("Vous voulez restaurer la ville");
+					actionEffectuee = true;
 					break;
 				}
 					
 				case 3: {
+					// si une action a déjà été faite dans le tour
+					if (actionEffectuee) {
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
+						break;
+					}
 					System.out.println("Vous voulez investir");
+					actionEffectuee = true;
 					break;
 				}
 					
 				case 4: {
+					// si une action a déjà été faite dans le tour
+					if (actionEffectuee) {
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
+						break;
+					}
 					System.out.println("Vous voulez piocher 3 cartes");
+					actionEffectuee = true;
 					break;
 				}
 					
@@ -150,7 +178,13 @@ public class Partie {
 				}
 				case 8: {
 					System.out.println("Vous voulez finir votre tour");
+					if (!actionEffectuee) {
+						System.err.println("Vous ne pouvez pas finir votre tour sans faire d'action!");
+						break;
+					}
+					// passe au suivant
 					joueurSuivant();
+					actionEffectuee = false;
 					break;
 				}
 				
