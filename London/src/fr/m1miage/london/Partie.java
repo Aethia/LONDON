@@ -113,6 +113,8 @@ public class Partie {
 			System.out.println("6. Consulter mes cartes en main");
 			System.out.println("7. Consulter l'étalage de cartes");
 			System.out.println("8. Finir mon tour");
+			
+			// switch de l'action
 			switch(sc.nextInt()){
 				case 1: {
 					System.out.println("vous voulez jouer une carte");
