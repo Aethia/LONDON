@@ -16,10 +16,10 @@ public class PiocheTest {
 	public void testNbCartes(){
 		Pioche p = new Pioche();
 		assertEquals(0, p.getNbCartes());
-		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1));
+		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",null));
 		assertEquals(1, p.getNbCartes());
-		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1));
-		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1));
+		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",null));
+		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",null));
 		assertEquals(3, p.getNbCartes());	
 	}
 	
@@ -29,7 +29,7 @@ public class PiocheTest {
 	 */
 	public void testAdd(){
 		Pioche p = new Pioche();
-		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1));
+		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",null));
 		assertEquals(1, p.getCartes().get(0).getId_carte());
 	}
 	
@@ -39,10 +39,10 @@ public class PiocheTest {
 	 */
 	public void testViderPioche(){
 		Pioche p = new Pioche();
-		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1));
-		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1));
-		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1));
-		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1));
+		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",null));
+		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",null));
+		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",null));
+		p.ajouterCarte(new Carte(1,"nom","A",2,"Rouge",null));
 		p.viderPioche();
 		assertEquals(0, p.getNbCartes());	
 	}
@@ -53,12 +53,12 @@ public class PiocheTest {
 	 */
 	public void testTirerCarte(){
 		Pioche p = new Pioche();
-		Carte c = new Carte(1,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		Carte c = new Carte(1,"nom","A",2,"Rouge",null);
 		p.ajouterCarte(c);
-		p.ajouterCarte(new Carte(2,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1));
-		p.ajouterCarte(new Carte(3,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1));
-		p.ajouterCarte(new Carte(4,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1));
-		Carte c1 = p.TirerUneCarte();
+		p.ajouterCarte(new Carte(2,"nom","A",2,"Rouge",null));
+		p.ajouterCarte(new Carte(3,"nom","A",2,"Rouge",null));
+		p.ajouterCarte(new Carte(4,"nom","A",2,"Rouge",null));
+		Carte c1 = p.tirerUneCarte();
 		assertEquals(c, c1);
 
 	}	

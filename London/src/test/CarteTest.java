@@ -10,7 +10,7 @@ public class CarteTest {
 
 	@Test
 	public void testToString() {
-		Carte c = new Carte(1,"nom","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		Carte c = new Carte(1,"nom","A",2,"Rouge",null);
 		String affichage = "id : 1\nnom : nom\nperiode : A\n";		
 		assertEquals(affichage, c.toString());
 	}

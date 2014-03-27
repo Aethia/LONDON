@@ -9,6 +9,7 @@ public class London {
 		// TODO Auto-generated method stub
 		Partie partie = new Partie();
 		partie.init();
+		partie.lancerJeu();
 	        //System.out.println(CartesManager.getCartes());
 	        
 	}

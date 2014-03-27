@@ -22,6 +22,9 @@ public class Partie {
 	private final Color jaune = Color.yellow;
 	private final Color bleu = Color.blue;
 	
+	// le joueur actuellement actif
+	private int joueurActif;
+	
 	
 	public Partie(){
 		this.plateau = new Plateau();
@@ -74,10 +77,28 @@ public class Partie {
 		plateau.init();
 		pioche.init();
 		
+		// on distribue les cartes (los cartos en espagnol)
 		for(Joueur i: listeJoueurs){
 			System.out.println("Hello");
-			i.getMainDuJoueur().ajouterCartes(pioche.tirerNCartes(Regles.NBCARTESDEPART));
-			i.afficherMain();
+			i.ajouterCartesMain(pioche.tirerNCartes(Regles.NBCARTESDEPART));
 		}
+	}
+	
+	// faire passer le joueur actif au joueur suivant
+	private void joueurSuivant(){
+		if (joueurActif+1 >= nbJoueurs) {
+			joueurActif = 0;
+		}
+		else {
+			joueurActif++;
+		}
+		
+	}
+	
+	public void lancerJeu(){
+		joueurActif = 0;
+		System.out.println("patie lancée c'est au tour de "+listeJoueurs.get(joueurActif));
+		joueurSuivant();
+		System.out.println("patie lancée c'est au tour de "+listeJoueurs.get(joueurActif));
 	}
 }

@@ -107,6 +107,10 @@ public class Joueur {
 		this.mainDuJoueur.ajouterCarte(c);
 	}
 	
+	public void ajouterCartesMain(List<Carte> cartes) {
+		this.mainDuJoueur.ajouterCartes(cartes);
+	}
+	
 	/*
 	 * supprimer une carte dans la main par l'indice de la carte
 	 */
