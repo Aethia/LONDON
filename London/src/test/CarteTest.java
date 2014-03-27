@@ -10,7 +10,6 @@ public class CarteTest {
 
 	@Test
 	public void testToString() {
-
 	}
 
 }
