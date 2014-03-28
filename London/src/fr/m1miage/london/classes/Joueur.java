@@ -125,6 +125,10 @@ public class Joueur {
 		return this.mainDuJoueur.supprimerCarteParId(idCarte);
 	}
 	
+	public Carte choisirCarteParId(int idCarte){
+		return this.mainDuJoueur.choisirCarte(idCarte);				
+	}
+	
 	/*
 	 * vérifier si le joueur peut finir son tour
 	 */
