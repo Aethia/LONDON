@@ -17,6 +17,7 @@ public class MainMenuScreen extends Screen {
 	private static TextButton quitterJeu;
 	
 	private static int selection=0;
+	private Stage stage; 
 	
 	public MainMenuScreen(){
 		loadButtons();
@@ -30,8 +31,6 @@ public class MainMenuScreen extends Screen {
 		/* Parametres Boutons */
 		nouvellePartie = new TextButton("Nouvelle partie",Buttons.styleInGameMenu); 
 		nouvellePartie.setPosition(600, 510); 
-		nouvellePartie.setHeight(60); 
-		nouvellePartie.setWidth(215); 
 		nouvellePartie.addListener(new InputListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
@@ -44,13 +43,9 @@ public class MainMenuScreen extends Screen {
 		});
 		chargerPartie = new TextButton("Charger une partie",Buttons.styleInGameMenuDisabled);
 		chargerPartie.setPosition(600, 435); 
-		chargerPartie.setHeight(60); 
-		chargerPartie.setWidth(215); 
 		
 		quitterJeu = new TextButton("Quitter",Buttons.styleInGameMenu);
 		quitterJeu.setPosition(600, 235); 
-		quitterJeu.setHeight(60); 
-		quitterJeu.setWidth(215); 
 		quitterJeu.addListener(new InputListener(){
 
 			@Override

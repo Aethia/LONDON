@@ -22,6 +22,8 @@ public class GameScreen extends Screen{
 	private static int distBtn = 80;
 	private static int top = 540;
 
+	private Stage stage; 
+	
 	public GameScreen(){
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();

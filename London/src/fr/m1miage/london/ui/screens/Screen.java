@@ -23,7 +23,6 @@ public abstract class Screen {
 	protected static Random random = new Random();
 	private static LondonGame londonG;
 	public SpriteBatch spriteBatch;
-	protected Stage stage; //** stage holds the Buttons **//
 
 	public void removed () {
 		spriteBatch.dispose();

@@ -22,7 +22,6 @@ import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.Fonts;
-import fr.m1miage.london.ui.graphics.QuartierForm;
 
 public class QuartiersScreen extends Screen{
 
@@ -36,7 +35,8 @@ public class QuartiersScreen extends Screen{
 	private static int iconsMarginTop = 400;
 
 	private static TextButton btnRetour;
-
+	
+	private Stage stage; 
 
 	public QuartiersScreen(){
 		listerQuartiers();
@@ -124,13 +124,13 @@ public class QuartiersScreen extends Screen{
 			Fonts.FONT_TITLE_QUARTIER.draw(spriteBatch, quartier.getNom(), 600, 170);
 
 			//livres
-			draw(QuartierForm.iconeLivres,iconsMarginLeft,iconsMarginTop);
+			draw(Art.iconeLivres,iconsMarginLeft,iconsMarginTop);
 			Fonts.FONT_ICON_WHITE.draw(spriteBatch, "" + quartier.getPrix() + "£", iconsMarginLeft + 20, iconsMarginTop + 18);
 			//points de victoire
-			draw(QuartierForm.iconePV,iconsMarginLeft+ 80,iconsMarginTop);
+			draw(Art.iconePV,iconsMarginLeft+ 80,iconsMarginTop);
 			Fonts.FONT_ICON_WHITE.draw(spriteBatch, ""+quartier.getPoint_victoire(), iconsMarginLeft + 105 , iconsMarginTop+ 18);
 			//cartes a piocher
-			draw(QuartierForm.iconeCartePioche,iconsMarginLeft + 160,iconsMarginTop);
+			draw(Art.iconeCartePioche,iconsMarginLeft + 160,iconsMarginTop);
 			Fonts.FONT_ICON_WHITE.draw(spriteBatch, ""+quartier.getNb_carte_a_piocher(), iconsMarginLeft + 185, iconsMarginTop + 18);
 
 			if(quartier.getProprietaireQuartier()==null){
