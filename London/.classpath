@@ -5,11 +5,13 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="libs/junit.jar"/>
 	<classpathentry kind="lib" path="libs/jdom-2.0.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Alexandre/Desktop/LONDON/London/libs/gdx.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Alexandre/Desktop/LONDON/London/libs/gdx-backend-lwjgl.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Alexandre/Desktop/LONDON/London/libs/gdx-backend-lwjgl-natives.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Alexandre/Desktop/LONDON/London/libs/gdx-backend-lwjgl-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Alexandre/Desktop/LONDON/London/libs/gdx-natives.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Alexandre/Desktop/LONDON/London/libs/gdx-sources.jar"/>
+	<classpathentry kind="lib" path="libs/gdx.jar"/>
+	<classpathentry kind="lib" path="libs/gdx-backend-lwjgl.jar"/>
+	<classpathentry kind="lib" path="libs/gdx-backend-lwjgl-natives.jar"/>
+	<classpathentry kind="lib" path="libs/gdx-backend-lwjgl-sources.jar"/>
+	<classpathentry kind="lib" path="libs/gdx-natives.jar"/>
+	<classpathentry kind="lib" path="libs/gdx-sources.jar"/>
+	<classpathentry kind="lib" path="libs/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="libs/junit-4.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

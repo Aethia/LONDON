@@ -1,4 +1,4 @@
-package test;
+package fr.m1miage.london.classes;
 
 import static org.junit.Assert.*;
 
