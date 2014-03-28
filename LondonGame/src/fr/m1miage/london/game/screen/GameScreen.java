@@ -1,12 +1,15 @@
 package fr.m1miage.london.game.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import fr.m1miage.london.game.graphics.Art;
 import fr.m1miage.london.game.graphics.Buttons;
+import fr.m1miage.london.game.graphics.Prefs;
 
 public class GameScreen extends Screen{
 
@@ -20,7 +23,9 @@ public class GameScreen extends Screen{
 	private static int top = 540;
 
 	public GameScreen(){
-
+		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
+		stage.clear();
+		Gdx.input.setInputProcessor(stage);
 		/* Parametres Boutons */
 		zoneConstructionBtn = new TextButton("Zone de construction",Buttons.styleInGameMenu); //** Button text and style **//
 		zoneConstructionBtn.setPosition(90, top); //** Button location **//
