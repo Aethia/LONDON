@@ -24,13 +24,13 @@ public class ZoneConstructionTest {
 	@Test
 	public void testAjoutePileAvecCarte(){
 		ZoneConstruction p = new ZoneConstruction();
-		Carte c = new Carte(1,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		Carte c = new Carte(1,"nom","A",2,"Rouge",null);
 		p.addPile(c);
 		assertEquals(1, p.getCartesPile(0).get(0).getId_carte());
-		Carte c1 = new Carte(2,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		Carte c1 = new Carte(2,"nom","A",2,"Rouge",null);
 		p.ajouterCarte(0, c1);
 		assertEquals(2, p.getCartesPile(0).get(1).getId_carte());
-		Carte c3 = new Carte(3,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		Carte c3 = new Carte(3,"nom","A",2,"Rouge",null);
 		p.addPile(c3);
 		assertEquals(3, p.getCartesPile(1).get(0).getId_carte());
 	}
@@ -44,13 +44,13 @@ public class ZoneConstructionTest {
 	@Test
 	public void testNbCartesParPile(){
 		ZoneConstruction p = new ZoneConstruction();
-		Carte c = new Carte(1,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		Carte c = new Carte(1,"nom","A",2,"Rouge",null);
 		p.addPile(c);
 		assertEquals(1, p.getNbCartesPile(0));
-		Carte c1 = new Carte(2,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		Carte c1 = new Carte(2,"nom","A",2,"Rouge",null);
 		p.ajouterCarte(0, c1);
 		assertEquals(2, p.getNbCartesPile(0));
-		Carte c3 = new Carte(3,"nom1","A",2,"Rouge",1,1,1,"toto",1,true,1,1,1,1);
+		Carte c3 = new Carte(3,"nom","A",2,"Rouge",null);
 		p.addPile(c3);
 		assertEquals(1, p.getNbCartesPile(1));
 	}

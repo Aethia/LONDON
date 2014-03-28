@@ -17,6 +17,7 @@ public class QuartiersManager {
 	static Element racine;
 
 	public static Map<Integer, Quartier> getQuartiers(){
+		
 		Map<Integer, Quartier> quartiers = new HashMap<Integer, Quartier>();
 		
 		SAXBuilder sxb = new SAXBuilder();

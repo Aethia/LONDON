@@ -22,6 +22,9 @@ public class Partie {
 	private final Color jaune = Color.yellow;
 	private final Color bleu = Color.blue;
 	
+	// le joueur actuellement actif
+	private int joueurActif;
+	
 	
 	public Partie(){
 		this.plateau = new Plateau();
@@ -74,10 +77,150 @@ public class Partie {
 		plateau.init();
 		pioche.init();
 		
+		// on distribue les cartes (los cartos en espagnol)
 		for(Joueur i: listeJoueurs){
-			System.out.println("Hello");
-			i.getMainDuJoueur().ajouterCartes(pioche.tirerNCartes(Regles.NBCARTESDEPART));
-			i.afficherMain();
+			i.ajouterCartesMain(pioche.tirerNCartes(Regles.NBCARTESDEPART));
 		}
+	}
+	
+	// faire passer le joueur actif au joueur suivant
+	private void joueurSuivant(){
+		if (joueurActif+1 >= nbJoueurs) {
+			joueurActif = 0;
+		}
+		else {
+			joueurActif++;
+		}
+	}
+	
+
+	
+	// la boucle de jeu
+	public void lancerJeu(){
+		Boolean actionEffectuee = false;
+		// on initialise le premier joueur
+		joueurActif = 0;
+		// on joue tant qu'il y a des cartes dans la pioche
+		while (pioche.getNbCartes() > 0){
+			
+			// le joueur actif doit choisir une action
+			System.out.println("c'est au tour de "+listeJoueurs.get(joueurActif).getNom()+", que faites vous ?");
+			if (!actionEffectuee) {
+				System.out.println(" -- Les Actions --");
+				System.out.println("1. Jouer une carte (poser une carte devant soi)");
+				System.out.println("2. Restaurer la ville (activer des cartes)");
+				System.out.println("3. Investir (acheter un quartier)");
+				System.out.println("4. Piocher 3 cartes");
+				System.out.println(" -- Autre --");				
+			}		
+			System.out.println("5. Contracter un prêt");
+			System.out.println("6. Consulter mes cartes en main");
+			System.out.println("7. Consulter l'étalage de cartes");
+			System.out.println("8. Finir mon tour");
+			
+			// switch de l'action
+			switch(sc.nextInt()){
+				case 1: {
+					// si une action a déjà été faite dans le tour
+					if (actionEffectuee) {
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
+						break;
+					}
+					jouerCarte();
+					actionEffectuee = true;
+					break;
+				}
+					
+				case 2: {
+					// si une action a déjà été faite dans le tour
+					if (actionEffectuee) {
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
+						break;
+					}
+					restaurerVille();
+					actionEffectuee = true;
+					break;
+				}
+					
+				case 3: {
+					// si une action a déjà été faite dans le tour
+					if (actionEffectuee) {
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
+						break;
+					}
+					investir();
+					actionEffectuee = true;
+					break;
+				}
+					
+				case 4: {
+					// si une action a déjà été faite dans le tour
+					if (actionEffectuee) {
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
+						break;
+					}
+					piocherCartes();
+					actionEffectuee = true;
+					break;
+				}
+					
+				case 5: {
+					contracterPret();
+					break;
+				}
+				case 6: {
+					consulterMain();
+					break;
+				}
+				case 7: {
+					consulterEtalage();
+					break;
+				}
+				case 8: {
+					System.out.println("Vous voulez finir votre tour");
+					if (!actionEffectuee) {
+						System.err.println("Vous ne pouvez pas finir votre tour sans faire d'action!");
+						break;
+					}
+					// passe au suivant
+					joueurSuivant();
+					actionEffectuee = false;
+					break;
+				}
+				
+				default: {
+					System.out.println("Je n'ai pas compris votre choix");
+					break;
+				}
+			}
+		}
+	}
+
+	private void piocherCartes() {
+		System.out.println("Vous voulez piocher 3 cartes");
+	}
+
+	private void investir() {
+		System.out.println("Vous voulez investir");
+	}
+
+	private void restaurerVille() {
+		System.out.println("Vous voulez restaurer la ville");
+	}
+
+	private void jouerCarte() {
+		System.out.println("vous voulez jouer une carte");
+	}
+
+	private void consulterEtalage() {
+		System.out.println("Vous voulez consulter l'étalage de cartes");
+	}
+
+	private void consulterMain() {
+		System.out.println("Vous voulez consulter vos cartes en main");
+	}
+
+	private void contracterPret() {
+		System.out.println("Vous voulez contracter un prêt");
 	}
 }

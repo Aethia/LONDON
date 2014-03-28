@@ -31,7 +31,7 @@ public class Joueur {
 		this.id = id;
 		this.nom = nom;
 		this.couleur = couleur;
-		this.argent=
+		this.argent= Regles.ARGENT;
 		this.point_pauvrete = Regles.PTPAUVRETE;
 		this.argent = Regles.ARGENT;
 		point_victoire=0;
@@ -105,6 +105,10 @@ public class Joueur {
 	 */
 	public void ajouterCarteMain(Carte c){
 		this.mainDuJoueur.ajouterCarte(c);
+	}
+	
+	public void ajouterCartesMain(List<Carte> cartes) {
+		this.mainDuJoueur.ajouterCartes(cartes);
 	}
 	
 	/*

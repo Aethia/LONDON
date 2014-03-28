@@ -53,7 +53,7 @@ public class Etalage {
 	 * retourner une copie de la rangée 1
 	 */
 	public ArrayList<Carte> getRangee1(){
-		return new ArrayList<Carte>(rangee2);
+		return new ArrayList<Carte>(rangee1);
 	}
 	
 	/*
