@@ -226,19 +226,23 @@ public class Partie {
 	}
 
 	private void contracterPret() {
-		System.out.println("Quel montant ? (Doit être un multiple de 10");
+		System.out.println("Quel montant ? (Doit être un multiple de 10)");
 		int Montant = 0;
 		
-		try {
+		if(sc.hasNextInt())
 			Montant = sc.nextInt();
-		} catch (Exception e) {
+		else{
 			System.err.println("Montant incorrect");
-			return;
+			sc.next();
 		}
+		
 		if (Montant > 0 && Montant % 10 == 0) {
 			listeJoueurs.get(joueurActif).emprunter(Montant);
 			System.out.println("Vous venez d'emprunter £" + Montant);
-		} else
+		} 
+		else{
 			System.err.println("Montant incorrect");
+			sc.next();
+		}
 	}
 }
