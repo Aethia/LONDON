@@ -31,21 +31,44 @@ public class Partie {
 	}
 
 	private void creerJoueurs(int nbJoueurs) {
-		Color couleur = rouge;
 		for (int i = 0; i < nbJoueurs; i++) {
 			System.out.println("Entrez le nom du joueur " + (i + 1) + " : ");
 			String nomJoueur = sc.next();
 			System.out
 					.println("Choisissez votre couleur : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
-			switch (sc.nextInt()) {
-			case 1:
-				couleur = rouge;
-			case 2:
-				couleur = vert;
-			case 3:
-				couleur = jaune;
-			case 4:
-				couleur = bleu;
+			Color couleur = null;// = rouge;
+			
+			//tant que l'utilisateur n'a pas choisit de couleur
+			while(couleur == null){
+				//On vérifie si l'entrée clavier est correcte
+				if(sc.hasNextInt()){
+					switch (sc.nextInt()) {
+						case 1:
+							couleur = rouge;
+							break;
+						case 2:
+							couleur = vert;
+							break;
+						case 3:
+							couleur = jaune;
+							break;
+						case 4:
+							couleur = bleu;
+							break;
+						//si l'utilisateur n'entre pas une couleur correspondante
+						default:
+							System.out
+								.println("Veuillez sélectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
+							break;
+						}
+					}
+				
+				//entrée clavier incorrect, on passe à la suivante
+				else{
+					System.out
+						.println("Veuillez sélectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
+					sc.next();
+				}
 			}
 			Joueur joueur = new Joueur(i, nomJoueur, couleur);
 			listeJoueurs.add(joueur);
@@ -117,85 +140,93 @@ public class Partie {
 			System.out.println("7. Consulter l'étalage de cartes");
 			System.out.println("8. Finir mon tour");
 
-			// switch de l'action
-			switch (sc.nextInt()) {
-			case 1: {
-				// si une action a déjà été faite dans le tour
-				if (actionEffectuee) {
-					System.err
-							.println("Vous avez déjà effectué une action pour ce tour!");
-					break;
+			//On vérifie si l'entrée clavier est correct (int)
+			if(sc.hasNextInt()){
+				// switch de l'action
+				switch (sc.nextInt()) {
+					case 1: {
+						// si une action a déjà été faite dans le tour
+						if (actionEffectuee) {
+							System.err
+									.println("Vous avez déjà effectué une action pour ce tour!");
+							break;
+						}
+						jouerCarte();
+						actionEffectuee = true;
+						break;
+					}
+		
+					case 2: {
+						// si une action a déjà été faite dans le tour
+						if (actionEffectuee) {
+							System.err
+									.println("Vous avez déjà effectué une action pour ce tour!");
+							break;
+						}
+						restaurerVille();
+						actionEffectuee = true;
+						break;
+					}
+		
+					case 3: {
+						// si une action a déjà été faite dans le tour
+						if (actionEffectuee) {
+							System.err
+									.println("Vous avez déjà effectué une action pour ce tour!");
+							break;
+						}
+						investir();
+						actionEffectuee = true;
+						break;
+					}
+		
+					case 4: {
+						// si une action a déjà été faite dans le tour
+						if (actionEffectuee) {
+							System.err
+									.println("Vous avez déjà effectué une action pour ce tour!");
+							break;
+						}
+						piocherCartes();
+						actionEffectuee = true;
+						break;
+					}
+		
+					case 5: {
+						//permet d'emprunter de l'argent
+						contracterPret();
+						break;
+					}
+					case 6: {
+						consulterMain();
+						break;
+					}
+					case 7: {
+						consulterEtalage();
+						break;
+					}
+					case 8: {
+						System.out.println("Vous voulez finir votre tour");
+						if (!actionEffectuee) {
+							System.err
+									.println("Vous ne pouvez pas finir votre tour sans faire d'action!");
+							break;
+						}
+						// passe au suivant
+						joueurSuivant();
+						actionEffectuee = false;
+						break;
+					}
+		
+					default: {
+						System.out.println("Je n'ai pas compris votre choix");
+						break;
+					}
 				}
-				jouerCarte();
-				actionEffectuee = true;
-				break;
 			}
-
-			case 2: {
-				// si une action a déjà été faite dans le tour
-				if (actionEffectuee) {
-					System.err
-							.println("Vous avez déjà effectué une action pour ce tour!");
-					break;
-				}
-				restaurerVille();
-				actionEffectuee = true;
-				break;
-			}
-
-			case 3: {
-				// si une action a déjà été faite dans le tour
-				if (actionEffectuee) {
-					System.err
-							.println("Vous avez déjà effectué une action pour ce tour!");
-					break;
-				}
-				investir();
-				actionEffectuee = true;
-				break;
-			}
-
-			case 4: {
-				// si une action a déjà été faite dans le tour
-				if (actionEffectuee) {
-					System.err
-							.println("Vous avez déjà effectué une action pour ce tour!");
-					break;
-				}
-				piocherCartes();
-				actionEffectuee = true;
-				break;
-			}
-
-			case 5: {
-				contracterPret();
-				break;
-			}
-			case 6: {
-				consulterMain();
-				break;
-			}
-			case 7: {
-				consulterEtalage();
-				break;
-			}
-			case 8: {
-				System.out.println("Vous voulez finir votre tour");
-				if (!actionEffectuee) {
-					System.err
-							.println("Vous ne pouvez pas finir votre tour sans faire d'action!");
-					break;
-				}
-				// passe au suivant
-				joueurSuivant();
-				actionEffectuee = false;
-				break;
-			}
-
-			default: {
+			else{
 				System.out.println("Je n'ai pas compris votre choix");
-				break;
-			}
+				sc.next();
 			}
 		}
 	}
@@ -225,21 +256,24 @@ public class Partie {
 
 	}
 
+	//Permet d'emprunter de l'argent (ne compte pas comme une action)
 	private void contracterPret() {
 		System.out.println("Quel montant ? (Doit être un multiple de 10)");
 		int Montant = 0;
 		
-		if(sc.hasNextInt())
+		//On vérifie si l'entrée clavier est correct (int)
+		if(sc.hasNextInt()){
 			Montant = sc.nextInt();
-		else{
-			System.err.println("Montant incorrect");
-			sc.next();
+			if (Montant > 0 && Montant % 10 == 0) {
+				listeJoueurs.get(joueurActif).emprunter(Montant);
+				System.out.println("Vous venez d'emprunter £" + Montant);
+			} 
+			else{
+				System.err.println("Montant incorrect");
+			}
 		}
 		
-		if (Montant > 0 && Montant % 10 == 0) {
-			listeJoueurs.get(joueurActif).emprunter(Montant);
-			System.out.println("Vous venez d'emprunter £" + Montant);
-		} 
+		//passe au prochaine scanner (le précédent n'étant pas un int)
 		else{
 			System.err.println("Montant incorrect");
 			sc.next();
