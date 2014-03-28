@@ -8,6 +8,7 @@ import java.util.Set;
 import fr.m1miage.london.db.CartesManager;
 
 public class Pioche {
+	// lex cartes de la pioche
 	private List<Carte> laPioche = new ArrayList<Carte>(); 
 	
 	// constucteur
@@ -47,9 +48,7 @@ public class Pioche {
 	}
 	// retourner la première carte du de la pioche
 	public Carte tirerUneCarte() {
-		Carte tmp = laPioche.get(0);
-		laPioche.remove(0);
-		return tmp;
+		return laPioche.remove(0);
 	}
 	
 	// vider la pioche
@@ -68,6 +67,11 @@ public class Pioche {
 			cartes.add(laPioche.get(i));
 		}
 		return cartes;
+	}
+	
+	// obtenir la liste de cartes
+	public List<Carte> getCartes(){
+		return new ArrayList<Carte>(this.laPioche);
 	}
 	
 }

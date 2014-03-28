@@ -33,16 +33,22 @@ public class Quartier {
 		this.metro_pose=false;
 		this.nom = new String();
 	}
-
 	
-	public void investirQuartier(Joueur joueur){
+	
+	public Boolean investirQuartier(Joueur joueur){
+		if (this.investir_possible == false) {
+			return false;
+		}
 		this.proprietaireQuartier = joueur;
 		this.investir_possible = false; //quartier reservé
+		
+		
 		for(Quartier q : this.quartiersAdjacents){
 			if(q.proprietaireQuartier==null){ //on rend les quartier "investissables" seulement s'ils ne sont pas deja occupés
 				q.investir_possible=true;
 			}
 		}
+		return true;
 	}
 
 	
@@ -98,9 +104,6 @@ public class Quartier {
 		return metro_pose;
 	}
 
-	public void setMetro_posé(boolean metro_pose) {
-		this.metro_pose = metro_pose;
-	}
 
 	public Joueur getProprietaireQuartier() {
 		return proprietaireQuartier;
