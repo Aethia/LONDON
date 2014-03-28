@@ -3,6 +3,7 @@ package fr.m1miage.london.classes;
 import java.awt.Color;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 import fr.m1miage.london.Regles;
@@ -150,5 +151,12 @@ public class Joueur {
 		return this.mainDuJoueur.getNb_cartes();
 	}
 	
+	public void construire(int idCarte){
+		
+	}
+	
+	public void choisirPile(int pile){
+		
+	}
 
 }

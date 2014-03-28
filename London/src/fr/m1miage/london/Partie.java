@@ -126,6 +126,12 @@ public class Partie {
 						System.err.println("Vous avez déjà effectué une action pour ce tour!");
 						break;
 					}
+					System.out.println("Choisissez la carte à poser dans la zone de construction : ");
+					if(sc.hasNextInt()){
+						int idCarte=sc.nextInt();
+						listeJoueurs.get(joueurActif).choisirCarteParId(idCarte);
+						System.out.println("Choisissez la pile ou créez une nouvelle pile : \n");
+					}
 					jouerCarte();
 					actionEffectuee = true;
 					break;
