@@ -126,6 +126,7 @@ public class Partie {
 						System.err.println("Vous avez déjà effectué une action pour ce tour!");
 						break;
 					}
+					listeJoueurs.get(joueurActif).afficherMain();
 					System.out.println("Choisissez la carte à poser dans la zone de construction : ");
 					if(sc.hasNextInt()){
 						int idCarte=sc.nextInt();
