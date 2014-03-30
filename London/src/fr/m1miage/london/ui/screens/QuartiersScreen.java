@@ -2,19 +2,14 @@ package fr.m1miage.london.ui.screens;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
-import fr.m1miage.london.London;
 import fr.m1miage.london.classes.Quartier;
 
 import fr.m1miage.london.ui.LondonGame;
@@ -27,7 +22,6 @@ public class QuartiersScreen extends Screen{
 
 	public static List<TextButton> listeQuartiers = new ArrayList<TextButton>();
 
-	private static BitmapFont font;
 
 	private static Integer nbQuartierSelected = 0;
 
@@ -67,10 +61,11 @@ public class QuartiersScreen extends Screen{
 		int marginLeft = 90;
 		int marginTop = 70;
 		int i=0;
-		for(Integer q: LondonGame.quartiers.keySet()){
+		Map<Integer, Quartier> quartiers = LondonGame.partie.getPlateau().getQuartiers();
+		for(Integer q: quartiers.keySet()){
 			final Integer j = q;
 			if(i==10){marginLeft = 290; i=0;}
-			final Quartier quartier = LondonGame.quartiers.get(q);
+			final Quartier quartier = quartiers.get(q);
 			TextButton btn;
 			if(quartier.isInvestir_possible()){
 				btn= new TextButton(quartier.getNom(),Buttons.styleInGameMenu); 
@@ -120,7 +115,7 @@ public class QuartiersScreen extends Screen{
 		Fonts.FONT_TITLE.draw(spriteBatch, "QUARTIERS", 500, 20);
 
 		if(nbQuartierSelected!=0){
-			Quartier quartier = LondonGame.quartiers.get(nbQuartierSelected);
+			Quartier quartier = LondonGame.partie.getPlateau().getQuartier(nbQuartierSelected);
 			Fonts.FONT_TITLE_QUARTIER.draw(spriteBatch, quartier.getNom(), 600, 170);
 
 			//livres

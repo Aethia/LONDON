@@ -1,15 +1,16 @@
 package fr.m1miage.london.ui.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import fr.m1miage.london.ui.LondonGame;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
+import fr.m1miage.london.ui.graphics.Fonts;
 
 public class GameScreen extends Screen{
 
@@ -23,7 +24,7 @@ public class GameScreen extends Screen{
 	private static int top = 540;
 
 	private Stage stage; 
-	
+
 	public GameScreen(){
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
@@ -76,7 +77,8 @@ public class GameScreen extends Screen{
 		draw(Art.menu_bg,70,150);
 		draw(Art.plateau_jeu_test,350,50);
 
-
+	
+		Fonts.FONT_ICON_WHITE.draw(spriteBatch,LondonGame.partie.getListeJoueurs().get(LondonGame.partie.getJoueurActif()).getNom(), 70, 150);
 		String msg = "COPYRIGHT Aethia 2014";
 		drawString(msg, 2, 800 -6 -2);
 

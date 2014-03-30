@@ -23,6 +23,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
+import fr.m1miage.london.Partie;
+import fr.m1miage.london.classes.Joueur;
+import fr.m1miage.london.ui.LondonGame;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.AreaColorRect;
 import fr.m1miage.london.ui.graphics.Art;
@@ -58,6 +61,7 @@ public class CreationPartieScreen extends Screen {
 		font.setColor(Color.BLACK);
 		boutonNbJoueurs();
 		boutonValider();
+
 	}
 
 	private static void boutonNbJoueurs(){
@@ -153,9 +157,8 @@ public class CreationPartieScreen extends Screen {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {
-					// TODO Auto-generated method stub
+					// Si click sur acteur, on change la couleur de la forme
 					stage.getRoot().removeActor(colorJ);
-					System.out.println("ok");
 					colorJ.setShapeFillColor((float)Math.random(), (float)Math.random(), (float)Math.random());
 					stage.addActor(colorJ);
 					return super.touchDown(event, x, y, pointer, button);
@@ -180,6 +183,18 @@ public class CreationPartieScreen extends Screen {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// TODO Auto-generated method stub
+				//recuperer les informations du jeu, creer les joueurs
+				List<Joueur> listeJoueurs = new ArrayList<Joueur>();
+
+				for(int i=0; i<idNbJSelected;i++){
+					String name = lTextField.get(i).getText();
+					/*--- couleur a modifier ? --*/
+					Color cLibgdx = lColors.get(i).getColor();
+					java.awt.Color c = new java.awt.Color(cLibgdx.r, cLibgdx.g,cLibgdx.b);
+					Joueur j = new Joueur(i, name, c);
+					listeJoueurs.add(j);
+				}
+				LondonGame.partie = new Partie(listeJoueurs,idNbJSelected);
 				Screen.setScreen(new GameScreen());	
 				return super.touchDown(event, x, y, pointer, button);
 			}

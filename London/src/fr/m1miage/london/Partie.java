@@ -23,12 +23,19 @@ public class Partie {
 	private final Color bleu = Color.blue;
 	
 	// le joueur actuellement actif
-	private int joueurActif;
+	private int joueurActif=0;
 	
 	
 	public Partie(){
 		this.plateau = new Plateau();
 		this.pioche = new Pioche();
+	}
+	
+	public Partie(List<Joueur> listeJ, int nbJ){
+		this.plateau = new Plateau();
+		this.pioche = new Pioche();
+		this.listeJoueurs = listeJ;
+		this.nbJoueurs = nbJ;
 	}
 	
 	private void creerJoueurs(int nbJoueurs){
@@ -223,4 +230,38 @@ public class Partie {
 	private void contracterPret() {
 		System.out.println("Vous voulez contracter un prêt");
 	}
+
+	public List<Joueur> getListeJoueurs() {
+		return listeJoueurs;
+	}
+
+	public void setListeJoueurs(List<Joueur> listeJoueurs) {
+		this.listeJoueurs = listeJoueurs;
+	}
+
+	public Plateau getPlateau() {
+		return plateau;
+	}
+
+	public void setPlateau(Plateau plateau) {
+		this.plateau = plateau;
+	}
+
+	public Pioche getPioche() {
+		return pioche;
+	}
+
+	public void setPioche(Pioche pioche) {
+		this.pioche = pioche;
+	}
+
+	public int getJoueurActif() {
+		return joueurActif;
+	}
+
+	public void setJoueurActif(int joueurActif) {
+		this.joueurActif = joueurActif;
+	}
+	
+	
 }
