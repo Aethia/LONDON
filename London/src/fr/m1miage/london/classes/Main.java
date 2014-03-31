@@ -100,6 +100,17 @@ public class Main implements Cloneable{
 		
 	}
 	
+	//on vérifie que la carte choisie par la joueur existe dans sa main
+	public boolean verifPresenceCarte(int idCarte){
+		boolean presence=false;
+		for(Carte c:lesCartes){
+			if(c.getId_carte() == idCarte){
+				presence = true;
+			}
+		}
+		return presence;
+	}
+	
 	
 
 	
