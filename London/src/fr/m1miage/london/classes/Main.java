@@ -111,6 +111,18 @@ public class Main implements Cloneable{
 		return presence;
 	}
 	
+	//affiche les cartes de la même couleur qu'une carte choisie
+	public String afficherCartesCouleur(Carte c){
+		String couleur = c.getCouleur();
+		List<Carte> cartesCouleur = new ArrayList<Carte>();
+		for(Carte i:lesCartes){
+			if(i.getCouleur().compareTo(couleur)==0){
+				cartesCouleur.add(i);
+			}
+		}
+		return cartesCouleur.toString();
+	}
+	
 	
 
 	
