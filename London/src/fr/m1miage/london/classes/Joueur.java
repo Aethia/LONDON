@@ -38,6 +38,7 @@ public class Joueur {
 		point_victoire=0;
 		montantEmprunts=0;
 		mainDuJoueur = new Main();
+		zoneConstruction=new ZoneConstruction();
 	}
 
 
