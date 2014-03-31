@@ -65,6 +65,7 @@ public class Pioche {
 		List<Carte> cartes = new ArrayList<Carte>();
 		for(int i = 0; i<nbCartes; i++){
 			cartes.add(laPioche.get(i));
+			laPioche.remove(laPioche.get(i));
 		}
 		return cartes;
 	}
