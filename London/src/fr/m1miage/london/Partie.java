@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.classes.Pioche;
 import fr.m1miage.london.classes.Plateau;
@@ -130,8 +131,36 @@ public class Partie {
 					System.out.println("Choisissez la carte à poser dans la zone de construction : ");
 					if(sc.hasNextInt()){
 						int idCarte=sc.nextInt();
-						listeJoueurs.get(joueurActif).choisirCarteParId(idCarte);
-						System.out.println("Choisissez la pile ou créez une nouvelle pile : \n");
+						Carte c = listeJoueurs.get(joueurActif).choisirCarteParId(idCarte);
+						while(listeJoueurs.get(joueurActif).getMainDuJoueur().verifPresenceCarte(c, false)== false){
+							System.out.println("Vous ne possédez pas cette carte. Saisissez une nouvelle valeur : ");
+							if(sc.hasNextInt()){
+								idCarte=sc.nextInt();
+							}
+							else{
+								System.out.println("Erreur de saisie.");
+								break;
+							}
+						}
+						System.out.println("Quelle carte de même couleur voulez-vous défausser ?");
+						System.out.println(listeJoueurs.get(joueurActif).getMainDuJoueur().getCartesCouleur(c).toString());
+						if(sc.hasNextInt()){
+							int idCarteDefausse=sc.nextInt();
+							Carte cDefausse = listeJoueurs.get(joueurActif).choisirCarteParId(idCarteDefausse);
+							while(listeJoueurs.get(joueurActif).getMainDuJoueur().verifPresenceCarte(cDefausse, true)== false){
+								System.out.println("Vous ne possédez pas cette carte");
+							}
+							listeJoueurs.get(joueurActif).getMainDuJoueur().supprimerCarteParId(idCarteDefausse);
+						}
+						listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
+						System.out.println("Choisir une pile ou en créer une nouvelle (0):");
+						if(sc.hasNextInt()){
+							int indexPile=sc.nextInt();	
+							listeJoueurs.get(joueurActif).getZone_construction().construire(c, indexPile);
+							System.out.println("Votre carte a été ajoutée.");
+							System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
+							
+						}
 					}
 					jouerCarte();
 					actionEffectuee = true;

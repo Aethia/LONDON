@@ -27,7 +27,12 @@ public class ZoneConstruction{
 	
 	// obtenir le nb de piles devant le joueur
 	public int getNbPiles(){
-		return cartes.size();
+		try{
+			return cartes.size();
+		}catch(NullPointerException e){
+			System.out.println("Votre zone de construction est vide.");
+			return 0;
+		}
 	}
 	
 	// obtenir le nb de cartes de la pile donnée
@@ -49,5 +54,25 @@ public class ZoneConstruction{
 	public void ajouterCarte(int indexPile, Carte c){
 		cartes.get(indexPile).add(c);
 	}
-
+	
+	//affiche la carte au sommet d'une pile
+	public  void afficherCarteDessus(){
+		if(this.getNbPiles()>0){
+			for(int i=0; i<this.getNbPiles();i++){
+				System.out.println("Pile n°"+(i+1)+" : \n");
+				System.out.println(cartes.get(i).get(cartes.get(i).size()-1).toString()+"----- \n");
+			}
+		}
+	}
+	
+	public void construire(Carte c, int indexPile){
+		if(this.getNbPiles()==0 || indexPile == 0){
+			System.out.println("Création d'une nouvelle pile...");
+			this.addPile(c);
+		}
+		else{
+			this.ajouterCarte(indexPile-1, c);
+		}
+	}
 }
+

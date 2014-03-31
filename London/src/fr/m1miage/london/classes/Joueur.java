@@ -151,13 +151,5 @@ public class Joueur {
 	public int getNb_cartes() {
 		return this.mainDuJoueur.getNb_cartes();
 	}
-	
-	public void construire(int idCarte){
-		
-	}
-	
-	public void choisirPile(int pile){
-		
-	}
 
 }
