@@ -151,15 +151,16 @@ public class Partie {
 								System.out.println("Vous ne possédez pas cette carte");
 							}
 							listeJoueurs.get(joueurActif).getMainDuJoueur().supprimerCarteParId(idCarteDefausse);
-						}
-						listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
-						System.out.println("Choisir une pile ou en créer une nouvelle (0):");
-						if(sc.hasNextInt()){
-							int indexPile=sc.nextInt();	
-							listeJoueurs.get(joueurActif).getZone_construction().construire(c, indexPile);
-							System.out.println("Votre carte a été ajoutée.");
-							System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
+						
+							listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
+							System.out.println("Choisir une pile ou en créer une nouvelle (0):");
+							if(sc.hasNextInt()){
+								int indexPile=sc.nextInt();	
+								listeJoueurs.get(joueurActif).construire(c, cDefausse, indexPile);
+								System.out.println("Votre carte a été ajoutée.");
+								System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
 							
+							}
 						}
 					}
 					jouerCarte();

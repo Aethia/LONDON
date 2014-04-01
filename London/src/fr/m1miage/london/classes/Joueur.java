@@ -151,5 +151,24 @@ public class Joueur {
 	public int getNb_cartes() {
 		return this.mainDuJoueur.getNb_cartes();
 	}
-
+	
+	//On construit "une carte" sur une pile donnée, et on défausse une carte de la même couleur
+	public void construire(Carte cPosee, Carte cDefaussee, int indexPile){
+		if(cPosee.getPrix()>= this.argent){ 		
+			if(this.zoneConstruction.getNbPiles()==0 || indexPile == 0){ //s'il n'y a pas de piles ou que le joueur choisit l'option créer une pile
+				System.out.println("Création d'une nouvelle pile...");
+				this.zoneConstruction.addPile(cPosee);
+				
+			}
+			else{
+				this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le numéro de la pile
+			}			
+			this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
+			this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
+		}
+		else{
+			System.out.println("Vous n'avez pas l'argent nécessaire pour construire.");
+		}
+	}
 }
+

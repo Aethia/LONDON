@@ -65,14 +65,6 @@ public class ZoneConstruction{
 		}
 	}
 	
-	public void construire(Carte c, int indexPile){
-		if(this.getNbPiles()==0 || indexPile == 0){
-			System.out.println("Création d'une nouvelle pile...");
-			this.addPile(c);
-		}
-		else{
-			this.ajouterCarte(indexPile-1, c);
-		}
-	}
+	
 }
 
