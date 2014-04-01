@@ -75,4 +75,10 @@ public class MainMenuScreen extends Screen {
 		stage.draw();
 	}
 
+	@Override
+	public void tick() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

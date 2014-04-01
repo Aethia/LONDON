@@ -21,24 +21,45 @@ public class Partie {
 	private final Color vert = Color.green;
 	private final Color jaune = Color.yellow;
 	private final Color bleu = Color.blue;
-	
+
 	// le joueur actuellement actif
 	private int joueurActif=0;
-	
-	
+
+	private int typeGUI=0; // par defaut : 0 => console, 1 = Graphique
+
+
 	public Partie(){
 		this.plateau = new Plateau();
 		this.pioche = new Pioche();
 	}
-	
+
 	public Partie(List<Joueur> listeJ, int nbJ){
 		this.plateau = new Plateau();
 		this.pioche = new Pioche();
 		this.listeJoueurs = listeJ;
 		this.nbJoueurs = nbJ;
+		this.typeGUI = 1;
 	}
-	
-	private void creerJoueurs(int nbJoueurs){
+
+	private void creerJoueurs(){
+		boolean condition = false;
+		while(condition == false){
+			System.out.println("Entrez le nombre de joueurs : ");
+			if(sc.hasNextInt()){
+				int reponse=sc.nextInt();
+				if(reponse < Regles.NBMAXJOUEURS){
+					nbJoueurs = reponse;	
+					condition = true;
+				}
+				else{
+					System.out.println("Valeur incorrecte. Il ne peut y avoir que de 2 à 5 joueurs.");
+				}
+			}
+			else{
+				System.out.println("Valeur incorrecte.");
+				sc.next();
+			}
+		}
 		Color couleur = rouge;
 		for(int i = 0; i<nbJoueurs; i++){
 			System.out.println("Entrez le nom du joueur "+(i+1)+" : ");
@@ -58,38 +79,21 @@ public class Partie {
 			listeJoueurs.add(joueur);
 		}
 	}
-	
+
 	public void init(){
-		boolean condition = false;
-		while(condition == false){
-			System.out.println("Entrez le nombre de joueurs : ");
-			if(sc.hasNextInt()){
-				int reponse=sc.nextInt();
-				if(reponse < Regles.NBMAXJOUEURS){
-					nbJoueurs = reponse;	
-					condition = true;
-				}
-				else{
-					System.out.println("Valeur incorrecte. Il ne peut y avoir que de 2 à 5 joueurs.");
-				}
-			}
-			else{
-				System.out.println("Valeur incorrecte.");
-				sc.next();
-			}
+		if(typeGUI==0){
+			creerJoueurs();
 		}
-		creerJoueurs(nbJoueurs);
-		
-		
+
 		plateau.init();
 		pioche.init();
-		
+
 		// on distribue les cartes (los cartos en espagnol)
 		for(Joueur i: listeJoueurs){
 			i.ajouterCartesMain(pioche.tirerNCartes(Regles.NBCARTESDEPART));
 		}
 	}
-	
+
 	// faire passer le joueur actif au joueur suivant
 	private void joueurSuivant(){
 		if (joueurActif+1 >= nbJoueurs) {
@@ -99,9 +103,9 @@ public class Partie {
 			joueurActif++;
 		}
 	}
-	
 
-	
+
+
 	// la boucle de jeu
 	public void lancerJeu(){
 		Boolean actionEffectuee = false;
@@ -109,7 +113,7 @@ public class Partie {
 		joueurActif = 0;
 		// on joue tant qu'il y a des cartes dans la pioche
 		while (pioche.getNbCartes() > 0){
-			
+
 			// le joueur actif doit choisir une action
 			System.out.println("c'est au tour de "+listeJoueurs.get(joueurActif).getNom()+", que faites vous ?");
 			if (!actionEffectuee) {
@@ -124,81 +128,81 @@ public class Partie {
 			System.out.println("6. Consulter mes cartes en main");
 			System.out.println("7. Consulter l'étalage de cartes");
 			System.out.println("8. Finir mon tour");
-			
+
 			// switch de l'action
 			switch(sc.nextInt()){
-				case 1: {
-					// si une action a déjà été faite dans le tour
-					if (actionEffectuee) {
-						System.err.println("Vous avez déjà effectué une action pour ce tour!");
-						break;
-					}
-					jouerCarte();
-					actionEffectuee = true;
+			case 1: {
+				// si une action a déjà été faite dans le tour
+				if (actionEffectuee) {
+					System.err.println("Vous avez déjà effectué une action pour ce tour!");
 					break;
 				}
-					
-				case 2: {
-					// si une action a déjà été faite dans le tour
-					if (actionEffectuee) {
-						System.err.println("Vous avez déjà effectué une action pour ce tour!");
-						break;
-					}
-					restaurerVille();
-					actionEffectuee = true;
+				jouerCarte();
+				actionEffectuee = true;
+				break;
+			}
+
+			case 2: {
+				// si une action a déjà été faite dans le tour
+				if (actionEffectuee) {
+					System.err.println("Vous avez déjà effectué une action pour ce tour!");
 					break;
 				}
-					
-				case 3: {
-					// si une action a déjà été faite dans le tour
-					if (actionEffectuee) {
-						System.err.println("Vous avez déjà effectué une action pour ce tour!");
-						break;
-					}
-					investir();
-					actionEffectuee = true;
+				restaurerVille();
+				actionEffectuee = true;
+				break;
+			}
+
+			case 3: {
+				// si une action a déjà été faite dans le tour
+				if (actionEffectuee) {
+					System.err.println("Vous avez déjà effectué une action pour ce tour!");
 					break;
 				}
-					
-				case 4: {
-					// si une action a déjà été faite dans le tour
-					if (actionEffectuee) {
-						System.err.println("Vous avez déjà effectué une action pour ce tour!");
-						break;
-					}
-					piocherCartes();
-					actionEffectuee = true;
+				investir();
+				actionEffectuee = true;
+				break;
+			}
+
+			case 4: {
+				// si une action a déjà été faite dans le tour
+				if (actionEffectuee) {
+					System.err.println("Vous avez déjà effectué une action pour ce tour!");
 					break;
 				}
-					
-				case 5: {
-					contracterPret();
+				piocherCartes();
+				actionEffectuee = true;
+				break;
+			}
+
+			case 5: {
+				contracterPret();
+				break;
+			}
+			case 6: {
+				consulterMain();
+				break;
+			}
+			case 7: {
+				consulterEtalage();
+				break;
+			}
+			case 8: {
+				System.out.println("Vous voulez finir votre tour");
+				if (!actionEffectuee) {
+					System.err.println("Vous ne pouvez pas finir votre tour sans faire d'action!");
 					break;
 				}
-				case 6: {
-					consulterMain();
-					break;
-				}
-				case 7: {
-					consulterEtalage();
-					break;
-				}
-				case 8: {
-					System.out.println("Vous voulez finir votre tour");
-					if (!actionEffectuee) {
-						System.err.println("Vous ne pouvez pas finir votre tour sans faire d'action!");
-						break;
-					}
-					// passe au suivant
-					joueurSuivant();
-					actionEffectuee = false;
-					break;
-				}
-				
-				default: {
-					System.out.println("Je n'ai pas compris votre choix");
-					break;
-				}
+				// passe au suivant
+				joueurSuivant();
+				actionEffectuee = false;
+				break;
+			}
+
+			default: {
+				System.out.println("Je n'ai pas compris votre choix");
+				break;
+			}
 			}
 		}
 	}
@@ -259,9 +263,13 @@ public class Partie {
 		return joueurActif;
 	}
 
+	public Joueur getObjJoueurActif(){
+		return listeJoueurs.get(joueurActif);
+	}
+	
 	public void setJoueurActif(int joueurActif) {
 		this.joueurActif = joueurActif;
 	}
-	
-	
+
+
 }

@@ -4,4 +4,6 @@ public class Prefs {
 
 	public static final int HAUTEUR_FENETRE = 800;
 	public static final int LARGEUR_FENETRE = 1400;
+	public static final String REPERTOIRE = "ressources/Images/";
+	public static final String REPERTOIRE_CARTES = "ressources/Images/Cartes/";
 }

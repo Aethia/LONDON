@@ -182,7 +182,6 @@ public class CreationPartieScreen extends Screen {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				// TODO Auto-generated method stub
 				//recuperer les informations du jeu, creer les joueurs
 				List<Joueur> listeJoueurs = new ArrayList<Joueur>();
 
@@ -195,6 +194,7 @@ public class CreationPartieScreen extends Screen {
 					listeJoueurs.add(j);
 				}
 				LondonGame.partie = new Partie(listeJoueurs,idNbJSelected);
+				LondonGame.partie.init();
 				Screen.setScreen(new GameScreen());	
 				return super.touchDown(event, x, y, pointer, button);
 			}
@@ -227,6 +227,12 @@ public class CreationPartieScreen extends Screen {
 		
 		stage.act();
 		stage.draw();
+	}
+
+	@Override
+	public void tick() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

@@ -146,4 +146,10 @@ public class QuartiersScreen extends Screen{
 		stage.draw();
 	}
 
+	@Override
+	public void tick() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
