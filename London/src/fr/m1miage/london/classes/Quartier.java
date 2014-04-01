@@ -16,16 +16,16 @@ public class Quartier {
 	//quartiers adjacents
 	private Set<Quartier> quartiersAdjacents = new HashSet<Quartier>();
 	
-	private boolean auSudTamise;//si située au sud = true
+	private boolean auSudTamise;//si situï¿½e au sud = true
 	
-	// métro possible sur le quartier ?
+	// mï¿½tro possible sur le quartier ?
 	private boolean metro;
-	// y'a-t-il un métro sur le quartier ?
+	// y'a-t-il un mï¿½tro sur le quartier ?
 	private boolean metro_pose;
 
-	// le joueur propriétaire du quartier
+	// le joueur propriï¿½taire du quartier
 	private Joueur proprietaireQuartier;
-	// le joueur propriétaire du métro !
+	// le joueur propriï¿½taire du mï¿½tro !
 	private Joueur proprietaireMetro;
 	
 	public Quartier(){
@@ -40,11 +40,11 @@ public class Quartier {
 			return false;
 		}
 		this.proprietaireQuartier = joueur;
-		this.investir_possible = false; //quartier reservé
+		this.investir_possible = false; //quartier reservï¿½
 		
 		
 		for(Quartier q : this.quartiersAdjacents){
-			if(q.proprietaireQuartier==null){ //on rend les quartier "investissables" seulement s'ils ne sont pas deja occupés
+			if(q.proprietaireQuartier==null){ //on rend les quartier "investissables" seulement s'ils ne sont pas deja occupï¿½s
 				q.investir_possible=true;
 			}
 		}
@@ -155,9 +155,9 @@ public class Quartier {
 	@Override
 	public String toString() {
 		StringBuilder msg = new StringBuilder();
-		msg.append("Quartier n°").append(id).append(" : ").append(nom);
+		msg.append("Quartier nï¿½").append(id).append(" : ").append(nom);
 		msg.append("\n\t Prix : ").append(prix).append(" - Points de victoire : ").append(point_victoire);
-		msg.append(" - Nombre de cartes à piocher : ").append(nb_carte_a_piocher);
+		msg.append(" - Nombre de cartes ï¿½ piocher : ").append(nb_carte_a_piocher);
 		if(investir_possible==true){
 			msg.append("\n\t Il est possible d'investir");
 		}else{
@@ -173,6 +173,7 @@ public class Quartier {
 			msg.append(q.getNom()).append(", ");
 			}
 		}
+		msg.append("\n");
 		
 		
 		return msg.toString();

@@ -11,7 +11,7 @@ public class Joueur {
 	private int id;
 	private String nom;
 	private Color couleur;
-	// les points de pauvretÈ du joueur
+	// les points de pauvretÔøΩ du joueur
 	private int point_pauvrete;
 	// les pts de victoire du joueur
 	private int point_victoire;
@@ -19,7 +19,7 @@ public class Joueur {
 	private int argent;
 	
 	private int montantEmprunts;
-	// les zones de construction qu'il peut possÈder
+	// les zones de construction qu'il peut possÔøΩder
 	private ZoneConstruction zoneConstruction;
 	// la main du joueurs (ses cartes)
 	private Main mainDuJoueur;
@@ -126,7 +126,7 @@ public class Joueur {
 	}
 	
 	/*
-	 * vÈrifier si le joueur peut finir son tour
+	 * vÔøΩrifier si le joueur peut finir son tour
 	 */
 	public Boolean VerifierFinDeTour(){
 		return this.mainDuJoueur.VerifierQteCarteFinDeTour();
@@ -145,6 +145,50 @@ public class Joueur {
 	public int getNb_cartes() {
 		return this.mainDuJoueur.getNb_cartes();
 	}
+	
+	
+	public void invest(int quartier, Plateau plateau,Pioche pioche){
+		
+		boolean investir;
+		
+		if (quartier > 0 && quartier < 21) {
+			
+			//on verifie si le joueur √† assez d'argent
+			if(this.getArgent()>=plateau.getQuartier(quartier).getPrix()){
+				
+				//on verifie si on peut investir dans le quartier
+				investir = plateau.getQuartier(quartier).investirQuartier(this);
+				
+				//si oui la fonction investirQuartier renvoie true et met a jour les quartiers adjacents
+				if(investir==true){
+					System.out.println(this.argent);
+					this.argent-=plateau.getQuartier(quartier).getPrix(); 
+					System.out.println(this.argent);
+					
+					//le joueur pioche le nb de cartes pr√©cis√© sur le quartier
+					this.ajouterCartesMain(pioche.tirerNCartes(plateau.getQuartier(quartier).getNb_carte_a_piocher()));
+					System.out.println("Vous venez d'investir dans le quartier : " + plateau.getQuartier(quartier).getNom() + " !\n");
+				
+				}	
+				else{
+					System.out.println("pas assez d'argent");
+					return;					
+					
+				}	
+			}	
+			else
+				System.out.println("D√©sol√© vous ne pouvez pas investir dans ce quartier !");
+		}
+		else
+			System.err.println("Numero de quartier incorrect");
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 
 }
