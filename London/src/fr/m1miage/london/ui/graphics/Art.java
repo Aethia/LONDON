@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
+import fr.m1miage.london.ui.Prefs;
+
 
 /**
  * 
@@ -30,6 +32,9 @@ public class Art {
 	public static TextureRegion iconeCartePioche;
 	private static int tailleIcon =64;
 	
+	/*-- Game screen --*/
+	public static TextureRegion action_bg;
+	
 	public static void load () {
 		Fonts.load();
 		Buttons.load();
@@ -46,7 +51,8 @@ public class Art {
 		iconeLivres = Art.load("ressources/Images/icone_livre.png", tailleIcon, tailleIcon);
 		iconeCartePioche = Art.load("ressources/Images/icone_cartePioche.png", tailleIcon, tailleIcon);
 
-
+		/*---- game ---- */
+		action_bg = load(Prefs.REPERTOIRE+"background_action.png", 750,315);
 	}
 
 	public static TextureRegion load (String name, int width, int height) {

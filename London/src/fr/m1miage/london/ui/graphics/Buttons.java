@@ -14,10 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
+import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.screens.GameScreen;
 import fr.m1miage.london.ui.screens.Screen;
 
@@ -29,13 +31,41 @@ public class Buttons {
 	public static TextButtonStyle styleInGameMenu;
 	public static TextButtonStyle styleInGameMenuDisabled;
 	
+	public static ButtonStyle styleBtnConstruire;
+	public static ButtonStyle styleBtnRestaurer;
+	public static ButtonStyle styleBtnInvestir;
+	
 	public static TextButtonStyle nbButtonStyle;
 	
-	public static TextButton button; //** the button - the only actor in program **//
-	private static BitmapFont font; //** same as that used in Tut 7 **//
+	public static TextButton button; 
+	private static BitmapFont font;
 
-
+	private static void boutonInvestir(){
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE+"buttonInvestir.pack"); 
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas); 
+		styleBtnInvestir = new ButtonStyle();
+		styleBtnInvestir.up = buttonSkin.getDrawable("ButtonOff");
+		styleBtnInvestir.down = buttonSkin.getDrawable("ButtonOn");
+	}
 	
+	private static void boutonRestaurer(){
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE+"buttonRestaurer.pack"); 
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas); 
+		styleBtnRestaurer = new ButtonStyle();
+		styleBtnRestaurer.up = buttonSkin.getDrawable("ButtonOff");
+		styleBtnRestaurer.down = buttonSkin.getDrawable("ButtonOn");		
+	}
+	
+	private static void boutonConstruire(){
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE+"buttonConstruire.pack"); 
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas); 
+		styleBtnConstruire = new ButtonStyle();
+		styleBtnConstruire.up = buttonSkin.getDrawable("ButtonOff");
+		styleBtnConstruire.down = buttonSkin.getDrawable("ButtonOn");
+	}
 
 	
 	private static void boutonStyleNbJ(){
@@ -119,7 +149,9 @@ public class Buttons {
 		boutonStyleInGame();
 		boutonStyleInGameDisabled();
 		boutonStyleNbJ();
-
+		boutonConstruire();
+		boutonRestaurer();
+		
 
 	}
 }

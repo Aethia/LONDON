@@ -23,7 +23,10 @@ public class CarteActor extends Actor{
 	private int xDefault;
 	private int yDefault;
 	private TextureRegion img;
-
+	private boolean selected = false;
+	
+	private int time =0;
+	
 	public CarteActor(Carte c, int x, int y){
 		this.carte = c;
 		this.id = c.getId_carte();
@@ -43,8 +46,15 @@ public class CarteActor extends Actor{
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				// TODO Auto-generated method stub
 				System.out.println(":(");
+				
+				if(selected){
+					selected=false;
+					GameScreen.idCarteSelected=0;
+				}else{
+					selected =true;
+					GameScreen.idCarteSelected = carte.getId_carte();
+				}
 				return super.touchDown(event, x, y, pointer, button);
 			}
 
@@ -93,4 +103,10 @@ public class CarteActor extends Actor{
 		this.y = yDefault;
 		this.x = xDefault;
 	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+	
+
 }
