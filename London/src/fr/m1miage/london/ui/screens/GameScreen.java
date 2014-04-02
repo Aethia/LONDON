@@ -36,6 +36,8 @@ public class GameScreen extends Screen{
 	/* Boutons des actions */
 	private static Button construireBtn;
 	private static Button restaurerBtn;
+	private static Button investirBtn;
+	private static Button piocherBtn;
 
 	/* Main du joueur */
 	public static int idCarteSelected=0;
@@ -53,20 +55,29 @@ public class GameScreen extends Screen{
 		Gdx.input.setInputProcessor(stage);
 		/*Parametres Boutons d'action*/
 		Table tableActions = new Table();
-		tableActions.setPosition(600, 500);
+		tableActions.setPosition(785, 525);
 		construireBtn = new Button(Buttons.styleBtnConstruire);
 		construireBtn.size(170,170);
 		tableActions.add(construireBtn);
 		
 		restaurerBtn = new Button(Buttons.styleBtnRestaurer);
-		restaurerBtn.scale(170,170);
+		restaurerBtn.size(170,170);
 		tableActions.add(restaurerBtn);
+		
+		investirBtn = new Button(Buttons.styleBtnInvestir);
+		investirBtn.size(170,170);
+		tableActions.add(investirBtn);
+		
+		piocherBtn = new Button(Buttons.styleBtnPiocher);
+		piocherBtn.size(170,170);
+		tableActions.add(piocherBtn);
+		
 		tableActions.pad(30f);		
 		stage.addActor(tableActions);
 		
 		/* Parametres Boutons Menu General*/
-		zoneConstructionBtn = new TextButton("Zone de construction",Buttons.styleInGameMenu); //** Button text and style **//
-		zoneConstructionBtn.setPosition(90, top); //** Button location **//
+		zoneConstructionBtn = new TextButton("Zone de construction",Buttons.styleInGameMenu);
+		zoneConstructionBtn.setPosition(90, top); 
 		sizeOfButton(zoneConstructionBtn);
 		zoneConstructionBtn.addListener(new InputListener(){
 

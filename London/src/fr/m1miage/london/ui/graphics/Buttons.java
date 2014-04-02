@@ -34,12 +34,22 @@ public class Buttons {
 	public static ButtonStyle styleBtnConstruire;
 	public static ButtonStyle styleBtnRestaurer;
 	public static ButtonStyle styleBtnInvestir;
+	public static ButtonStyle styleBtnPiocher;
 	
 	public static TextButtonStyle nbButtonStyle;
 	
 	public static TextButton button; 
 	private static BitmapFont font;
 
+	private static void boutonPiocher(){
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE+"buttonPiocher.pack"); 
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas); 
+		styleBtnPiocher = new ButtonStyle();
+		styleBtnPiocher.up = buttonSkin.getDrawable("ButtonOff");
+		styleBtnPiocher.down = buttonSkin.getDrawable("ButtonOn");
+	}
+	
 	private static void boutonInvestir(){
 		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE+"buttonInvestir.pack"); 
 		Skin buttonSkin = new Skin();
@@ -151,7 +161,7 @@ public class Buttons {
 		boutonStyleNbJ();
 		boutonConstruire();
 		boutonRestaurer();
-		
-
+		boutonInvestir();
+		boutonPiocher();
 	}
 }
