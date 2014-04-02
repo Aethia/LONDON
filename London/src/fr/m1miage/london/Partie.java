@@ -57,6 +57,7 @@ public class Partie {
 							break;
 						//si l'utilisateur n'entre pas une couleur correspondante
 						default:
+							System.err.println("Valeur incorrecte");
 							System.out
 								.println("Veuillez sélectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
 							break;
@@ -65,6 +66,7 @@ public class Partie {
 				
 				//entrée clavier incorrect, on passe à la suivante
 				else{
+					System.err.println("Valeur incorrecte");
 					System.out
 						.println("Veuillez sélectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
 					sc.next();
@@ -89,7 +91,7 @@ public class Partie {
 							.println("Valeur incorrecte. Il ne peut y avoir que de 2 à 5 joueurs.");
 				}
 			} else {
-				System.out.println("Valeur incorrecte.");
+				System.err.println("Valeur incorrecte");
 				sc.next();
 			}
 		}
@@ -258,7 +260,8 @@ public class Partie {
 
 	//Permet d'emprunter de l'argent (ne compte pas comme une action)
 	private void contracterPret() {
-		System.out.println("Quel montant ? (Doit être un multiple de 10)");
+		System.out.println("Quel montant souhaitez-vous emprunter? (Doit être un multiple de 10)");
+		System.out.println("Le remboursemaent se fera en fin de partie au taux de 0.5%");
 		int Montant = 0;
 		
 		//On vérifie si l'entrée clavier est correct (int)
@@ -273,7 +276,7 @@ public class Partie {
 			}
 		}
 		
-		//passe au prochaine scanner (le précédent n'étant pas un int)
+		//passe au prochaine scanner (si le précédent n'était pas un int)
 		else{
 			System.err.println("Montant incorrect");
 			sc.next();
