@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
+import fr.m1miage.london.ui.Prefs;
+
 
 /**
  * 
@@ -18,41 +20,53 @@ public class Art {
 	public static TextureRegion bg;
 	public static TextureRegion bgPartie;
 	public static TextureRegion[][] fnt;
-	
+
 	public static TextureRegion plateau_jeu_test;
-	
+
 	public static TextureRegion menu_bg;
+
+	/*-- screen quartiers **/
+	public static TextureRegion quartier_bg;
+	public static TextureRegion iconePV;
+	public static TextureRegion iconeLivres;
+	public static TextureRegion iconeCartePioche;
+	private static int tailleIcon =64;
+	
+	/*-- Game screen --*/
+	public static TextureRegion action_bg;
 	
 	public static void load () {
 		Fonts.load();
 		Buttons.load();
-		QuartierForm.load();
 		bg = load("ressources/Images/background.png", 1400, 800);
 		bgPartie = load("ressources/Images/backgroundPartie.png", 1400, 800);
-		
 		menu_bg = Art.load("ressources/Images/menu_background.png", 256, 512);
-				
+
 		fnt = split("ressources/Images/guys.png", 6, 6);
 		plateau_jeu_test = load("ressources/Images/plateau_jeu_test.png", 1024, 1024);
-		
-	//	player1Button = load("ressources/Images/joueur1.png", 512, 1024);
-		
-		
-        
+
+		/*----- quartiers -----*/
+		quartier_bg = Art.load("ressources/Images/fond_quartier.png", 525, 650);
+		iconePV = Art.load("ressources/Images/icone_pv.png", tailleIcon, tailleIcon);
+		iconeLivres = Art.load("ressources/Images/icone_livre.png", tailleIcon, tailleIcon);
+		iconeCartePioche = Art.load("ressources/Images/icone_cartePioche.png", tailleIcon, tailleIcon);
+
+		/*---- game ---- */
+		action_bg = load(Prefs.REPERTOIRE+"background_action.png", 750,315);
 	}
-	
+
 	public static TextureRegion load (String name, int width, int height) {
 		Texture texture = new Texture(Gdx.files.internal(name));
-		
+
 		TextureRegion region = new TextureRegion(texture, 0, 0, width, height);
 		region.flip(false, true);
 		return region;
 	}
-	
+
 	private static TextureRegion[][] split (String name, int width, int height) {
 		return split(name, width, height, false);
 	}
-	
+
 	private static TextureRegion[][] split (String name, int width, int height, boolean flipX) {
 		Texture texture = new Texture(Gdx.files.internal(name));
 		int xSlices = texture.getWidth() / width;
@@ -66,5 +80,5 @@ public class Art {
 		}
 		return res;
 	}
-	
+
 }
