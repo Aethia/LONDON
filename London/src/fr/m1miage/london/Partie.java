@@ -261,7 +261,7 @@ public class Partie {
 	//Permet d'emprunter de l'argent (ne compte pas comme une action)
 	private void contracterPret() {
 		System.out.println("Quel montant souhaitez-vous emprunter? (Doit être un multiple de 10)");
-		System.out.println("Le remboursemaent se fera en fin de partie au taux de 0.5%");
+		System.out.println("Le remboursemaent se fera en fin de partie au taux de 1.5%");
 		int Montant = 0;
 		
 		//On vérifie si l'entrée clavier est correct (int)
