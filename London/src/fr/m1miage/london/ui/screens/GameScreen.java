@@ -68,6 +68,16 @@ public class GameScreen extends Screen{
 		zoneConstructionBtn = new TextButton("Zone de construction",Buttons.styleInGameMenu); //** Button text and style **//
 		zoneConstructionBtn.setPosition(90, top); //** Button location **//
 		sizeOfButton(zoneConstructionBtn);
+		zoneConstructionBtn.addListener(new InputListener(){
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new ZoneConstructionScreen());
+				return super.touchDown(event, x, y, pointer, button);
+			}
+			
+		});
 
 		etalageCartesBtn = new TextButton("Etalage de cartes",Buttons.styleInGameMenu); //** Button text and style **//
 		etalageCartesBtn.setPosition(90, (top-distBtn)); //** Button location **//
