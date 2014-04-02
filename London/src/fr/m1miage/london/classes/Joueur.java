@@ -146,5 +146,12 @@ public class Joueur {
 		return this.mainDuJoueur.getNb_cartes();
 	}
 	
-
+	/*
+	 * emprunter de l'argent
+	 */
+	public void emprunter(int montant){
+		
+		this.argent += montant;
+		this.montantEmprunts += montant;
+	}
 }
