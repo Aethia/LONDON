@@ -183,10 +183,14 @@ public class CreationPartieScreen extends Screen {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				//recuperer les informations du jeu, creer les joueurs
+				if(idNbJSelected!=0){
 				List<Joueur> listeJoueurs = new ArrayList<Joueur>();
 
 				for(int i=0; i<idNbJSelected;i++){
 					String name = lTextField.get(i).getText();
+					if(name.equals("")){
+						name = "Joueur "+(i+1);
+					}
 					/*--- couleur a modifier ? --*/
 					Color cLibgdx = lColors.get(i).getColor();
 					java.awt.Color c = new java.awt.Color(cLibgdx.r, cLibgdx.g,cLibgdx.b);
@@ -196,6 +200,10 @@ public class CreationPartieScreen extends Screen {
 				LondonGame.partie = new Partie(listeJoueurs,idNbJSelected);
 				LondonGame.partie.init();
 				Screen.setScreen(new GameScreen());	
+				}else{
+					//changer par graphique
+					System.out.println("choisir nb joueurs");
+				}
 				return super.touchDown(event, x, y, pointer, button);
 			}
 		});

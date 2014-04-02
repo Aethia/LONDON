@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -67,7 +68,7 @@ public class GameScreen extends Screen{
 		investirBtn = new Button(Buttons.styleBtnInvestir);
 		investirBtn.size(170,170);
 		tableActions.add(investirBtn);
-		
+	
 		piocherBtn = new Button(Buttons.styleBtnPiocher);
 		piocherBtn.size(170,170);
 		tableActions.add(piocherBtn);
