@@ -127,42 +127,38 @@ public class Partie {
 						System.err.println("Vous avez déjà effectué une action pour ce tour!");
 						break;
 					}
-					listeJoueurs.get(joueurActif).afficherMain();
-					System.out.println("Choisissez la carte à poser dans la zone de construction : ");
-					if(sc.hasNextInt()){
-						int idCarte=sc.nextInt();
-						Carte c = listeJoueurs.get(joueurActif).choisirCarteParId(idCarte);
-						while(listeJoueurs.get(joueurActif).getMainDuJoueur().verifPresenceCarte(c, false)== false){
-							System.out.println("Vous ne possédez pas cette carte. Saisissez une nouvelle valeur : ");
-							if(sc.hasNextInt()){
-								idCarte=sc.nextInt();
-							}
-							else{
-								System.out.println("Erreur de saisie.");
-								break;
-							}
-						}
+					int finConstruction=1;
+					System.out.println(Plateau.etalage.toString());
+					while(finConstruction == 1){
+						System.out.println(listeJoueurs.get(joueurActif).getArgent());
+						listeJoueurs.get(joueurActif).afficherMain();
+						System.out.println("Choisissez la carte à poser dans la zone de construction : ");
+						int idCarte=(Integer.parseInt(sc.next()));
+						Carte cPosee = listeJoueurs.get(joueurActif).choisirCarteParId(idCarte);
 						System.out.println("Quelle carte de même couleur voulez-vous défausser ?");
-						System.out.println(listeJoueurs.get(joueurActif).getMainDuJoueur().getCartesCouleur(c).toString());
-						if(sc.hasNextInt()){
-							int idCarteDefausse=sc.nextInt();
-							Carte cDefausse = listeJoueurs.get(joueurActif).choisirCarteParId(idCarteDefausse);
-							while(listeJoueurs.get(joueurActif).getMainDuJoueur().verifPresenceCarte(cDefausse, true)== false){
-								System.out.println("Vous ne possédez pas cette carte");
-							}
-							listeJoueurs.get(joueurActif).getMainDuJoueur().supprimerCarteParId(idCarteDefausse);
-						
-							listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
-							System.out.println("Choisir une pile ou en créer une nouvelle (0):");
-							if(sc.hasNextInt()){
-								int indexPile=sc.nextInt();	
-								listeJoueurs.get(joueurActif).construire(c, cDefausse, indexPile);
-								System.out.println("Votre carte a été ajoutée.");
-								System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
+						System.out.println(listeJoueurs.get(joueurActif).getCartesCouleur(cPosee).toString());
+						int idCarteDefausse=Integer.parseInt(sc.next());
+						Carte cDefausse = listeJoueurs.get(joueurActif).choisirCarteParId(idCarteDefausse);
+						listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
+						System.out.println("Choisir une pile ou en créer une nouvelle (0):");
+						int indexPile=Integer.parseInt(sc.next());	
+						listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
+						System.out.println("Votre carte a été ajoutée.");
 							
-							}
+						System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
+						
+						System.out.println(listeJoueurs.get(joueurActif).getArgent());
+						listeJoueurs.get(joueurActif).afficherMain();
+						System.out.println(Plateau.etalage.toString());
+						
+						System.out.println("1. Rejouer une carte \n 2. Finir les constructions");
+						if(sc.hasNextInt()){
+							finConstruction = sc.nextInt();
 						}
-					}
+					}		
+							
+						
+					
 					jouerCarte();
 					actionEffectuee = true;
 					break;
@@ -260,4 +256,6 @@ public class Partie {
 	private void contracterPret() {
 		System.out.println("Vous voulez contracter un prêt");
 	}
+	
+	
 }

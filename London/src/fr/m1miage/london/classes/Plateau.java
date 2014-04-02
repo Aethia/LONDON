@@ -8,7 +8,7 @@ import fr.m1miage.london.db.QuartiersManager;
 
 public class Plateau {
 	private Map<Integer,Quartier> quartiers = new HashMap<Integer, Quartier>();
-	private Etalage etalage;
+	public static Etalage etalage;
 	
 	public Plateau(){
 		
@@ -25,6 +25,10 @@ public class Plateau {
 	
 	public Quartier getQuartier(int idQuartier){
 		return quartiers.get(idQuartier);
+	}
+	
+	public Etalage getEtalage(){
+		return etalage;
 	}
 	
 	

@@ -100,39 +100,9 @@ public class Main implements Cloneable{
 		
 	}
 	
-	//on vérifie que la carte choisie par la joueur existe dans sa main
-	public boolean verifPresenceCarte(Carte carte, boolean couleur){
-		boolean presence=false;
-		if(couleur == false){
-			for(Carte c:lesCartes){
-				if(c.getId_carte() == carte.getId_carte()){
-					System.out.println("La carte existe dans la main");
-					presence = true;
-				}
-			}
-		}
-		else{
-			for(Carte c:this.getCartesCouleur(carte)){
-				if(c.getId_carte() == carte.getId_carte()){
-					System.out.println("La carte de même couleur existe");
-					presence = true;
-				}
-			}
-		}
-		return presence;
-	}
 	
-	//affiche les cartes de la même couleur qu'une carte choisie
-	public List<Carte> getCartesCouleur(Carte c){
-		String couleur = c.getCouleur();
-		List<Carte> cartesCouleur = new ArrayList<Carte>();
-		for(Carte i:lesCartes){
-			if(i.getCouleur().compareTo(couleur)==0 && i!=c){
-				cartesCouleur.add(c);
-			}
-		}
-		return cartesCouleur;
-	}
+	
+	
 	
 	
 
