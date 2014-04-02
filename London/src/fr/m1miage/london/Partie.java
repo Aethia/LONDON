@@ -101,9 +101,9 @@ public class Partie {
 		Boolean actionEffectuee = false;
 		// on initialise le premier joueur
 		joueurActif = 0;
+		listeJoueurs.get(joueurActif).piocher(pioche);
 		// on joue tant qu'il y a des cartes dans la pioche
 		while (pioche.getNbCartes() > 0){
-			
 			// le joueur actif doit choisir une action
 			System.out.println("c'est au tour de "+listeJoueurs.get(joueurActif).getNom()+", que faites vous ?");
 			if (!actionEffectuee) {
@@ -217,6 +217,7 @@ public class Partie {
 					}
 					// passe au suivant
 					joueurSuivant();
+					listeJoueurs.get(joueurActif).piocher(pioche);
 					actionEffectuee = false;
 					break;
 				}

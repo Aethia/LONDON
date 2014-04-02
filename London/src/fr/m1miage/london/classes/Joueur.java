@@ -210,5 +210,9 @@ public class Joueur {
 			return -3;//La carte à poser n'existe pas dans la main du joueur
 		}
 	}
+	
+	public void piocher(Pioche laPioche){
+		mainDuJoueur.ajouterCarte(laPioche.tirerUneCarte());
+	}
 }
 
