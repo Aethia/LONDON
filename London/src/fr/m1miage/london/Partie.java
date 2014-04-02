@@ -23,19 +23,50 @@ public class Partie {
 	private final Color bleu = Color.blue;
 
 	// le joueur actuellement actif
-	private int joueurActif;
 
-	public Partie() {
+	private int joueurActif=0;
+
+	private int typeGUI=0; // par defaut : 0 => console, 1 = Graphique
+
+
+	public Partie(){
 		this.plateau = new Plateau();
 		this.pioche = new Pioche();
 	}
 
-	private void creerJoueurs(int nbJoueurs) {
-		for (int i = 0; i < nbJoueurs; i++) {
-			System.out.println("Entrez le nom du joueur " + (i + 1) + " : ");
+
+	public Partie(List<Joueur> listeJ, int nbJ){
+		this.plateau = new Plateau();
+		this.pioche = new Pioche();
+		this.listeJoueurs = listeJ;
+		this.nbJoueurs = nbJ;
+		this.typeGUI = 1;
+	}
+
+	private void creerJoueurs(){
+		boolean condition = false;
+		while(condition == false){
+			System.out.println("Entrez le nombre de joueurs : ");
+			if(sc.hasNextInt()){
+				int reponse=sc.nextInt();
+				if(reponse < Regles.NBMAXJOUEURS){
+					nbJoueurs = reponse;	
+					condition = true;
+				}
+				else{
+					System.out.println("Valeur incorrecte. Il ne peut y avoir que de 2 à 5 joueurs.");
+				}
+			}
+			else{
+				System.out.println("Valeur incorrecte.");
+				sc.next();
+			}
+		}
+	//	Color couleur = rouge;
+		for(int i = 0; i<nbJoueurs; i++){
+			System.out.println("Entrez le nom du joueur "+(i+1)+" : ");
 			String nomJoueur = sc.next();
-			System.out
-					.println("Choisissez votre couleur : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
+			System.out.println("Choisissez votre couleur : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
 			Color couleur = null;// = rouge;
 			
 			//tant que l'utilisateur n'a pas choisit de couleur
@@ -77,25 +108,11 @@ public class Partie {
 		}
 	}
 
-	public void init() {
-		boolean condition = false;
-		while (condition == false) {
-			System.out.println("Entrez le nombre de joueurs : ");
-			if (sc.hasNextInt()) {
-				int reponse = sc.nextInt();
-				if (reponse < Regles.NBMAXJOUEURS) {
-					nbJoueurs = reponse;
-					condition = true;
-				} else {
-					System.out
-							.println("Valeur incorrecte. Il ne peut y avoir que de 2 à 5 joueurs.");
-				}
-			} else {
-				System.err.println("Valeur incorrecte");
-				sc.next();
-			}
+
+	public void init(){
+		if(typeGUI==0){
+			creerJoueurs();
 		}
-		creerJoueurs(nbJoueurs);
 
 		plateau.init();
 		pioche.init();
@@ -115,14 +132,15 @@ public class Partie {
 		}
 	}
 
+
 	// la boucle de jeu
 	public void lancerJeu() {
 		Boolean actionEffectuee = false;
 		// on initialise le premier joueur
 		joueurActif = 0;
 		// on joue tant qu'il y a des cartes dans la pioche
-		while (pioche.getNbCartes() > 0) {
 
+		while (pioche.getNbCartes() > 0){
 			// le joueur actif doit choisir une action
 			System.out.println("c'est au tour de "
 					+ listeJoueurs.get(joueurActif).getNom()
@@ -141,6 +159,7 @@ public class Partie {
 			System.out.println("6. Consulter mes cartes en main");
 			System.out.println("7. Consulter l'étalage de cartes");
 			System.out.println("8. Finir mon tour");
+
 
 			//On vérifie si l'entrée clavier est correct (int)
 			if(sc.hasNextInt()){
@@ -220,13 +239,11 @@ public class Partie {
 						break;
 					}
 		
-					default: {
+					default: 
 						System.out.println("Je n'ai pas compris votre choix");
 						break;
 					}
-				}
-			}
-			else{
+			}else{
 				System.out.println("Je n'ai pas compris votre choix");
 				sc.next();
 			}
@@ -282,4 +299,42 @@ public class Partie {
 			sc.next();
 		}
 	}
+
+	public List<Joueur> getListeJoueurs() {
+		return listeJoueurs;
+	}
+
+	public void setListeJoueurs(List<Joueur> listeJoueurs) {
+		this.listeJoueurs = listeJoueurs;
+	}
+
+	public Plateau getPlateau() {
+		return plateau;
+	}
+
+	public void setPlateau(Plateau plateau) {
+		this.plateau = plateau;
+	}
+
+	public Pioche getPioche() {
+		return pioche;
+	}
+
+	public void setPioche(Pioche pioche) {
+		this.pioche = pioche;
+	}
+
+	public int getJoueurActif() {
+		return joueurActif;
+	}
+
+	public Joueur getObjJoueurActif(){
+		return listeJoueurs.get(joueurActif);
+	}
+	
+	public void setJoueurActif(int joueurActif) {
+		this.joueurActif = joueurActif;
+	}
+
+
 }
