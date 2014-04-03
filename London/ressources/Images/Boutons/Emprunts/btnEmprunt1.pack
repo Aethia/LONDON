@@ -1,0 +1,20 @@
+btn_emprunt1.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ButtonOff
+	rotate: false
+	xy: 0, 0
+	size: 170, 100
+	split: 0, 0, 0, 0
+	orig: 170, 100
+	offset: 0, 0
+	index:-1
+ButtonOn
+	rotate: false
+	xy: 0, 110
+	size: 170, 100
+	split: 0, 0, 0, 0
+	orig: 170, 100
+	offset: 0, 0
+	index:-1

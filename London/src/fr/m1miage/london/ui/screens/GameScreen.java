@@ -1,12 +1,9 @@
 package fr.m1miage.london.ui.screens;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,7 +18,6 @@ import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.CarteActor;
-import fr.m1miage.london.ui.graphics.Fonts;
 import fr.m1miage.london.ui.graphics.Score;
 
 public class GameScreen extends Screen{
@@ -102,8 +98,6 @@ public class GameScreen extends Screen{
 		quartiersBtn = new TextButton("Quartiers",Buttons.styleInGameMenu); //** Button text and style **//
 		quartiersBtn.setPosition(90, (top-distBtn*2)); //** Button location **//
 		sizeOfButton(quartiersBtn);
-		quartiersBtn.setHeight(60); //** Button Height **//
-		quartiersBtn.setWidth(215);
 		quartiersBtn.addListener(new InputListener(
 
 				){
@@ -111,14 +105,24 @@ public class GameScreen extends Screen{
 			@Override
 			public boolean touchDown(InputEvent event, float x,
 					float y, int pointer, int button) {
-				// TODO Auto-generated method stub
 				Screen.setScreen(new QuartiersScreen());
 				return super.touchDown(event, x, y, pointer, button);
 			}});
 
 		emprunterBtn = new TextButton("Emprunter",Buttons.styleInGameMenu); //** Button text and style **//
 		emprunterBtn.setPosition(90, (top-distBtn*3)); //** Button location **//
+		emprunterBtn.addListener(new InputListener(){
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new EmprunterScreen());
+				return super.touchDown(event, x, y, pointer, button);
+			}
+			
+		});
 		sizeOfButton(emprunterBtn);
+		
 
 		stage.addActor(zoneConstructionBtn);
 		stage.addActor(etalageCartesBtn);
@@ -138,18 +142,17 @@ public class GameScreen extends Screen{
 			stage.addActor(ca);
 		}
 		
-		scoreJoueur = new Score(j.getNom(),j.getArgent(), j.getPoint_pauvrete(),j.getPoint_victoire());
+		scoreJoueur = new Score(j);
 		stage.addActor(scoreJoueur);
 	}
 
 	private static void sizeOfButton(TextButton btn){
-		btn.setHeight(60); //** Button Height **//
-		btn.setWidth(215); //** Button Width **//
+		btn.setHeight(60); 
+		btn.setWidth(215);
 	}
 
 	@Override
 	public void render() {
-		// TODO Auto-generated method stub
 		spriteBatch.begin();
 		tick();
 		draw(Art.bgPartie, 0, 0);

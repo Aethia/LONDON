@@ -1,46 +1,54 @@
 package fr.m1miage.london.ui.graphics;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 import fr.m1miage.london.ui.Prefs;
-import fr.m1miage.london.ui.screens.GameScreen;
-import fr.m1miage.london.ui.screens.Screen;
 
 
 
 public class Buttons {
+	public static TextButtonStyle nbButtonStyle;
+	
 	/*----- boutons de style liste in game ------*/
 	public static BitmapFont fontBtnGame;
 	public static TextButtonStyle styleInGameMenu;
 	public static TextButtonStyle styleInGameMenuDisabled;
 	
+	
+	/*Actions*/
 	public static ButtonStyle styleBtnConstruire;
 	public static ButtonStyle styleBtnRestaurer;
 	public static ButtonStyle styleBtnInvestir;
 	public static ButtonStyle styleBtnPiocher;
 	
-	public static TextButtonStyle nbButtonStyle;
+	/*Emprunts*/
+	public static TextButtonStyle styleEmprunt1;
+	public static TextButtonStyle styleEmprunt2;
+
 	
 	public static TextButton button; 
 	private static BitmapFont font;
 
+	private static void boutonsEmprunt(){
+		TextureAtlas btnAtlas1 = new TextureAtlas(Prefs.REPERTOIRE_EMPRUNTS+"btnEmprunt1.pack"); 
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas1); 
+		styleEmprunt1 = new TextButtonStyle();
+		styleEmprunt1.up = buttonSkin.getDrawable("ButtonOff");
+		styleEmprunt1.down = buttonSkin.getDrawable("ButtonOn");
+		styleEmprunt1.font = font;
+		styleEmprunt1.fontColor = Color.BLACK;
+	}
+	
 	private static void boutonPiocher(){
 		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE+"buttonPiocher.pack"); 
 		Skin buttonSkin = new Skin();
@@ -163,5 +171,6 @@ public class Buttons {
 		boutonRestaurer();
 		boutonInvestir();
 		boutonPiocher();
+		boutonsEmprunt();
 	}
 }

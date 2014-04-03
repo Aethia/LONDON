@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.screens.GameScreen;
-import fr.m1miage.london.ui.screens.Screen;
 
 public class CarteActor extends Actor{
 	private int id;

@@ -23,8 +23,14 @@ public class AreaColorRect extends Actor {
         this.area = new Rectangle(x, y, w, h);
     }
 
-
+    
     @Override
+	public Color getColor() {
+		return shapeFillColor;
+	}
+
+
+	@Override
     public void draw(SpriteBatch batch, float parentAlpha) {
     	batch.end();
         shapeRen.begin(ShapeType.Filled);
