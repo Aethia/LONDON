@@ -35,6 +35,8 @@ public class Art {
 	/*-- Game screen --*/
 	public static TextureRegion action_bg;
 	
+	public static TextureRegion scoreJoueur_bg;
+	
 	public static void load () {
 		Fonts.load();
 		Buttons.load();
@@ -53,6 +55,9 @@ public class Art {
 
 		/*---- game ---- */
 		action_bg = load(Prefs.REPERTOIRE+"background_action.png", 750,315);
+		scoreJoueur_bg = load(Prefs.REPERTOIRE+"score_joueur.png", 300,100);
+		
+		/*--score joueur*/
 	}
 
 	public static TextureRegion load (String name, int width, int height) {

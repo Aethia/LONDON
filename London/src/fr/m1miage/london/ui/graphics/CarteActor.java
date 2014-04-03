@@ -45,9 +45,7 @@ public class CarteActor extends Actor{
 
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				System.out.println(":(");
-				
+					int pointer, int button) {				
 				if(selected){
 					selected=false;
 					GameScreen.idCarteSelected=0;
@@ -61,7 +59,6 @@ public class CarteActor extends Actor{
 			@Override
 			public boolean mouseMoved(InputEvent event, float x, float y) {
 				GameScreen.idCarteOver = carte.getId_carte();
-				System.out.println(carte.getNom());
 				return true;
 			}
 			

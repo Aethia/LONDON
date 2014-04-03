@@ -33,7 +33,6 @@ public abstract class Screen {
 		spriteBatch = new SpriteBatch(100);
 		spriteBatch.setProjectionMatrix(projection);
 		
-		 //** stage is responsive **//
 		
 	}
 

@@ -22,6 +22,7 @@ import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.CarteActor;
 import fr.m1miage.london.ui.graphics.Fonts;
+import fr.m1miage.london.ui.graphics.Score;
 
 public class GameScreen extends Screen{
 
@@ -45,6 +46,9 @@ public class GameScreen extends Screen{
 	public static Map<Integer, CarteActor> main = new HashMap<Integer,CarteActor>();
 	public static int idCarteOver =0;
 
+	/* Scores */
+	private Score scoreJoueur;
+	
 	private Stage stage; 
 
 	private int time =0;
@@ -133,6 +137,9 @@ public class GameScreen extends Screen{
 			main.put(c.getId_carte(), ca);
 			stage.addActor(ca);
 		}
+		
+		scoreJoueur = new Score(j.getNom(),j.getArgent(), j.getPoint_pauvrete(),j.getPoint_victoire());
+		stage.addActor(scoreJoueur);
 	}
 
 	private static void sizeOfButton(TextButton btn){
@@ -149,8 +156,6 @@ public class GameScreen extends Screen{
 		draw(Art.menu_bg,70,150);
 		draw(Art.action_bg,400,150);
 
-
-		Fonts.FONT_ICON_WHITE.draw(spriteBatch,LondonGame.partie.getObjJoueurActif().getNom(), 70, 150);
 		String msg = "COPYRIGHT Aethia 2014";
 		drawString(msg, 2, 800 -6 -2);
 
@@ -173,7 +178,7 @@ public class GameScreen extends Screen{
 				}
 			}
 		}
-		stage.act();
+		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 
 	}

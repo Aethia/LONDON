@@ -8,12 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
-
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -48,10 +47,10 @@ public class CreationPartieScreen extends Screen {
 
 	private static List<TextField> lTextField = new ArrayList<TextField>();
 	private static List<AreaColorRect> lColors = new ArrayList<AreaColorRect>();
-	
+
 	public static int idNbJSelected=0;
 	private static Stage stage; 
-	
+
 	public CreationPartieScreen(){
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
@@ -61,7 +60,20 @@ public class CreationPartieScreen extends Screen {
 		font.setColor(Color.BLACK);
 		boutonNbJoueurs();
 		boutonValider();
+		stage.addListener(new InputListener(){
 
+			@Override
+			public boolean keyDown(InputEvent event, int keycode) {
+
+				if(keycode==66){
+					creerPartie();
+				}
+				return super.keyDown(event, keycode);
+			}
+
+
+
+		});
 	}
 
 	private static void boutonNbJoueurs(){
@@ -80,7 +92,6 @@ public class CreationPartieScreen extends Screen {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {
-					// TODO Auto-generated method stub
 					//aucun de deja selectionné
 					if(idNbJSelected!=num && idNbJSelected!=0){ //deselectionner l'ancien
 						TextButton btnDeselect = buttonsNbj.get(idNbJSelected);
@@ -100,9 +111,9 @@ public class CreationPartieScreen extends Screen {
 		}
 
 	}
-	
-	
-	
+
+
+
 
 	//créé un nombre de textfield egal au nombre de joueurs choisi.
 	private static void majFormJoueurs(){
@@ -137,7 +148,6 @@ public class CreationPartieScreen extends Screen {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {
-					// TODO Auto-generated method stub
 					if(!touched){
 						mTextField.setText("");
 						touched = true;
@@ -163,7 +173,7 @@ public class CreationPartieScreen extends Screen {
 					stage.addActor(colorJ);
 					return super.touchDown(event, x, y, pointer, button);
 				}
-				
+
 			});
 			//ajout des nouveaux elements au stage
 			stage.addActor(colorJ);
@@ -182,42 +192,43 @@ public class CreationPartieScreen extends Screen {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				//recuperer les informations du jeu, creer les joueurs
-				if(idNbJSelected!=0){
-				List<Joueur> listeJoueurs = new ArrayList<Joueur>();
-
-				for(int i=0; i<idNbJSelected;i++){
-					String name = lTextField.get(i).getText();
-					if(name.equals("")){
-						name = "Joueur "+(i+1);
-					}
-					/*--- couleur a modifier ? --*/
-					Color cLibgdx = lColors.get(i).getColor();
-					java.awt.Color c = new java.awt.Color(cLibgdx.r, cLibgdx.g,cLibgdx.b);
-					Joueur j = new Joueur(i, name, c);
-					listeJoueurs.add(j);
-				}
-				LondonGame.partie = new Partie(listeJoueurs,idNbJSelected);
-				LondonGame.partie.init();
-				Screen.setScreen(new GameScreen());	
-				}else{
-					//changer par graphique
-					System.out.println("choisir nb joueurs");
-				}
+				creerPartie();
 				return super.touchDown(event, x, y, pointer, button);
 			}
 		});
 	}
-	
-	
+
+	private static void creerPartie(){
+		//recuperer les informations du jeu, creer les joueurs
+		if(idNbJSelected!=0){
+			List<Joueur> listeJoueurs = new ArrayList<Joueur>();
+
+			for(int i=0; i<idNbJSelected;i++){
+				String name = lTextField.get(i).getText();
+				if(name.equals("")){
+					name = "Joueur "+(i+1);
+				}
+				/*--- couleur a modifier ? --*/
+				Color cLibgdx = lColors.get(i).getColor();
+				java.awt.Color c = new java.awt.Color(cLibgdx.r, cLibgdx.g,cLibgdx.b);
+				Joueur j = new Joueur(i, name, c);
+				listeJoueurs.add(j);
+			}
+			LondonGame.partie = new Partie(listeJoueurs,idNbJSelected);
+			LondonGame.partie.init();
+			Screen.setScreen(new GameScreen());	
+		}else{
+			//changer par graphique
+			System.out.println("choisir nb joueurs");
+		}
+	}
 
 	@Override
 	public void render() {
-		// TODO Auto-generated method stub
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
-	    Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		spriteBatch.begin();
-		 
+
 		draw(Art.bgPartie, 0, 0);
 		Fonts.FONT_TITLE.draw(spriteBatch, "Nouvelle partie", 450, 20);
 		font.draw(spriteBatch, "Nombre de joueurs :", 125, 220);
@@ -232,15 +243,14 @@ public class CreationPartieScreen extends Screen {
 
 
 		stage.addActor(btnValider);
-		
+
 		stage.act();
 		stage.draw();
 	}
 
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 
