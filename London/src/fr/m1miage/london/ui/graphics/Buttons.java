@@ -47,6 +47,15 @@ public class Buttons {
 		styleEmprunt1.down = buttonSkin.getDrawable("ButtonOn");
 		styleEmprunt1.font = font;
 		styleEmprunt1.fontColor = Color.BLACK;
+		
+		TextureAtlas btnAtlas2 = new TextureAtlas(Prefs.REPERTOIRE_EMPRUNTS+"btnEmprunt2.pack"); 
+		buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas2); 
+		styleEmprunt2 = new TextButtonStyle();
+		styleEmprunt2.up = buttonSkin.getDrawable("ButtonOff");
+		styleEmprunt2.down = buttonSkin.getDrawable("ButtonOn");
+		styleEmprunt2.font = font;
+		styleEmprunt2.fontColor = Color.BLACK;
 	}
 	
 	private static void boutonPiocher(){
