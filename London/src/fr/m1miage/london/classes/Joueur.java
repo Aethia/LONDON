@@ -3,6 +3,7 @@ package fr.m1miage.london.classes;
 import java.awt.Color;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 import fr.m1miage.london.Regles;
@@ -147,11 +148,31 @@ public class Joueur {
 	}
 	
 	/*
-	 * emprunter de l'argent
+	 * Emprunter de l'argent
 	 */
-	public void emprunter(int montant){
+	public void emprunter(Scanner sc){
+		int Montant = 0;
 		
-		this.argent += montant;
-		this.montantEmprunts += montant;
+		System.out.println("Quel montant souhaitez-vous emprunter? (Doit être un multiple de 10)");
+		System.out.println("Le remboursemaent se fera en fin de partie au taux de 1.5%");
+		
+		//On vérifie si l'entrée clavier est correct (int)
+		if(sc.hasNextInt()){
+			Montant = sc.nextInt();
+			if (Montant > 0 && Montant % 10 == 0) {
+				this.argent += Montant;
+				this.montantEmprunts += Montant;
+				System.out.println("Vous venez d'emprunter £" + Montant + ". \n");
+			} 
+			else{
+				System.err.println("Montant incorrect \n");
+			}
+		}
+		
+		//On indique qu'il y a une erreur et on passe au prochaine scanner (si l'entrée n'était pas un int)
+		else{
+			System.err.println("Montant incorrect \n");
+			sc.next();
+		}
 	}
 }

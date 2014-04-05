@@ -57,7 +57,7 @@ public class Partie {
 							break;
 						//si l'utilisateur n'entre pas une couleur correspondante
 						default:
-							System.err.println("Valeur incorrecte");
+							System.err.println("Valeur incorrecte \n");
 							System.out
 								.println("Veuillez sélectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
 							break;
@@ -66,7 +66,7 @@ public class Partie {
 				
 				//entrée clavier incorrect, on passe à la suivante
 				else{
-					System.err.println("Valeur incorrecte");
+					System.err.println("Valeur incorrecte \n");
 					System.out
 						.println("Veuillez sélectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
 					sc.next();
@@ -88,10 +88,10 @@ public class Partie {
 					condition = true;
 				} else {
 					System.out
-							.println("Valeur incorrecte. Il ne peut y avoir que de 2 à 5 joueurs.");
+							.println("Valeur incorrecte. Il ne peut y avoir que de 2 à 5 joueurs. \n");
 				}
 			} else {
-				System.err.println("Valeur incorrecte");
+				System.err.println("Valeur incorrecte \n");
 				sc.next();
 			}
 		}
@@ -124,7 +124,7 @@ public class Partie {
 		while (pioche.getNbCartes() > 0) {
 
 			// le joueur actif doit choisir une action
-			System.out.println("c'est au tour de "
+			System.out.println("C'est au tour de "
 					+ listeJoueurs.get(joueurActif).getNom()
 					+ ", que faites vous ?");
 			if (!actionEffectuee) {
@@ -150,7 +150,7 @@ public class Partie {
 						// si une action a déjà été faite dans le tour
 						if (actionEffectuee) {
 							System.err
-									.println("Vous avez déjà effectué une action pour ce tour!");
+									.println("Vous avez déjà effectué une action pour ce tour! \n");
 							break;
 						}
 						jouerCarte();
@@ -162,7 +162,7 @@ public class Partie {
 						// si une action a déjà été faite dans le tour
 						if (actionEffectuee) {
 							System.err
-									.println("Vous avez déjà effectué une action pour ce tour!");
+									.println("Vous avez déjà effectué une action pour ce tour! \n");
 							break;
 						}
 						restaurerVille();
@@ -174,7 +174,7 @@ public class Partie {
 						// si une action a déjà été faite dans le tour
 						if (actionEffectuee) {
 							System.err
-									.println("Vous avez déjà effectué une action pour ce tour!");
+									.println("Vous avez déjà effectué une action pour ce tour! \n");
 							break;
 						}
 						investir();
@@ -186,7 +186,7 @@ public class Partie {
 						// si une action a déjà été faite dans le tour
 						if (actionEffectuee) {
 							System.err
-									.println("Vous avez déjà effectué une action pour ce tour!");
+									.println("Vous avez déjà effectué une action pour ce tour! \n");
 							break;
 						}
 						piocherCartes();
@@ -211,7 +211,7 @@ public class Partie {
 						System.out.println("Vous voulez finir votre tour");
 						if (!actionEffectuee) {
 							System.err
-									.println("Vous ne pouvez pas finir votre tour sans faire d'action!");
+									.println("Vous ne pouvez pas finir votre tour sans faire d'action! \n");
 							break;
 						}
 						// passe au suivant
@@ -221,13 +221,13 @@ public class Partie {
 					}
 		
 					default: {
-						System.out.println("Je n'ai pas compris votre choix");
+						System.out.println("Je n'ai pas compris votre choix \n");
 						break;
 					}
 				}
 			}
 			else{
-				System.out.println("Je n'ai pas compris votre choix");
+				System.out.println("Je n'ai pas compris votre choix \n");
 				sc.next();
 			}
 		}
@@ -260,26 +260,7 @@ public class Partie {
 
 	//Permet d'emprunter de l'argent (ne compte pas comme une action)
 	private void contracterPret() {
-		System.out.println("Quel montant souhaitez-vous emprunter? (Doit être un multiple de 10)");
-		System.out.println("Le remboursemaent se fera en fin de partie au taux de 1.5%");
-		int Montant = 0;
-		
-		//On vérifie si l'entrée clavier est correct (int)
-		if(sc.hasNextInt()){
-			Montant = sc.nextInt();
-			if (Montant > 0 && Montant % 10 == 0) {
-				listeJoueurs.get(joueurActif).emprunter(Montant);
-				System.out.println("Vous venez d'emprunter £" + Montant);
-			} 
-			else{
-				System.err.println("Montant incorrect");
-			}
-		}
-		
-		//passe au prochaine scanner (si le précédent n'était pas un int)
-		else{
-			System.err.println("Montant incorrect");
-			sc.next();
-		}
+		//les vérifications sur le scanner se font dans la classe Joueur
+		listeJoueurs.get(joueurActif).emprunter(sc);	
 	}
 }
