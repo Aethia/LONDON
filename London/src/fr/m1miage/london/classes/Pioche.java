@@ -46,7 +46,7 @@ public class Pioche {
 	public void ajouterCarte(Carte c){
 		laPioche.add(c);
 	}
-	// retourner la première carte du de la pioche
+	// retourner la premiÃ¨re carte du de la pioche
 	public Carte tirerUneCarte() {
 		return laPioche.remove(0);
 	}

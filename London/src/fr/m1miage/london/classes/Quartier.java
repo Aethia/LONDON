@@ -16,16 +16,16 @@ public class Quartier {
 	//quartiers adjacents
 	private Set<Quartier> quartiersAdjacents = new HashSet<Quartier>();
 	
-	private boolean auSudTamise;//si situ�e au sud = true
+	private boolean auSudTamise;//si située au sud = true
 	
-	// m�tro possible sur le quartier ?
+	// métro possible sur le quartier ?
 	private boolean metro;
-	// y'a-t-il un m�tro sur le quartier ?
+	// y'a-t-il un métro sur le quartier ?
 	private boolean metro_pose;
 
-	// le joueur propri�taire du quartier
+	// le joueur propriétaire du quartier
 	private Joueur proprietaireQuartier;
-	// le joueur propri�taire du m�tro !
+	// le joueur propriétaire du métro !
 	private Joueur proprietaireMetro;
 	
 	public Quartier(){
@@ -40,11 +40,11 @@ public class Quartier {
 			return false;
 		}
 		this.proprietaireQuartier = joueur;
-		this.investir_possible = false; //quartier reserv�
+		this.investir_possible = false; //quartier reservé
 		
 		
 		for(Quartier q : this.quartiersAdjacents){
-			if(q.proprietaireQuartier==null){ //on rend les quartier "investissables" seulement s'ils ne sont pas deja occup�s
+			if(q.proprietaireQuartier==null){ //on rend les quartier "investissables" seulement s'ils ne sont pas deja occupés
 				q.investir_possible=true;
 			}
 		}
@@ -155,9 +155,9 @@ public class Quartier {
 	@Override
 	public String toString() {
 		StringBuilder msg = new StringBuilder();
-		msg.append("Quartier n�").append(id).append(" : ").append(nom);
+		msg.append("Quartier n°").append(id).append(" : ").append(nom);
 		msg.append("\n\t Prix : ").append(prix).append(" - Points de victoire : ").append(point_victoire);
-		msg.append(" - Nombre de cartes � piocher : ").append(nb_carte_a_piocher);
+		msg.append(" - Nombre de cartes à piocher : ").append(nb_carte_a_piocher);
 		if(investir_possible==true){
 			msg.append("\n\t Il est possible d'investir");
 		}else{

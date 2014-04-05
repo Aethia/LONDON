@@ -65,7 +65,7 @@ public class Partie {
 					condition = true;
 				}
 				else{
-					System.out.println("Valeur incorrecte. Il ne peut y avoir que de 2 � 5 joueurs.");
+					System.out.println("Valeur incorrecte. Il ne peut y avoir que de 2 à 5 joueurs.");
 				}
 			}
 			else{
@@ -115,17 +115,17 @@ public class Partie {
 				System.out.println("4. Piocher 3 cartes");
 				System.out.println(" -- Autre --");				
 			}		
-			System.out.println("5. Contracter un pr�t");
+			System.out.println("5. Contracter un prêt");
 			System.out.println("6. Consulter mes cartes en main");
-			System.out.println("7. Consulter l'�talage de cartes");
+			System.out.println("7. Consulter l'étalage de cartes");
 			System.out.println("8. Finir mon tour");
 			
 			// switch de l'action
 			switch(sc.nextInt()){
 				case 1: {
-					// si une action a d�j� �t� faite dans le tour
+					// si une action a déjà été faite dans le tour
 					if (actionEffectuee) {
-						System.err.println("Vous avez d�j� effectu� une action pour ce tour!");
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
 						break;
 					}
 					jouerCarte();
@@ -134,9 +134,9 @@ public class Partie {
 				}
 					
 				case 2: {
-					// si une action a d�j� �t� faite dans le tour
+					// si une action a déjà été faite dans le tour
 					if (actionEffectuee) {
-						System.err.println("Vous avez d�j� effectu� une action pour ce tour!");
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
 						break;
 					}
 					restaurerVille();
@@ -145,9 +145,9 @@ public class Partie {
 				}
 					
 				case 3: {
-					// si une action a d�j� �t� faite dans le tour
+					// si une action a déjà été faite dans le tour
 					if (actionEffectuee) {
-						System.err.println("Vous avez d�j� effectu� une action pour ce tour!");
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
 						break;
 					}
 					investir();
@@ -156,9 +156,9 @@ public class Partie {
 				}
 					
 				case 4: {
-					// si une action a d�j� �t� faite dans le tour
+					// si une action a déjà été faite dans le tour
 					if (actionEffectuee) {
-						System.err.println("Vous avez d�j� effectu� une action pour ce tour!");
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
 						break;
 					}
 					piocherCartes();
@@ -205,17 +205,22 @@ public class Partie {
 	private void investir() {
 		System.out.println(plateau.getQuartiers());
 		System.out.println("Dans quel quartier souhaitez vous investir ? (indiquer son numero)");
-		int quartier=0;
+		
+		listeJoueurs.get(joueurActif).invest(sc, plateau, pioche);
+		
+		/*int quartier=0;
 		
 		if(sc.hasNextInt()){
 			quartier = sc.nextInt();
-			listeJoueurs.get(joueurActif).invest(quartier, plateau, pioche);
+			//listeJoueurs.get(joueurActif).invest(quartier, plateau, pioche);
 		}
-		//passe au prochaine scanner (le pr�c�dent n'�tant pas un int)
+		//passe au prochaine scanner (le précédent n'étant pas un int)
 		else{
 			System.err.println("Numero de quartier incorrect");
 			sc.next();
-		}
+		}*/
+		
+		
 	}
 	
 	
@@ -229,7 +234,7 @@ public class Partie {
 	}
 
 	private void consulterEtalage() {
-		System.out.println("Vous voulez consulter l'�talage de cartes");
+		System.out.println("Vous voulez consulter l'étalage de cartes");
 	}
 
 	private void consulterMain() {
@@ -237,6 +242,6 @@ public class Partie {
 	}
 
 	private void contracterPret() {
-		System.out.println("Vous voulez contracter un pr�t");
+		System.out.println("Vous voulez contracter un prêt");
 	}
 }

@@ -65,7 +65,7 @@ public class Main implements Cloneable{
 	}
 
 	/*
-	 * vérifier si le joueur peut ou non finir son tour
+	 * vÃ©rifier si le joueur peut ou non finir son tour
 	 */
 	public Boolean VerifierQteCarteFinDeTour(){
 		if (this.getNb_cartes() <= 9)
@@ -77,7 +77,7 @@ public class Main implements Cloneable{
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#clone()
-	 * implémentation de l'interface Clonable
+	 * implÃ©mentation de l'interface Clonable
 	 */
 	public Main clone() {
 	    Main main = null;
