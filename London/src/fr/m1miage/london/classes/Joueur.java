@@ -154,7 +154,7 @@ public class Joueur {
 		int Montant = 0;
 		
 		System.out.println("Quel montant souhaitez-vous emprunter? (Doit être un multiple de 10)");
-		System.out.println("Le remboursemaent se fera en fin de partie au taux de 1.5%");
+		System.out.println("Le remboursement se fera en fin de partie au taux de 1.5%");
 		
 		//On vérifie si l'entrée clavier est correct (int)
 		if(sc.hasNextInt()){
