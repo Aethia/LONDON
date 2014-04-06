@@ -6,7 +6,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
-
 import fr.m1miage.london.Partie;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.screens.MainMenuScreen;
@@ -15,7 +14,7 @@ import fr.m1miage.london.ui.screens.Screen;
 public class LondonGame implements ApplicationListener {
 
 	private Screen screen;
-	public static Partie partie;
+	public Partie partie;
 	
 
 

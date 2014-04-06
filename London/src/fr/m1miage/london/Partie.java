@@ -2,7 +2,6 @@ package fr.m1miage.london;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,8 +22,8 @@ public class Partie {
 	private final Color bleu = Color.blue;
 
 	// le joueur actuellement actif
-
 	private int joueurActif=0;
+	private boolean tourTermine=false;
 
 	private int typeGUI=0; // par defaut : 0 => console, 1 = Graphique
 
@@ -335,6 +334,18 @@ public class Partie {
 	public void setJoueurActif(int joueurActif) {
 		this.joueurActif = joueurActif;
 	}
+
+
+	public boolean isTourTermine() {
+		return tourTermine;
+	}
+
+
+	public void setTourTermine(boolean tourTermine) {
+		this.tourTermine = tourTermine;
+	}
+	
+	
 
 
 }

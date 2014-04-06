@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import fr.m1miage.london.Regles;
 import fr.m1miage.london.classes.Joueur;
-import fr.m1miage.london.ui.LondonGame;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -32,7 +31,7 @@ public class EmprunterScreen extends Screen{
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 
-		final Joueur j = LondonGame.partie.getObjJoueurActif();
+		final Joueur j = londonG.partie.getObjJoueurActif();
 		Table tableauEmprunts = new Table();
 		tableauEmprunts.setPosition(700, 465);
 		for(int i=10; i<=Regles.EMPRUNTMAX;i=i+10){

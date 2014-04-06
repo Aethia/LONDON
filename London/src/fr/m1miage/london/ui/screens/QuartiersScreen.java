@@ -11,8 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import fr.m1miage.london.classes.Quartier;
-
-import fr.m1miage.london.ui.LondonGame;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -61,7 +59,7 @@ public class QuartiersScreen extends Screen{
 		int marginLeft = 90;
 		int marginTop = 70;
 		int i=0;
-		Map<Integer, Quartier> quartiers = LondonGame.partie.getPlateau().getQuartiers();
+		Map<Integer, Quartier> quartiers = londonG.partie.getPlateau().getQuartiers();
 		for(Integer q: quartiers.keySet()){
 			final Integer j = q;
 			if(i==10){marginLeft = 290; i=0;}
@@ -115,7 +113,7 @@ public class QuartiersScreen extends Screen{
 		Fonts.FONT_TITLE.draw(spriteBatch, "QUARTIERS", 500, 20);
 
 		if(nbQuartierSelected!=0){
-			Quartier quartier = LondonGame.partie.getPlateau().getQuartier(nbQuartierSelected);
+			Quartier quartier = londonG.partie.getPlateau().getQuartier(nbQuartierSelected);
 			Fonts.FONT_TITLE_QUARTIER.draw(spriteBatch, quartier.getNom(), 600, 170);
 
 			//livres

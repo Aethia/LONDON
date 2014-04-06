@@ -29,6 +29,7 @@ public class Buttons {
 	public static ButtonStyle styleBtnRestaurer;
 	public static ButtonStyle styleBtnInvestir;
 	public static ButtonStyle styleBtnPiocher;
+	public static ButtonStyle styleBtnFinTour;
 	
 	/*Emprunts*/
 	public static TextButtonStyle styleEmprunt1;
@@ -37,6 +38,16 @@ public class Buttons {
 	
 	public static TextButton button; 
 	private static BitmapFont font;
+	
+	private static void boutonFinTour(){
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE_ACTIONS+"buttonFinTour.pack"); 
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas); 
+		styleBtnFinTour = new ButtonStyle();
+		styleBtnFinTour.up = buttonSkin.getDrawable("ButtonOff");
+		styleBtnFinTour.down = buttonSkin.getDrawable("ButtonOn");
+	}
+	
 
 	private static void boutonsEmprunt(){
 		TextureAtlas btnAtlas1 = new TextureAtlas(Prefs.REPERTOIRE_EMPRUNTS+"btnEmprunt1.pack"); 
@@ -59,7 +70,7 @@ public class Buttons {
 	}
 	
 	private static void boutonPiocher(){
-		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE+"buttonPiocher.pack"); 
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE_ACTIONS+"buttonPiocher.pack"); 
 		Skin buttonSkin = new Skin();
 		buttonSkin.addRegions(btnAtlas); 
 		styleBtnPiocher = new ButtonStyle();
@@ -68,7 +79,7 @@ public class Buttons {
 	}
 	
 	private static void boutonInvestir(){
-		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE+"buttonInvestir.pack"); 
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE_ACTIONS+"buttonInvestir.pack"); 
 		Skin buttonSkin = new Skin();
 		buttonSkin.addRegions(btnAtlas); 
 		styleBtnInvestir = new ButtonStyle();
@@ -77,7 +88,7 @@ public class Buttons {
 	}
 	
 	private static void boutonRestaurer(){
-		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE+"buttonRestaurer.pack"); 
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE_ACTIONS+"buttonRestaurer.pack"); 
 		Skin buttonSkin = new Skin();
 		buttonSkin.addRegions(btnAtlas); 
 		styleBtnRestaurer = new ButtonStyle();
@@ -86,7 +97,7 @@ public class Buttons {
 	}
 	
 	private static void boutonConstruire(){
-		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE+"buttonConstruire.pack"); 
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE_ACTIONS+"buttonConstruire.pack"); 
 		Skin buttonSkin = new Skin();
 		buttonSkin.addRegions(btnAtlas); 
 		styleBtnConstruire = new ButtonStyle();
@@ -181,5 +192,6 @@ public class Buttons {
 		boutonInvestir();
 		boutonPiocher();
 		boutonsEmprunt();
+		boutonFinTour();
 	}
 }
