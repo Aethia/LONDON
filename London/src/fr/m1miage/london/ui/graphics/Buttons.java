@@ -1,43 +1,111 @@
 package fr.m1miage.london.ui.graphics;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
-import fr.m1miage.london.ui.screens.GameScreen;
-import fr.m1miage.london.ui.screens.Screen;
+import fr.m1miage.london.ui.Prefs;
 
 
 
 public class Buttons {
+	public static TextButtonStyle nbButtonStyle;
+	
 	/*----- boutons de style liste in game ------*/
 	public static BitmapFont fontBtnGame;
 	public static TextButtonStyle styleInGameMenu;
-
 	public static TextButtonStyle styleInGameMenuDisabled;
 	
-	public static TextButton button; //** the button - the only actor in program **//
-	private static BitmapFont font; //** same as that used in Tut 7 **//
-
-
-	public static Map<Integer,TextButton> buttonsNbj=new HashMap<Integer,TextButton>() ; //boutons nombre de joueurs
-	public static int idBtnSelected=0;
 	
-	public static TextButton btnValider;
+	/*Actions*/
+	public static ButtonStyle styleBtnConstruire;
+	public static ButtonStyle styleBtnRestaurer;
+	public static ButtonStyle styleBtnInvestir;
+	public static ButtonStyle styleBtnPiocher;
+	
+	/*Emprunts*/
+	public static TextButtonStyle styleEmprunt1;
+	public static TextButtonStyle styleEmprunt2;
+
+	
+	public static TextButton button; 
+	private static BitmapFont font;
+
+	private static void boutonsEmprunt(){
+		TextureAtlas btnAtlas1 = new TextureAtlas(Prefs.REPERTOIRE_EMPRUNTS+"btnEmprunt1.pack"); 
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas1); 
+		styleEmprunt1 = new TextButtonStyle();
+		styleEmprunt1.up = buttonSkin.getDrawable("ButtonOff");
+		styleEmprunt1.down = buttonSkin.getDrawable("ButtonOn");
+		styleEmprunt1.font = font;
+		styleEmprunt1.fontColor = Color.BLACK;
+		
+		TextureAtlas btnAtlas2 = new TextureAtlas(Prefs.REPERTOIRE_EMPRUNTS+"btnEmprunt2.pack"); 
+		buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas2); 
+		styleEmprunt2 = new TextButtonStyle();
+		styleEmprunt2.up = buttonSkin.getDrawable("ButtonOff");
+		styleEmprunt2.down = buttonSkin.getDrawable("ButtonOn");
+		styleEmprunt2.font = font;
+		styleEmprunt2.fontColor = Color.BLACK;
+	}
+	
+	private static void boutonPiocher(){
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE+"buttonPiocher.pack"); 
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas); 
+		styleBtnPiocher = new ButtonStyle();
+		styleBtnPiocher.up = buttonSkin.getDrawable("ButtonOff");
+		styleBtnPiocher.down = buttonSkin.getDrawable("ButtonOn");
+	}
+	
+	private static void boutonInvestir(){
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE+"buttonInvestir.pack"); 
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas); 
+		styleBtnInvestir = new ButtonStyle();
+		styleBtnInvestir.up = buttonSkin.getDrawable("ButtonOff");
+		styleBtnInvestir.down = buttonSkin.getDrawable("ButtonOn");
+	}
+	
+	private static void boutonRestaurer(){
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE+"buttonRestaurer.pack"); 
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas); 
+		styleBtnRestaurer = new ButtonStyle();
+		styleBtnRestaurer.up = buttonSkin.getDrawable("ButtonOff");
+		styleBtnRestaurer.down = buttonSkin.getDrawable("ButtonOn");		
+	}
+	
+	private static void boutonConstruire(){
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE+"buttonConstruire.pack"); 
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas); 
+		styleBtnConstruire = new ButtonStyle();
+		styleBtnConstruire.up = buttonSkin.getDrawable("ButtonOff");
+		styleBtnConstruire.down = buttonSkin.getDrawable("ButtonOn");
+	}
+
+	
+	private static void boutonStyleNbJ(){
+		TextureAtlas btnNbJoueursAtlas = new TextureAtlas("ressources/Images/nbJoueursBtn.pack"); //** button atlas image **//
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnNbJoueursAtlas); //** skins for on and off **//
+		nbButtonStyle = new TextButtonStyle(); //** Button properties **//
+		nbButtonStyle.up = buttonSkin.getDrawable("ButtonOff");
+		nbButtonStyle.over = buttonSkin.getDrawable("ButtonOver");
+		nbButtonStyle.down = buttonSkin.getDrawable("ButtonOn");
+		nbButtonStyle.font = font;
+		nbButtonStyle.fontColor = Color.BLACK;
+	}
 	
 	private static void boutonStyleInGameDisabled(){
 		TextureAtlas btnNbJoueursAtlas = new TextureAtlas("ressources/Images/btnMenu.pack");
@@ -63,53 +131,7 @@ public class Buttons {
 		styleInGameMenu.fontColor = Color.WHITE;
 	}
 	
-	private static void boutonNbJoueurs(){
-		TextureAtlas btnNbJoueursAtlas = new TextureAtlas("ressources/Images/nbJoueursBtn.pack"); //** button atlas image **//
-		final Skin buttonSkin = new Skin();
-		buttonSkin.addRegions(btnNbJoueursAtlas); //** skins for on and off **//
-		int i;
-		for(i=2;i<6;i++){
-
-			final TextButtonStyle style = new TextButtonStyle(); //** Button properties **//
-			style.up = buttonSkin.getDrawable("ButtonOff");
-			style.over = buttonSkin.getDrawable("ButtonOver");
-			style.down = buttonSkin.getDrawable("ButtonOn");
-			style.font = font;
-			style.fontColor = Color.BLACK;
-			TextButton b = new TextButton(""+i,style); //** Button text and style **//
-			b.setPosition(450+(i*100), 575); //** Button location **//
-			b.setHeight(75); //** Button Height **//
-			b.setWidth(75); //** Button Width **//
-			buttonsNbj.put(i, b);
-		}
-		//pour chaque bouton, on va attribuer un listener
-		for(i=2;i<6;i++){
-			final int num = i;
-			buttonsNbj.get(i).addListener(new InputListener(){
-
-				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button) {
-					// TODO Auto-generated method stub
-					TextButton btnSelected  = buttonsNbj.get(num);
-					//aucun de deja selectionné
-					if(idBtnSelected!=num && idBtnSelected!=0){ //deselectionner l'ancien
-						
-						TextButton btnDeselect = buttonsNbj.get(idBtnSelected);
-						btnDeselect.getStyle().up = buttonSkin.getDrawable("ButtonOff");
-						btnDeselect.getStyle().over = buttonSkin.getDrawable("ButtonOver");
-					}
-					idBtnSelected=num;
-					btnSelected.getStyle().up = buttonSkin.getDrawable("ButtonOn");
-					btnSelected.getStyle().over = buttonSkin.getDrawable("ButtonOn");
-					System.out.println("Bouton selectionné : " + idBtnSelected);
-					return true;
-				}				
-
-			});
-		}
-
-	}
+	
 
 	private static void boutonChoixJoueur(){
 		TextureAtlas buttonJoueursAtlas = new TextureAtlas("ressources/Images/buttonJoueurs.pack"); //** button atlas image **// 
@@ -143,43 +165,21 @@ public class Buttons {
 	}
 	
 	
-	private static void boutonValider(){
-		TextureAtlas buttonJoueursAtlas = new TextureAtlas("ressources/Images/buttonValider.pack"); //** button atlas image **// 
-		Skin buttonSkin = new Skin();
-		buttonSkin.addRegions(buttonJoueursAtlas); //** skins for on and off **//        
-		TextButtonStyle style = new TextButtonStyle(); //** Button properties **//
-		style.up = buttonSkin.getDrawable("ButtonOff");
-		style.font = font;
-		
-		btnValider = new TextButton("", style); //** Button text and style **//
-
-		btnValider.setPosition(600, -150); //** Button location **//
-		btnValider.setHeight(256); //** Button Height **//
-		btnValider.setWidth(256); //** Button Width **//
-		btnValider.addListener(new InputListener() {
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				// TODO Auto-generated method stub
-				System.err.println("ok");
-				Screen.setScreen(new GameScreen());	
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-	}
+	
 
 	public static void load () {
 		font = new BitmapFont(Gdx.files.internal("ressources/Fnt/arial.fnt")); //** font 
 
 		fontBtnGame = new BitmapFont(Gdx.files.internal("ressources/Fnt/fnt1.fnt")); //** font 
 
-		boutonNbJoueurs();
 		boutonChoixJoueur();
-		boutonValider();
 		boutonStyleInGame();
 		boutonStyleInGameDisabled();
-
-
+		boutonStyleNbJ();
+		boutonConstruire();
+		boutonRestaurer();
+		boutonInvestir();
+		boutonPiocher();
+		boutonsEmprunt();
 	}
 }

@@ -150,15 +150,8 @@ public class Joueur {
 	/*
 	 * Emprunter de l'argent
 	 */
-	public void emprunter(Scanner sc){
-		int Montant = 0;
-		
-		System.out.println("Quel montant souhaitez-vous emprunter? (Doit être un multiple de 10)");
-		System.out.println("Le remboursement se fera en fin de partie au taux de 1.5%");
-		
-		//On vérifie si l'entrée clavier est correct (int)
-		if(sc.hasNextInt()){
-			Montant = sc.nextInt();
+	public void emprunter(int Montant){
+
 			if (Montant > 0 && Montant % 10 == 0) {
 				this.argent += Montant;
 				this.montantEmprunts += Montant;
@@ -167,12 +160,6 @@ public class Joueur {
 			else{
 				System.err.println("Montant incorrect \n");
 			}
-		}
-		
-		//On indique qu'il y a une erreur et on passe au prochaine scanner (si l'entrée n'était pas un int)
-		else{
-			System.err.println("Montant incorrect \n");
-			sc.next();
-		}
+
 	}
 }
