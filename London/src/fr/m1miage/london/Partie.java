@@ -311,18 +311,20 @@ public class Partie {
 		//les vérifications sur le scanner se font dans la classe Joueur
 		int Montant = 0;
 		
-		System.out.println("Quel montant souhaitez-vous emprunter? (Doit être un multiple de 10)");
+		System.out.println("Quel montant souhaitez-vous emprunter? (Doit être un entier multiple de 10)");
 		System.out.println("Le remboursement se fera en fin de partie au taux de 1.5%");
 		
 		//On vérifie si l'entrée clavier est correct (int)
 		if(sc.hasNextInt()){
+			String message ="";
 			Montant = sc.nextInt();
-			listeJoueurs.get(joueurActif).emprunter(Montant);
+			message = listeJoueurs.get(joueurActif).emprunter(Montant);
+			System.out.println(message);
 		}
 		
 		//On indique qu'il y a une erreur et on passe au prochaine scanner (si l'entrée n'était pas un int)
 		else{
-			System.err.println("Montant incorrect \n");
+			System.err.println("La montant doit être un entier multiple de 10 \n");
 			sc.next();
 		}
 	}

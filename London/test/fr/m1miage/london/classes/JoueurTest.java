@@ -34,7 +34,7 @@ public class JoueurTest {
 		
 		assertNotSame(j.getMainDuJoueur(), j.getMainDuJoueurCopie());
 	}
-	
+
 	@Test
 	public void testGetCartesCouleur(){
 		Carte c3 = new Carte(3, "nom2", "A", 1, "Rose", null);
@@ -51,6 +51,24 @@ public class JoueurTest {
 		j.ajouterCarteMain(c3);
 		cartes.add(c1);
 		assertEquals(new ArrayList<Carte>(), j.getCartesCouleur(c3));
+	}
+	@Test
+	
+	public void testEmpruntNegative(){
+		Joueur j = new Joueur(1,"toto",Color.black);
+		assertEquals("Montant incorrect \n", j.emprunter(-1));
+	}
+	@Test
+	
+	public void testEmpruntZero(){
+		Joueur j = new Joueur(1,"toto",Color.black);
+		assertEquals("Montant incorrect \n", j.emprunter(0));
+	}	@Test
+	
+	public void testEmpruntMultiple(){
+		Joueur j = new Joueur(1,"toto",Color.black);
+		j.emprunter(10);
+		assertEquals(15, j.getArgent());
 	}
 	
 	@Test
@@ -77,6 +95,26 @@ public class JoueurTest {
 	}
 	
 	@Test
+	
+	public void testEmpruntPasMultiple(){
+		Joueur j = new Joueur(1,"toto",Color.black);
+		assertEquals("Montant incorrect \n", j.emprunter(1));
+	}	@Test
+	
+	public void testEmpruntHorsLimite(){
+		Joueur j = new Joueur(1,"toto",Color.black);
+		assertEquals("Montant incorrect \n", j.emprunter(110));
+	}	@Test
+	
+	public void testEmpruntLimite(){
+		Joueur j = new Joueur(1,"toto",Color.black);
+		j.emprunter(50);
+		assertEquals(55, j.getArgent());
+		assertEquals("Montant incorrect \n", j.emprunter(60));
+	}
+		
+	
+	@Test
 	public void testVerifPresenceCarte(){
 		List<Carte> cartes = new ArrayList<Carte>();
 		cartes.add(c);
@@ -89,6 +127,5 @@ public class JoueurTest {
 		cartes.add(c);
 		assertNotEquals(true, j.verifPresenceCarte(c1, cartes));
 	}
-
 
 }
