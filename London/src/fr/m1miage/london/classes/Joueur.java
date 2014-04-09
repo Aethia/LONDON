@@ -159,12 +159,8 @@ public class Joueur {
 					cartesCouleur.add(i);
 				}
 			}
-			if(cartesCouleur.size()==0){
-				return null;
-			}
-			else{
-				return cartesCouleur;
-			}
+			return cartesCouleur;
+			
 		}
 	
 	//on vérifie que la carte choisie par la joueur existe dans sa main

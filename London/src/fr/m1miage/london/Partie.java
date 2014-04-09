@@ -2,7 +2,6 @@ package fr.m1miage.london;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -283,9 +282,8 @@ public class Partie {
 			listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
 			System.out.println("Choisir une pile ou en créer une nouvelle (0):");
 			int indexPile=Integer.parseInt(sc.next());	
-			listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
-			System.out.println("Votre carte a été ajoutée.");
-				
+			String message = listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
+			System.out.println(message);
 			System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
 			
 			System.out.println(listeJoueurs.get(joueurActif).getArgent());
