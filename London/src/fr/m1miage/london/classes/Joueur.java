@@ -150,16 +150,22 @@ public class Joueur {
 	/*
 	 * Emprunter de l'argent
 	 */
-	public void emprunter(int Montant){
-
-			if (Montant > 0 && Montant % 10 == 0) {
-				this.argent += Montant;
-				this.montantEmprunts += Montant;
-				System.out.println("Vous venez d'emprunter £" + Montant + ". \n");
-			} 
-			else{
-				System.err.println("Montant incorrect \n");
-			}
+	public String emprunter(int Montant){
+		String msg ="";
+		
+		//On vérifie 
+		if (Montant > 0 && Montant % 10 == 0 && (montantEmprunts + Montant) <= 100) {
+			this.argent += Montant;
+			this.montantEmprunts += Montant;
+			
+			msg ="Vous venez d'emprunter £" + Montant + ". \n";
+			//System.out.println("Vous venez d'emprunter £" + Montant + ". \n");
+		} 
+		else{
+			msg ="Montant incorrect \n";
+			//System.err.println("Montant incorrect \n");
+		}
+		return msg;
 
 	}
 }
