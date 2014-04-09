@@ -59,7 +59,7 @@ public class Partie {
 			System.out.println("Entrez le nombre de joueurs : ");
 			if(sc.hasNextInt()){
 				int reponse=sc.nextInt();
-				if(reponse < Regles.NBMAXJOUEURS){
+				if(reponse <= Regles.NBMAXJOUEURS){
 					nbJoueurs = reponse;	
 					condition = true;
 				}

@@ -178,12 +178,11 @@ public class Joueur {
 		}
 	
 	//On construit "une carte" sur une pile donnée, et on défausse une carte de la même couleur
-	public int construire(Carte cPosee, Carte cDefaussee, int indexPile){
+	public String construire(Carte cPosee, Carte cDefaussee, int indexPile){
 		if(this.verifPresenceCarte(cPosee, mainDuJoueur.getLesCartes())){
 			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
 				if(cPosee.getPrix()<= argent){ 		
 					if(this.zoneConstruction.getNbPiles()==0 || indexPile == 0){ //s'il n'y a pas de piles ou que le joueur choisit l'option créer une pile
-						System.out.println("Création d'une nouvelle pile...");
 						this.zoneConstruction.addPile(cPosee);	
 					}
 					else{
@@ -193,21 +192,19 @@ public class Joueur {
 					this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
 					this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
 					Plateau.etalage.ajouterCarte(cDefaussee);
-					return 1;
+					return "Construction terminée !";
 				}
 				else{
-					System.out.println("Argent insuffisant");
-					return -1; //Argent insuffisant
+					return "Argent insuffisant";
 				}
 			}
 			else{
-				System.out.println("Carte à défausser n'existe pas");
-				return -2; //La carte à défausser n'existe pas dans la main du joueur
+				return "Carte à défausser n'existe pas";
+				
 			}
 		}
 		else{
-			System.out.println("Carte à poser n'existe pas");
-			return -3;//La carte à poser n'existe pas dans la main du joueur
+			return "Carte à poser n'existe pas";
 		}
 	}
 	
