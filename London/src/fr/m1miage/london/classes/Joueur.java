@@ -1,17 +1,15 @@
 package fr.m1miage.london.classes;
 
 import java.awt.Color;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 import fr.m1miage.london.Regles;
 
 public class Joueur {
 	private int id;
 	private String nom;
 	private Color couleur;
-	// les points de pauvreté du joueur
+	// les points de pauvretÃ© du joueur
 	private int point_pauvrete;
 	// les pts de victoire du joueur
 	private int point_victoire;
@@ -19,7 +17,7 @@ public class Joueur {
 	private int argent;
 	
 	private int montantEmprunts;
-	// les zones de construction qu'il peut posséder
+	// les zones de construction qu'il peut possÃ©der
 	private ZoneConstruction zoneConstruction;
 	// la main du joueurs (ses cartes)
 	private Main mainDuJoueur;
@@ -37,6 +35,7 @@ public class Joueur {
 		point_victoire=0;
 		montantEmprunts=0;
 		mainDuJoueur = new Main();
+		zoneConstruction=new ZoneConstruction();
 	}
 
 
@@ -125,8 +124,12 @@ public class Joueur {
 		return this.mainDuJoueur.supprimerCarteParId(idCarte);
 	}
 	
+	public Carte choisirCarteParId(int idCarte){
+		return this.mainDuJoueur.choisirCarte(idCarte);				
+	}
+	
 	/*
-	 * vérifier si le joueur peut finir son tour
+	 * vÃ©rifier si le joueur peut finir son tour
 	 */
 	public Boolean VerifierFinDeTour(){
 		return this.mainDuJoueur.VerifierQteCarteFinDeTour();
@@ -145,13 +148,141 @@ public class Joueur {
 	public int getNb_cartes() {
 		return this.mainDuJoueur.getNb_cartes();
 	}
+
 	
-	/*
-	 * emprunter de l'argent
-	 */
-	public void emprunter(int montant){
+	public String invest(int quartier, Plateau plateau,Pioche pioche){
 		
-		this.argent += montant;
-		this.montantEmprunts += montant;
+		boolean investir;
+		String msg;
+
+			if (quartier > 0 && quartier < 21) {
+				
+				//on verifie si le joueur Ã  assez d'argent
+				if(this.getArgent()>=plateau.getQuartier(quartier).getPrix()){
+					
+					//on verifie si on peut investir dans le quartier
+					investir = plateau.getQuartier(quartier).investirQuartier(this);
+					
+					//si oui la fonction investirQuartier renvoie true et met a jour les quartiers adjacents
+					if(investir==true){
+						this.argent-=plateau.getQuartier(quartier).getPrix();
+						
+						//le joueur pioche le nb de cartes prÃ©cisÃ© sur le quartier
+						this.ajouterCartesMain(pioche.tirerNCartes(plateau.getQuartier(quartier).getNb_carte_a_piocher()));
+						
+						msg="Vous venez d'investir dans le quartier : " + plateau.getQuartier(quartier).getNom() + " !\n";
+						return msg;
+					}	
+					else{
+						msg="pas assez d'argent";
+						return msg;
+					}	
+				}	
+				else
+					msg="DÃ©solÃ© vous ne pouvez pas investir dans ce quartier !";
+					return msg;
+			}
+			else
+				msg="Numero de quartier incorrect";
+				return msg;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	//affiche les cartes de la même couleur qu'une carte choisie
+		public List<Carte> getCartesCouleur(Carte c){
+			String couleur = c.getCouleur();
+			List<Carte> cartesCouleur = new ArrayList<Carte>();
+			for(Carte i:this.getMainDuJoueur().getLesCartes()){
+				if(i.getCouleur().compareTo(couleur)==0 && i!=c){
+					cartesCouleur.add(i);
+				}
+			}
+			return cartesCouleur;
+			
+		}
+	
+	//on vérifie que la carte choisie par la joueur existe dans sa main
+		public boolean verifPresenceCarte(Carte carte, List<Carte> liste){
+			boolean presence=false;
+			for(Carte c:liste){
+				if(c.getId_carte() == carte.getId_carte()){
+					presence = true;
+				}
+			}
+			
+			return presence;
+		}
+	
+	//On construit "une carte" sur une pile donnée, et on défausse une carte de la même couleur
+	public String construire(Carte cPosee, Carte cDefaussee, int indexPile){
+		if(this.verifPresenceCarte(cPosee, mainDuJoueur.getLesCartes())){
+			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
+				if(cPosee.getPrix()<= argent){ 		
+					if(this.zoneConstruction.getNbPiles()==0 || indexPile == 0){ //s'il n'y a pas de piles ou que le joueur choisit l'option créer une pile
+						this.zoneConstruction.addPile(cPosee);	
+					}
+					else{
+						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le numéro de la pile
+					}			
+					argent -= cPosee.getPrix();
+					this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
+					this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
+					Plateau.etalage.ajouterCarte(cDefaussee);
+					return "Construction terminée !";
+				}
+				else{
+					return "Argent insuffisant";
+				}
+			}
+			else{
+				return "Carte à défausser n'existe pas";
+				
+			}
+		}
+		else{
+			return "Carte à poser n'existe pas";
+		}
+	}
+	
+	public void piocher(Pioche laPioche){
+		mainDuJoueur.ajouterCarte(laPioche.tirerUneCarte());
+	}
+
+
+	/*
+	 * Emprunter de l'argent
+	 */
+	public String emprunter(int Montant){
+		String msg ="";
+		
+		//On vérifie 
+		if (Montant > 0 && Montant % 10 == 0 && (montantEmprunts + Montant) <= 100) {
+			this.argent += Montant;
+			this.montantEmprunts += Montant;
+			
+			msg ="Vous venez d'emprunter £" + Montant + ". \n";
+			//System.out.println("Vous venez d'emprunter £" + Montant + ". \n");
+		} 
+		else{
+			msg ="Montant incorrect \n";
+			//System.err.println("Montant incorrect \n");
+		}
+		return msg;
+
 	}
 }
