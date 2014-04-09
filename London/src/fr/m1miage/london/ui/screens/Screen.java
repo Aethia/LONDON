@@ -39,12 +39,6 @@ public abstract class Screen {
 	}
 
 	public static void setScreen (Screen screen) {
-
-		time = 0;
-		while(time<100){
-			time++;
-			System.out.println(time);
-		}
 		londonG.setScreen(screen);
 	}
 

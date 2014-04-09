@@ -68,7 +68,7 @@ public class QuartiersScreen extends Screen{
 						messageInvestir = "Veuillez selectionner un quartier";
 					}else{
 						Joueur j = londonG.partie.getObjJoueurActif();
-						//methode investir 
+						System.out.println(j.invest(nbQuartierSelected, londonG.partie.getPlateau(), londonG.partie.getPioche()));
 						londonG.partie.setTourTermine(true);
 						
 					}
