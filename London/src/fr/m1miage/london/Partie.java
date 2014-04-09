@@ -127,38 +127,8 @@ public class Partie {
 						System.err.println("Vous avez déjà effectué une action pour ce tour!");
 						break;
 					}
-					int finConstruction=1;
-					System.out.println(Plateau.etalage.toString());
-					while(finConstruction == 1){
-						System.out.println(listeJoueurs.get(joueurActif).getArgent());
-						listeJoueurs.get(joueurActif).afficherMain();
-						System.out.println("Choisissez la carte à poser dans la zone de construction : ");
-						int idCarte=(Integer.parseInt(sc.next()));
-						Carte cPosee = listeJoueurs.get(joueurActif).choisirCarteParId(idCarte);
-						System.out.println("Quelle carte de même couleur voulez-vous défausser ?");
-						System.out.println(listeJoueurs.get(joueurActif).getCartesCouleur(cPosee).toString());
-						int idCarteDefausse=Integer.parseInt(sc.next());
-						Carte cDefausse = listeJoueurs.get(joueurActif).choisirCarteParId(idCarteDefausse);
-						listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
-						System.out.println("Choisir une pile ou en créer une nouvelle (0):");
-						int indexPile=Integer.parseInt(sc.next());	
-						listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
-						System.out.println("Votre carte a été ajoutée.");
 							
-						System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
-						
-						System.out.println(listeJoueurs.get(joueurActif).getArgent());
-						listeJoueurs.get(joueurActif).afficherMain();
-						System.out.println(Plateau.etalage.toString());
-						
-						System.out.println("1. Rejouer une carte \n 2. Finir les constructions");
-						if(sc.hasNextInt()){
-							finConstruction = sc.nextInt();
-						}
-					}		
 							
-						
-					
 					jouerCarte();
 					actionEffectuee = true;
 					break;
@@ -243,7 +213,35 @@ public class Partie {
 	}
 
 	private void jouerCarte() {
-		System.out.println("vous voulez jouer une carte");
+		int finConstruction=1;
+		System.out.println(Plateau.etalage.toString());
+		while(finConstruction == 1){
+			System.out.println(listeJoueurs.get(joueurActif).getArgent());
+			listeJoueurs.get(joueurActif).afficherMain();
+			System.out.println("Choisissez la carte à poser dans la zone de construction : ");
+			int idCarte=(Integer.parseInt(sc.next()));
+			Carte cPosee = listeJoueurs.get(joueurActif).choisirCarteParId(idCarte);
+			System.out.println("Quelle carte de même couleur voulez-vous défausser ?");
+			System.out.println(listeJoueurs.get(joueurActif).getCartesCouleur(cPosee).toString());
+			int idCarteDefausse=Integer.parseInt(sc.next());
+			Carte cDefausse = listeJoueurs.get(joueurActif).choisirCarteParId(idCarteDefausse);
+			listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
+			System.out.println("Choisir une pile ou en créer une nouvelle (0):");
+			int indexPile=Integer.parseInt(sc.next());	
+			listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
+			System.out.println("Votre carte a été ajoutée.");
+				
+			System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
+			
+			System.out.println(listeJoueurs.get(joueurActif).getArgent());
+			listeJoueurs.get(joueurActif).afficherMain();
+			System.out.println(Plateau.etalage.toString());
+			
+			System.out.println("1. Rejouer une carte \n 2. Finir les constructions");
+			if(sc.hasNextInt()){
+				finConstruction = sc.nextInt();
+			}
+		}
 	}
 
 	private void consulterEtalage() {
