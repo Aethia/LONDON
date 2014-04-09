@@ -2,10 +2,7 @@ package fr.m1miage.london.classes;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
 
 import fr.m1miage.london.Regles;
 
@@ -162,7 +159,12 @@ public class Joueur {
 					cartesCouleur.add(i);
 				}
 			}
-			return cartesCouleur;
+			if(cartesCouleur.size()==0){
+				return null;
+			}
+			else{
+				return cartesCouleur;
+			}
 		}
 	
 	//on vérifie que la carte choisie par la joueur existe dans sa main
