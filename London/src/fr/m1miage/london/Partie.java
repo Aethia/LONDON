@@ -8,6 +8,8 @@ import java.util.Scanner;
 import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.classes.Pioche;
 import fr.m1miage.london.classes.Plateau;
+import fr.m1miage.london.classes.Quartier;
+import fr.m1miage.london.db.QuartiersManager;
 
 
 public class Partie {
@@ -24,6 +26,7 @@ public class Partie {
 	
 	// le joueur actuellement actif
 	private int joueurActif;
+	private String message;
 	
 	
 	public Partie(){
@@ -63,7 +66,7 @@ public class Partie {
 					condition = true;
 				}
 				else{
-					System.out.println("Valeur incorrecte. Il ne peut y avoir que de 2 ‡ 5 joueurs.");
+					System.out.println("Valeur incorrecte. Il ne peut y avoir que de 2 √† 5 joueurs.");
 				}
 			}
 			else{
@@ -113,17 +116,17 @@ public class Partie {
 				System.out.println("4. Piocher 3 cartes");
 				System.out.println(" -- Autre --");				
 			}		
-			System.out.println("5. Contracter un prÍt");
+			System.out.println("5. Contracter un pr√™t");
 			System.out.println("6. Consulter mes cartes en main");
-			System.out.println("7. Consulter l'Ètalage de cartes");
+			System.out.println("7. Consulter l'√©talage de cartes");
 			System.out.println("8. Finir mon tour");
 			
 			// switch de l'action
 			switch(sc.nextInt()){
 				case 1: {
-					// si une action a dÈj‡ ÈtÈ faite dans le tour
+					// si une action a d√©j√† √©t√© faite dans le tour
 					if (actionEffectuee) {
-						System.err.println("Vous avez dÈj‡ effectuÈ une action pour ce tour!");
+						System.err.println("Vous avez d√©j√† effectu√© une action pour ce tour!");
 						break;
 					}
 					jouerCarte();
@@ -132,9 +135,9 @@ public class Partie {
 				}
 					
 				case 2: {
-					// si une action a dÈj‡ ÈtÈ faite dans le tour
+					// si une action a d√©j√† √©t√© faite dans le tour
 					if (actionEffectuee) {
-						System.err.println("Vous avez dÈj‡ effectuÈ une action pour ce tour!");
+						System.err.println("Vous avez d√©j√† effectu√© une action pour ce tour!");
 						break;
 					}
 					restaurerVille();
@@ -143,9 +146,9 @@ public class Partie {
 				}
 					
 				case 3: {
-					// si une action a dÈj‡ ÈtÈ faite dans le tour
+					// si une action a d√©j√† √©t√© faite dans le tour
 					if (actionEffectuee) {
-						System.err.println("Vous avez dÈj‡ effectuÈ une action pour ce tour!");
+						System.err.println("Vous avez d√©j√† effectu√© une action pour ce tour!");
 						break;
 					}
 					investir();
@@ -154,9 +157,9 @@ public class Partie {
 				}
 					
 				case 4: {
-					// si une action a dÈj‡ ÈtÈ faite dans le tour
+					// si une action a d√©j√† √©t√© faite dans le tour
 					if (actionEffectuee) {
-						System.err.println("Vous avez dÈj‡ effectuÈ une action pour ce tour!");
+						System.err.println("Vous avez d√©j√† effectu√© une action pour ce tour!");
 						break;
 					}
 					piocherCartes();
@@ -201,8 +204,28 @@ public class Partie {
 	}
 
 	private void investir() {
-		System.out.println("Vous voulez investir");
+		System.out.println(plateau.getQuartiers());
+		System.out.println("Dans quel quartier souhaitez vous investir ? (indiquer son numero)");
+		
+		int quartier=0;
+		
+		if(sc.hasNextInt()){
+			message = "";
+			quartier = sc.nextInt();
+			
+			message=listeJoueurs.get(joueurActif).invest(quartier, plateau, pioche);
+			System.out.println(message);
+		}
+		//passe au prochaine scanner (le pr√©c√©dent n'√©tant pas un int)
+		else{
+			System.err.println("Numero de quartier incorrect");
+			sc.next();
+		}
+		
+		
 	}
+	
+	
 
 	private void restaurerVille() {
 		System.out.println("Vous voulez restaurer la ville");
@@ -213,7 +236,7 @@ public class Partie {
 	}
 
 	private void consulterEtalage() {
-		System.out.println("Vous voulez consulter l'Ètalage de cartes");
+		System.out.println("Vous voulez consulter l'√©talage de cartes");
 	}
 
 	private void consulterMain() {
@@ -221,6 +244,6 @@ public class Partie {
 	}
 
 	private void contracterPret() {
-		System.out.println("Vous voulez contracter un prÍt");
+		System.out.println("Vous voulez contracter un pr√™t");
 	}
 }

@@ -3,6 +3,7 @@ package fr.m1miage.london.classes;
 import java.awt.Color;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 import fr.m1miage.london.Regles;
@@ -11,7 +12,7 @@ public class Joueur {
 	private int id;
 	private String nom;
 	private Color couleur;
-	// les points de pauvret� du joueur
+	// les points de pauvreté du joueur
 	private int point_pauvrete;
 	// les pts de victoire du joueur
 	private int point_victoire;
@@ -19,7 +20,7 @@ public class Joueur {
 	private int argent;
 	
 	private int montantEmprunts;
-	// les zones de construction qu'il peut poss�der
+	// les zones de construction qu'il peut posséder
 	private ZoneConstruction zoneConstruction;
 	// la main du joueurs (ses cartes)
 	private Main mainDuJoueur;
@@ -126,7 +127,7 @@ public class Joueur {
 	}
 	
 	/*
-	 * v�rifier si le joueur peut finir son tour
+	 * vérifier si le joueur peut finir son tour
 	 */
 	public Boolean VerifierFinDeTour(){
 		return this.mainDuJoueur.VerifierQteCarteFinDeTour();
@@ -145,6 +146,60 @@ public class Joueur {
 	public int getNb_cartes() {
 		return this.mainDuJoueur.getNb_cartes();
 	}
+	
+	
+	public String invest(int quartier, Plateau plateau,Pioche pioche){
+		
+		boolean investir;
+		String msg;
+
+			if (quartier > 0 && quartier < 21) {
+				
+				//on verifie si le joueur à assez d'argent
+				if(this.getArgent()>=plateau.getQuartier(quartier).getPrix()){
+					
+					//on verifie si on peut investir dans le quartier
+					investir = plateau.getQuartier(quartier).investirQuartier(this);
+					
+					//si oui la fonction investirQuartier renvoie true et met a jour les quartiers adjacents
+					if(investir==true){
+						this.argent-=plateau.getQuartier(quartier).getPrix();
+						
+						//le joueur pioche le nb de cartes précisé sur le quartier
+						this.ajouterCartesMain(pioche.tirerNCartes(plateau.getQuartier(quartier).getNb_carte_a_piocher()));
+						
+						msg="Vous venez d'investir dans le quartier : " + plateau.getQuartier(quartier).getNom() + " !\n";
+						return msg;
+					}	
+					else{
+						msg="pas assez d'argent";
+						return msg;
+					}	
+				}	
+				else
+					msg="Désolé vous ne pouvez pas investir dans ce quartier !";
+					return msg;
+			}
+			else
+				msg="Numero de quartier incorrect";
+				return msg;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 }
