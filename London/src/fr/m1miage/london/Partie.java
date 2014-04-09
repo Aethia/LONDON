@@ -122,12 +122,13 @@ public class Partie {
 	}
 
 	// faire passer le joueur actif au joueur suivant
-	private void joueurSuivant() {
+	public void joueurSuivant() {
 		if (joueurActif + 1 >= nbJoueurs) {
 			joueurActif = 0;
 		} else {
 			joueurActif++;
 		}
+		tourTermine= false;
 	}
 
 

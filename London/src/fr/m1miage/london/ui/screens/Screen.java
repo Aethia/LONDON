@@ -6,6 +6,7 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
+
 import fr.m1miage.london.ui.LondonGame;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
@@ -20,6 +21,7 @@ public abstract class Screen {
 	protected static Random random = new Random();
 	protected static LondonGame londonG;
 	public SpriteBatch spriteBatch;
+	private static int time = 0;
 
 	public void removed () {
 		spriteBatch.dispose();
@@ -58,7 +60,7 @@ public abstract class Screen {
 			}
 		}
 	}
-
+	
 	public abstract void render ();
 
 	public abstract void tick();

@@ -34,7 +34,7 @@ public class GameScreen extends Screen{
 	private Button investirBtn;
 	private Button piocherBtn;
 	private Button finTourBtn;
-	
+
 	/* Main du joueur */
 	public static int idCarteSelected=0;
 	public static Map<Integer, CarteActor> main = new HashMap<Integer,CarteActor>();
@@ -63,6 +63,22 @@ public class GameScreen extends Screen{
 			tableActions.add(restaurerBtn);
 
 			investirBtn = new Button(Buttons.styleBtnInvestir);
+			investirBtn.addListener(new InputListener(){
+
+				@Override
+				public void touchUp(InputEvent event, float x, float y,
+						int pointer, int button) {
+					Screen.setScreen(new QuartiersScreen());
+					super.touchUp(event, x, y, pointer, button);
+				}
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					return true;
+				}
+
+			});
 			tableActions.add(investirBtn);
 
 			piocherBtn = new Button(Buttons.styleBtnPiocher);
@@ -72,22 +88,45 @@ public class GameScreen extends Screen{
 			stage.addActor(tableActions);
 		}else{ /*sinon, on demande au joueur de confirmer qu'il a terminé son tour*/
 			finTourBtn = new Button(Buttons.styleBtnFinTour);
-			finTourBtn.setPosition(500, 500); //changer la position
+			finTourBtn.setPosition(700, 400); //changer la position
+			finTourBtn.addListener(new InputListener(){
+				
+				
+				@Override
+				public void touchUp(InputEvent event, float x, float y,
+						int pointer, int button) {
+					londonG.partie.joueurSuivant();	
+					Screen.setScreen(new GameScreen());
+					super.touchUp(event, x, y, pointer, button);
+				}
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					return true;
+				}
+
+			});
 			stage.addActor(finTourBtn);	
 		}
 
 		/* Parametres Boutons Menu General*/
 		//faire une classe du menu ?
 		Table tMenu = new Table();
-		
+
 		zoneConstructionBtn = new TextButton("Zone de construction",Buttons.styleInGameMenu);
 		zoneConstructionBtn.addListener(new InputListener(){
 
 			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
+			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				Screen.setScreen(new ZoneConstructionScreen());
-				return super.touchDown(event, x, y, pointer, button);
+			}
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
 			}
 
 		});
@@ -95,36 +134,47 @@ public class GameScreen extends Screen{
 
 		etalageCartesBtn = new TextButton("Etalage de cartes",Buttons.styleInGameMenu); //** Button text and style **//
 		tMenu.add(etalageCartesBtn).row().padTop(20f);
-		
-		quartiersBtn = new TextButton("Quartiers",Buttons.styleInGameMenu); //** Button text and style **//
-		quartiersBtn.addListener(new InputListener(
 
-				){
+		quartiersBtn = new TextButton("Quartiers",Buttons.styleInGameMenu); //** Button text and style **//
+		quartiersBtn.addListener(new InputListener(){
+			
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new QuartiersScreen());
+				super.touchUp(event, x, y, pointer, button);
+			}
 
 			@Override
 			public boolean touchDown(InputEvent event, float x,
 					float y, int pointer, int button) {
-				Screen.setScreen(new QuartiersScreen());
-				return super.touchDown(event, x, y, pointer, button);
+			
+				return true;
 			}});
 		tMenu.add(quartiersBtn).row().padTop(20f);
 
-		
+
 		emprunterBtn = new TextButton("Emprunter",Buttons.styleInGameMenu); //** Button text and style **//
 		emprunterBtn.addListener(new InputListener(){
+			
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new EmprunterScreen());
+				super.touchUp(event, x, y, pointer, button);
+			}
 
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new EmprunterScreen());
-				return super.touchDown(event, x, y, pointer, button);
+				return true;
 			}
 
 		});
 		tMenu.add(emprunterBtn).row();
 
 		tMenu.setPosition(200, 460);
-		
+
 		stage.addActor(tMenu);
 
 		//a ameliorer
@@ -149,9 +199,14 @@ public class GameScreen extends Screen{
 		spriteBatch.begin();
 		tick();
 		draw(Art.bgPartie, 0, 0);
-		draw(Art.menu_bg,70,150);
-		draw(Art.action_bg,400,150);
 
+
+		draw(Art.menu_bg,70,150);
+		if(londonG.partie.isTourTermine()){
+			draw(Art.finTour_bg,400,150);
+		}else{
+			draw(Art.action_bg,400,150);
+		}
 		String msg = "COPYRIGHT Aethia 2014";
 		drawString(msg, 2, 800 -6 -2);
 
