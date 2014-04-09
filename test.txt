@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 test
 
 in game test 2
@@ -6,3 +7,6 @@ Test Myriam
 test xml
 test classes
 testremy
+=======
+test myriam
+>>>>>>> action_construire

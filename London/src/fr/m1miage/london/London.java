@@ -35,6 +35,7 @@ public class London {
 		case 1 : 
 			Partie partie = new Partie();
 			partie.init();
+			partie.lancerJeu();
 			break;
 		case 2 :  
 			LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();

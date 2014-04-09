@@ -60,12 +60,12 @@ public class Etalage {
 	 * ajouter une carte dans la zone de construction
 	 */
 	public void ajouterCarte(Carte c){
-		if (rangee2.size() < tailleEtalage)
-			rangee2.add(c);
+		if (rangee1.size() < tailleEtalage){
+			rangee1.add(c);}
 		else {
 			remonterCartes();
-			rangee2.clear();
-			rangee2.add(c);
+			rangee1.clear();
+			rangee1.add(c);
 		}
 	}
 	

@@ -90,6 +90,20 @@ public class Main implements Cloneable{
 	    return main;
 	}
 	
+	public Carte choisirCarte(int idCarte){
+		for (Carte c : lesCartes) {
+			if (c.getId_carte() == idCarte) {
+				return c;
+			}
+		}
+		return null;
+		
+	}
+	
+	
+	
+	
+	
 	
 
 	
