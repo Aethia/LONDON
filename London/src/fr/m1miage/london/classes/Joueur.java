@@ -1,6 +1,7 @@
 package fr.m1miage.london.classes;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
@@ -38,6 +39,7 @@ public class Joueur {
 		point_victoire=0;
 		montantEmprunts=0;
 		mainDuJoueur = new Main();
+		zoneConstruction=new ZoneConstruction();
 	}
 
 
@@ -126,6 +128,10 @@ public class Joueur {
 		return this.mainDuJoueur.supprimerCarteParId(idCarte);
 	}
 	
+	public Carte choisirCarteParId(int idCarte){
+		return this.mainDuJoueur.choisirCarte(idCarte);				
+	}
+	
 	/*
 	 * vérifier si le joueur peut finir son tour
 	 */
@@ -147,6 +153,65 @@ public class Joueur {
 		return this.mainDuJoueur.getNb_cartes();
 	}
 	
+	//affiche les cartes de la même couleur qu'une carte choisie
+		public List<Carte> getCartesCouleur(Carte c){
+			String couleur = c.getCouleur();
+			List<Carte> cartesCouleur = new ArrayList<Carte>();
+			for(Carte i:this.getMainDuJoueur().getLesCartes()){
+				if(i.getCouleur().compareTo(couleur)==0 && i!=c){
+					cartesCouleur.add(i);
+				}
+			}
+			return cartesCouleur;
+		}
+	
+	//on vérifie que la carte choisie par la joueur existe dans sa main
+		public boolean verifPresenceCarte(Carte carte, List<Carte> liste){
+			boolean presence=false;
+			for(Carte c:liste){
+				if(c.getId_carte() == carte.getId_carte()){
+					presence = true;
+				}
+			}
+			
+			return presence;
+		}
+	
+	//On construit "une carte" sur une pile donnée, et on défausse une carte de la même couleur
+	public String construire(Carte cPosee, Carte cDefaussee, int indexPile){
+		if(this.verifPresenceCarte(cPosee, mainDuJoueur.getLesCartes())){
+			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
+				if(cPosee.getPrix()<= argent){ 		
+					if(this.zoneConstruction.getNbPiles()==0 || indexPile == 0){ //s'il n'y a pas de piles ou que le joueur choisit l'option créer une pile
+						this.zoneConstruction.addPile(cPosee);	
+					}
+					else{
+						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le numéro de la pile
+					}			
+					argent -= cPosee.getPrix();
+					this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
+					this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
+					Plateau.etalage.ajouterCarte(cDefaussee);
+					return "Construction terminée !";
+				}
+				else{
+					return "Argent insuffisant";
+				}
+			}
+			else{
+				return "Carte à défausser n'existe pas";
+				
+			}
+		}
+		else{
+			return "Carte à poser n'existe pas";
+		}
+	}
+	
+	public void piocher(Pioche laPioche){
+		mainDuJoueur.ajouterCarte(laPioche.tirerUneCarte());
+	}
+
 	/*
 	 * Emprunter de l'argent
 	 */

@@ -6,6 +6,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.classes.Pioche;
 import fr.m1miage.london.classes.Plateau;
@@ -49,7 +50,7 @@ public class Partie {
 			System.out.println("Entrez le nombre de joueurs : ");
 			if(sc.hasNextInt()){
 				int reponse=sc.nextInt();
-				if(reponse < Regles.NBMAXJOUEURS){
+				if(reponse <= Regles.NBMAXJOUEURS){
 					nbJoueurs = reponse;	
 					condition = true;
 				}
@@ -137,6 +138,7 @@ public class Partie {
 		Boolean actionEffectuee = false;
 		// on initialise le premier joueur
 		joueurActif = 0;
+		listeJoueurs.get(joueurActif).piocher(pioche);
 		// on joue tant qu'il y a des cartes dans la pioche
 
 		while (pioche.getNbCartes() > 0){
@@ -179,12 +181,11 @@ public class Partie {
 					case 2: {
 						// si une action a déjà été faite dans le tour
 						if (actionEffectuee) {
-							System.err
-									.println("Vous avez déjà effectué une action pour ce tour! \n");
+							System.err.println("Vous avez déjà effectué une action pour ce tour! \n");
 							break;
 						}
 						restaurerVille();
-						actionEffectuee = true;
+						actionEffectuee = true;					
 						break;
 					}
 		
@@ -234,6 +235,7 @@ public class Partie {
 						}
 						// passe au suivant
 						joueurSuivant();
+						listeJoueurs.get(joueurActif).piocher(pioche);
 						actionEffectuee = false;
 						break;
 					}
@@ -243,6 +245,7 @@ public class Partie {
 						break;
 					}
 				}
+					
 			}
 
 			else{
@@ -265,7 +268,35 @@ public class Partie {
 	}
 
 	private void jouerCarte() {
-		System.out.println("vous voulez jouer une carte");
+		int finConstruction=1;
+		System.out.println(Plateau.etalage.toString());
+		while(finConstruction == 1){
+			System.out.println(listeJoueurs.get(joueurActif).getArgent());
+			listeJoueurs.get(joueurActif).afficherMain();
+			System.out.println("Choisissez la carte à poser dans la zone de construction : ");
+			int idCarte=(Integer.parseInt(sc.next()));
+			Carte cPosee = listeJoueurs.get(joueurActif).choisirCarteParId(idCarte);
+			System.out.println("Quelle carte de même couleur voulez-vous défausser ?");
+			System.out.println(listeJoueurs.get(joueurActif).getCartesCouleur(cPosee).toString());
+			int idCarteDefausse=Integer.parseInt(sc.next());
+			Carte cDefausse = listeJoueurs.get(joueurActif).choisirCarteParId(idCarteDefausse);
+			listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
+			System.out.println("Choisir une pile ou en créer une nouvelle (0):");
+			int indexPile=Integer.parseInt(sc.next());	
+			listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
+			System.out.println("Votre carte a été ajoutée.");
+				
+			System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
+			
+			System.out.println(listeJoueurs.get(joueurActif).getArgent());
+			listeJoueurs.get(joueurActif).afficherMain();
+			System.out.println(Plateau.etalage.toString());
+			
+			System.out.println("1. Rejouer une carte \n 2. Finir les constructions");
+			if(sc.hasNextInt()){
+				finConstruction = sc.nextInt();
+			}
+		}
 	}
 
 	private void consulterEtalage() {
@@ -333,6 +364,4 @@ public class Partie {
 	public void setJoueurActif(int joueurActif) {
 		this.joueurActif = joueurActif;
 	}
-
-
 }
