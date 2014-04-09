@@ -66,10 +66,16 @@ public class GameScreen extends Screen{
 			investirBtn.addListener(new InputListener(){
 
 				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
+				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
 					Screen.setScreen(new QuartiersScreen());
-					return super.touchDown(event, x, y, pointer, button);
+					super.touchUp(event, x, y, pointer, button);
+				}
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					return true;
 				}
 
 			});
@@ -84,12 +90,20 @@ public class GameScreen extends Screen{
 			finTourBtn = new Button(Buttons.styleBtnFinTour);
 			finTourBtn.setPosition(700, 400); //changer la position
 			finTourBtn.addListener(new InputListener(){
+				
+				
 				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
+				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
 					londonG.partie.joueurSuivant();	
 					Screen.setScreen(new GameScreen());
-					return super.touchDown(event, x, y, pointer, button);
+					super.touchUp(event, x, y, pointer, button);
+				}
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					return true;
 				}
 
 			});
@@ -104,10 +118,15 @@ public class GameScreen extends Screen{
 		zoneConstructionBtn.addListener(new InputListener(){
 
 			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
+			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				Screen.setScreen(new ZoneConstructionScreen());
-				return super.touchDown(event, x, y, pointer, button);
+			}
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
 			}
 
 		});
@@ -117,27 +136,38 @@ public class GameScreen extends Screen{
 		tMenu.add(etalageCartesBtn).row().padTop(20f);
 
 		quartiersBtn = new TextButton("Quartiers",Buttons.styleInGameMenu); //** Button text and style **//
-		quartiersBtn.addListener(new InputListener(
-
-				){
+		quartiersBtn.addListener(new InputListener(){
+			
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new QuartiersScreen());
+				super.touchUp(event, x, y, pointer, button);
+			}
 
 			@Override
 			public boolean touchDown(InputEvent event, float x,
 					float y, int pointer, int button) {
-				Screen.setScreen(new QuartiersScreen());
-				return super.touchDown(event, x, y, pointer, button);
+			
+				return true;
 			}});
 		tMenu.add(quartiersBtn).row().padTop(20f);
 
 
 		emprunterBtn = new TextButton("Emprunter",Buttons.styleInGameMenu); //** Button text and style **//
 		emprunterBtn.addListener(new InputListener(){
+			
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new EmprunterScreen());
+				super.touchUp(event, x, y, pointer, button);
+			}
 
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new EmprunterScreen());
-				return super.touchDown(event, x, y, pointer, button);
+				return true;
 			}
 
 		});

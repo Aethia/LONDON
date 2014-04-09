@@ -42,11 +42,18 @@ public class QuartiersScreen extends Screen{
 		btnRetour.setPosition(1100, 100); 
 
 		btnRetour.addListener(new InputListener(){
+			
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new GameScreen());
+				super.touchUp(event, x, y, pointer, button);
+			}
+
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new GameScreen());
-				return super.touchDown(event, x, y, pointer, button);
+				return true;
 			}
 		});
 		if(!londonG.partie.isTourTermine()){
@@ -55,7 +62,7 @@ public class QuartiersScreen extends Screen{
 			btnValider.addListener(new InputListener(){
 
 				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
+				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
 					if(nbQuartierSelected==0){
 						messageInvestir = "Veuillez selectionner un quartier";
@@ -65,7 +72,14 @@ public class QuartiersScreen extends Screen{
 						londonG.partie.setTourTermine(true);
 						
 					}
-					return super.touchDown(event, x, y, pointer, button);
+					super.touchUp(event, x, y, pointer, button);
+				}
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					
+					return true;
 				}
 			});
 			stage.addActor(btnValider);
@@ -96,10 +110,16 @@ public class QuartiersScreen extends Screen{
 				}
 
 				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
+				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
 					nbQuartierSelected = j;
-					return super.touchDown(event, x, y, pointer, button);
+					super.touchUp(event, x, y, pointer, button);
+				}
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					return true;
 				}
 
 			});

@@ -67,7 +67,7 @@ public class EmprunterScreen extends Screen{
 		btnValider.addListener(new InputListener(){
 
 			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
+			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				if(montantEmprunt==0){
 					messageMontant = "Veuillez selectionner un montant";
@@ -75,7 +75,14 @@ public class EmprunterScreen extends Screen{
 					j.emprunter(montantEmprunt);
 					Screen.setScreen(new GameScreen());
 				}
-				return super.touchDown(event, x, y, pointer, button);
+				super.touchUp(event, x, y, pointer, button);
+			}
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				
+				return true;
 			}
 			
 		
@@ -85,11 +92,18 @@ public class EmprunterScreen extends Screen{
 
 		TextButton btnAnnuler = new TextButton("Annuler", Buttons.styleInGameMenu);
 		btnAnnuler.addListener(new InputListener(){
+			
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new GameScreen());
+				super.touchUp(event, x, y, pointer, button);
+			}
+
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new GameScreen());
-				return super.touchDown(event, x, y, pointer, button);
+				return true;
 			}
 
 		});
