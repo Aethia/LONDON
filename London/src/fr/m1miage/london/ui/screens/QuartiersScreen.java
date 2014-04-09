@@ -1,15 +1,15 @@
 package fr.m1miage.london.ui.screens;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.classes.Quartier;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
@@ -18,7 +18,7 @@ import fr.m1miage.london.ui.graphics.Fonts;
 
 public class QuartiersScreen extends Screen{
 
-	public static List<TextButton> listeQuartiers = new ArrayList<TextButton>();
+	//public static List<TextButton> listeQuartiers = new ArrayList<TextButton>();
 
 
 	private static Integer nbQuartierSelected = 0;
@@ -26,43 +26,60 @@ public class QuartiersScreen extends Screen{
 	private static int iconsMarginLeft = 650;
 	private static int iconsMarginTop = 400;
 
-	private static TextButton btnRetour;
-	
+	private TextButton btnRetour;
+	private TextButton btnValider;
+
 	private Stage stage; 
+	
+	private String messageInvestir = new String("");
 
 	public QuartiersScreen(){
-		listerQuartiers();
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
+		listerQuartiers();
 		btnRetour =new TextButton("Retour",Buttons.styleInGameMenu); 
 		btnRetour.setPosition(1100, 100); 
-		btnRetour.setHeight(50); 
-		btnRetour.setWidth(190);
+
 		btnRetour.addListener(new InputListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				// TODO Auto-generated method stub
 				Screen.setScreen(new GameScreen());
 				return super.touchDown(event, x, y, pointer, button);
 			}
-
-
 		});
+		if(!londonG.partie.isTourTermine()){
+			btnValider = new TextButton("Valider", Buttons.styleInGameMenu);
+			btnValider.setPosition(800, 100);
+			btnValider.addListener(new InputListener(){
 
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					if(nbQuartierSelected==0){
+						messageInvestir = "Veuillez selectionner un quartier";
+					}else{
+						Joueur j = londonG.partie.getObjJoueurActif();
+						//methode investir 
+						londonG.partie.setTourTermine(true);
+						
+					}
+					return super.touchDown(event, x, y, pointer, button);
+				}
+			});
+			stage.addActor(btnValider);
+		}
 	}
 
 	private void listerQuartiers(){
 		/* Parametres Boutons */
-		//changer position
-		int marginLeft = 90;
-		int marginTop = 70;
 		int i=0;
+		Table tQuartiers = new Table();
+
 		Map<Integer, Quartier> quartiers = londonG.partie.getPlateau().getQuartiers();
 		for(Integer q: quartiers.keySet()){
 			final Integer j = q;
-			if(i==10){marginLeft = 290; i=0;}
 			final Quartier quartier = quartiers.get(q);
 			TextButton btn;
 			if(quartier.isInvestir_possible()){
@@ -70,14 +87,9 @@ public class QuartiersScreen extends Screen{
 			}else{
 				btn= new TextButton(quartier.getNom(),Buttons.styleInGameMenuDisabled); 
 			}
-			btn.setPosition(marginLeft, marginTop+i*60); //** Button location **//
-			btn.setHeight(50); //** Button Height **//
-			btn.setWidth(190);
 			btn.addListener(new InputListener(){
 				@Override
 				public boolean mouseMoved(InputEvent event, float x, float y) {
-					// TODO Auto-generated method stub
-
 					System.out.println( quartier.getNom());
 					nbQuartierSelected = j;
 					return super.mouseMoved(event, x, y);
@@ -86,29 +98,32 @@ public class QuartiersScreen extends Screen{
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {
-					// TODO Auto-generated method stub
 					nbQuartierSelected = j;
 					return super.touchDown(event, x, y, pointer, button);
 				}
 
 			});
 			i++;
-			listeQuartiers.add(btn);
+			if(i%2==0){
+				tQuartiers.add(btn).row();
+			}else{
+				tQuartiers.add(btn);
+			}
 
 		}
+		tQuartiers.setPosition(300, 400);
+
+		stage.addActor(tQuartiers);
+
 
 
 	}
 
 	@Override
 	public void render() {
-		// TODO Auto-generated method stub
 		spriteBatch.begin();
 
-
-
 		draw(Art.bgPartie, 0, 0);
-		//draw(QuartierForm.quartier_bg,510,140);
 
 		Fonts.FONT_TITLE.draw(spriteBatch, "QUARTIERS", 500, 20);
 
@@ -131,14 +146,11 @@ public class QuartiersScreen extends Screen{
 			}else{
 				Fonts.FONT_BLACK.draw(spriteBatch, "Propriétaire : "+quartier.getProprietaireQuartier().getNom(), 600, 470);
 			}
-
-
+			
+			Fonts.FONT_BLACK.draw(spriteBatch, messageInvestir , 1100, 250);
 		}
 		spriteBatch.end();
 
-		for(TextButton b : listeQuartiers){
-			stage.addActor(b);
-		}
 		stage.addActor(btnRetour);
 		stage.act();
 		stage.draw();
@@ -146,8 +158,6 @@ public class QuartiersScreen extends Screen{
 
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

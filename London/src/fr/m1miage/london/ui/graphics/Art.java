@@ -2,11 +2,7 @@ package fr.m1miage.london.ui.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 import fr.m1miage.london.ui.Prefs;
 
@@ -34,6 +30,7 @@ public class Art {
 	
 	/*-- Game screen --*/
 	public static TextureRegion action_bg;
+	public static TextureRegion finTour_bg;
 	
 	public static TextureRegion scoreJoueur_bg;
 	
@@ -55,6 +52,7 @@ public class Art {
 
 		/*---- game ---- */
 		action_bg = load(Prefs.REPERTOIRE+"background_action.png", 750,315);
+		finTour_bg = load(Prefs.REPERTOIRE+"finTour_bg.png", 750,315);
 		scoreJoueur_bg = load(Prefs.REPERTOIRE+"score_joueur.png", 300,100);
 		
 		/*--score joueur*/

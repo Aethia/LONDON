@@ -5,7 +5,6 @@ import java.util.Scanner;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
-import fr.m1miage.london.db.CartesManager;
 import fr.m1miage.london.ui.LondonGame;
 import fr.m1miage.london.ui.Prefs;
 
