@@ -26,6 +26,7 @@ public class Partie {
 	
 	// le joueur actuellement actif
 	private int joueurActif;
+	private String message;
 	
 	
 	public Partie(){
@@ -206,19 +207,20 @@ public class Partie {
 		System.out.println(plateau.getQuartiers());
 		System.out.println("Dans quel quartier souhaitez vous investir ? (indiquer son numero)");
 		
-		listeJoueurs.get(joueurActif).invest(sc, plateau, pioche);
-		
-		/*int quartier=0;
+		int quartier=0;
 		
 		if(sc.hasNextInt()){
+			message = "";
 			quartier = sc.nextInt();
-			//listeJoueurs.get(joueurActif).invest(quartier, plateau, pioche);
+			
+			message=listeJoueurs.get(joueurActif).invest(quartier, plateau, pioche);
+			System.out.println(message);
 		}
 		//passe au prochaine scanner (le précédent n'étant pas un int)
 		else{
 			System.err.println("Numero de quartier incorrect");
 			sc.next();
-		}*/
+		}
 		
 		
 	}

@@ -148,14 +148,11 @@ public class Joueur {
 	}
 	
 	
-	public void invest(Scanner sc, Plateau plateau,Pioche pioche){
+	public String invest(int quartier, Plateau plateau,Pioche pioche){
 		
 		boolean investir;
-		int quartier=0;
-		
-		if(sc.hasNextInt()){
-			quartier = sc.nextInt();
-			
+		String msg;
+
 			if (quartier > 0 && quartier < 21) {
 				
 				//on verifie si le joueur à assez d'argent
@@ -166,31 +163,36 @@ public class Joueur {
 					
 					//si oui la fonction investirQuartier renvoie true et met a jour les quartiers adjacents
 					if(investir==true){
-						System.out.println(this.argent);
-						this.argent-=plateau.getQuartier(quartier).getPrix(); 
-						System.out.println(this.argent);
+						this.argent-=plateau.getQuartier(quartier).getPrix();
 						
 						//le joueur pioche le nb de cartes précisé sur le quartier
 						this.ajouterCartesMain(pioche.tirerNCartes(plateau.getQuartier(quartier).getNb_carte_a_piocher()));
-						System.out.println("Vous venez d'investir dans le quartier : " + plateau.getQuartier(quartier).getNom() + " !\n");
-					
+						
+						msg="Vous venez d'investir dans le quartier : " + plateau.getQuartier(quartier).getNom() + " !\n";
+						return msg;
 					}	
 					else{
-						System.out.println("pas assez d'argent");
-						return;					
+						msg="pas assez d'argent";
+						return msg;
 					}	
 				}	
 				else
-					System.out.println("Désolé vous ne pouvez pas investir dans ce quartier !");
+					msg="Désolé vous ne pouvez pas investir dans ce quartier !";
+					return msg;
 			}
 			else
-				System.err.println("Numero de quartier incorrect");
-		}
-		else{
-			System.err.println("Numero de quartier incorrect");
-			sc.next();
-		}		
+				msg="Numero de quartier incorrect";
+				return msg;
+		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
