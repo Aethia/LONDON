@@ -23,7 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
 import fr.m1miage.london.Partie;
 import fr.m1miage.london.classes.Joueur;
-import fr.m1miage.london.ui.LondonGame;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.AreaColorRect;
 import fr.m1miage.london.ui.graphics.Art;
@@ -189,10 +188,17 @@ public class CreationPartieScreen extends Screen {
 		btnValider.addListener(new InputListener() {
 
 			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
+			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				creerPartie();
-				return super.touchDown(event, x, y, pointer, button);
+				super.touchUp(event, x, y, pointer, button);
+			}
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				
+				return true;
 			}
 		});
 	}
@@ -213,8 +219,8 @@ public class CreationPartieScreen extends Screen {
 				Joueur j = new Joueur(i, name, c);
 				listeJoueurs.add(j);
 			}
-			LondonGame.partie = new Partie(listeJoueurs,idNbJSelected);
-			LondonGame.partie.init();
+			londonG.partie = new Partie(listeJoueurs,idNbJSelected);
+			londonG.partie.init();
 			Screen.setScreen(new GameScreen());	
 		}else{
 			//changer par graphique

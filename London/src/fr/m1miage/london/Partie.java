@@ -23,8 +23,8 @@ public class Partie {
 	private final Color bleu = Color.blue;
 
 	// le joueur actuellement actif
-
 	private int joueurActif=0;
+	private boolean tourTermine=false;
 
 	private int typeGUI=0; // par defaut : 0 => console, 1 = Graphique
 
@@ -122,12 +122,13 @@ public class Partie {
 	}
 
 	// faire passer le joueur actif au joueur suivant
-	private void joueurSuivant() {
+	public void joueurSuivant() {
 		if (joueurActif + 1 >= nbJoueurs) {
 			joueurActif = 0;
 		} else {
 			joueurActif++;
 		}
+		tourTermine= false;
 	}
 
 
@@ -380,4 +381,16 @@ public class Partie {
 		this.joueurActif = joueurActif;
 
 	}
+	public boolean isTourTermine() {
+		return tourTermine;
+	}
+
+
+	public void setTourTermine(boolean tourTermine) {
+		this.tourTermine = tourTermine;
+	}
+	
+	
+
+
 }

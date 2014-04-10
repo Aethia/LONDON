@@ -31,12 +31,18 @@ public class MainMenuScreen extends Screen {
 		nouvellePartie = new TextButton("Nouvelle partie",Buttons.styleInGameMenu); 
 		nouvellePartie.setPosition(600, 510); 
 		nouvellePartie.addListener(new InputListener(){
+			
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new CreationPartieScreen());
+				super.touchUp(event, x, y, pointer, button);
+			}
+
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				// TODO Auto-generated method stub
-				Screen.setScreen(new CreationPartieScreen());
-				return super.touchDown(event, x, y, pointer, button);
+				return true;
 			}
 			
 		});
@@ -48,11 +54,16 @@ public class MainMenuScreen extends Screen {
 		quitterJeu.addListener(new InputListener(){
 
 			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				selection = -1;
+				super.touchUp(event, x, y, pointer, button);
+			}
+
+			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				// TODO Auto-generated method stub
-				selection = -1;
-				return super.touchDown(event, x, y, pointer, button);
+				return true;
 			}
 			
 		});

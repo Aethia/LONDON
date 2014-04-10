@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.classes.Joueur;
-import fr.m1miage.london.ui.LondonGame;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -23,19 +22,18 @@ import fr.m1miage.london.ui.graphics.Score;
 public class GameScreen extends Screen{
 
 	/*Boutons du menu*/
-	public static TextButton zoneConstructionBtn;
-	public static TextButton etalageCartesBtn;
-	public static TextButton quartiersBtn;
-	public static TextButton emprunterBtn;
+	public TextButton zoneConstructionBtn;
+	public TextButton etalageCartesBtn;
+	public TextButton quartiersBtn;
+	public TextButton emprunterBtn;
 
-	private static int distBtn = 80;
-	private static int top = 540;
-	
+
 	/* Boutons des actions */
-	private static Button construireBtn;
-	private static Button restaurerBtn;
-	private static Button investirBtn;
-	private static Button piocherBtn;
+	private Button construireBtn;
+	private Button restaurerBtn;
+	private Button investirBtn;
+	private Button piocherBtn;
+	private Button finTourBtn;
 
 	/* Main du joueur */
 	public static int idCarteSelected=0;
@@ -44,7 +42,7 @@ public class GameScreen extends Screen{
 
 	/* Scores */
 	private Score scoreJoueur;
-	
+
 	private Stage stage; 
 
 	private int time =0;
@@ -54,84 +52,133 @@ public class GameScreen extends Screen{
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
-		/*Parametres Boutons d'action*/
-		Table tableActions = new Table();
-		tableActions.setPosition(785, 525);
-		construireBtn = new Button(Buttons.styleBtnConstruire);
-		construireBtn.size(170,170);
-		tableActions.add(construireBtn);
-		
-		restaurerBtn = new Button(Buttons.styleBtnRestaurer);
-		restaurerBtn.size(170,170);
-		tableActions.add(restaurerBtn);
-		
-		investirBtn = new Button(Buttons.styleBtnInvestir);
-		investirBtn.size(170,170);
-		tableActions.add(investirBtn);
-	
-		piocherBtn = new Button(Buttons.styleBtnPiocher);
-		piocherBtn.size(170,170);
-		tableActions.add(piocherBtn);
-		
-		tableActions.pad(30f);		
-		stage.addActor(tableActions);
-		
+		/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
+		if(!londonG.partie.isTourTermine()){
+			Table tableActions = new Table();
+			tableActions.setPosition(785, 525);
+			construireBtn = new Button(Buttons.styleBtnConstruire);
+			tableActions.add(construireBtn);
+
+			restaurerBtn = new Button(Buttons.styleBtnRestaurer);
+			tableActions.add(restaurerBtn);
+
+			investirBtn = new Button(Buttons.styleBtnInvestir);
+			investirBtn.addListener(new InputListener(){
+
+				@Override
+				public void touchUp(InputEvent event, float x, float y,
+						int pointer, int button) {
+					Screen.setScreen(new QuartiersScreen());
+					super.touchUp(event, x, y, pointer, button);
+				}
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					return true;
+				}
+
+			});
+			tableActions.add(investirBtn);
+
+			piocherBtn = new Button(Buttons.styleBtnPiocher);
+			tableActions.add(piocherBtn);
+
+			tableActions.pad(30f);		
+			stage.addActor(tableActions);
+		}else{ /*sinon, on demande au joueur de confirmer qu'il a terminé son tour*/
+			finTourBtn = new Button(Buttons.styleBtnFinTour);
+			finTourBtn.setPosition(700, 400); //changer la position
+			finTourBtn.addListener(new InputListener(){
+				
+				
+				@Override
+				public void touchUp(InputEvent event, float x, float y,
+						int pointer, int button) {
+					londonG.partie.joueurSuivant();	
+					Screen.setScreen(new GameScreen());
+					super.touchUp(event, x, y, pointer, button);
+				}
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					return true;
+				}
+
+			});
+			stage.addActor(finTourBtn);	
+		}
+
 		/* Parametres Boutons Menu General*/
+		//faire une classe du menu ?
+		Table tMenu = new Table();
+
 		zoneConstructionBtn = new TextButton("Zone de construction",Buttons.styleInGameMenu);
-		zoneConstructionBtn.setPosition(90, top); 
-		sizeOfButton(zoneConstructionBtn);
 		zoneConstructionBtn.addListener(new InputListener(){
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new ZoneConstructionScreen());
+			}
 
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new ZoneConstructionScreen());
-				return super.touchDown(event, x, y, pointer, button);
+				return true;
 			}
-			
+
 		});
+		tMenu.add(zoneConstructionBtn).row().padTop(20f);
 
 		etalageCartesBtn = new TextButton("Etalage de cartes",Buttons.styleInGameMenu); //** Button text and style **//
-		etalageCartesBtn.setPosition(90, (top-distBtn)); //** Button location **//
-		sizeOfButton(etalageCartesBtn);
+		tMenu.add(etalageCartesBtn).row().padTop(20f);
 
 		quartiersBtn = new TextButton("Quartiers",Buttons.styleInGameMenu); //** Button text and style **//
-		quartiersBtn.setPosition(90, (top-distBtn*2)); //** Button location **//
-		sizeOfButton(quartiersBtn);
-		quartiersBtn.addListener(new InputListener(
-
-				){
+		quartiersBtn.addListener(new InputListener(){
+			
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new QuartiersScreen());
+				super.touchUp(event, x, y, pointer, button);
+			}
 
 			@Override
 			public boolean touchDown(InputEvent event, float x,
 					float y, int pointer, int button) {
-				Screen.setScreen(new QuartiersScreen());
-				return super.touchDown(event, x, y, pointer, button);
+			
+				return true;
 			}});
+		tMenu.add(quartiersBtn).row().padTop(20f);
+
 
 		emprunterBtn = new TextButton("Emprunter",Buttons.styleInGameMenu); //** Button text and style **//
-		emprunterBtn.setPosition(90, (top-distBtn*3)); //** Button location **//
 		emprunterBtn.addListener(new InputListener(){
+			
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new EmprunterScreen());
+				super.touchUp(event, x, y, pointer, button);
+			}
 
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new EmprunterScreen());
-				return super.touchDown(event, x, y, pointer, button);
+				return true;
 			}
-			
-		});
-		sizeOfButton(emprunterBtn);
-		
 
-		stage.addActor(zoneConstructionBtn);
-		stage.addActor(etalageCartesBtn);
-		stage.addActor(quartiersBtn);
-		stage.addActor(emprunterBtn);
-		
-		
+		});
+		tMenu.add(emprunterBtn).row();
+
+		tMenu.setPosition(200, 460);
+
+		stage.addActor(tMenu);
+
 		//a ameliorer
-		Joueur j = LondonGame.partie.getObjJoueurActif();
+		Joueur j = londonG.partie.getObjJoueurActif();
 		int i=0;
 		for(Carte c: j.getLesCartes()){
 			i++;
@@ -141,24 +188,25 @@ public class GameScreen extends Screen{
 			main.put(c.getId_carte(), ca);
 			stage.addActor(ca);
 		}
-		
+
 		scoreJoueur = new Score(j);
 		stage.addActor(scoreJoueur);
 	}
 
-	private static void sizeOfButton(TextButton btn){
-		btn.setHeight(60); 
-		btn.setWidth(215);
-	}
 
 	@Override
 	public void render() {
 		spriteBatch.begin();
 		tick();
 		draw(Art.bgPartie, 0, 0);
-		draw(Art.menu_bg,70,150);
-		draw(Art.action_bg,400,150);
 
+
+		draw(Art.menu_bg,70,150);
+		if(londonG.partie.isTourTermine()){
+			draw(Art.finTour_bg,400,150);
+		}else{
+			draw(Art.action_bg,400,150);
+		}
 		String msg = "COPYRIGHT Aethia 2014";
 		drawString(msg, 2, 800 -6 -2);
 

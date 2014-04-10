@@ -13,7 +13,6 @@ public class ZoneConstructionScreen extends Screen{
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
-		
 	}
 	
 	@Override
@@ -21,7 +20,6 @@ public class ZoneConstructionScreen extends Screen{
 		spriteBatch.begin();
 		draw(Art.bgPartie, 0, 0);
 		spriteBatch.end();
-		
 	}
 
 	@Override
