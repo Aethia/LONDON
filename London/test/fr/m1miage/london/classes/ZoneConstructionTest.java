@@ -2,6 +2,9 @@ package fr.m1miage.london.classes;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import fr.m1miage.london.classes.Carte;
@@ -53,6 +56,30 @@ public class ZoneConstructionTest {
 		Carte c3 = new Carte(3,"nom","A",2,"Rouge",null);
 		p.addPile(c3);
 		assertEquals(1, p.getNbCartesPile(1));
+	}
+	
+	@Test
+	/*
+	 * méthode de test d'obtention de toutes les cartes sur le dessus des piles
+	 */
+	public void testGetCartesDessus(){
+		ZoneConstruction p = new ZoneConstruction();
+		Carte c = new Carte(1,"nom","A",2,"Rouge",null);
+		Carte c1 = new Carte(2,"nom","A",2,"Rouge",null);
+		Carte c2 = new Carte(3,"nom","A",2,"Rouge",null);
+		//carte c dans la 1e pile
+		p.addPile(c);
+		//carte c dans la 2e pile
+		p.addPile(c1);
+		List<Carte> tmp = new ArrayList<Carte>();
+		tmp.add(c);
+		tmp.add(c1);
+		assertEquals(tmp, p.getCarteDessus());
+		tmp.clear();
+		p.ajouterCarte(0, c2);
+		tmp.add(c2);
+		tmp.add(c1);
+		assertEquals(tmp, p.getCarteDessus());
 	}
 
 }

@@ -50,7 +50,7 @@ public class ZoneConstruction{
 		return cartes.get(indexPile);
 	}
 	
-	//ajouter une carte sur la pile donnée
+	//ajouter une carte sur la pile donnée (commence à 0)
 	public void ajouterCarte(int indexPile, Carte c){
 		cartes.get(indexPile).add(c);
 	}
@@ -75,6 +75,17 @@ public class ZoneConstruction{
 			msg += unTas.get(unTas.size()-1);
 		}
 		return msg;
+	}
+	
+	// retourne une liste de toutes les cartes sur le dessus des tas
+	public List<Carte> getCarteDessus(){
+		List<Carte> lesCartesDessus = new ArrayList<Carte>();
+		if(this.getNbPiles()>0){
+			for(int i=0; i<this.getNbPiles();i++){
+				lesCartesDessus.add(cartes.get(i).get(cartes.get(i).size()-1));
+			}
+		}
+		return lesCartesDessus;
 	}
 	
 	

@@ -9,6 +9,7 @@ import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.classes.Pioche;
 import fr.m1miage.london.classes.Plateau;
+import fr.m1miage.london.classes.TraderClassRestaurerVille;
 
 public class Partie {
 	private List<Joueur> listeJoueurs = new ArrayList<Joueur>();
@@ -180,8 +181,8 @@ public class Partie {
 						System.err.println("Vous avez dÃ©jÃ  effectuÃ© une action pour ce tour!");
 						break;
 					}
-					restaurerVille();
-					actionEffectuee = true;
+					if (restaurerVille())
+						actionEffectuee = true;
 					break;
 				}
 					
@@ -277,9 +278,66 @@ public class Partie {
 	
 	
 
-	private void restaurerVille() {
+	private Boolean restaurerVille() {
+		String args;
+		String[] lesValeurs;
+		List<Integer> listVal = new ArrayList<Integer>();
 		System.out.println("Votre zone de construction : \n"+listeJoueurs.get(joueurActif).getZone_construction().toString());
 		System.out.println("Quelle(s) carte(s) activer ?");
+		args = sc.next();
+		lesValeurs = args.split(" ");
+		for(String val : lesValeurs) {
+			try {
+			int tmp = Integer.parseInt(val);
+			listVal.add(tmp);
+			}
+			catch (NumberFormatException e){
+				System.err.println("Les arguments doivent être les id des cartes!");
+				return false;
+			}
+		}
+		// on regarde s'il est possible de restaurer la ville avec ces cartes sélectionnées
+		listeJoueurs.get(joueurActif).restaurerVille(listVal);
+		// le cout de l'activation est chargé dans la classe statique TraderClassRestaurerVille
+		System.out.println("Pour pouvoir activer ces cartes vous avez besoin de :");
+		System.out.println("- "+TraderClassRestaurerVille.getCoutEnLivres()+" Livres");
+		
+		if (TraderClassRestaurerVille.getNbCartesBleues() != 0) {
+			System.out.println("- "+TraderClassRestaurerVille.getNbCartesBleues()+" Carte de couleur bleue");
+		}
+		if (TraderClassRestaurerVille.getNbCartesRoses() != 0) {
+			System.out.println("- "+TraderClassRestaurerVille.getNbCartesRoses()+" Carte de couleur rose");
+		}
+		if (TraderClassRestaurerVille.getNbCartesBrunes() != 0) {
+			System.out.println("- "+TraderClassRestaurerVille.getNbCartesBrunes()+" Carte de couleur brun");
+		}
+		if (TraderClassRestaurerVille.getNbCartesGrises() != 0) {
+			System.out.println("- "+TraderClassRestaurerVille.getNbCartesGrises()+" Carte de couleur gris");
+		}
+		if (TraderClassRestaurerVille.getNbCartesOsefCouleur() != 0) {
+			System.out.println("- "+TraderClassRestaurerVille.getNbCartesOsefCouleur()+" Carte de n'importe quelle couleur");
+		}
+		
+		// s'il n'y a que de l'argent à payer
+		if (TraderClassRestaurerVille.getNbCartesBleues() == 0 
+				&& TraderClassRestaurerVille.getNbCartesRoses() == 0
+				&& TraderClassRestaurerVille.getNbCartesBrunes() == 0
+				&& TraderClassRestaurerVille.getNbCartesGrises() == 0
+				&& TraderClassRestaurerVille.getNbCartesOsefCouleur() == 0) {
+			System.out.println("Voulez vous vraiment payer cette somme et restaurer la ville ? oui/non");
+			String ret = sc.next();
+			if (ret.equalsIgnoreCase("oui")) {
+				// todo méthode de joueur pour payer la somme et retourner les cartes
+				System.out.println("Cartes activees !");
+			}
+
+		}
+		// s'il y a aussi des cartes
+		else {
+			
+		}
+		return true;
+		
 	}
 
 	private void jouerCarte() {

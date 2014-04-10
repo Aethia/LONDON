@@ -3,6 +3,7 @@ package fr.m1miage.london.classes;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+
 import fr.m1miage.london.Regles;
 
 public class Joueur {
@@ -288,8 +289,57 @@ public class Joueur {
 	
 	/*
 	 * méthode pour la restauration de la ville
+	 * code retour : 
+	 * -2 : cartes non trouvées
+	 * 1 : pas de pb
 	 */
-	public int restaurerVille(int[] idCartes){
-		return 0;
+	public int restaurerVille(List<Integer> idCartes){
+		/*
+		 * Vérifier si les cartes existent
+		 */
+		// les cartes "activables" (qui sont sur le dessus des piles)
+		List<Carte> cartesDessus = zoneConstruction.getCarteDessus();
+		List<Carte> cartesAActiver = new ArrayList<Carte>();
+		Boolean trouve = false;
+		// pour tous les id de cartes qu'on veut activer
+		for(int i = 0;i<idCartes.size();i++){
+			for (Carte c : cartesDessus) {
+				// si on a trouvé la carte et qu'on peut l'activer
+				if (c.getId_carte() == idCartes.get(i) && c.isDesactivee() == false) {
+					trouve = true;		
+					cartesAActiver.add(c);
+				}
+						
+			}
+			// si on a pas trouvé cette carte, on sort
+			if (!trouve)
+				return -1;
+			// on remet le flag à faux pour la carte suivante
+			trouve = false;	
+		}
+		/*
+		 * on creer un objet avec les ressources necessaires 
+		 * pour informer le joueur sur ce que l'on a besoin
+		 */
+		// pour chaque carte que l'on veut activer
+		TraderClassRestaurerVille.reset();
+		for(Carte c : cartesAActiver){
+			switch (c.coutActivation().getTypeActiv()){
+			case 0 : break;
+			case 1 : TraderClassRestaurerVille.addCoutEnLivres(c.coutActivation().getLivresAPayer());break;
+			case 2 : {
+				switch (c.coutActivation().getCouleurADefausser()){
+				case "Brun" : TraderClassRestaurerVille.addNbCartesBrunes();break;
+				case "Bleu" : TraderClassRestaurerVille.addNbCartesBleues();break;
+				case "Gris" : TraderClassRestaurerVille.addNbCartesGrises();break;
+				case "Rose" : TraderClassRestaurerVille.addNbCartesRoses();break;			
+				}
+				
+				break;
+			}
+			case 3 : TraderClassRestaurerVille.addNbCartesOsefCouleur();break;
+			}
+		}
+		return 1;
 	}
 }
