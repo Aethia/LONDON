@@ -65,6 +65,18 @@ public class ZoneConstruction{
 		}
 	}
 	
+	public String toString(){
+		String msg= "";
+		int i = 1;
+		// pour tous les tas
+		for(ArrayList<Carte> unTas : cartes){
+			msg += "Tas n°"+i+++"\n";
+			// on veut celle sur le haut du tas
+			msg += unTas.get(unTas.size()-1);
+		}
+		return msg;
+	}
+	
 	
 }
 

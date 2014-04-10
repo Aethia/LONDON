@@ -285,4 +285,11 @@ public class Joueur {
 		return msg;
 
 	}
+	
+	/*
+	 * méthode pour la restauration de la ville
+	 */
+	public int restaurerVille(int[] idCartes){
+		return 0;
+	}
 }

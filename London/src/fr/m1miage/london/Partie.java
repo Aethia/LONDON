@@ -277,7 +277,8 @@ public class Partie {
 	
 
 	private void restaurerVille() {
-		System.out.println("Vous voulez restaurer la ville");
+		System.out.println("Votre zone de construction : \n"+listeJoueurs.get(joueurActif).getZone_construction().toString());
+		System.out.println("Quelle(s) carte(s) activer ?");
 	}
 
 	private void jouerCarte() {
