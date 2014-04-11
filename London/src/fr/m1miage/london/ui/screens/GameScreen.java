@@ -36,9 +36,9 @@ public class GameScreen extends Screen{
 	private Button finTourBtn;
 
 	/* Main du joueur */
-	public static int idCarteSelected=0;
-	public static Map<Integer, CarteActor> main = new HashMap<Integer,CarteActor>();
-	public static int idCarteOver =0;
+	public int idCarteSelected=0;
+	public Map<Integer, CarteActor> main = new HashMap<Integer,CarteActor>();
+	public int idCarteOver =0;
 
 	/* Scores */
 	private Score scoreJoueur;
@@ -52,10 +52,10 @@ public class GameScreen extends Screen{
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
-		/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
+		/*Parametres Boutons d'action -> si le tour n'est pas terminï¿½, on continue d'afficher actions*/
 		if(!londonG.partie.isTourTermine()){
 			Table tableActions = new Table();
-			tableActions.setPosition(785, 525);
+			tableActions.setPosition(780, 485);
 			construireBtn = new Button(Buttons.styleBtnConstruire);
 			tableActions.add(construireBtn);
 
@@ -86,7 +86,7 @@ public class GameScreen extends Screen{
 
 			tableActions.pad(30f);		
 			stage.addActor(tableActions);
-		}else{ /*sinon, on demande au joueur de confirmer qu'il a terminé son tour*/
+		}else{ /*sinon, on demande au joueur de confirmer qu'il a terminï¿½ son tour*/
 			finTourBtn = new Button(Buttons.styleBtnFinTour);
 			finTourBtn.setPosition(700, 400); //changer la position
 			finTourBtn.addListener(new InputListener(){
@@ -180,11 +180,31 @@ public class GameScreen extends Screen{
 		//a ameliorer
 		Joueur j = londonG.partie.getObjJoueurActif();
 		int i=0;
-		for(Carte c: j.getLesCartes()){
+		for(final Carte c: j.getLesCartes()){
 			i++;
-			//	main.add(new CarteActor(c));
-			CarteActor ca = new CarteActor(c,350+i*80,10);	
+			final CarteActor ca = new CarteActor(c,350+i*50,10);	
+			ca.addListener(new InputListener(){
 
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {				
+					if(ca.isSelected()){
+						ca.setSelected(false);
+						idCarteSelected=0;
+					}else{
+						ca.setSelected(true);
+						idCarteSelected = c.getId_carte();
+					}
+					return super.touchDown(event, x, y, pointer, button);
+				}
+
+				@Override
+				public boolean mouseMoved(InputEvent event, float x, float y) {
+					idCarteOver = c.getId_carte();
+					return true;
+				}
+				
+			});
 			main.put(c.getId_carte(), ca);
 			stage.addActor(ca);
 		}

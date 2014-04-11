@@ -5,12 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.ui.Prefs;
-import fr.m1miage.london.ui.screens.GameScreen;
 
 public class CarteActor extends Actor{
 	private int id;
@@ -40,28 +37,6 @@ public class CarteActor extends Actor{
 		this.setWidth(LARGEUR_CARTE);
 		this.setY(y);
 		this.setX(x);
-		this.addListener(new InputListener(){
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {				
-				if(selected){
-					selected=false;
-					GameScreen.idCarteSelected=0;
-				}else{
-					selected =true;
-					GameScreen.idCarteSelected = carte.getId_carte();
-				}
-				return super.touchDown(event, x, y, pointer, button);
-			}
-
-			@Override
-			public boolean mouseMoved(InputEvent event, float x, float y) {
-				GameScreen.idCarteOver = carte.getId_carte();
-				return true;
-			}
-			
-		});
 	}
 	
 	@Override
@@ -75,7 +50,8 @@ public class CarteActor extends Actor{
 
 	@Override
 	public void setX(float x) {
-		
+		this.x = (int) x;
+
 		super.setX(x);
 	}
 
@@ -102,6 +78,10 @@ public class CarteActor extends Actor{
 
 	public boolean isSelected() {
 		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 	
 

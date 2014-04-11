@@ -224,7 +224,12 @@ public class Carte {
 
 
 
-
+	public boolean isConstructible(){
+		if(this.couleur.equals("Gris")){
+			return false;
+		}
+		return true;
+	}
 
 
 	@Override

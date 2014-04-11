@@ -121,12 +121,14 @@ public class Partie {
 		// on initialise le premier joueur 
 		joueurActif = (int) (0 + (Math.random() * (nbJoueurs - 0)));
 		jActif = listeJoueurs.get(joueurActif);
-
+		
 		// on distribue les cartes (los cartos en espagnol)
 		for (Joueur i : listeJoueurs) {
 			i.ajouterCartesMain(pioche.tirerNCartes(Regles.NBCARTESDEPART));
 		}
 
+		//le premier joueur pioche une carte
+		jActif.piocher(pioche);
 	}
 
 	// faire passer le joueur actif au joueur suivant
@@ -137,6 +139,7 @@ public class Partie {
 			joueurActif++;
 		}
 		jActif = listeJoueurs.get(joueurActif);
+		jActif.piocher(pioche);
 		tourTermine= false;
 	}
 
@@ -144,9 +147,7 @@ public class Partie {
 	// la boucle de jeu
 	public void lancerJeu() {
 		Boolean actionEffectuee = false;
-		listeJoueurs.get(joueurActif).piocher(pioche);
 		// on joue tant qu'il y a des cartes dans la pioche
-
 		while (pioche.getNbCartes() > 0){
 			// le joueur actif doit choisir une action
 			System.out.println("C'est au tour de "
