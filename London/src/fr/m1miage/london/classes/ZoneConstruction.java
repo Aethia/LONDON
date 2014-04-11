@@ -35,7 +35,7 @@ public class ZoneConstruction{
 		}
 	}
 	
-	// obtenir le nb de cartes de la pile donnée
+	// obtenir le nb de cartes de la pile donnï¿½e
 	public int getNbCartesPile(int indexPile){
 		try {
 		return cartes.get(indexPile).size();
@@ -45,12 +45,12 @@ public class ZoneConstruction{
 		}
 	}
 	
-	//obtenir les cartes de la pile donnée
+	//obtenir les cartes de la pile donnï¿½e
 	public ArrayList<Carte> getCartesPile(int indexPile){
 		return cartes.get(indexPile);
 	}
 	
-	//ajouter une carte sur la pile donnée
+	//ajouter une carte sur la pile donnï¿½e
 	public void ajouterCarte(int indexPile, Carte c){
 		cartes.get(indexPile).add(c);
 	}
@@ -59,10 +59,20 @@ public class ZoneConstruction{
 	public  void afficherCarteDessus(){
 		if(this.getNbPiles()>0){
 			for(int i=0; i<this.getNbPiles();i++){
-				System.out.println("Pile n°"+(i+1)+" : \n");
+				System.out.println("Pile nï¿½"+(i+1)+" : \n");
 				System.out.println(cartes.get(i).get(cartes.get(i).size()-1).toString()+"----- \n");
 			}
 		}
+	}
+	
+	public List<Carte> cartesTop(){
+		List<Carte> cTop = new ArrayList<Carte>();
+		if(this.getNbPiles()>0){
+			for(int i=0; i<this.getNbPiles();i++){
+				cTop.add(cartes.get(i).get(cartes.get(i).size()-1));
+			}
+		}
+		return cTop;
 	}
 	
 	public String toString(){
@@ -70,11 +80,15 @@ public class ZoneConstruction{
 		int i = 1;
 		// pour tous les tas
 		for(ArrayList<Carte> unTas : cartes){
-			msg += "Tas n°"+i+++"\n";
+			msg += "Tas nï¿½"+i+++"\n";
 			// on veut celle sur le haut du tas
 			msg += unTas.get(unTas.size()-1);
 		}
 		return msg;
+	}
+
+	public ArrayList<ArrayList<Carte>> getCartes() {
+		return cartes;
 	}
 	
 	

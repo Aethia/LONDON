@@ -120,7 +120,7 @@ public class GameScreen extends Screen{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new ZoneConstructionScreen());
+				Screen.setScreen(new ZoneConstructionScreen(""));
 			}
 
 			@Override
