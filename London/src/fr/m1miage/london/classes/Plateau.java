@@ -22,6 +22,15 @@ public class Plateau {
 		return quartiers;
 	}
 	
+	public Map<Integer,Quartier> getQuartiersDispo(){
+		Map<Integer,Quartier> qDispo = new HashMap<Integer, Quartier>();
+		for(Integer key : quartiers.keySet()){
+			if(quartiers.get(key).isInvestir_possible()){
+				qDispo.put(key, quartiers.get(key));
+			}
+		}
+		return qDispo;
+	}
 	
 	public Quartier getQuartier(int idQuartier){
 		return quartiers.get(idQuartier);

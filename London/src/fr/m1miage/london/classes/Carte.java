@@ -6,7 +6,7 @@ public class Carte {
 	private String periode;
 	private int prix;
 	private String couleur;
-	private int pointsVictoire; //points de victoire gagnés en fin de partie
+	private int pointsVictoire; //points de victoire gagnÃ©s en fin de partie
 
 
 	private Effet effet_passif;
@@ -231,7 +231,7 @@ public class Carte {
 	public String toString() {
 
 		StringBuilder msg = new StringBuilder();
-		msg.append("Carte n°").append(id_carte).append(" : \n");
+		msg.append("Carte nÂ°").append(id_carte).append(" : \n");
 		msg.append("\t Nom : ").append(nom).append(" -  Periode ").append(periode);
 		msg.append(" - Prix : ").append(prix).append(" - Couleur : ").append(couleur);
 		msg.append("\n\t Points de victoires en fin de partie : ").append(pointsVictoire);
@@ -244,10 +244,10 @@ public class Carte {
 		if(coutActivation!=null){
 			msg.append("Cout de l'activation : ").append(coutActivation.toString());
 		}
-		msg.append("\n\t £ gagnés à l'activation : ").append(argentActivation);
+		msg.append("\n\t Â£ gagnÃ©s Ã  l'activation : ").append(argentActivation);
 		msg.append(" - Points de victoire activation : ").append(ptsVictActivation);
-		msg.append(" - Points de pauvretés perdus : ").append(ptsPauvretePerdus);
-		msg.append(" - Points de pauvretés gagnés : ").append(ptsPauvreteGagnes).append("\n");
+		msg.append(" - Points de pauvretÃ©s perdus : ").append(ptsPauvretePerdus);
+		msg.append(" - Points de pauvretÃ©s gagnÃ©s : ").append(ptsPauvreteGagnes).append("\n");
 		return msg.toString();
 	}
 

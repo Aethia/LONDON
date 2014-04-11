@@ -24,9 +24,12 @@ public class Partie {
 
 	// le joueur actuellement actif
 	private int joueurActif=0;
+	private Joueur jActif;
 	private boolean tourTermine=false;
 
 	private int typeGUI=0; // par defaut : 0 => console, 1 = Graphique
+
+	private GestionErreurs erreur;
 
 	public Partie(){
 		this.plateau = new Plateau();
@@ -61,44 +64,44 @@ public class Partie {
 				sc.next();
 			}
 		}
-	//	Color couleur = rouge;
+		//	Color couleur = rouge;
 		for(int i = 0; i<nbJoueurs; i++){
 			System.out.println("Entrez le nom du joueur "+(i+1)+" : ");
 			String nomJoueur = sc.next();
 			System.out.println("Choisissez votre couleur : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
 			Color couleur = null;// = rouge;
-			
+
 			//tant que l'utilisateur n'a pas choisit de couleur
 			while(couleur == null){
-				//On v�rifie si l'entr�e clavier est correcte
+				//On vérifie si l'entrée clavier est correcte
 				if(sc.hasNextInt()){
 					switch (sc.nextInt()) {
-						case 1:
-							couleur = rouge;
-							break;
-						case 2:
-							couleur = vert;
-							break;
-						case 3:
-							couleur = jaune;
-							break;
-						case 4:
-							couleur = bleu;
-							break;
+					case 1:
+						couleur = rouge;
+						break;
+					case 2:
+						couleur = vert;
+						break;
+					case 3:
+						couleur = jaune;
+						break;
+					case 4:
+						couleur = bleu;
+						break;
 						//si l'utilisateur n'entre pas une couleur correspondante
-						default:
-							System.err.println("Valeur incorrecte \n");
-							System.out
-								.println("Veuillez s�lectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
-							break;
-						}
+					default:
+						System.err.println("Valeur incorrecte \n");
+						System.out
+						.println("Veuillez sélectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
+						break;
 					}
-				
-				//entr�e clavier incorrect, on passe � la suivante
+				}
+
+				//entrée clavier incorrect, on passe à la suivante
 				else{
 					System.err.println("Valeur incorrecte \n");
 					System.out
-						.println("Veuillez s�lectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
+					.println("Veuillez sélectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
 					sc.next();
 				}
 			}
@@ -115,10 +118,15 @@ public class Partie {
 		plateau.init();
 		pioche.init();
 
+		// on initialise le premier joueur 
+		joueurActif = (int) (0 + (Math.random() * (nbJoueurs - 0)));
+		jActif = listeJoueurs.get(joueurActif);
+
 		// on distribue les cartes (los cartos en espagnol)
 		for (Joueur i : listeJoueurs) {
 			i.ajouterCartesMain(pioche.tirerNCartes(Regles.NBCARTESDEPART));
 		}
+
 	}
 
 	// faire passer le joueur actif au joueur suivant
@@ -128,6 +136,7 @@ public class Partie {
 		} else {
 			joueurActif++;
 		}
+		jActif = listeJoueurs.get(joueurActif);
 		tourTermine= false;
 	}
 
@@ -135,8 +144,6 @@ public class Partie {
 	// la boucle de jeu
 	public void lancerJeu() {
 		Boolean actionEffectuee = false;
-		// on initialise le premier joueur
-		joueurActif = 0;
 		listeJoueurs.get(joueurActif).piocher(pioche);
 		// on joue tant qu'il y a des cartes dans la pioche
 
@@ -153,16 +160,14 @@ public class Partie {
 				System.out.println("4. Piocher 3 cartes");
 				System.out.println(" -- Autre --");
 			}
-			System.out.println("5. Contracter un pr�t");
+			System.out.println("5. Contracter un prêt");
 			System.out.println("6. Consulter mes cartes en main");
 			System.out.println("7. Consulter l'étalage de cartes");
 			System.out.println("8. Finir mon tour");
 
 			if(sc.hasNextInt()){
-				
-			
-			// switch de l'action
-			switch(sc.nextInt()){
+				// switch de l'action
+				switch(sc.nextInt()){
 				case 1: {
 					// si une action a déjà été faite dans le tour
 					if (actionEffectuee) {
@@ -173,7 +178,7 @@ public class Partie {
 					actionEffectuee = true;
 					break;
 				}
-					
+
 				case 2: {
 					// si une action a déjà été faite dans le tour
 					if (actionEffectuee) {
@@ -184,7 +189,7 @@ public class Partie {
 					actionEffectuee = true;
 					break;
 				}
-					
+
 				case 3: {
 					// si une action a déjà été faite dans le tour
 					if (actionEffectuee) {
@@ -195,51 +200,51 @@ public class Partie {
 					actionEffectuee = true;
 					break;
 				}
-					
+
 				case 4: {
-						// si une action a d�j� �t� faite dans le tour
-						if (actionEffectuee) {
-							System.err.println("Vous avez d�j� effectu� une action pour ce tour! \n");
-							break;
-						}
-						piocherCartes();
-						actionEffectuee = true;
+					// si une action a déjà été faite dans le tour
+					if (actionEffectuee) {
+						System.err.println("Vous avez déjà effectué une action pour ce tour! \n");
 						break;
 					}
-		
-					case 5: {
-						//permet d'emprunter de l'argent
-						contracterPret();
-						break;
-					}
-					case 6: {
-						consulterMain();
-						break;
-					}
-					case 7: {
-						consulterEtalage();
-						break;
-					}
-					case 8: {
-						System.out.println("Vous voulez finir votre tour");
-						if (!actionEffectuee) {
-							System.err
-									.println("Vous ne pouvez pas finir votre tour sans faire d'action! \n");
-							break;
-						}
-						// passe au suivant
-						joueurSuivant();
-						listeJoueurs.get(joueurActif).piocher(pioche);
-						actionEffectuee = false;
-						break;
-					}
-		
-					default: {
-						System.out.println("Je n'ai pas compris votre choix \n");
-						break;
-					}
+					piocherCartes();
+					actionEffectuee = true;
+					break;
 				}
-					
+
+				case 5: {
+					//permet d'emprunter de l'argent
+					contracterPret();
+					break;
+				}
+				case 6: {
+					consulterMain();
+					break;
+				}
+				case 7: {
+					consulterEtalage();
+					break;
+				}
+				case 8: {
+					System.out.println("Vous voulez finir votre tour");
+					if (!actionEffectuee) {
+						System.err
+						.println("Vous ne pouvez pas finir votre tour sans faire d'action! \n");
+						break;
+					}
+					// passe au suivant
+					joueurSuivant();
+					listeJoueurs.get(joueurActif).piocher(pioche);
+					actionEffectuee = false;
+					break;
+				}
+
+				default: {
+					System.out.println("Je n'ai pas compris votre choix \n");
+					break;
+				}
+				}
+
 			}
 
 			else{
@@ -254,28 +259,31 @@ public class Partie {
 	}
 
 	private void investir() {
-		System.out.println(plateau.getQuartiers());
-		System.out.println("Dans quel quartier souhaitez vous investir ? (indiquer son numero)");
-		
-		int quartier=0;
-		
-		if(sc.hasNextInt()){
-			String message = "";
-			quartier = sc.nextInt();
-			
-			message=listeJoueurs.get(joueurActif).invest(quartier, plateau, pioche);
-			System.out.println(message);
+		boolean tourValide= false;
+		while(!tourValide){
+			System.out.println(plateau.getQuartiersDispo());
+			System.out.println("Dans quel quartier souhaitez vous investir ? (indiquer son numero)");
+
+			int quartier=0;
+			if(sc.hasNextInt()){
+				quartier = sc.nextInt();
+
+				erreur=listeJoueurs.get(joueurActif).invest(quartier, plateau, pioche);
+				if(erreur.equals(GestionErreurs.NONE)){
+					tourValide=true;
+				}
+				erreur.getMsgError();
+			}
+			//passe au prochaine scanner (le précédent n'étant pas un int)
+			else{
+				GestionErreurs.INCORRECT_NUMBER.getMsgError();
+				sc.next();
+			}
 		}
-		//passe au prochaine scanner (le précédent n'étant pas un int)
-		else{
-			System.err.println("Numero de quartier incorrect");
-			sc.next();
-		}
-		
-		
+
 	}
-	
-	
+
+
 
 	private void restaurerVille() {
 		System.out.println("Votre zone de construction : \n"+listeJoueurs.get(joueurActif).getZone_construction().toString());
@@ -288,28 +296,38 @@ public class Partie {
 		while(finConstruction == 1){
 			System.out.println(listeJoueurs.get(joueurActif).getArgent());
 			listeJoueurs.get(joueurActif).afficherMain();
-			System.out.println("Choisissez la carte � poser dans la zone de construction : ");
+			System.out.println("Choisissez la carte à poser dans la zone de construction : ");
 			int idCarte=(Integer.parseInt(sc.next()));
 			Carte cPosee = listeJoueurs.get(joueurActif).choisirCarteParId(idCarte);
-			System.out.println("Quelle carte de m�me couleur voulez-vous d�fausser ?");
-			System.out.println(listeJoueurs.get(joueurActif).getCartesCouleur(cPosee).toString());
-			int idCarteDefausse=Integer.parseInt(sc.next());
-			Carte cDefausse = listeJoueurs.get(joueurActif).choisirCarteParId(idCarteDefausse);
-			listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
-			System.out.println("Choisir une pile ou en cr�er une nouvelle (0):");
-			int indexPile=Integer.parseInt(sc.next());	
-			String message = listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
-			System.out.println(message);
-			System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
-			
-			System.out.println(listeJoueurs.get(joueurActif).getArgent());
-			listeJoueurs.get(joueurActif).afficherMain();
-			System.out.println(Plateau.etalage.toString());
-			
-			System.out.println("1. Rejouer une carte \n 2. Finir les constructions");
-			if(sc.hasNextInt()){
-				finConstruction = sc.nextInt();
+			List<Carte> lDefausse = listeJoueurs.get(joueurActif).getCartesCouleur(cPosee);
+			if(lDefausse.size()==0){
+				GestionErreurs.DEFAUSSE_INDISPO.getMsgError();
+			}else{
+				System.out.println("Quelle carte de même couleur voulez-vous défausser ?");
+				System.out.println(listeJoueurs.get(joueurActif).getCartesCouleur(cPosee).toString());
+				int idCarteDefausse=Integer.parseInt(sc.next());
+				Carte cDefausse = listeJoueurs.get(joueurActif).choisirCarteParId(idCarteDefausse);
+				listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
+				System.out.println("Choisir une pile ou en créer une nouvelle (0):");
+				int indexPile=Integer.parseInt(sc.next());	
+				erreur = listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
+				if(erreur.equals(GestionErreurs.NONE)){
+					System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
+
+					System.out.println(listeJoueurs.get(joueurActif).getArgent());
+					listeJoueurs.get(joueurActif).afficherMain();
+					System.out.println(Plateau.etalage.toString());
+
+					System.out.println("1. Rejouer une carte \n 2. Finir les constructions");
+					if(sc.hasNextInt()){
+						finConstruction = sc.nextInt();
+					}
+				}
+				erreur.getMsgError();
+
 			}
+
+
 		}
 	}
 
@@ -319,28 +337,28 @@ public class Partie {
 
 	private void consulterMain() {
 		System.out.println("Vous voulez consulter vos cartes en main");
+		jActif.afficherMain();
 
 	}
 
 	//Permet d'emprunter de l'argent (ne compte pas comme une action)
 	private void contracterPret() {
-		//les v�rifications sur le scanner se font dans la classe Joueur
+		//les vérifications sur le scanner se font dans la classe Joueur
 		int Montant = 0;
-		
-		System.out.println("Quel montant souhaitez-vous emprunter? (Doit �tre un entier multiple de 10)");
+
+		System.out.println("Quel montant souhaitez-vous emprunter? (Doit être un entier multiple de 10)");
 		System.out.println("Le remboursement se fera en fin de partie au taux de 1.5%");
-		
-		//On v�rifie si l'entr�e clavier est correct (int)
+
+		//On vérifie si l'entrée clavier est correct (int)
 		if(sc.hasNextInt()){
-			String message ="";
 			Montant = sc.nextInt();
-			message = listeJoueurs.get(joueurActif).emprunter(Montant);
-			System.out.println(message);
+			erreur = listeJoueurs.get(joueurActif).emprunter(Montant);
+			erreur.getMsgError();
 		}
-		
-		//On indique qu'il y a une erreur et on passe au prochaine scanner (si l'entr�e n'�tait pas un int)
+
+		//On indique qu'il y a une erreur et on passe au prochaine scanner (si l'entrée n'était pas un int)
 		else{
-			System.err.println("La montant doit �tre un entier multiple de 10 \n");
+			System.err.println("La montant doit être un entier multiple de 10 \n");
 			sc.next();
 		}
 	}
@@ -374,13 +392,13 @@ public class Partie {
 	}
 
 	public Joueur getObjJoueurActif(){
-		return listeJoueurs.get(joueurActif);
+		return jActif;
 	}
-	
+
 	public void setJoueurActif(int joueurActif) {
 		this.joueurActif = joueurActif;
-
 	}
+
 	public boolean isTourTermine() {
 		return tourTermine;
 	}
@@ -389,8 +407,8 @@ public class Partie {
 	public void setTourTermine(boolean tourTermine) {
 		this.tourTermine = tourTermine;
 	}
-	
-	
+
+
 
 
 }

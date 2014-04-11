@@ -3,6 +3,8 @@ package fr.m1miage.london.classes;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.m1miage.london.GestionErreurs;
 import fr.m1miage.london.Regles;
 
 public class Joueur {
@@ -15,14 +17,14 @@ public class Joueur {
 	private int point_victoire;
 	// l'argent dont il dispose
 	private int argent;
-	
+
 	private int montantEmprunts;
 	// les zones de construction qu'il peut possÃ©der
 	private ZoneConstruction zoneConstruction;
 	// la main du joueurs (ses cartes)
 	private Main mainDuJoueur;
-	
-	
+
+
 	// constructeur
 	public Joueur(int id, String nom, Color couleur) {
 		super();
@@ -91,50 +93,50 @@ public class Joueur {
 				+ point_victoire + ", argent=" + argent + ", montantEmprunts="
 				+ montantEmprunts + ", mainDuJoueur=" + mainDuJoueur + "]";
 	}
-	
+
 	public Main getMainDuJoueurCopie() {
 		return mainDuJoueur.clone();
 	}
 	public void afficherMain(){
 		System.out.println("Joueur "+nom+"\n Main : "+mainDuJoueur.toString());
 	}
-	
+
 	/*
 	 * ajouter une carte dans la main
 	 */
 	public void ajouterCarteMain(Carte c){
 		this.mainDuJoueur.ajouterCarte(c);
 	}
-	
+
 	public void ajouterCartesMain(List<Carte> cartes) {
 		this.mainDuJoueur.ajouterCartes(cartes);
 	}
-	
+
 	/*
 	 * supprimer une carte dans la main par l'indice de la carte
 	 */
 	public void supprimerCarteMainParIndice(int indice){
 		this.mainDuJoueur.supprimerCarteParIndice(indice);
 	}
-	
+
 	/*
 	 * supprimer une carte dans la main par l'id de la carte
 	 */
 	public Boolean supprimerCarteMainParId(int idCarte){
 		return this.mainDuJoueur.supprimerCarteParId(idCarte);
 	}
-	
+
 	public Carte choisirCarteParId(int idCarte){
 		return this.mainDuJoueur.choisirCarte(idCarte);				
 	}
-	
+
 	/*
 	 * vÃ©rifier si le joueur peut finir son tour
 	 */
 	public Boolean VerifierFinDeTour(){
 		return this.mainDuJoueur.VerifierQteCarteFinDeTour();
 	}
-	
+
 	/*
 	 * retourner les cartes de la main
 	 */
@@ -149,116 +151,113 @@ public class Joueur {
 		return this.mainDuJoueur.getNb_cartes();
 	}
 
-	
-	public String invest(int quartier, Plateau plateau,Pioche pioche){
-		
+
+	public GestionErreurs invest(int quartier, Plateau plateau,Pioche pioche){
+
 		boolean investir;
-		String msg;
+		if (quartier > 0 && quartier < 21) {
 
-			if (quartier > 0 && quartier < 21) {
-				
-				//on verifie si le joueur Ã  assez d'argent
-				if(this.getArgent()>=plateau.getQuartier(quartier).getPrix()){
-					
-					//on verifie si on peut investir dans le quartier
-					investir = plateau.getQuartier(quartier).investirQuartier(this);
-					
-					//si oui la fonction investirQuartier renvoie true et met a jour les quartiers adjacents
-					if(investir==true){
-						this.argent-=plateau.getQuartier(quartier).getPrix();
-						
-						//le joueur pioche le nb de cartes prÃ©cisÃ© sur le quartier
-						this.ajouterCartesMain(pioche.tirerNCartes(plateau.getQuartier(quartier).getNb_carte_a_piocher()));
-						
-						msg="Vous venez d'investir dans le quartier : " + plateau.getQuartier(quartier).getNom() + " !\n";
-						return msg;
-					}	
-					else{
-						msg="pas assez d'argent";
-						return msg;
-					}	
+			//on verifie si le joueur Ã  assez d'argent
+			if(this.getArgent()>=plateau.getQuartier(quartier).getPrix()){
+				//on verifie si on peut investir dans le quartier
+				investir = plateau.getQuartier(quartier).investirQuartier(this);
+				//si oui la fonction investirQuartier renvoie true et met a jour les quartiers adjacents
+				if(investir==true){
+					this.argent-=plateau.getQuartier(quartier).getPrix();
+
+					//le joueur pioche le nb de cartes prÃ©cisÃ© sur le quartier
+					this.ajouterCartesMain(pioche.tirerNCartes(plateau.getQuartier(quartier).getNb_carte_a_piocher()));
+
+					return GestionErreurs.NONE;
 				}	
-				else
-					msg="DÃ©solÃ© vous ne pouvez pas investir dans ce quartier !";
-					return msg;
-			}
+				else{
+					return GestionErreurs.DISABLED_QUARTIER;
+				}	
+			}	
 			else
-				msg="Numero de quartier incorrect";
-				return msg;
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+				return GestionErreurs.NOT_ENOUGH_MONEY;
+		}
+		else
+			return GestionErreurs.INCORRECT_NUMBER;
 
-	//affiche les cartes de la même couleur qu'une carte choisie
-		public List<Carte> getCartesCouleur(Carte c){
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//affiche les cartes de la mï¿½me couleur qu'une carte choisie
+	public List<Carte> getCartesCouleur(Carte c){
+
+		List<Carte> cartesCouleur = new ArrayList<Carte>();
+		if(c!=null){
 			String couleur = c.getCouleur();
-			List<Carte> cartesCouleur = new ArrayList<Carte>();
 			for(Carte i:this.getMainDuJoueur().getLesCartes()){
 				if(i.getCouleur().compareTo(couleur)==0 && i!=c){
 					cartesCouleur.add(i);
 				}
 			}
-			return cartesCouleur;
-			
 		}
-	
-	//on vérifie que la carte choisie par la joueur existe dans sa main
-		public boolean verifPresenceCarte(Carte carte, List<Carte> liste){
-			boolean presence=false;
+		return cartesCouleur;
+
+	}
+
+	//on vï¿½rifie que la carte choisie par la joueur existe dans sa main
+	public boolean verifPresenceCarte(Carte carte, List<Carte> liste){
+
+		boolean presence=false;
+		if(carte!=null){
 			for(Carte c:liste){
 				if(c.getId_carte() == carte.getId_carte()){
 					presence = true;
 				}
 			}
-			
-			return presence;
 		}
-	
-	//On construit "une carte" sur une pile donnée, et on défausse une carte de la même couleur
-	public String construire(Carte cPosee, Carte cDefaussee, int indexPile){
+		return presence;
+	}
+
+	//On construit "une carte" sur une pile donnï¿½e, et on dï¿½fausse une carte de la mï¿½me couleur
+	public GestionErreurs construire(Carte cPosee, Carte cDefaussee, int indexPile){
 		if(this.verifPresenceCarte(cPosee, mainDuJoueur.getLesCartes())){
 			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
 				if(cPosee.getPrix()<= argent){ 		
-					if(this.zoneConstruction.getNbPiles()==0 || indexPile == 0){ //s'il n'y a pas de piles ou que le joueur choisit l'option créer une pile
+					if(this.zoneConstruction.getNbPiles()==0 || indexPile == 0){ //s'il n'y a pas de piles ou que le joueur choisit l'option crï¿½er une pile
 						this.zoneConstruction.addPile(cPosee);	
 					}
 					else{
-						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le numéro de la pile
+						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le numï¿½ro de la pile
 					}			
 					argent -= cPosee.getPrix();
 					this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
 					this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
 					Plateau.etalage.ajouterCarte(cDefaussee);
-					return "Construction terminée !";
+					return GestionErreurs.NONE;
 				}
 				else{
-					return "Argent insuffisant";
+					return GestionErreurs.NOT_ENOUGH_MONEY;
 				}
 			}
 			else{
-				return "Carte à défausser n'existe pas";
-				
+				return GestionErreurs.INCORRECT_CARTE_DEFAUSSE;
+
 			}
 		}
 		else{
-			return "Carte à poser n'existe pas";
+			return GestionErreurs.INCORRECT_CARTE;
 		}
 	}
-	
+
 	public void piocher(Pioche laPioche){
 		mainDuJoueur.ajouterCarte(laPioche.tirerUneCarte());
 	}
@@ -267,27 +266,25 @@ public class Joueur {
 	/*
 	 * Emprunter de l'argent
 	 */
-	public String emprunter(int Montant){
-		String msg ="";
-		
-		//On vérifie 
-		if (Montant > 0 && Montant % 10 == 0 && (montantEmprunts + Montant) <= 100) {
-			this.argent += Montant;
-			this.montantEmprunts += Montant;
-			
-			msg ="Vous venez d'emprunter £" + Montant + ". \n";
-			//System.out.println("Vous venez d'emprunter £" + Montant + ". \n");
+	public GestionErreurs emprunter(int montant){
+		//On vï¿½rifie 
+		if (montant > 0 && montant % 10 == 0 && montant <=100){
+			if((montantEmprunts + montant) <= 100) {
+				this.argent += montant;
+				this.montantEmprunts += montant;
+
+				return GestionErreurs.NONE;
+			}else{
+				return GestionErreurs.MAX_EMPRUNT;
+			}
 		} 
-		else{
-			msg ="Montant incorrect \n";
-			//System.err.println("Montant incorrect \n");
-		}
-		return msg;
+		return GestionErreurs.MONTANT_INCORRECT;
+
 
 	}
-	
+
 	/*
-	 * méthode pour la restauration de la ville
+	 * mï¿½thode pour la restauration de la ville
 	 */
 	public int restaurerVille(int[] idCartes){
 		return 0;
