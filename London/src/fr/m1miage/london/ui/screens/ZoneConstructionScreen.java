@@ -46,9 +46,21 @@ public class ZoneConstructionScreen extends Screen{
 
 	public ZoneConstructionScreen(){
 		messageConstruire = "Voici votre zone de construction";
+		joueur = londonG.partie.getObjJoueurActif();
 		constructionScreen();
 	}
 
+	public ZoneConstructionScreen(Joueur j){
+		messageConstruire = "Voici la zone de construction de " + j.getNom();
+		this.joueur = j;
+		constructionScreen();
+	}
+
+	public ZoneConstructionScreen(String msg){
+		messageConstruire = msg;
+		joueur = londonG.partie.getObjJoueurActif();
+		constructionScreen();
+	}
 
 	private void constructionScreen() {
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
@@ -76,28 +88,24 @@ public class ZoneConstructionScreen extends Screen{
 		});
 		stage.addActor(btnRetour);
 
-
-
-		joueur = londonG.partie.getObjJoueurActif();
 		afficherPiles();
 
 		stage.addActor(fondChoixCartes);
-		//si le tour n'est pas terminé, ou bien qu'il est terminé mais que le joueur veut encore poser des cartes
-		if((londonG.partie.isTourTermine()==true && londonG.partie.getActionChoisie()==1) || !londonG.partie.isTourTermine()  ){
-			afficherCartes();
-			gestionBoutonsConstruction();
+		if(londonG.partie.getObjJoueurActif().equals(joueur)==true){
+			System.out.println(londonG.partie.getObjJoueurActif().getNom());
+			System.out.println(joueur.getNom());
 		}
-
+		if(londonG.partie.getObjJoueurActif().equals(joueur)==true){ //si on est bien sur le joueur actif 
+			//si tour terminé, mais action construire => on peut continuer ou tour pas terminé mais zoneC du joueur Actif
+			if((londonG.partie.isTourTermine()==true && londonG.partie.getActionChoisie()==1) || !londonG.partie.isTourTermine() ){ 
+				afficherCartes();
+				gestionBoutonsConstruction();
+			}
+		}
 
 		scoreJoueur = new Score(joueur);
 		stage.addActor(scoreJoueur);
 
-	}
-
-
-	public ZoneConstructionScreen(String msg){
-		messageConstruire = msg;
-		constructionScreen();
 	}
 
 	private void gestionBoutonsConstruction() {

@@ -9,5 +9,6 @@ public class Prefs {
 	public static final String REPERTOIRE_QUARTIERS = "ressources/Images/Quartiers/";
 	public static final String REPERTOIRE_EMPRUNTS = "ressources/Images/Boutons/Emprunts/";
 	public static final String REPERTOIRE_ACTIONS = "ressources/Images/Boutons/Actions/";
+	public static final String REPERTOIRE_BOUTONS = "ressources/Images/Boutons/";
 	public static final String REPERTOIRE_ICONES = "ressources/Images/Icones/";
 }
