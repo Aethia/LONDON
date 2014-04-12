@@ -12,7 +12,7 @@ import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.ui.Prefs;
 
 public class Score extends Table{
-	private static final float ATOG_COLOR = 1f/255f;
+	private final float ATOG_COLOR = 1f/255f;
 	private String name;
 	private String livres;
 	private String ptsPauvrete;

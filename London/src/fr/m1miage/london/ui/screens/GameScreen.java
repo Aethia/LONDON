@@ -18,6 +18,7 @@ import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.CarteActor;
 import fr.m1miage.london.ui.graphics.Score;
+import fr.m1miage.london.ui.graphics.TableauScores;
 
 public class GameScreen extends Screen{
 
@@ -42,6 +43,7 @@ public class GameScreen extends Screen{
 
 	/* Scores */
 	private Score scoreJoueur;
+	private TableauScores scores;
 
 	private Stage stage; 
 
@@ -225,9 +227,11 @@ public class GameScreen extends Screen{
 			main.put(c.getId_carte(), ca);
 			stage.addActor(ca);
 		}
-
+		scores = new TableauScores(londonG.partie.getListeJoueurs());
+		stage.addActor(scores);
 		scoreJoueur = new Score(j);
 		stage.addActor(scoreJoueur);
+		
 	}
 
 
