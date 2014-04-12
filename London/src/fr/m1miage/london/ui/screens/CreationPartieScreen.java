@@ -33,7 +33,7 @@ import fr.m1miage.london.ui.graphics.Fonts;
 /**
  * 
  * @author Aethia
- * Interface de création de partie : recupere le nombre de joueurs, leur nom et leur couleur
+ * Interface de crï¿½ation de partie : recupere le nombre de joueurs, leur nom et leur couleur
  */
 public class CreationPartieScreen extends Screen {
 	private BitmapFont font;
@@ -90,7 +90,7 @@ public class CreationPartieScreen extends Screen {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {
-					//aucun de deja selectionné
+					//aucun de deja selectionnï¿½
 					if(idNbJSelected!=num && idNbJSelected!=0){ //deselectionner l'ancien
 						TextButton btnDeselect = buttonsNbj.get(idNbJSelected);
 						btnDeselect.getStyle().up = Buttons.nbButtonStyle.up;//buttonSkin.getDrawable("ButtonOff");
@@ -100,7 +100,7 @@ public class CreationPartieScreen extends Screen {
 					TextButton btnSelected  = buttonsNbj.get(idNbJSelected);
 					btnSelected.getStyle().up =Buttons.nbButtonStyle.down;// buttonSkin.getDrawable("ButtonOn");
 					btnSelected.getStyle().over = Buttons.nbButtonStyle.down; //buttonSkin.getDrawable("ButtonOn");
-					System.out.println("Bouton selectionné : " + idNbJSelected);
+					System.out.println("Bouton selectionnï¿½ : " + idNbJSelected);
 					majFormJoueurs();
 					return true;
 				}				
@@ -113,7 +113,7 @@ public class CreationPartieScreen extends Screen {
 
 
 
-	//créé un nombre de textfield egal au nombre de joueurs choisi.
+	//crï¿½ï¿½ un nombre de textfield egal au nombre de joueurs choisi.
 	private static void majFormJoueurs(){
 		int top = 215;
 		int left =200;
@@ -154,9 +154,9 @@ public class CreationPartieScreen extends Screen {
 				}
 
 			});
-			//creation des couleurs associées
+			//creation des couleurs associï¿½es
 			final AreaColorRect colorJ = new AreaColorRect(left+30+i*168,top+100 , 100f, 100f);
-			colorJ.setShapeFillColor((float)Math.random(), (float)Math.random(), (float)Math.random());
+			colorJ.setShapeFillColor((float)Math.random(), (float)Math.random(), (float)Math.random(),1.0f);
 			colorJ.setPosition(left+30+i*168, top+100);
 			colorJ.setHeight(100); colorJ.setWidth(100);
 
@@ -167,7 +167,7 @@ public class CreationPartieScreen extends Screen {
 						int pointer, int button) {
 					// Si click sur acteur, on change la couleur de la forme
 					stage.getRoot().removeActor(colorJ);
-					colorJ.setShapeFillColor((float)Math.random(), (float)Math.random(), (float)Math.random());
+					colorJ.setShapeFillColor((float)Math.random(), (float)Math.random(), (float)Math.random(), 1.0f);
 					stage.addActor(colorJ);
 					return super.touchDown(event, x, y, pointer, button);
 				}

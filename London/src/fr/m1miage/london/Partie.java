@@ -25,6 +25,7 @@ public class Partie {
 	// le joueur actuellement actif
 	private int joueurActif=0;
 	private Joueur jActif;
+	private int actionChoisie =0; //1 construire, 2 restaurer, 3 investir, 4 piocher
 	private boolean tourTermine=false;
 
 	private int typeGUI=0; // par defaut : 0 => console, 1 = Graphique
@@ -140,6 +141,7 @@ public class Partie {
 		}
 		jActif = listeJoueurs.get(joueurActif);
 		jActif.piocher(pioche);
+		actionChoisie=0;
 		tourTermine= false;
 	}
 
@@ -407,6 +409,16 @@ public class Partie {
 
 	public void setTourTermine(boolean tourTermine) {
 		this.tourTermine = tourTermine;
+	}
+
+
+	public int getActionChoisie() {
+		return actionChoisie;
+	}
+
+
+	public void setActionChoisie(int actionChoisie) {
+		this.actionChoisie = actionChoisie;
 	}
 
 

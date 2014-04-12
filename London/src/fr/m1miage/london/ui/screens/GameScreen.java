@@ -57,6 +57,23 @@ public class GameScreen extends Screen{
 			Table tableActions = new Table();
 			tableActions.setPosition(780, 485);
 			construireBtn = new Button(Buttons.styleBtnConstruire);
+			construireBtn.addListener(new InputListener(){
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					return true;
+				}
+
+				@Override
+				public void touchUp(InputEvent event, float x, float y,
+						int pointer, int button) {
+					Screen.setScreen(new ZoneConstructionScreen("Choisir une carte"));
+					super.touchUp(event, x, y, pointer, button);
+				}
+				
+			});
+			
 			tableActions.add(construireBtn);
 
 			restaurerBtn = new Button(Buttons.styleBtnRestaurer);
@@ -120,7 +137,7 @@ public class GameScreen extends Screen{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new ZoneConstructionScreen(""));
+				Screen.setScreen(new ZoneConstructionScreen());
 			}
 
 			@Override
@@ -218,7 +235,7 @@ public class GameScreen extends Screen{
 	public void render() {
 		spriteBatch.begin();
 		tick();
-		draw(Art.bgPartie, 0, 0);
+		draw(Art.bg, 0, 0);
 
 
 		draw(Art.menu_bg,70,150);

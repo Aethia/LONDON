@@ -6,7 +6,7 @@ public enum GestionErreurs {
 	NOT_ENOUGH_MONEY ("Vous n'avez pas assez d'argent pour effectuer cette action"),
 	DISABLED_QUARTIER("Ce quartier n'est pas disponible pour investir"),
 	INCORRECT_NUMBER("Ce numéro n'est pas disponible"),
-	INCORRECT_CARTE_DEFAUSSE("Ce numéro de carte à défausser n'est pas disponible"),
+	INCORRECT_CARTE_DEFAUSSE("Vous ne pouvez pas defausser cette carte"),
 	INCORRECT_CARTE("Ce numéro de carte n'est pas disponible"),
 	DEFAUSSE_INDISPO("Aucune carte à defausser"),
 	MAX_EMPRUNT("Vous avez atteint la limite pour emprunter (100£)"),

@@ -22,6 +22,7 @@ import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.Fonts;
+import fr.m1miage.london.ui.graphics.Score;
 
 public class QuartiersScreen extends Screen{
 
@@ -38,17 +39,26 @@ public class QuartiersScreen extends Screen{
 
 	private GestionErreurs erreur;
 	private String messageInvestir = new String("");
+	
+	private Joueur joueur;
+
+	/* Scores */
+	private Score scoreJoueur;
 
 	public QuartiersScreen(){
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 
+		joueur = londonG.partie.getObjJoueurActif();
+		scoreJoueur = new Score(joueur);
+		stage.addActor(scoreJoueur);
+		
 		fondQuartier = new ShapeRenderer();
 
 		listerQuartiers();
 		btnRetour =new TextButton("Retour",Buttons.styleInGameMenu); 
-		btnRetour.setPosition(1100, 100); 
+		btnRetour.setPosition(1100, 135); 
 
 		btnRetour.addListener(new InputListener(){
 
@@ -66,10 +76,10 @@ public class QuartiersScreen extends Screen{
 			}
 		});
 		stage.addActor(btnRetour);
-		
+
 		if(!londonG.partie.isTourTermine()){
 			btnValider = new TextButton("Valider", Buttons.styleInGameMenu);
-			btnValider.setPosition(800, 100);
+			btnValider.setPosition(800, 135);
 			btnValider.addListener(new InputListener(){
 
 				@Override
@@ -79,15 +89,16 @@ public class QuartiersScreen extends Screen{
 						messageInvestir = "Veuillez selectionner un quartier";
 					}else{
 						Joueur j = londonG.partie.getObjJoueurActif();
-						
+
 						erreur = j.invest(nbQuartierSelected, londonG.partie.getPlateau(), londonG.partie.getPioche());
 						if(erreur.equals(GestionErreurs.NONE)){
+							londonG.partie.setActionChoisie(3);
 							londonG.partie.setTourTermine(true);
 							Screen.setScreen(new GameScreen());
 						}else{
 							messageInvestir=erreur.getMsgErrorString();
 						}
-						
+
 
 					}
 					super.touchUp(event, x, y, pointer, button);
@@ -183,11 +194,11 @@ public class QuartiersScreen extends Screen{
 			Fonts.FONT_TITLE_QUARTIER.draw(spriteBatch, quartier.getNom(), 600, 170);
 
 			Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE_QUARTIERS+"quartier.png"));
-			
+
 			TextureRegion img = new TextureRegion(t, 0, 0, 512, 256);
 			img.flip(true, true);
 			draw(img, 660,210);
-			
+
 			//livres
 			draw(Art.iconeLivres,iconsMarginLeft,iconsMarginTop);
 			Fonts.FONT_ICON_WHITE.draw(spriteBatch, "" + quartier.getPrix() + "£", iconsMarginLeft + 20, iconsMarginTop + 18);
@@ -206,7 +217,7 @@ public class QuartiersScreen extends Screen{
 
 			Fonts.FONT_BLACK.draw(spriteBatch, messageInvestir , 1100, 250);
 		}
-		
+
 		spriteBatch.end();
 		stage.act();
 		stage.draw();
