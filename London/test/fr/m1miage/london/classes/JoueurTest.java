@@ -274,5 +274,23 @@ public class JoueurTest {
 		assertEquals(-1,j.restaurerVille(cartes));
 	}	
 	
+	@Test
+	public void testPayerRestauration(){
+
+		Carte c3 =new Carte(4,"nom","A",2,"Brun",null);
+		Carte c4 =new Carte(5,"nom","A",2,"Rose",null);
+		Carte c5 =new Carte(6,"nom","A",2,"Gris",null);
+		j.ajouterCarteMain(c3);
+		j.ajouterCarteMain(c4);
+		j.ajouterCarteMain(c5);
+		
+		ArrayList<Carte> cartes = new ArrayList<Carte>();
+		cartes.add(c3);
+		
+		TraderClassRestaurerVille.addNbCartesGrises();
+		
+		assertEquals(1, j.payerRestaurationVille(cartes));
+	}
+	
 }
 

@@ -288,9 +288,9 @@ public class Joueur {
 	}
 	
 	/*
-	 * méthode pour la restauration de la ville
+	 * méthode pour choisir les cartes pour la restauration de la ville
 	 * code retour : 
-	 * -2 : cartes non trouvées
+	 * -1 : cartes non trouvées
 	 * 1 : pas de pb
 	 */
 	public int restaurerVille(List<Integer> idCartes){
@@ -340,6 +340,61 @@ public class Joueur {
 			case 3 : TraderClassRestaurerVille.addNbCartesOsefCouleur();break;
 			}
 		}
+		return 1;
+	}
+	
+	/*
+	 * méthode pour payer la restauration de la ville
+	 * -1 : manque d'argent
+	 * -2 : manque carte rose
+	 * -3 : manque carte bleue
+	 * -4 : manque carte grise
+	 * -5 : manque carte brun
+	 * -6 : carte non trouvée
+	 */
+	public int payerRestaurationVille(List<Carte> cartesADefausser){
+		int roseADefausser = 0,bleuADefausser = 0,grisADefausser = 0,brunADefausser = 0;
+		int rose = 0,bleu = 0,gris = 0,brun = 0;
+		// on compte le nb de carte de chaque couleur que l'on veut défausser
+		for(Carte c : cartesADefausser){
+			switch (c.getCouleur()){
+			case "Rose" : roseADefausser++;break;
+			case "Bleu" : bleuADefausser++;break;
+			case "Gris" : grisADefausser++;break;
+			case "Brun" : brunADefausser++;break;		
+			}
+		}
+		// on compte le nb de carte de chaque couleur de la main
+		for(Carte c : this.mainDuJoueur.getLesCartes()){
+			switch (c.getCouleur()){
+			case "Rose" : rose++;break;
+			case "Bleu" : bleu++;break;
+			case "Gris" : gris++;break;
+			case "Brun" : brun++;break;		
+			}
+		}
+		
+		// test pour voir si on manque de ressources
+		if (this.argent - TraderClassRestaurerVille.getCoutEnLivres() < 0)
+			return -1;
+		if (rose-roseADefausser < 0){
+			return -2;
+		}
+		if (bleu-bleuADefausser < 0){
+			return -3;
+		}
+		if (gris-grisADefausser < 0){
+			return -4;
+		}
+		if (brun-brunADefausser < 0){
+			return -5;
+		}
+		for(Carte c : cartesADefausser){
+			if (!this.mainDuJoueur.supprimerCarteParId(c.getId_carte())){
+				return -6;
+			}
+		}
+		
 		return 1;
 	}
 }

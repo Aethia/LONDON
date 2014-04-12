@@ -296,46 +296,67 @@ public class Partie {
 				return false;
 			}
 		}
-		// on regarde s'il est possible de restaurer la ville avec ces cartes sélectionnées
-		listeJoueurs.get(joueurActif).restaurerVille(listVal);
+		// on regarde s'il est possible de restaurer la ville avec les cartes sélectionnées
+		if (listeJoueurs.get(joueurActif).restaurerVille(listVal) == -1) {
+			System.err.println("impossible d'activer ces cartes.");
+			return false;
+		}
 		// le cout de l'activation est chargé dans la classe statique TraderClassRestaurerVille
 		System.out.println("Pour pouvoir activer ces cartes vous avez besoin de :");
 		System.out.println("- "+TraderClassRestaurerVille.getCoutEnLivres()+" Livres");
-		
+		Boolean carte = false;
 		if (TraderClassRestaurerVille.getNbCartesBleues() != 0) {
 			System.out.println("- "+TraderClassRestaurerVille.getNbCartesBleues()+" Carte de couleur bleue");
+			carte = true;
 		}
 		if (TraderClassRestaurerVille.getNbCartesRoses() != 0) {
 			System.out.println("- "+TraderClassRestaurerVille.getNbCartesRoses()+" Carte de couleur rose");
+			carte = true;
 		}
 		if (TraderClassRestaurerVille.getNbCartesBrunes() != 0) {
 			System.out.println("- "+TraderClassRestaurerVille.getNbCartesBrunes()+" Carte de couleur brun");
+			carte = true;
 		}
 		if (TraderClassRestaurerVille.getNbCartesGrises() != 0) {
 			System.out.println("- "+TraderClassRestaurerVille.getNbCartesGrises()+" Carte de couleur gris");
+			carte = true;
 		}
 		if (TraderClassRestaurerVille.getNbCartesOsefCouleur() != 0) {
 			System.out.println("- "+TraderClassRestaurerVille.getNbCartesOsefCouleur()+" Carte de n'importe quelle couleur");
+			carte = true;
 		}
+		List<Carte> listeCartes = new ArrayList<Carte>();
+			if (carte){
+				System.out.println("Choisissez les cartes à défausser dans votre main :");
+				System.out.println(listeJoueurs.get(joueurActif).getMainDuJoueur().toString());
+				args = sc.next();
+				lesValeurs = args.split(" ");
+				for(String val : lesValeurs) {
+					try {
+					int tmp = Integer.parseInt(val);
+					listeCartes.add(listeJoueurs.get(joueurActif).getMainDuJoueur().choisirCarte(tmp));
+					}
+					catch (NumberFormatException e){
+						System.err.println("Les arguments doivent être les id des cartes!");
+						return false;
+					}
+				}
+			}
 		
-		// s'il n'y a que de l'argent à payer
-		if (TraderClassRestaurerVille.getNbCartesBleues() == 0 
-				&& TraderClassRestaurerVille.getNbCartesRoses() == 0
-				&& TraderClassRestaurerVille.getNbCartesBrunes() == 0
-				&& TraderClassRestaurerVille.getNbCartesGrises() == 0
-				&& TraderClassRestaurerVille.getNbCartesOsefCouleur() == 0) {
 			System.out.println("Voulez vous vraiment payer cette somme et restaurer la ville ? oui/non");
 			String ret = sc.next();
 			if (ret.equalsIgnoreCase("oui")) {
+				// tente de payer la restauration de la ville
+				listeJoueurs.get(joueurActif).payerRestaurationVille(listeCartes);
+				// on retourne les cartes que l'on souhaite activer
+				for(int idCarte : listVal){
+					listeJoueurs.get(joueurActif).getZone_construction().retournerCarte(idCarte);
+				}
 				// todo méthode de joueur pour payer la somme et retourner les cartes
 				System.out.println("Cartes activees !");
 			}
 
-		}
-		// s'il y a aussi des cartes
-		else {
-			
-		}
+		
 		return true;
 		
 	}
