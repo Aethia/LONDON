@@ -83,6 +83,10 @@ public class CarteActor extends Actor{
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
+
+	public int getId() {
+		return id;
+	}
 	
 
 }

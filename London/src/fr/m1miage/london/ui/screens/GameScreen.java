@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import fr.m1miage.london.Regles;
 import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.ui.Prefs;
@@ -73,9 +74,9 @@ public class GameScreen extends Screen{
 					Screen.setScreen(new ZoneConstructionScreen("Choisir une carte"));
 					super.touchUp(event, x, y, pointer, button);
 				}
-				
+
 			});
-			
+
 			tableActions.add(construireBtn);
 
 			restaurerBtn = new Button(Buttons.styleBtnRestaurer);
@@ -109,13 +110,20 @@ public class GameScreen extends Screen{
 			finTourBtn = new Button(Buttons.styleBtnFinTour);
 			finTourBtn.setPosition(700, 400); //changer la position
 			finTourBtn.addListener(new InputListener(){
-				
-				
+
+
 				@Override
 				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
-					londonG.partie.joueurSuivant();	
-					Screen.setScreen(new GameScreen());
+					//avant de finir le tour, on verifie la taille de la main
+					Joueur j = londonG.partie.getObjJoueurActif();
+					if(j.getMainDuJoueur().getNb_cartes()>Regles.NBMAXCARTES){
+						int nbD = j.getMainDuJoueur().getNb_cartes()- Regles.NBMAXCARTES;
+						londonG.setScreen(new DefausserScreen(j,nbD));
+					}else{
+						londonG.partie.joueurSuivant();	
+						Screen.setScreen(new GameScreen());
+					}
 					super.touchUp(event, x, y, pointer, button);
 				}
 
@@ -156,7 +164,7 @@ public class GameScreen extends Screen{
 
 		quartiersBtn = new TextButton("Quartiers",Buttons.styleInGameMenu); //** Button text and style **//
 		quartiersBtn.addListener(new InputListener(){
-			
+
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -167,7 +175,7 @@ public class GameScreen extends Screen{
 			@Override
 			public boolean touchDown(InputEvent event, float x,
 					float y, int pointer, int button) {
-			
+
 				return true;
 			}});
 		tMenu.add(quartiersBtn).row().padTop(20f);
@@ -175,7 +183,7 @@ public class GameScreen extends Screen{
 
 		emprunterBtn = new TextButton("Emprunter",Buttons.styleInGameMenu); //** Button text and style **//
 		emprunterBtn.addListener(new InputListener(){
-			
+
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -222,7 +230,7 @@ public class GameScreen extends Screen{
 					idCarteOver = c.getId_carte();
 					return true;
 				}
-				
+
 			});
 			main.put(c.getId_carte(), ca);
 			stage.addActor(ca);
@@ -231,7 +239,7 @@ public class GameScreen extends Screen{
 		stage.addActor(scores);
 		scoreJoueur = new Score(j);
 		stage.addActor(scoreJoueur);
-		
+
 	}
 
 

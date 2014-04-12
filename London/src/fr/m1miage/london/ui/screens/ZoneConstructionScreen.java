@@ -258,7 +258,6 @@ public class ZoneConstructionScreen extends Screen{
 			});
 			main.put(c.getId_carte(), ca);
 		}
-
 	}
 
 	private void afficherPiles() {
