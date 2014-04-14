@@ -276,12 +276,22 @@ public class Partie {
 		
 	}
 	
-	
+	/*
+	 * action restaurer la ville
+	 * algo :
+	 * le joueur choisit les cartes 
+	 * on regarde si les cartes sont activables et on stock le cout d'activation de ces cartes
+	 * on demande confirmation au joueur pour l'activation
+	 * on active
+	 */
 
 	private Boolean restaurerVille() {
 		String args;
 		String[] lesValeurs;
 		List<Integer> listVal = new ArrayList<Integer>();
+		/*
+		 * Choix des cartes à activer
+		 */
 		System.out.println("Votre zone de construction : \n"+listeJoueurs.get(joueurActif).getZone_construction().toString());
 		System.out.println("Quelle(s) carte(s) activer ?");
 		args = sc.next();
@@ -297,11 +307,13 @@ public class Partie {
 			}
 		}
 		// on regarde s'il est possible de restaurer la ville avec les cartes sélectionnées
-		if (listeJoueurs.get(joueurActif).restaurerVille(listVal) == -1) {
+		if (listeJoueurs.get(joueurActif).restaurerVille(listVal) < 0) {
 			System.err.println("impossible d'activer ces cartes.");
 			return false;
 		}
-		// le cout de l'activation est chargé dans la classe statique TraderClassRestaurerVille
+		/*
+		 * Affichage du cout de l'activation
+		 */
 		System.out.println("Pour pouvoir activer ces cartes vous avez besoin de :");
 		System.out.println("- "+TraderClassRestaurerVille.getCoutEnLivres()+" Livres");
 		Boolean carte = false;
@@ -342,6 +354,9 @@ public class Partie {
 					}
 				}
 			}
+			/*
+			 * activation des cartes
+			 */
 		
 			System.out.println("Voulez vous vraiment payer cette somme et restaurer la ville ? oui/non");
 			String ret = sc.next();

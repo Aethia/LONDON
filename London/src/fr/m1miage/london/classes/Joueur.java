@@ -324,6 +324,10 @@ public class Joueur {
 		// pour chaque carte que l'on veut activer
 		TraderClassRestaurerVille.reset();
 		for(Carte c : cartesAActiver){
+			// si la carte n'est pas activable
+			if (c.coutActivation() == null){
+				return -2;
+			}
 			switch (c.coutActivation().getTypeActiv()){
 			case 0 : break;
 			case 1 : TraderClassRestaurerVille.addCoutEnLivres(c.coutActivation().getLivresAPayer());break;
