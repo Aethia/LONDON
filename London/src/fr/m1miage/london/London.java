@@ -5,6 +5,7 @@ import java.util.Scanner;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
+import fr.m1.miage.london.network.JeuReseau;
 import fr.m1miage.london.ui.LondonGame;
 import fr.m1miage.london.ui.Prefs;
 
@@ -17,13 +18,14 @@ public class London {
 		System.out.println("Choix du lancement de LONDON :");
 		System.out.println("\t 1 : Console");
 		System.out.println("\t 2 : Graphique");
+		System.out.println("\t 3 : Console mode réseau");
 		int nb=0;
 		boolean err = true;
 		Scanner sc = new Scanner(System.in);
 		while(err){
 			if(sc.hasNextInt()){
 				nb = sc.nextInt();
-				if(nb==1 || nb==2){
+				if(nb==1 || nb==2 || nb ==3){
 					err=false;
 				}
 			}else{
@@ -43,6 +45,10 @@ public class London {
 			cfg.height = Prefs.HAUTEUR_FENETRE;
 
 			new LwjglApplication(new LondonGame(), cfg);
+			break;
+		case 3 : 
+			JeuReseau jr = new JeuReseau();
+			jr.lancerPartieReseau();
 			break;
 		default : ;
 		break;
