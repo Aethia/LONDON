@@ -2,6 +2,9 @@ package fr.m1.miage.london.network;
 
 import java.util.Scanner;
 
+import fr.m1.miage.london.network.client.Client;
+import fr.m1.miage.london.network.serveur.Serveur;
+
 public class JeuReseau {
 	
 	public void JeuReseau(){
@@ -16,11 +19,13 @@ public class JeuReseau {
 		nb = sc.nextInt();
 		switch (nb){
 		case 1 : {
-
+				Serveur srv = new Serveur();
+				srv.hebergerPartie();
 				break;
 		}
 		case 2 : {
-
+				Client cli = new Client();
+				cli.connecterServeur();
 				break;
 		}
 		default : break;
