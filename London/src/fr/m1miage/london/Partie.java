@@ -89,21 +89,21 @@ public class Partie {
 						couleur = bleu;
 						break;
 						//si l'utilisateur n'entre pas une couleur correspondante
-						}default:
+					default:
 						System.err.println("Valeur incorrecte \n");
-						System.out
-						.println("Veuillez sélectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
-						break;					}
+						System.out.println("Veuillez sélectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
+						break;					
+						}
 				//entree clavier incorrect, on passe a la suivante}				else{
 					System.err.println("Valeur incorrecte \n");
-					System.out
-						.println("Veuillez selectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");					sc.next();
+					System.out.println("Veuillez selectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");					sc.next();
 				}
+				Joueur joueur = new Joueur(i, nomJoueur, couleur);
+				listeJoueurs.add(joueur);
 			}
-			Joueur joueur = new Joueur(i, nomJoueur, couleur);
-			listeJoueurs.add(joueur);
+			
 		}
-	}
+	
 
 	public void init(){
 		if(typeGUI==0){
@@ -196,6 +196,7 @@ public class Partie {
 				}
 
 				case 4: {
+					if (actionEffectuee) {
 							System.err.println("Vous avez deja effectue une action pour ce tour! \n");
 						break;
 					}
@@ -378,26 +379,35 @@ public class Partie {
 		while(finConstruction == 1){
 			System.out.println(listeJoueurs.get(joueurActif).getArgent());
 			listeJoueurs.get(joueurActif).afficherMain();
-			System.out.println("Choisissez la carte a poser dans la zone de construction : ");			int idCarte=(Integer.parseInt(sc.next()));
+			System.out.println("Choisissez la carte à poser dans la zone de construction : ");
+			int idCarte=(Integer.parseInt(sc.next()));
 			Carte cPosee = listeJoueurs.get(joueurActif).choisirCarteParId(idCarte);
-			System.out.println("Quelle carte de mï¿½me couleur voulez-vous dï¿½fausser ?");
-			System.out.println(listeJoueurs.get(joueurActif).getCartesCouleur(cPosee).toString());
-			int idCarteDefausse=Integer.parseInt(sc.next());
-			Carte cDefausse = listeJoueurs.get(joueurActif).choisirCarteParId(idCarteDefausse);
-			listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
-			System.out.println("Choisir une pile ou en crï¿½er une nouvelle (0):");
-			int indexPile=Integer.parseInt(sc.next());	
-			String message = listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
-			System.out.println(message);
-			System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
-			
-			System.out.println(listeJoueurs.get(joueurActif).getArgent());
-			listeJoueurs.get(joueurActif).afficherMain();
-			System.out.println(Plateau.etalage.toString());
-			
-			System.out.println("1. Rejouer une carte \n 2. Finir les constructions");
-			if(sc.hasNextInt()){
-				finConstruction = sc.nextInt();
+			List<Carte> lDefausse = listeJoueurs.get(joueurActif).getCartesCouleur(cPosee);
+			if(lDefausse.size()==0){
+				GestionErreurs.DEFAUSSE_INDISPO.getMsgError();
+			}else{
+				System.out.println("Quelle carte de même couleur voulez-vous défausser ?");
+				System.out.println(listeJoueurs.get(joueurActif).getCartesCouleur(cPosee).toString());
+				int idCarteDefausse=Integer.parseInt(sc.next());
+				Carte cDefausse = listeJoueurs.get(joueurActif).choisirCarteParId(idCarteDefausse);
+				listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
+				System.out.println("Choisir une pile ou en créer une nouvelle (0):");
+				int indexPile=Integer.parseInt(sc.next());	
+				erreur = listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
+				if(erreur.equals(GestionErreurs.NONE)){
+					System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
+
+					System.out.println(listeJoueurs.get(joueurActif).getArgent());
+					listeJoueurs.get(joueurActif).afficherMain();
+					System.out.println(Plateau.etalage.toString());
+
+					System.out.println("1. Rejouer une carte \n 2. Finir les constructions");
+					if(sc.hasNextInt()){
+						finConstruction = sc.nextInt();
+					}
+				}
+				erreur.getMsgError();
+
 			}
 
 
@@ -416,6 +426,7 @@ public class Partie {
 
 	//Permet d'emprunter de l'argent (ne compte pas comme une action)
 	private void contracterPret() {
+		int Montant;
 		//les verifications sur le scanner se font dans la classe Joueur		int Montant = 0;
 		System.out.println("Quel montant souhaitez-vous emprunter? (Doit etre un entier multiple de 10)");		System.out.println("Le remboursement se fera en fin de partie au taux de 1.5%");
 		//On verifie si l'entree clavier est correct (int)
