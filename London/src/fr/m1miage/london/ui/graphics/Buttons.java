@@ -31,6 +31,8 @@ public class Buttons {
 	public static ButtonStyle styleBtnPiocher;
 	public static ButtonStyle styleBtnFinTour;
 	
+	public static ButtonStyle styleIcoZoneConstru;
+	
 	/*Emprunts*/
 	public static TextButtonStyle styleEmprunt1;
 	public static TextButtonStyle styleEmprunt2;
@@ -67,6 +69,16 @@ public class Buttons {
 		styleEmprunt2.down = buttonSkin.getDrawable("ButtonOn");
 		styleEmprunt2.font = font;
 		styleEmprunt2.fontColor = Color.BLACK;
+	}
+	
+	private static void boutonIcoZoneConstru(){
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE_BOUTONS+"btnConstruJoueur.pack"); 
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas); 
+		styleIcoZoneConstru = new ButtonStyle();
+		styleIcoZoneConstru.up = buttonSkin.getDrawable("ButtonOff");
+		styleIcoZoneConstru.down = buttonSkin.getDrawable("ButtonOn");
+		
 	}
 	
 	private static void boutonPiocher(){
@@ -193,5 +205,6 @@ public class Buttons {
 		boutonPiocher();
 		boutonsEmprunt();
 		boutonFinTour();
+		boutonIcoZoneConstru();
 	}
 }

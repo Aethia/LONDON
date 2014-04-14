@@ -10,7 +10,7 @@ import fr.m1miage.london.ui.Prefs;
 /**
  * 
  * @author Aethia
- * Classe ou sont "initialisées" toutes nos ressources
+ * Classe ou sont "initialisï¿½es" toutes nos ressources
  */
 public class Art {
 	public static TextureRegion bg;
@@ -34,6 +34,12 @@ public class Art {
 	
 	public static TextureRegion scoreJoueur_bg;
 	
+	/*-- Icones tableau scores--*/ 
+	public static TextureRegion ico_PV;
+	public static TextureRegion ico_Livres;
+	public static TextureRegion ico_Emprunt;
+	public static TextureRegion ico_Pauvre;
+	
 	public static void load () {
 		Fonts.load();
 		Buttons.load();
@@ -56,6 +62,10 @@ public class Art {
 		scoreJoueur_bg = load(Prefs.REPERTOIRE+"score_joueur.png", 300,100);
 		
 		/*--score joueur*/
+		ico_PV = load(Prefs.REPERTOIRE_ICONES+"ico_pv.png", 40,40);
+		ico_Livres = load(Prefs.REPERTOIRE_ICONES+"ico_livre.png", 40,40);
+		ico_Emprunt = load(Prefs.REPERTOIRE_ICONES+"ico_emprunt.png", 64,40);
+		ico_Pauvre = load(Prefs.REPERTOIRE_ICONES+"ico_pauvrete.png", 40,40);
 	}
 
 	public static TextureRegion load (String name, int width, int height) {

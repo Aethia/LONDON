@@ -37,7 +37,7 @@ public class EmprunterScreen extends Screen{
 		for(int i=10; i<=Regles.EMPRUNTMAX;i=i+10){
 			final int mt = i;
 
-			TextButton emp = new TextButton("£"+i,Buttons.styleEmprunt1);
+			TextButton emp = new TextButton("Â£"+i,Buttons.styleEmprunt1);
 			if(i>50){
 				emp.setStyle(Buttons.styleEmprunt2);
 			}
@@ -47,7 +47,7 @@ public class EmprunterScreen extends Screen{
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {
 					montantEmprunt = mt;
-					messageMontant = "Montant souhaité : £" + montantEmprunt;
+					messageMontant = "Montant souhaitÃ© : Â£" + montantEmprunt;
 					return super.touchDown(event, x, y, pointer, button);
 				}
 

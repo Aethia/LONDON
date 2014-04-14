@@ -1,6 +1,8 @@
 package fr.m1miage.london.ui.graphics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -33,16 +35,19 @@ public class AreaColorRect extends Actor {
 	@Override
     public void draw(SpriteBatch batch, float parentAlpha) {
     	batch.end();
+    	Gdx.gl.glEnable(GL10.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         shapeRen.begin(ShapeType.Filled);
-        shapeRen.setColor(new Color(shapeFillColor.r, shapeFillColor.g, shapeFillColor.b,
-            0.0f));
+        
+        shapeRen.setColor(new Color(shapeFillColor.r, shapeFillColor.g, shapeFillColor.b, shapeFillColor.a));
         shapeRen.rect(area.x, area.y, area.width, area.height);
         shapeRen.end();
+        Gdx.gl.glDisable(GL10.GL_BLEND);
         batch.begin();
     }
 
-    public void setShapeFillColor(float r, float g, float b) {
-        this.shapeFillColor = new Color(r, g, b, 1);
+    public void setShapeFillColor(float r, float g, float b, float a) {
+        this.shapeFillColor = new Color(r, g, b, a);
     }
 
 }

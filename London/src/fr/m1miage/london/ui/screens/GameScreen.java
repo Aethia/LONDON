@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import fr.m1miage.london.Regles;
 import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.ui.Prefs;
@@ -18,6 +19,7 @@ import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.CarteActor;
 import fr.m1miage.london.ui.graphics.Score;
+import fr.m1miage.london.ui.graphics.TableauScores;
 
 public class GameScreen extends Screen{
 
@@ -36,12 +38,13 @@ public class GameScreen extends Screen{
 	private Button finTourBtn;
 
 	/* Main du joueur */
-	public static int idCarteSelected=0;
-	public static Map<Integer, CarteActor> main = new HashMap<Integer,CarteActor>();
-	public static int idCarteOver =0;
+	public int idCarteSelected=0;
+	public Map<Integer, CarteActor> main = new HashMap<Integer,CarteActor>();
+	public int idCarteOver =0;
 
 	/* Scores */
 	private Score scoreJoueur;
+	private TableauScores scores;
 
 	private Stage stage; 
 
@@ -52,11 +55,28 @@ public class GameScreen extends Screen{
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
-		/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
+		/*Parametres Boutons d'action -> si le tour n'est pas terminï¿½, on continue d'afficher actions*/
 		if(!londonG.partie.isTourTermine()){
 			Table tableActions = new Table();
-			tableActions.setPosition(785, 525);
+			tableActions.setPosition(780, 485);
 			construireBtn = new Button(Buttons.styleBtnConstruire);
+			construireBtn.addListener(new InputListener(){
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					return true;
+				}
+
+				@Override
+				public void touchUp(InputEvent event, float x, float y,
+						int pointer, int button) {
+					Screen.setScreen(new ZoneConstructionScreen("Choisir une carte"));
+					super.touchUp(event, x, y, pointer, button);
+				}
+
+			});
+
 			tableActions.add(construireBtn);
 
 			restaurerBtn = new Button(Buttons.styleBtnRestaurer);
@@ -86,17 +106,24 @@ public class GameScreen extends Screen{
 
 			tableActions.pad(30f);		
 			stage.addActor(tableActions);
-		}else{ /*sinon, on demande au joueur de confirmer qu'il a terminé son tour*/
+		}else{ /*sinon, on demande au joueur de confirmer qu'il a terminï¿½ son tour*/
 			finTourBtn = new Button(Buttons.styleBtnFinTour);
 			finTourBtn.setPosition(700, 400); //changer la position
 			finTourBtn.addListener(new InputListener(){
-				
-				
+
+
 				@Override
 				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
-					londonG.partie.joueurSuivant();	
-					Screen.setScreen(new GameScreen());
+					//avant de finir le tour, on verifie la taille de la main
+					Joueur j = londonG.partie.getObjJoueurActif();
+					if(j.getMainDuJoueur().getNb_cartes()>Regles.NBMAXCARTES){
+						int nbD = j.getMainDuJoueur().getNb_cartes()- Regles.NBMAXCARTES;
+						londonG.setScreen(new DefausserScreen(j,nbD));
+					}else{
+						londonG.partie.joueurSuivant();	
+						Screen.setScreen(new GameScreen());
+					}
 					super.touchUp(event, x, y, pointer, button);
 				}
 
@@ -137,7 +164,7 @@ public class GameScreen extends Screen{
 
 		quartiersBtn = new TextButton("Quartiers",Buttons.styleInGameMenu); //** Button text and style **//
 		quartiersBtn.addListener(new InputListener(){
-			
+
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -148,7 +175,7 @@ public class GameScreen extends Screen{
 			@Override
 			public boolean touchDown(InputEvent event, float x,
 					float y, int pointer, int button) {
-			
+
 				return true;
 			}});
 		tMenu.add(quartiersBtn).row().padTop(20f);
@@ -156,7 +183,7 @@ public class GameScreen extends Screen{
 
 		emprunterBtn = new TextButton("Emprunter",Buttons.styleInGameMenu); //** Button text and style **//
 		emprunterBtn.addListener(new InputListener(){
-			
+
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -180,17 +207,39 @@ public class GameScreen extends Screen{
 		//a ameliorer
 		Joueur j = londonG.partie.getObjJoueurActif();
 		int i=0;
-		for(Carte c: j.getLesCartes()){
+		for(final Carte c: j.getLesCartes()){
 			i++;
-			//	main.add(new CarteActor(c));
-			CarteActor ca = new CarteActor(c,350+i*80,10);	
+			final CarteActor ca = new CarteActor(c,350+i*50,10);	
+			ca.addListener(new InputListener(){
 
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {				
+					if(ca.isSelected()){
+						ca.setSelected(false);
+						idCarteSelected=0;
+					}else{
+						ca.setSelected(true);
+						idCarteSelected = c.getId_carte();
+					}
+					return super.touchDown(event, x, y, pointer, button);
+				}
+
+				@Override
+				public boolean mouseMoved(InputEvent event, float x, float y) {
+					idCarteOver = c.getId_carte();
+					return true;
+				}
+
+			});
 			main.put(c.getId_carte(), ca);
 			stage.addActor(ca);
 		}
-
+		scores = new TableauScores(londonG.partie.getListeJoueurs());
+		stage.addActor(scores);
 		scoreJoueur = new Score(j);
 		stage.addActor(scoreJoueur);
+
 	}
 
 
@@ -198,7 +247,7 @@ public class GameScreen extends Screen{
 	public void render() {
 		spriteBatch.begin();
 		tick();
-		draw(Art.bgPartie, 0, 0);
+		draw(Art.bg, 0, 0);
 
 
 		draw(Art.menu_bg,70,150);

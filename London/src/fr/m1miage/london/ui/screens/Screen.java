@@ -13,7 +13,7 @@ import fr.m1miage.london.ui.graphics.Art;
 
 /**
  * 
- * Source : https://github.com/libgdx/libgdx (inspiré de)
+ * Source : https://github.com/libgdx/libgdx (inspirï¿½ de)
  * 
  */
 public abstract class Screen {
@@ -34,12 +34,12 @@ public abstract class Screen {
 
 		spriteBatch = new SpriteBatch(100);
 		spriteBatch.setProjectionMatrix(projection);
-		
-		
+
+
 	}
 
 	public static void setScreen (Screen screen) {
-		londonG.setScreen(screen);
+				londonG.setScreen(screen);
 	}
 
 	public void draw (TextureRegion region, int x, int y) {
@@ -60,7 +60,7 @@ public abstract class Screen {
 			}
 		}
 	}
-	
+
 	public abstract void render ();
 
 	public abstract void tick();

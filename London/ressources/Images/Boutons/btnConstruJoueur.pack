@@ -1,0 +1,20 @@
+construJoueur.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ButtonOff
+	rotate: false
+	xy: 2, 4
+	size: 38, 40
+	split: 0, 0, 0, 0
+	orig: 38, 40
+	offset: 0, 0
+	index:-1
+ButtonOn
+	rotate: false
+	xy: 2, 40
+	size: 38, 40
+	split: 0, 0, 0, 0
+	orig: 38, 40
+	offset: 0, 0
+	index:-1
