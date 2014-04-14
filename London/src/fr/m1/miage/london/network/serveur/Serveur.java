@@ -7,12 +7,10 @@ public class Serveur {
  public static ServerSocket ss = null;
  public static Thread t;
 
- 	public Serveur(){
- 		
- 	}
- 	
- 	public void hebergerPartie(){
- 		try {
+ 
+	public static void main(String[] args) {
+		
+		try {
 			ss = new ServerSocket(2009);
 			System.out.println("Le serveur est à l'écoute du port "+ss.getLocalPort());
 			
@@ -22,6 +20,8 @@ public class Serveur {
 		} catch (IOException e) {
 			System.err.println("Le port "+ss.getLocalPort()+" est déjà utilisé !");
 		}
- 	}
+	
+	}
+
 	
 	}

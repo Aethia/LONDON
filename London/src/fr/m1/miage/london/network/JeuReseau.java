@@ -20,12 +20,12 @@ public class JeuReseau {
 		switch (nb){
 		case 1 : {
 				Serveur srv = new Serveur();
-				srv.hebergerPartie();
+				//srv.hebergerPartie();
 				break;
 		}
 		case 2 : {
 				Client cli = new Client();
-				cli.connecterServeur();
+				//cli.connecterServeur();
 				break;
 		}
 		default : break;
