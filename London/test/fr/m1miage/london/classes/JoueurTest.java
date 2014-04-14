@@ -15,8 +15,8 @@ import org.junit.Test;
 public class JoueurTest {
 
 	private Joueur j;
-	private Carte c;
-	private Carte c1;
+	private Carte c,c1,c2;
+
 	
 	@Before
 	public void setUp() throws Exception{
@@ -24,6 +24,7 @@ public class JoueurTest {
 		j = new Joueur(1,"toto",Color.black);
 		c = new Carte(1,"nom","A",2,"Brun",null);
 		c1 =new Carte(2,"nom","A",2,"Brun",null);
+		c2 =new Carte(3,"nom","A",2,"Brun",null);
 		j.ajouterCarteMain(c);
 		j.ajouterCarteMain(c1);
 	}
@@ -148,10 +149,148 @@ public class JoueurTest {
 		Plateau pl = new Plateau();
 		Pioche p = new Pioche();
 		pl.init();
-		p.init();
+		p.init();	
+	}
+	
+	@Test
+	public void testRestaurerVilleOk(){
+		Joueur j = new Joueur(1,"toto",Color.black);
+		ZoneConstruction zc = j.getZone_construction();
+		zc.addPile(c);
+		zc.addPile(c1);
+		zc.addPile(c2);
+		
+		// le cout de la carte c
+		CoutActivation cout = new CoutActivation();
+		cout.setTypeActiv(0);
+		c.setcoutActivation(cout);
+		
+		// le cout de la carte c1
+		CoutActivation cout2 = new CoutActivation();
+		cout2.setTypeActiv(1);
+		cout2.setLivresAPayer(2);
+		c1.setcoutActivation(cout2);
+		
+		// le cout de la carte c2
+		CoutActivation cout3 = new CoutActivation();
+		cout3.setTypeActiv(1);
+		cout3.setLivresAPayer(2);
+		c2.setcoutActivation(cout3);
+		
+		// les cartes que je veux a	ctiver
+		List<Integer> cartes = new ArrayList<Integer>();
+		cartes.add(c.getId_carte());	
+		cartes.add(c1.getId_carte());	
+		assertEquals(1,j.restaurerVille(cartes));
+		assertEquals(2,TraderClassRestaurerVille.getCoutEnLivres());
+
+	}
+	
+	@Test
+	public void testRestaurerVilleOk2(){
+		Joueur j = new Joueur(1,"toto",Color.black);
+		ZoneConstruction zc = j.getZone_construction();
+		zc.addPile(c);
+		zc.addPile(c1);
+		zc.addPile(c2);
+		
+		// le cout de la carte c
+		CoutActivation cout = new CoutActivation();
+		cout.setTypeActiv(0);
+		c.setcoutActivation(cout);
+		
+		// le cout de la carte c1
+		CoutActivation cout2 = new CoutActivation();
+		cout2.setTypeActiv(1);
+		cout2.setLivresAPayer(2);
+		c1.setcoutActivation(cout2);
+		
+		// le cout de la carte c2
+		CoutActivation cout3 = new CoutActivation();
+		cout3.setTypeActiv(2);
+		cout3.setCouleurADefausser("Bleu");
+		c2.setcoutActivation(cout3);
+		
+	
+		// les cartes que je veux a	ctiver
+		List<Integer> cartes = new ArrayList<Integer>();
+		cartes.add(c.getId_carte());	
+		cartes.add(c1.getId_carte());	
+		cartes.add(c2.getId_carte());
+		assertEquals(1,j.restaurerVille(cartes));
+		assertEquals(1,TraderClassRestaurerVille.getNbCartesBleues());
+		assertEquals(2,TraderClassRestaurerVille.getCoutEnLivres());
 		
 		
+
+	}
+	
+	@Test
+	public void testRestaurerVilleOk3(){
+		Joueur j = new Joueur(1,"toto",Color.black);
+		ZoneConstruction zc = j.getZone_construction();
+		zc.addPile(c);
+		zc.ajouterCarte(0, c1);;
+		zc.addPile(c2);
+		
+		// le cout de la carte c
+		CoutActivation cout = new CoutActivation();
+		cout.setTypeActiv(0);
+		c.setcoutActivation(cout);
+		
+		// le cout de la carte c1
+		CoutActivation cout2 = new CoutActivation();
+		cout2.setTypeActiv(1);
+		cout2.setLivresAPayer(2);
+		c1.setcoutActivation(cout2);
+		
+		// le cout de la carte c2
+		CoutActivation cout3 = new CoutActivation();
+		cout3.setTypeActiv(2);
+		cout3.setCouleurADefausser("Bleu");
+		c2.setcoutActivation(cout3);
+		
+	
+		// les cartes que je veux a	ctiver
+		List<Integer> cartes = new ArrayList<Integer>();	
+		cartes.add(c1.getId_carte());	
+		cartes.add(c2.getId_carte());
+		assertEquals(1,j.restaurerVille(cartes));
+		assertEquals(1,TraderClassRestaurerVille.getNbCartesBleues());
+		assertEquals(2,TraderClassRestaurerVille.getCoutEnLivres());
+		
+		
+
 	}
 
+	@Test
+	public void testRestaurerVilleErreur(){
+		Joueur j = new Joueur(1,"toto",Color.black);
+		ZoneConstruction zc = j.getZone_construction();
+		zc.addPile(c);
+		zc.addPile(c1);
+		List<Integer> cartes = new ArrayList<Integer>();
+		cartes.add(c2.getId_carte());
+		assertEquals(-1,j.restaurerVille(cartes));
+	}	
+	
+	@Test
+	public void testPayerRestauration(){
+
+		Carte c3 =new Carte(4,"nom","A",2,"Brun",null);
+		Carte c4 =new Carte(5,"nom","A",2,"Rose",null);
+		Carte c5 =new Carte(6,"nom","A",2,"Gris",null);
+		j.ajouterCarteMain(c3);
+		j.ajouterCarteMain(c4);
+		j.ajouterCarteMain(c5);
+		
+		ArrayList<Carte> cartes = new ArrayList<Carte>();
+		cartes.add(c3);
+		
+		TraderClassRestaurerVille.addNbCartesGrises();
+		
+		assertEquals(1, j.payerRestaurationVille(cartes));
+	}
+	
 }
 

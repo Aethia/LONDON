@@ -103,7 +103,8 @@ public class CartesManager {
 						}
 						
 					}
-					
+					// on affecte le cout à la carte
+					carte.setcoutActivation(coutActivationObject);
 				}
 
 				/*------------- s'il y a un gain apres l'activation -----------*/
@@ -124,7 +125,7 @@ public class CartesManager {
 					
 				}
 			}
-
+			
 			cartes.add(carte);
 		}
 

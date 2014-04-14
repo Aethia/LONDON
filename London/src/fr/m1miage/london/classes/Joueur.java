@@ -11,7 +11,7 @@ public class Joueur {
 	private int id;
 	private String nom;
 	private Color couleur;
-	// les points de pauvretÃ© du joueur
+	// les points de pauvreté du joueur
 	private int point_pauvrete;
 	// les pts de victoire du joueur
 	private int point_victoire;
@@ -19,7 +19,7 @@ public class Joueur {
 	private int argent;
 
 	private int montantEmprunts;
-	// les zones de construction qu'il peut possÃ©der
+	// les zones de construction qu'il peut posséder
 	private ZoneConstruction zoneConstruction;
 	// la main du joueurs (ses cartes)
 	private Main mainDuJoueur;
@@ -131,7 +131,7 @@ public class Joueur {
 	}
 
 	/*
-	 * vÃ©rifier si le joueur peut finir son tour
+	 * vérifier si le joueur peut finir son tour
 	 */
 	public Boolean VerifierFinDeTour(){
 		return this.mainDuJoueur.VerifierQteCarteFinDeTour();
@@ -157,7 +157,7 @@ public class Joueur {
 		boolean investir;
 		if (quartier > 0 && quartier < 21) {
 
-			//on verifie si le joueur Ã  assez d'argent
+			//on verifie si le joueur à assez d'argent
 			if(this.getArgent()>=plateau.getQuartier(quartier).getPrix()){
 				//on verifie si on peut investir dans le quartier
 				investir = plateau.getQuartier(quartier).investirQuartier(this);
@@ -165,7 +165,7 @@ public class Joueur {
 				if(investir==true){
 					this.argent-=plateau.getQuartier(quartier).getPrix();
 
-					//le joueur pioche le nb de cartes prÃ©cisÃ© sur le quartier
+					//le joueur pioche le nb de cartes précisé sur le quartier
 					this.ajouterCartesMain(pioche.tirerNCartes(plateau.getQuartier(quartier).getNb_carte_a_piocher()));
 
 					return GestionErreurs.NONE;
@@ -197,7 +197,7 @@ public class Joueur {
 
 
 
-	//affiche les cartes de la mï¿½me couleur qu'une carte choisie
+	//affiche les cartes de la m?me couleur qu'une carte choisie
 	public List<Carte> getCartesCouleur(Carte c){
 
 		List<Carte> cartesCouleur = new ArrayList<Carte>();
@@ -213,7 +213,7 @@ public class Joueur {
 
 	}
 
-	//on vï¿½rifie que la carte choisie par la joueur existe dans sa main
+	//on v?rifie que la carte choisie par la joueur existe dans sa main
 	public boolean verifPresenceCarte(Carte carte, List<Carte> liste){
 
 		boolean presence=false;
@@ -227,16 +227,16 @@ public class Joueur {
 		return presence;
 	}
 
-	//On construit "une carte" sur une pile donnï¿½e, et on dï¿½fausse une carte de la mï¿½me couleur
+	//On construit "une carte" sur une pile donn?e, et on d?fausse une carte de la m?me couleur
 	public GestionErreurs construire(Carte cPosee, Carte cDefaussee, int indexPile){
 		if(this.verifPresenceCarte(cPosee, mainDuJoueur.getLesCartes())){
 			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
 				if(cPosee.getPrix()<= argent){ 		
-					if(this.zoneConstruction.getNbPiles()==0 || indexPile == 0){ //s'il n'y a pas de piles ou que le joueur choisit l'option crï¿½er une pile
+					if(this.zoneConstruction.getNbPiles()==0 || indexPile == 0){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
 						this.zoneConstruction.addPile(cPosee);	
 					}
 					else{
-						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le numï¿½ro de la pile
+						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
 					}			
 					argent -= cPosee.getPrix();
 					this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
@@ -267,7 +267,7 @@ public class Joueur {
 	 * Emprunter de l'argent
 	 */
 	public GestionErreurs emprunter(int montant){
-		//On vï¿½rifie 
+		//On v?rifie 
 		if (montant > 0 && montant % 10 == 0 && montant <=100){
 			if((montantEmprunts + montant) <= 100) {
 				this.argent += montant;
@@ -284,9 +284,117 @@ public class Joueur {
 	}
 
 	/*
-	 * mï¿½thode pour la restauration de la ville
+	 * méthode pour la restauration de la ville
+	 * code retour : 
+	 * -1 : cartes non trouvées
+	 * 1 : pas de pb
 	 */
-	public int restaurerVille(int[] idCartes){
-		return 0;
+	public int restaurerVille(List<Integer> idCartes){
+		/*
+		 * Vérifier si les cartes existent
+		 */
+		// les cartes "activables" (qui sont sur le dessus des piles)
+		List<Carte> cartesDessus = zoneConstruction.getCarteDessus();
+		List<Carte> cartesAActiver = new ArrayList<Carte>();
+		Boolean trouve = false;
+		// pour tous les id de cartes qu'on veut activer
+		for(int i = 0;i<idCartes.size();i++){
+			for (Carte c : cartesDessus) {
+				// si on a trouvé la carte et qu'on peut l'activer
+				if (c.getId_carte() == idCartes.get(i) && c.isDesactivee() == false) {
+					trouve = true;		
+					cartesAActiver.add(c);
+				}
+						
+			}
+			// si on a pas trouvé cette carte, on sort
+			if (!trouve)
+				return -1;
+			// on remet le flag à faux pour la carte suivante
+			trouve = false;	
+		}
+		/*
+		 * on creer un objet avec les ressources necessaires 
+		 * pour informer le joueur sur ce que l'on a besoin
+		 */
+		// pour chaque carte que l'on veut activer
+		TraderClassRestaurerVille.reset();
+		for(Carte c : cartesAActiver){
+			// si la carte n'est pas activable
+			if (c.coutActivation() == null){
+				return -2;
+			}
+			switch (c.coutActivation().getTypeActiv()){
+			case 0 : break;
+			case 1 : TraderClassRestaurerVille.addCoutEnLivres(c.coutActivation().getLivresAPayer());break;
+			case 2 : {
+				switch (c.coutActivation().getCouleurADefausser()){
+				case "Brun" : TraderClassRestaurerVille.addNbCartesBrunes();break;
+				case "Bleu" : TraderClassRestaurerVille.addNbCartesBleues();break;
+				case "Gris" : TraderClassRestaurerVille.addNbCartesGrises();break;
+				case "Rose" : TraderClassRestaurerVille.addNbCartesRoses();break;			
+				}
+				
+				break;
+			}
+			case 3 : TraderClassRestaurerVille.addNbCartesOsefCouleur();break;
+			}
+		}
+		return 1;
+	}
+	
+	/*
+	 * méthode pour payer la restauration de la ville
+	 * -1 : manque d'argent
+	 * -2 : manque carte rose
+	 * -3 : manque carte bleue
+	 * -4 : manque carte grise
+	 * -5 : manque carte brun
+	 * -6 : carte non trouvée
+	 */
+	public int payerRestaurationVille(List<Carte> cartesADefausser){
+		int roseADefausser = 0,bleuADefausser = 0,grisADefausser = 0,brunADefausser = 0;
+		int rose = 0,bleu = 0,gris = 0,brun = 0;
+		// on compte le nb de carte de chaque couleur que l'on veut défausser
+		for(Carte c : cartesADefausser){
+			switch (c.getCouleur()){
+			case "Rose" : roseADefausser++;break;
+			case "Bleu" : bleuADefausser++;break;
+			case "Gris" : grisADefausser++;break;
+			case "Brun" : brunADefausser++;break;		
+			}
+		}
+		// on compte le nb de carte de chaque couleur de la main
+		for(Carte c : this.mainDuJoueur.getLesCartes()){
+			switch (c.getCouleur()){
+			case "Rose" : rose++;break;
+			case "Bleu" : bleu++;break;
+			case "Gris" : gris++;break;
+			case "Brun" : brun++;break;		
+			}
+		}
+		
+		// test pour voir si on manque de ressources
+		if (this.argent - TraderClassRestaurerVille.getCoutEnLivres() < 0)
+			return -1;
+		if (rose-roseADefausser < 0){
+			return -2;
+		}
+		if (bleu-bleuADefausser < 0){
+			return -3;
+		}
+		if (gris-grisADefausser < 0){
+			return -4;
+		}
+		if (brun-brunADefausser < 0){
+			return -5;
+		}
+		for(Carte c : cartesADefausser){
+			if (!this.mainDuJoueur.supprimerCarteParId(c.getId_carte())){
+				return -6;
+			}
+		}
+		
+		return 1;
 	}
 }

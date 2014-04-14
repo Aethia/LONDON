@@ -9,6 +9,7 @@ import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.classes.Pioche;
 import fr.m1miage.london.classes.Plateau;
+import fr.m1miage.london.classes.TraderClassRestaurerVille;
 
 public class Partie {
 	private List<Joueur> listeJoueurs = new ArrayList<Joueur>();
@@ -73,8 +74,7 @@ public class Partie {
 
 			//tant que l'utilisateur n'a pas choisit de couleur
 			while(couleur == null){
-				//On vérifie si l'entrée clavier est correcte
-				if(sc.hasNextInt()){
+				//On verifie si l'entree clavier est correcte				if(sc.hasNextInt()){
 					switch (sc.nextInt()) {
 					case 1:
 						couleur = rouge;
@@ -89,20 +89,15 @@ public class Partie {
 						couleur = bleu;
 						break;
 						//si l'utilisateur n'entre pas une couleur correspondante
-					default:
+						}default:
 						System.err.println("Valeur incorrecte \n");
 						System.out
-						.println("Veuillez sélectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
-						break;
-					}
-				}
-
-				//entrée clavier incorrect, on passe à la suivante
-				else{
+						.println("Veuillez s�lectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
+						break;					}
+				//entree clavier incorrect, on passe a la suivante}				else{
 					System.err.println("Valeur incorrecte \n");
 					System.out
-					.println("Veuillez sélectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
-					sc.next();
+						.println("Veuillez selectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");					sc.next();
 				}
 			}
 			Joueur joueur = new Joueur(i, nomJoueur, couleur);
@@ -160,8 +155,7 @@ public class Partie {
 				System.out.println("4. Piocher 3 cartes");
 				System.out.println(" -- Autre --");
 			}
-			System.out.println("5. Contracter un prêt");
-			System.out.println("6. Consulter mes cartes en main");
+			System.out.println("5. Contracter un pret");			System.out.println("6. Consulter mes cartes en main");
 			System.out.println("7. Consulter l'étalage de cartes");
 			System.out.println("8. Finir mon tour");
 
@@ -185,8 +179,8 @@ public class Partie {
 						System.err.println("Vous avez déjà effectué une action pour ce tour!");
 						break;
 					}
-					restaurerVille();
-					actionEffectuee = true;
+					if (restaurerVille())
+						actionEffectuee = true;
 					break;
 				}
 
@@ -202,9 +196,7 @@ public class Partie {
 				}
 
 				case 4: {
-					// si une action a déjà été faite dans le tour
-					if (actionEffectuee) {
-						System.err.println("Vous avez déjà effectué une action pour ce tour! \n");
+							System.err.println("Vous avez deja effectue une action pour ce tour! \n");
 						break;
 					}
 					piocherCartes();
@@ -274,20 +266,110 @@ public class Partie {
 				}
 				erreur.getMsgError();
 			}
-			//passe au prochaine scanner (le précédent n'étant pas un int)
+			//passe au prochaine scanner (le pr�c�dent n'�tant pas un int)
 			else{
 				GestionErreurs.INCORRECT_NUMBER.getMsgError();
 				sc.next();
 			}
 		}
-
+		//passe au prochaine scanner (le precedent n'�tant pas un int)
 	}
-
-
-
-	private void restaurerVille() {
-		System.out.println("Votre zone de construction : \n"+listeJoueurs.get(joueurActif).getZone_construction().toString());
+/*
+	 * action restaurer la ville
+	 * algo :
+	 * le joueur choisit les cartes 
+	 * on regarde si les cartes sont activables et on stock le cout d'activation de ces cartes
+	 * on demande confirmation au joueur pour l'activation
+	 * on active
+	 */
+	private Boolean restaurerVille() {
+		String args;
+		String[] lesValeurs;
+		List<Integer> listVal = new ArrayList<Integer>();
+		/*
+		 * Choix des cartes � activer
+		 */		System.out.println("Votre zone de construction : \n"+listeJoueurs.get(joueurActif).getZone_construction().toString());
 		System.out.println("Quelle(s) carte(s) activer ?");
+		args = sc.next();
+		lesValeurs = args.split(" ");
+		for(String val : lesValeurs) {
+			try {
+			int tmp = Integer.parseInt(val);
+			listVal.add(tmp);
+			}
+			catch (NumberFormatException e){
+				System.err.println("Les arguments doivent �tre les id des cartes!");
+				return false;
+			}
+		}
+		// on regarde s'il est possible de restaurer la ville avec les cartes s�lectionn�es
+		if (listeJoueurs.get(joueurActif).restaurerVille(listVal) < 0) {
+			System.err.println("impossible d'activer ces cartes.");
+			return false;
+		}
+		/*
+		 * Affichage du cout de l'activation
+		 */
+		System.out.println("Pour pouvoir activer ces cartes vous avez besoin de :");
+		System.out.println("- "+TraderClassRestaurerVille.getCoutEnLivres()+" Livres");
+		Boolean carte = false;
+		if (TraderClassRestaurerVille.getNbCartesBleues() != 0) {
+			System.out.println("- "+TraderClassRestaurerVille.getNbCartesBleues()+" Carte de couleur bleue");
+			carte = true;
+		}
+		if (TraderClassRestaurerVille.getNbCartesRoses() != 0) {
+			System.out.println("- "+TraderClassRestaurerVille.getNbCartesRoses()+" Carte de couleur rose");
+			carte = true;
+		}
+		if (TraderClassRestaurerVille.getNbCartesBrunes() != 0) {
+			System.out.println("- "+TraderClassRestaurerVille.getNbCartesBrunes()+" Carte de couleur brun");
+			carte = true;
+		}
+		if (TraderClassRestaurerVille.getNbCartesGrises() != 0) {
+			System.out.println("- "+TraderClassRestaurerVille.getNbCartesGrises()+" Carte de couleur gris");
+			carte = true;
+		}
+		if (TraderClassRestaurerVille.getNbCartesOsefCouleur() != 0) {
+			System.out.println("- "+TraderClassRestaurerVille.getNbCartesOsefCouleur()+" Carte de n'importe quelle couleur");
+			carte = true;
+		}
+		List<Carte> listeCartes = new ArrayList<Carte>();
+			if (carte){
+				System.out.println("Choisissez les cartes � d�fausser dans votre main :");
+				System.out.println(listeJoueurs.get(joueurActif).getMainDuJoueur().toString());
+				args = sc.next();
+				lesValeurs = args.split(" ");
+				for(String val : lesValeurs) {
+					try {
+					int tmp = Integer.parseInt(val);
+					listeCartes.add(listeJoueurs.get(joueurActif).getMainDuJoueur().choisirCarte(tmp));
+					}
+					catch (NumberFormatException e){
+						System.err.println("Les arguments doivent �tre les id des cartes!");
+						return false;
+					}
+				}
+			}
+			/*
+			 * activation des cartes
+			 */
+		
+			System.out.println("Voulez vous vraiment payer cette somme et restaurer la ville ? oui/non");
+			String ret = sc.next();
+			if (ret.equalsIgnoreCase("oui")) {
+				// tente de payer la restauration de la ville
+				listeJoueurs.get(joueurActif).payerRestaurationVille(listeCartes);
+				// on retourne les cartes que l'on souhaite activer
+				for(int idCarte : listVal){
+					listeJoueurs.get(joueurActif).getZone_construction().retournerCarte(idCarte);
+				}
+				// todo m�thode de joueur pour payer la somme et retourner les cartes
+				System.out.println("Cartes activees !");
+			}
+
+		
+		return true;
+		
 	}
 
 	private void jouerCarte() {
@@ -296,35 +378,26 @@ public class Partie {
 		while(finConstruction == 1){
 			System.out.println(listeJoueurs.get(joueurActif).getArgent());
 			listeJoueurs.get(joueurActif).afficherMain();
-			System.out.println("Choisissez la carte à poser dans la zone de construction : ");
-			int idCarte=(Integer.parseInt(sc.next()));
+			System.out.println("Choisissez la carte a poser dans la zone de construction : ");			int idCarte=(Integer.parseInt(sc.next()));
 			Carte cPosee = listeJoueurs.get(joueurActif).choisirCarteParId(idCarte);
-			List<Carte> lDefausse = listeJoueurs.get(joueurActif).getCartesCouleur(cPosee);
-			if(lDefausse.size()==0){
-				GestionErreurs.DEFAUSSE_INDISPO.getMsgError();
-			}else{
-				System.out.println("Quelle carte de même couleur voulez-vous défausser ?");
-				System.out.println(listeJoueurs.get(joueurActif).getCartesCouleur(cPosee).toString());
-				int idCarteDefausse=Integer.parseInt(sc.next());
-				Carte cDefausse = listeJoueurs.get(joueurActif).choisirCarteParId(idCarteDefausse);
-				listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
-				System.out.println("Choisir une pile ou en créer une nouvelle (0):");
-				int indexPile=Integer.parseInt(sc.next());	
-				erreur = listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
-				if(erreur.equals(GestionErreurs.NONE)){
-					System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
-
-					System.out.println(listeJoueurs.get(joueurActif).getArgent());
-					listeJoueurs.get(joueurActif).afficherMain();
-					System.out.println(Plateau.etalage.toString());
-
-					System.out.println("1. Rejouer une carte \n 2. Finir les constructions");
-					if(sc.hasNextInt()){
-						finConstruction = sc.nextInt();
-					}
-				}
-				erreur.getMsgError();
-
+			System.out.println("Quelle carte de m�me couleur voulez-vous d�fausser ?");
+			System.out.println(listeJoueurs.get(joueurActif).getCartesCouleur(cPosee).toString());
+			int idCarteDefausse=Integer.parseInt(sc.next());
+			Carte cDefausse = listeJoueurs.get(joueurActif).choisirCarteParId(idCarteDefausse);
+			listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
+			System.out.println("Choisir une pile ou en cr�er une nouvelle (0):");
+			int indexPile=Integer.parseInt(sc.next());	
+			String message = listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
+			System.out.println(message);
+			System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
+			
+			System.out.println(listeJoueurs.get(joueurActif).getArgent());
+			listeJoueurs.get(joueurActif).afficherMain();
+			System.out.println(Plateau.etalage.toString());
+			
+			System.out.println("1. Rejouer une carte \n 2. Finir les constructions");
+			if(sc.hasNextInt()){
+				finConstruction = sc.nextInt();
 			}
 
 
@@ -343,22 +416,16 @@ public class Partie {
 
 	//Permet d'emprunter de l'argent (ne compte pas comme une action)
 	private void contracterPret() {
-		//les vérifications sur le scanner se font dans la classe Joueur
-		int Montant = 0;
-
-		System.out.println("Quel montant souhaitez-vous emprunter? (Doit être un entier multiple de 10)");
-		System.out.println("Le remboursement se fera en fin de partie au taux de 1.5%");
-
-		//On vérifie si l'entrée clavier est correct (int)
+		//les verifications sur le scanner se font dans la classe Joueur		int Montant = 0;
+		System.out.println("Quel montant souhaitez-vous emprunter? (Doit etre un entier multiple de 10)");		System.out.println("Le remboursement se fera en fin de partie au taux de 1.5%");
+		//On verifie si l'entree clavier est correct (int)
 		if(sc.hasNextInt()){
 			Montant = sc.nextInt();
 			erreur = listeJoueurs.get(joueurActif).emprunter(Montant);
 			erreur.getMsgError();
 		}
-
-		//On indique qu'il y a une erreur et on passe au prochaine scanner (si l'entrée n'était pas un int)
 		else{
-			System.err.println("La montant doit être un entier multiple de 10 \n");
+			System.err.println("La montant doit etre un entier multiple de 10 \n");
 			sc.next();
 		}
 	}
