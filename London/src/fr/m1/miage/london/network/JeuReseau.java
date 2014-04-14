@@ -16,11 +16,13 @@ public class JeuReseau {
 		nb = sc.nextInt();
 		switch (nb){
 		case 1 : {
-				ServeurClass serveur = new ServeurClass();
-				serveur.hebergerPartie();
+
 				break;
 		}
-		case 2 : break;
+		case 2 : {
+
+				break;
+		}
 		default : break;
 		}
 		
