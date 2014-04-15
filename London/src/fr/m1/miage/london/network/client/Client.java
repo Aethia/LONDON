@@ -15,7 +15,7 @@ public class Client {
 	try {
 		
 		System.out.println("Demande de connexion");
-		socket = new Socket("127.0.0.1",2009);
+		socket = new Socket("10.10.113.51",2009);
 		System.out.println("Connexion �tablie avec le serveur, authentification :"); // Si le message s'affiche c'est que je suis connect�
 		
 		t1 = new Thread(new Connexion(socket));
