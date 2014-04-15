@@ -408,7 +408,7 @@ public class Partie {
 			Map<Integer,Quartier> quartiers = plateau.getQuartiers();
 			
 			for(Integer key : quartiers.keySet()){
-				if( (quartiers.get(key).getProprietaireQuartier() == listeJoueurs.get(i)) && quartiers.get(key).isMetro_pose()) {
+				if( (quartiers.get(key).getProprietaireQuartier() == listeJoueurs.get(i)) && quartiers.get(key).isMetro_pose() ) {
 					listeJoueurs.get(i).setAddPoint_victoire(quartiers.get(key).getPoint_victoire() + 2);
 					listeJoueurs.get(i).setAddQuartiers();
 				}
@@ -419,6 +419,19 @@ public class Partie {
 				
 			}
 			
+			//Autre méthode de parcours de la liste des quartiers
+			/*
+			for(Map.Entry<Integer, Quartier> e : quartiers.entrySet()){
+				if( (e.getValue().getProprietaireQuartier()== listeJoueurs.get(i)) && e.getValue().isMetro_pose() ){
+					listeJoueurs.get(i).setAddPoint_victoire(e.getValue().getPoint_victoire() + 2);
+					listeJoueurs.get(i).setAddQuartiers();
+				}
+				else if(e.getValue().getProprietaireQuartier() == listeJoueurs.get(i)){
+					listeJoueurs.get(i).setAddPoint_victoire(e.getValue().getPoint_victoire());
+					listeJoueurs.get(i).setAddQuartiers();
+				}
+			}
+			*/
 			//carte zone de construction
 			for(int j = 0; j < listeJoueurs.get(i).getZone_construction().getNbPiles(); j++){
 				ArrayList<Carte> pile= listeJoueurs.get(i).getZone_construction().getCartesPile(j);
@@ -493,7 +506,7 @@ public class Partie {
 			}
 		}
 		
-		//si égalité
+		//si égalité, on tri selon différents critères
 		java.util.Collections.sort(listeJoueurs);
 		
 		for(Joueur j : listeJoueurs){

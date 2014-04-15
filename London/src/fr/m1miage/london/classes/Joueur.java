@@ -318,74 +318,8 @@ public class Joueur implements Comparable{
 		return 0;
 	}
 	
-	public void condictionVictoireCalcul(){
-		
-		//remboursement de l'emprunt (�15 pour �10 emprunt�)
-		montantEmprunts = (int) (montantEmprunts*1.5);
-		int nb_emprunt = montantEmprunts/15;
-		//nb_packet_argent est le nombre de packet de �15 que le joueur poss�de
-		int nb_packet_argent = argent/15;
-		
-		if(nb_emprunt >= nb_packet_argent){
-			argent += (-15*nb_packet_argent);
-			nb_emprunt = nb_emprunt - nb_packet_argent;
-		}
-		else{
-			argent += (-15*nb_emprunt);
-			nb_emprunt = 0;
-		}
-		
-		//un point de pauvret� en plus par carte en main
-		point_pauvrete += mainDuJoueur.getNb_cartes();
-		
-		//un point de victoire pour �3
-		point_victoire += argent / 3;
-		
-		//quartier + m�tro
-		
-		//carte zone de construction
-		for(int i=0;i<zoneConstruction.getNbPiles();i++){
-			ArrayList<Carte> pile= zoneConstruction.getCartesPile(i);
-			for(Carte c: pile){
-				point_victoire += c.getPointsVictoire();
-			}
-		}
-
-		//-7 points de victoire par emprunt non rembours�
-		point_victoire += (-7*nb_emprunt);
-		
-		//parcours points de pauvret� pour savoir qui a le moins, on supprime � tout le monde ce nombre
-		
-		
-		//Penalit� des points de pauvret�
-		if(point_pauvrete <= 2)
-			point_victoire += -1;
-		else if(point_pauvrete == 3)
-			point_victoire += -2;
-		else if(point_pauvrete == 4)
-			point_victoire += -3;
-		else if(point_pauvrete == 5)
-			point_victoire += -5;
-		else if(point_pauvrete == 6)
-			point_victoire += -7;
-		else if(point_pauvrete == 7)
-			point_victoire += -9;
-		else if(point_pauvrete == 8)
-			point_victoire += -11;
-		else if(point_pauvrete == 9)
-			point_victoire += -13;
-		else{
-			point_victoire += -15;
-			if(point_pauvrete > 10){
-				point_pauvrete = point_pauvrete-10;
-				point_victoire += -3*point_pauvrete;
-			}
-		}
-		//si �galit�		
-		
-	}
-
-
+	
+	//En cas d'égalité lors du calcul du vainqueur
 	@Override
 	public int compareTo(Object joueur) {
 		Joueur j = (Joueur)joueur;
