@@ -8,8 +8,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.classes.Etalage;
@@ -17,6 +21,8 @@ import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.classes.Pioche;
 import fr.m1miage.london.classes.Plateau;
 import fr.m1miage.london.classes.TraderClassRestaurerVille;
+import fr.m1miage.london.classes.Quartier;
+
 
 public class Partie implements Serializable{
 	/**
@@ -86,7 +92,7 @@ public class Partie implements Serializable{
 
 			//tant que l'utilisateur n'a pas choisit de couleur
 			while(couleur == null){
-				//On verifie si l'entree clavier est correcte				if(sc.hasNextInt()){
+				//On verifie si l'entree clavier est correcte
 				switch (sc.nextInt()) {
 				case 1:
 					couleur = rouge;
@@ -103,7 +109,7 @@ public class Partie implements Serializable{
 					//si l'utilisateur n'entre pas une couleur correspondante
 				default:
 					System.err.println("Valeur incorrecte \n");
-					System.out.println("Veuillez s�lectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
+					System.out.println("Veuillez s�lectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
 					break;					
 				}				
 				
@@ -154,8 +160,14 @@ public class Partie implements Serializable{
 	// la boucle de jeu
 	public void lancerJeu() {
 		Boolean actionEffectuee = false;
+
+		//repr�sente les tours � jouer apr�s �puissement des cartes
+		int decompte_final = nbJoueurs - 1;
+		
+		listeJoueurs.get(joueurActif).piocher(pioche);
 		// on joue tant qu'il y a des cartes dans la pioche
-		while (pioche.getNbCartes() > 0){
+
+		while ((pioche.getNbCartes() + decompte_final) > 0){
 			// le joueur actif doit choisir une action
 			System.out.println("C'est au tour de "
 					+ listeJoueurs.get(joueurActif).getNom()
@@ -239,6 +251,13 @@ public class Partie implements Serializable{
 						.println("Vous ne pouvez pas finir votre tour sans faire d'action! \n");
 						break;
 					}
+					if(pioche.getNbCartes() == 0)
+						decompte_final--;
+					// passe au suivant
+					joueurSuivant();
+					listeJoueurs.get(joueurActif).piocher(pioche);
+					actionEffectuee = false;
+					break;
 				}
 				case 9:{
 					if(actionEffectuee == true){
@@ -252,7 +271,7 @@ public class Partie implements Serializable{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					break;
+
 				}
 
 				default: {
@@ -268,6 +287,9 @@ public class Partie implements Serializable{
 				sc.next();
 			}
 		}
+		calculPointsVictoire();
+		calculGagnant();		
+		
 	}
 
 	private void piocherCartes() {
@@ -466,6 +488,132 @@ public class Partie implements Serializable{
 		}
 	}
 
+	public void calculPointsVictoire(){
+		for(int i=0; i < nbJoueurs; i++){
+			
+			int nb_emprunt = 0;
+			//remboursement de l'emprunt (£15 pour £10 empruntées)
+			if(listeJoueurs.get(i).getMontantEmprunts() > 0){
+				int MontantEmprunt = (int)(listeJoueurs.get(i).getMontantEmprunts()* 1.5);
+				
+				nb_emprunt = MontantEmprunt/15;
+				
+				//nb_packet_argent est le nombre de packet de £15 que le joueur possède
+				int nb_packet_argent = listeJoueurs.get(i).getArgent()/15;
+				
+				if(nb_emprunt >= nb_packet_argent){
+					listeJoueurs.get(i).setAddArgent(-15*nb_packet_argent);
+					nb_emprunt = nb_emprunt - nb_packet_argent;
+				}
+				else{
+					listeJoueurs.get(i).setAddArgent(-15*nb_emprunt);
+					nb_emprunt = 0;
+				}
+			}
+			//un point de pauvreté en plus par carte en main
+			listeJoueurs.get(i).setAddPoint_pauvrete(listeJoueurs.get(i).getMainDuJoueur().getNb_cartes());
+			
+			//un point de victoire pour £3
+			listeJoueurs.get(i).setAddPoint_victoire(listeJoueurs.get(i).getArgent() / 3);
+			
+			//quartier + métro
+			Map<Integer,Quartier> quartiers = plateau.getQuartiers();
+			
+			for(Integer key : quartiers.keySet()){
+				if( (quartiers.get(key).getProprietaireQuartier() == listeJoueurs.get(i)) && quartiers.get(key).isMetro_pose() ) {
+					listeJoueurs.get(i).setAddPoint_victoire(quartiers.get(key).getPoint_victoire() + 2);
+					listeJoueurs.get(i).setAddQuartiers();
+				}
+				else if(quartiers.get(key).getProprietaireQuartier() == listeJoueurs.get(i)){
+					listeJoueurs.get(i).setAddPoint_victoire(quartiers.get(key).getPoint_victoire());
+					listeJoueurs.get(i).setAddQuartiers();
+				}
+				
+			}
+
+			//carte zone de construction
+			for(int j = 0; j < listeJoueurs.get(i).getZone_construction().getNbPiles(); j++){
+				ArrayList<Carte> pile= listeJoueurs.get(i).getZone_construction().getCartesPile(j);
+				for(Carte c: pile){
+					listeJoueurs.get(i).setAddPoint_victoire(c.getPointsVictoire());
+				}
+			}
+
+			//-7 points de victoire par emprunt non remboursé
+			listeJoueurs.get(i).setAddPoint_victoire(-7*nb_emprunt);
+			
+			
+		}
+	}
+	
+	public void calculGagnant(){
+		
+		//parcours points de pauvreté pour savoir qui a le moins, on supprime ce nombre pour tout le monde ce nombre
+		int min = 999;
+		for(int i = 0; i < nbJoueurs; i++){
+			if(listeJoueurs.get(i).getPoint_pauvrete() < min)
+				min = listeJoueurs.get(i).getPoint_pauvrete();
+		}
+		
+		
+		for(int i = 0; i < nbJoueurs; i++){
+			
+			listeJoueurs.get(i).setAddPoint_pauvrete(-min);
+			
+			//Penalité des points de pauvreté
+			switch (listeJoueurs.get(i).getPoint_pauvrete()) {
+			case 1:
+			case 2:
+				listeJoueurs.get(i).setAddPoint_victoire(-1);
+				break;
+			
+			case 3:
+				listeJoueurs.get(i).setAddPoint_victoire(-2);
+				break;
+	
+			case 4:
+				listeJoueurs.get(i).setAddPoint_victoire(-3);
+				break;
+	
+			case 5:
+				listeJoueurs.get(i).setAddPoint_victoire(-5);
+				break;
+	
+			case 6:
+				listeJoueurs.get(i).setAddPoint_victoire(-7);
+				break;
+	
+			case 7:
+				listeJoueurs.get(i).setAddPoint_victoire(-9);
+				break;
+	
+			case 8:
+				listeJoueurs.get(i).setAddPoint_victoire(-11);
+				break;
+	
+			case 9:
+				listeJoueurs.get(i).setAddPoint_victoire(-13);
+				break;
+	
+			default:
+				if(listeJoueurs.get(i).getPoint_pauvrete() >= 10){
+					listeJoueurs.get(i).setAddPoint_victoire(-15);
+					if(listeJoueurs.get(i).getPoint_pauvrete() > 10){
+						listeJoueurs.get(i).setAddPoint_pauvrete(-10);
+						listeJoueurs.get(i).setAddArgent(-3 * listeJoueurs.get(i).getPoint_pauvrete());
+					}
+				}
+				break;
+			}
+		}
+		
+		//si égalité, on tri selon différents critères
+		java.util.Collections.sort(listeJoueurs);
+		
+		for(Joueur j : listeJoueurs){
+			System.out.println(j.toString());
+		}
+	}
 	public List<Joueur> getListeJoueurs() {
 		return listeJoueurs;
 	}
@@ -509,7 +657,6 @@ public class Partie implements Serializable{
 	public void setTourTermine(boolean tourTermine) {
 		this.tourTermine = tourTermine;
 	}
-
 
 	public int getActionChoisie() {
 		return actionChoisie;

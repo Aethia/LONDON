@@ -8,7 +8,8 @@ import java.util.List;
 import fr.m1miage.london.GestionErreurs;
 import fr.m1miage.london.Regles;
 
-public class Joueur implements Serializable {
+public class Joueur implements Serializable, Comparable {
+
 	private int id;
 	private String nom;
 	private Color couleur;
@@ -24,6 +25,8 @@ public class Joueur implements Serializable {
 	private ZoneConstruction zoneConstruction;
 	// la main du joueurs (ses cartes)
 	private Main mainDuJoueur;
+	
+	private int nbQuartiers;
 
 
 	// constructeur
@@ -39,9 +42,46 @@ public class Joueur implements Serializable {
 		montantEmprunts=0;
 		mainDuJoueur = new Main();
 		zoneConstruction=new ZoneConstruction();
+		nbQuartiers = 0;
 	}
 
 
+	public ZoneConstruction getZone_construction() {
+		return zoneConstruction;
+	}
+
+
+	public void setZoneConstruction(ZoneConstruction zoneConstruction) {
+		this.zoneConstruction = zoneConstruction;
+	}
+
+
+	public void setMontantEmprunts(int montantEmprunts) {
+		this.montantEmprunts = montantEmprunts;
+	}
+
+
+	public void setAddPoint_pauvrete(int point_pauvrete) {
+		this.point_pauvrete += point_pauvrete;
+	}
+
+	public void setAddQuartiers() {
+		this.nbQuartiers ++;
+	}
+	
+	public void setAddPoint_victoire(int point_victoire) {
+		this.point_victoire += point_victoire;
+	}
+
+
+	public void setAddArgent(int argent) {
+		this.argent += argent;
+	}
+
+	public void setArgent(int argent) {
+		this.argent = argent;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -61,7 +101,10 @@ public class Joueur implements Serializable {
 		return point_pauvrete;
 	}
 
-
+	public int getQuartiers() {
+		return nbQuartiers;
+	}
+	
 	public int getPoint_victoire() {
 		return point_victoire;
 	}
@@ -74,11 +117,6 @@ public class Joueur implements Serializable {
 
 	public int getMontantEmprunts() {
 		return montantEmprunts;
-	}
-
-
-	public ZoneConstruction getZone_construction() {
-		return zoneConstruction;
 	}
 
 
@@ -191,22 +229,6 @@ public class Joueur implements Serializable {
 
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//affiche les cartes de la m?me couleur qu'une carte choisie
 	public List<Carte> getCartesCouleur(Carte c){
 
 		List<Carte> cartesCouleur = new ArrayList<Carte>();
@@ -267,8 +289,14 @@ public class Joueur implements Serializable {
 		}
 	}
 
-	public void piocher(Pioche laPioche){
-		mainDuJoueur.ajouterCarte(laPioche.tirerUneCarte());
+	public GestionErreurs piocher(Pioche laPioche){
+		if(laPioche.getNbCartes() > 0){
+			mainDuJoueur.ajouterCarte(laPioche.tirerUneCarte());
+			return GestionErreurs.NONE;
+		}
+		else
+			return GestionErreurs.NOT_ENOUGH_CARD;
+			
 	}
 
 
@@ -405,5 +433,31 @@ public class Joueur implements Serializable {
 		}
 		
 		return 1;
+	}
+	
+	
+	//En cas d'égalité lors du calcul du vainqueur
+	@Override
+	public int compareTo(Object joueur) {
+		Joueur j = (Joueur)joueur;
+		if(this.point_victoire < j.getPoint_victoire())
+			return 1;
+		else if(this.point_victoire > j.getPoint_victoire())
+			return -1;
+		else{
+			if(this.point_pauvrete > j.getPoint_pauvrete())
+				return 1;
+			else if(this.point_pauvrete < j.getPoint_pauvrete())
+				return -1;
+			else{
+				if(this.nbQuartiers < j.getQuartiers())
+					return 1;
+				else if(this.nbQuartiers > j.getQuartiers())
+					return -1;
+				else
+					return 0;
+				
+			}
+		}
 	}
 }
