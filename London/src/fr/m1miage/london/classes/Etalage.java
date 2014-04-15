@@ -17,6 +17,32 @@ public class Etalage {
 	private void remonterCartes(){
 		rangee1 = new ArrayList<Carte>(rangee2);
 	}
+	/*
+	 * Recuperer une carte de l'étalage (action piocher 3 cartes)
+	 */
+	public Carte recupererCarte(int idCarte){
+		Carte c=null;
+		c = getCarteParIdRangee1(idCarte);
+		if(c!=null){
+			rangee1.remove(c);
+			//remplir les vides
+			if(rangee1.size()<tailleEtalage){
+				int i=0;
+				while(rangee1.size()<tailleEtalage && rangee2.size()>0){
+					if(rangee2.size()>0){
+						rangee1.add(rangee2.remove(i));
+					}
+					i++;
+				}
+			}
+			return c;
+		}
+		c = getCarteParIdRangee2(idCarte);
+		if(c!=null){
+			rangee2.remove(c);
+		}
+		return c;
+	}
 	
 	/*
 	 * retourner la carte par l'id

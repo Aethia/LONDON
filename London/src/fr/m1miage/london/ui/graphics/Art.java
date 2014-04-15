@@ -71,6 +71,8 @@ public class Art {
 		ico_Pauvre = load(Prefs.REPERTOIRE_ICONES+"ico_pauvrete.png", 40,40);
 		
 		emplacement_etalage = load(Prefs.REPERTOIRE + "etalage_carte.png", 256,512);
+		
+		
 	}
 
 	public static TextureRegion load (String name, int width, int height) {
