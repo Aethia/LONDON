@@ -159,10 +159,28 @@ public class GameScreen extends Screen{
 		});
 		tMenu.add(zoneConstructionBtn).row().padTop(20f);
 
-		etalageCartesBtn = new TextButton("Etalage de cartes",Buttons.styleInGameMenu); //** Button text and style **//
-		tMenu.add(etalageCartesBtn).row().padTop(20f);
+		etalageCartesBtn = new TextButton("Etalage de cartes",Buttons.styleInGameMenu);
+		etalageCartesBtn.addListener(new InputListener(){
 
-		quartiersBtn = new TextButton("Quartiers",Buttons.styleInGameMenu); //** Button text and style **//
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new EtalageScreen());
+				super.touchUp(event, x, y, pointer, button);
+			}
+			
+		});
+		tMenu.add(etalageCartesBtn).row().padTop(20f);
+		
+
+		quartiersBtn = new TextButton("Quartiers",Buttons.styleInGameMenu); 
+		
 		quartiersBtn.addListener(new InputListener(){
 
 			@Override

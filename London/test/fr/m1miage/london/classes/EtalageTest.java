@@ -1,17 +1,14 @@
 package fr.m1miage.london.classes;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
-import fr.m1miage.london.classes.Carte;
-import fr.m1miage.london.classes.Etalage;
 
 public class EtalageTest {
 
 	@Test
 	public void testAjouterCarte(){
-		Etalage e = new Etalage(5);
+		Etalage e = new Etalage();
 		Carte c = new Carte(1,"nom","A",2,"Rouge",null);
 		e.ajouterCarte(c);
 		assertEquals(1, e.getRangee2().get(0).getId_carte());
@@ -39,7 +36,7 @@ public class EtalageTest {
 	
 	@Test
 	public void testVidageEtalage(){
-		Etalage e = new Etalage(5);
+		Etalage e = new Etalage();
 		Carte c = new Carte(1,"nom","A",2,"Rouge",null);
 		e.ajouterCarte(c);
 		Carte c1 = new Carte(2,"nom","A",2,"Rouge",null);
@@ -53,7 +50,7 @@ public class EtalageTest {
 		Carte c5 = new Carte(6,"nom","A",2,"Rouge",null);
 		e.ajouterCarte(c5);
 		e.viderEtalage();
-		String tmp = "1e rangee de l'étalage\n-------------\n2e rangee de l'étalage\n";
+		String tmp = "1e rangee de l'ï¿½talage\n-------------\n2e rangee de l'ï¿½talage\n";
 		assertEquals(tmp, tmp.toString());
 	}
 

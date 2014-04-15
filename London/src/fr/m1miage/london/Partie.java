@@ -92,7 +92,7 @@ public class Partie {
 						//si l'utilisateur n'entre pas une couleur correspondante
 					default:
 						System.err.println("Valeur incorrecte \n");
-						System.out.println("Veuillez sélectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
+						System.out.println("Veuillez sï¿½lectionner une des couleurs suivantes : \n 1.Rouge \n 2.Vert \n 3.Jaune \n 4.Bleu");
 						break;					
 						}
 				//entree clavier incorrect, on passe a la suivante}				else{
@@ -112,6 +112,7 @@ public class Partie {
 		}
 
 		plateau.init();
+		plateau.getEtalage().setTailleEtalage(nbJoueurs+1);
 		pioche.init();
 
 		// on initialise le premier joueur 
@@ -270,13 +271,13 @@ public class Partie {
 				}
 				erreur.getMsgError();
 			}
-			//passe au prochaine scanner (le précédent n'étant pas un int)
+			//passe au prochaine scanner (le prï¿½cï¿½dent n'ï¿½tant pas un int)
 			else{
 				GestionErreurs.INCORRECT_NUMBER.getMsgError();
 				sc.next();
 			}
 		}
-		//passe au prochaine scanner (le precedent n'étant pas un int)
+		//passe au prochaine scanner (le precedent n'ï¿½tant pas un int)
 	}
 /*
 	 * action restaurer la ville
@@ -291,7 +292,7 @@ public class Partie {
 		String[] lesValeurs;
 		List<Integer> listVal = new ArrayList<Integer>();
 		/*
-		 * Choix des cartes à activer
+		 * Choix des cartes ï¿½ activer
 		 */		System.out.println("Votre zone de construction : \n"+listeJoueurs.get(joueurActif).getZone_construction().toString());
 		System.out.println("Quelle(s) carte(s) activer ?");
 		args = sc.next();
@@ -302,11 +303,11 @@ public class Partie {
 			listVal.add(tmp);
 			}
 			catch (NumberFormatException e){
-				System.err.println("Les arguments doivent être les id des cartes!");
+				System.err.println("Les arguments doivent ï¿½tre les id des cartes!");
 				return false;
 			}
 		}
-		// on regarde s'il est possible de restaurer la ville avec les cartes sélectionnées
+		// on regarde s'il est possible de restaurer la ville avec les cartes sï¿½lectionnï¿½es
 		if (listeJoueurs.get(joueurActif).restaurerVille(listVal) < 0) {
 			System.err.println("impossible d'activer ces cartes.");
 			return false;
@@ -339,7 +340,7 @@ public class Partie {
 		}
 		List<Carte> listeCartes = new ArrayList<Carte>();
 			if (carte){
-				System.out.println("Choisissez les cartes à défausser dans votre main :");
+				System.out.println("Choisissez les cartes ï¿½ dï¿½fausser dans votre main :");
 				System.out.println(listeJoueurs.get(joueurActif).getMainDuJoueur().toString());
 				args = sc.next();
 				lesValeurs = args.split(" ");
@@ -349,7 +350,7 @@ public class Partie {
 					listeCartes.add(listeJoueurs.get(joueurActif).getMainDuJoueur().choisirCarte(tmp));
 					}
 					catch (NumberFormatException e){
-						System.err.println("Les arguments doivent être les id des cartes!");
+						System.err.println("Les arguments doivent ï¿½tre les id des cartes!");
 						return false;
 					}
 				}
@@ -367,7 +368,7 @@ public class Partie {
 				for(int idCarte : listVal){
 					listeJoueurs.get(joueurActif).getZone_construction().retournerCarte(idCarte);
 				}
-				// todo méthode de joueur pour payer la somme et retourner les cartes
+				// todo mï¿½thode de joueur pour payer la somme et retourner les cartes
 				System.out.println("Cartes activees !");
 			}
 
@@ -382,19 +383,19 @@ public class Partie {
 		while(finConstruction == 1){
 			System.out.println(listeJoueurs.get(joueurActif).getArgent());
 			listeJoueurs.get(joueurActif).afficherMain();
-			System.out.println("Choisissez la carte à poser dans la zone de construction : ");
+			System.out.println("Choisissez la carte ï¿½ poser dans la zone de construction : ");
 			int idCarte=(Integer.parseInt(sc.next()));
 			Carte cPosee = listeJoueurs.get(joueurActif).choisirCarteParId(idCarte);
 			List<Carte> lDefausse = listeJoueurs.get(joueurActif).getCartesCouleur(cPosee);
 			if(lDefausse.size()==0){
 				GestionErreurs.DEFAUSSE_INDISPO.getMsgError();
 			}else{
-				System.out.println("Quelle carte de même couleur voulez-vous défausser ?");
+				System.out.println("Quelle carte de mï¿½me couleur voulez-vous dï¿½fausser ?");
 				System.out.println(listeJoueurs.get(joueurActif).getCartesCouleur(cPosee).toString());
 				int idCarteDefausse=Integer.parseInt(sc.next());
 				Carte cDefausse = listeJoueurs.get(joueurActif).choisirCarteParId(idCarteDefausse);
 				listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
-				System.out.println("Choisir une pile ou en créer une nouvelle (0):");
+				System.out.println("Choisir une pile ou en crï¿½er une nouvelle (0):");
 				int indexPile=Integer.parseInt(sc.next());	
 				erreur = listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
 				if(erreur.equals(GestionErreurs.NONE)){

@@ -43,7 +43,7 @@ public class DefausserScreen extends Screen {
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				for(Integer key : cDefausse.keySet()){
-					joueur.supprimerCarteMainParId(key);
+					joueur.seDefausser(cDefausse.get(key).getCarte(), londonG.partie.getPlateau().getEtalage());;
 				}
 				Screen.setScreen(new GameScreen());
 				super.touchUp(event, x, y, pointer, button);
