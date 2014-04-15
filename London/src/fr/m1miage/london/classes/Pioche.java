@@ -1,5 +1,6 @@
 package fr.m1miage.london.classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.Set;
 
 import fr.m1miage.london.db.CartesManager;
 
-public class Pioche {
+public class Pioche implements Serializable{
 	// lex cartes de la pioche
 	private List<Carte> laPioche = new ArrayList<Carte>(); 
 	

@@ -1,6 +1,8 @@
 package fr.m1miage.london.classes;
 
-public class Carte {
+import java.io.Serializable;
+
+public class Carte implements Serializable{
 	private int id_carte;
 	private String nom;
 	private String periode;

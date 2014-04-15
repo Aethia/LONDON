@@ -1,8 +1,9 @@
 package fr.m1miage.london.classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Etalage {
+public class Etalage implements Serializable{
 	
 	private int tailleEtalage;
 	private ArrayList<Carte> rangee1 = new ArrayList<Carte>();

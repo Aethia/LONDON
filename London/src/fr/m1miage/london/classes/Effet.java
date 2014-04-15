@@ -1,6 +1,8 @@
 package fr.m1miage.london.classes;
 
-public class Effet {
+import java.io.Serializable;
+
+public class Effet implements Serializable{
 	private int idEffet;
 	private String nomEffet;
 	private int type; //1 = passif, 2 = actif
