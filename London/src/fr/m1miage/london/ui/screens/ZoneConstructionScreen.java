@@ -202,7 +202,7 @@ public class ZoneConstructionScreen extends Screen{
 				Carte cPosee = joueur.getMainDuJoueur().choisirCarte(idCarteSelected);
 				Carte cDefaussee = joueur.getMainDuJoueur().choisirCarte(idDefausseSelected);
 				System.out.println("pile :"+idPile);
-				erreur = joueur.construire(cPosee, cDefaussee, idPile);
+				erreur = joueur.construire(cPosee, cDefaussee, idPile, londonG.partie.getPlateau().getEtalage());
 				if(erreur.equals(GestionErreurs.NONE)){ //si aucune erreur, le tour est terminé
 					londonG.partie.setActionChoisie(1);
 					londonG.partie.setTourTermine(true);

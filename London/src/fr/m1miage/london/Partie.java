@@ -397,7 +397,7 @@ public class Partie implements Serializable{
 
 	private void jouerCarte() {
 		int finConstruction=1;
-		System.out.println(Plateau.etalage.toString());
+		System.out.println(plateau.getEtalage().toString());
 		while(finConstruction == 1){
 			System.out.println(listeJoueurs.get(joueurActif).getArgent());
 			listeJoueurs.get(joueurActif).afficherMain();
@@ -415,13 +415,13 @@ public class Partie implements Serializable{
 				listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
 				System.out.println("Choisir une pile ou en cr�er une nouvelle (0):");
 				int indexPile=Integer.parseInt(sc.next());	
-				erreur = listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
+				erreur = listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile,plateau.getEtalage());
 				if(erreur.equals(GestionErreurs.NONE)){
 					System.out.println(listeJoueurs.get(joueurActif).getZone_construction().getNbPiles());
 
 					System.out.println(listeJoueurs.get(joueurActif).getArgent());
 					listeJoueurs.get(joueurActif).afficherMain();
-					System.out.println(Plateau.etalage.toString());
+					System.out.println(plateau.getEtalage().toString());
 
 					System.out.println("1. Rejouer une carte \n 2. Finir les constructions");
 					if(sc.hasNextInt()){
@@ -439,7 +439,7 @@ public class Partie implements Serializable{
 	private void consulterEtalage() {
 		
 		System.out.println("Vous voulez consulter l'étalage de cartes");
-		System.out.println(Plateau.etalage.toString());
+		System.out.println(plateau.getEtalage().toString());
 	}
 
 	private void consulterMain() {

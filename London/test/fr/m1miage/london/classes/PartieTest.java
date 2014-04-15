@@ -18,6 +18,7 @@ public class PartieTest implements Serializable{
 	public void testSauvegarde() throws IOException, ClassNotFoundException {
 		Partie partie = new Partie();
 		partie.setPlateau(new Plateau());
+		partie.getPlateau().setEtalage(new Etalage());
 		partie.getPlateau().init();
 		Joueur j = new Joueur(1,"toto",Color.black);
 		Joueur j2 = new Joueur(2,"titi",Color.red);
@@ -33,7 +34,7 @@ public class PartieTest implements Serializable{
 		j.ajouterCarteMain(c1);
 		j2.ajouterCarteMain(c3);
 		j2.ajouterCarteMain(c2);
-		j.construire(c, c1, 0);
+		j.construire(c, c1, 0, partie.getPlateau().getEtalage());
 		partie.setListeJoueurs(joueurs);
 		partie.sauvegarder();
 		

@@ -237,7 +237,7 @@ public class Joueur implements Serializable {
 	}
 
 	//On construit "une carte" sur une pile donn?e, et on d?fausse une carte de la m?me couleur
-	public GestionErreurs construire(Carte cPosee, Carte cDefaussee, int indexPile){
+	public GestionErreurs construire(Carte cPosee, Carte cDefaussee, int indexPile, Etalage etalage){
 		if(this.verifPresenceCarte(cPosee, mainDuJoueur.getLesCartes())){
 			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
 				if(cPosee.getPrix()<= argent){ 		
@@ -250,7 +250,7 @@ public class Joueur implements Serializable {
 					argent -= cPosee.getPrix();
 					this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
 					this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
-					Plateau.etalage.ajouterCarte(cDefaussee);
+					etalage.ajouterCarte(cDefaussee);
 					return GestionErreurs.NONE;
 				}
 				else{
