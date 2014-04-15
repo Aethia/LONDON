@@ -375,19 +375,6 @@ public class Partie implements Serializable{
 		 /*
 		  * activation des cartes
 		  */
-		
-			System.out.println("Voulez vous vraiment payer cette somme et restaurer la ville ? oui/non");
-			String ret = sc.next();
-			if (ret.equalsIgnoreCase("oui")) {
-				// tente de payer la restauration de la ville
-				listeJoueurs.get(joueurActif).payerRestaurationVille(listeCartes);
-				// on retourne les cartes que l'on souhaite activer
-				for(int idCarte : listVal){
-					listeJoueurs.get(joueurActif).getZone_construction().retournerCarte(idCarte);
-				}
-				// todo m�thode de joueur pour payer la somme et retourner les cartes
-				System.out.println("Cartes activees !");
-			}
 
 		 System.out.println("Voulez vous vraiment payer cette somme et restaurer la ville ? oui/non");
 		 String ret = sc.next();
