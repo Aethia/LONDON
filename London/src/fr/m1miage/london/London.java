@@ -20,7 +20,7 @@ public class London {
 		System.out.println("Choix du lancement de LONDON :");
 		System.out.println("\t 1 : Console");
 		System.out.println("\t 2 : Graphique");
-		System.out.println("\t 3 : Console mode réseau");
+		System.out.println("\t 3 : Console mode rï¿½seau");
 		int nb=0;
 		boolean err = true;
 		Scanner sc = new Scanner(System.in);
@@ -36,18 +36,9 @@ public class London {
 		}
 		switch(nb){
 		case 1 : 
-			Partie partie = new Partie();
-			System.out.println("1. Lancer une nouvelle partie");
-			System.out.println("2. Charger une partie");
-			nb = sc.nextInt();
-			if(nb == 2){
-				partie.chargerPartie();
-				partie.lancerJeu();
-			}
-			else{
-				partie.init();
-				partie.lancerJeu();
-			}
+		
+			Console console = new Console();
+			console.demarrer();
 			break;
 		case 2 :  
 			LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
