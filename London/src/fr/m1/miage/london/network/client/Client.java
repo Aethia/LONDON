@@ -1,7 +1,8 @@
 package fr.m1.miage.london.network.client;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class Client {
 
@@ -14,8 +15,8 @@ public class Client {
 	try {
 		
 		System.out.println("Demande de connexion");
-		socket = new Socket("127.0.0.1",2009);
-		System.out.println("Connexion établie avec le serveur, authentification :"); // Si le message s'affiche c'est que je suis connecté
+		socket = new Socket("10.10.113.51",2009);
+		System.out.println("Connexion ï¿½tablie avec le serveur, authentification :"); // Si le message s'affiche c'est que je suis connectï¿½
 		
 		t1 = new Thread(new Connexion(socket));
 		t1.start();
@@ -23,9 +24,9 @@ public class Client {
 		
 		
 	} catch (UnknownHostException e) {
-	  System.err.println("Impossible de se connecter à l'adresse "+socket.getLocalAddress());
+	  System.err.println("Impossible de se connecter ï¿½ l'adresse "+socket.getLocalAddress());
 	} catch (IOException e) {
-	  System.err.println("Aucun serveur à l'écoute du port "+socket.getLocalPort());
+	  System.err.println("Aucun serveur ï¿½ l'ï¿½coute du port "+socket.getLocalPort());
 	}
 	
 	
