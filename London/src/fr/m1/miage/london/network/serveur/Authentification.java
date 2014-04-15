@@ -54,24 +54,7 @@ public class Authentification implements Runnable {
 	}
 	
 	private static boolean isValid(String login, String pass) {
-		
-		
-		boolean connexion = false;
-		try {
-			Scanner sc = new Scanner(new File("zero.txt"));
-			
-			
-			while(sc.hasNext()){
-				if(sc.nextLine().equals(login+" "+pass)){
-              	  connexion=true;
-				  break;
-				}
-             }
-			
-		} catch (FileNotFoundException e) {	
-			System.err.println("Le fichier n'existe pas !");
-		}
-	return connexion;
+		return true;
 		
 	}
 
