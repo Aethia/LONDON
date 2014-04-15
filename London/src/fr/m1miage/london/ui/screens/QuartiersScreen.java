@@ -218,7 +218,7 @@ public class QuartiersScreen extends Screen{
 
 			Fonts.FONT_BLACK.draw(spriteBatch, messageInvestir , 1100, 250);
 		}
-		if(nbQuartierHovered == 1){
+		if(nbQuartierHovered < 6){
 			draw(Art.imagesQuartiers.get(nbQuartierHovered), 500, 100);
 		}
 		
