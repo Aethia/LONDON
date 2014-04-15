@@ -12,6 +12,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import fr.m1miage.london.GestionErreurs;
+
 public class JoueurTest {
 
 	private Joueur j;
@@ -66,7 +68,7 @@ public class JoueurTest {
 	
 	public void testEmpruntZero(){
 		Joueur j = new Joueur(1,"toto",Color.black);
-		assertEquals("Montant incorrect \n", j.emprunter(0));
+		assertEquals(GestionErreurs.MONTANT_INCORRECT, j.emprunter(0));
 	}	@Test
 	
 	public void testEmpruntMultiple(){
@@ -107,14 +109,14 @@ public class JoueurTest {
 	
 	public void testEmpruntHorsLimite(){
 		Joueur j = new Joueur(1,"toto",Color.black);
-		assertEquals("Montant incorrect \n", j.emprunter(110));
+		assertEquals(GestionErreurs.MONTANT_INCORRECT, j.emprunter(110));
 	}	@Test
 	
 	public void testEmpruntLimite(){
 		Joueur j = new Joueur(1,"toto",Color.black);
 		j.emprunter(50);
 		assertEquals(55, j.getArgent());
-		assertEquals("Montant incorrect \n", j.emprunter(60));
+		assertEquals(GestionErreurs.MAX_EMPRUNT, j.emprunter(60));
 	}
 		
 	
@@ -140,7 +142,7 @@ public class JoueurTest {
 		Pioche p = new Pioche();
 		pl.init();
 		p.init();
-		assertEquals("Désolé vous ne pouvez pas investir dans ce quartier !",j.invest(1,pl,p));
+		assertEquals(GestionErreurs.NOT_ENOUGH_MONEY,j.invest(1,pl,p));
 	}
 	
 	@Test
@@ -149,7 +151,8 @@ public class JoueurTest {
 		Plateau pl = new Plateau();
 		Pioche p = new Pioche();
 		pl.init();
-		p.init();	
+		p.init();
+		j.invest(1,pl,p);
 	}
 	
 	@Test
