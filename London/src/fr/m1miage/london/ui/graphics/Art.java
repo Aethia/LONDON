@@ -40,6 +40,9 @@ public class Art {
 	public static TextureRegion ico_Emprunt;
 	public static TextureRegion ico_Pauvre;
 	
+	/*--- carte ---*/
+	public static TextureRegion  emplacement_etalage;
+	
 	public static void load () {
 		Fonts.load();
 		Buttons.load();
@@ -66,6 +69,10 @@ public class Art {
 		ico_Livres = load(Prefs.REPERTOIRE_ICONES+"ico_livre.png", 40,40);
 		ico_Emprunt = load(Prefs.REPERTOIRE_ICONES+"ico_emprunt.png", 64,40);
 		ico_Pauvre = load(Prefs.REPERTOIRE_ICONES+"ico_pauvrete.png", 40,40);
+		
+		emplacement_etalage = load(Prefs.REPERTOIRE + "etalage_carte.png", 256,512);
+		
+		
 	}
 
 	public static TextureRegion load (String name, int width, int height) {

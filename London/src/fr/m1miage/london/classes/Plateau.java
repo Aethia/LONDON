@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.m1miage.london.Regles;
 import fr.m1miage.london.db.QuartiersManager;
 
 public class Plateau implements Serializable{
@@ -20,7 +19,7 @@ public class Plateau implements Serializable{
 	}
 	public void init(){
 		quartiers = QuartiersManager.getQuartiers();
-		etalage = new Etalage(Regles.NBMAXJOUEURS);
+		etalage = new Etalage();
 	}
 	
 	public Map<Integer, Quartier> getQuartiers() {

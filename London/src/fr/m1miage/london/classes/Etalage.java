@@ -9,16 +9,40 @@ public class Etalage implements Serializable{
 	private ArrayList<Carte> rangee1 = new ArrayList<Carte>();
 	private ArrayList<Carte> rangee2 = new ArrayList<Carte>();
 	
-	public Etalage(int tailleEtalage){
-		this.tailleEtalage = tailleEtalage;
-		
+	public Etalage(){		
 	}
 	
 	/*
-	 * si on ajoute une carte dans la 2e rangée qui est pleine, on remonte la 2e rangée
+	 * si on ajoute une carte dans la 2e rangï¿½e qui est pleine, on remonte la 2e rangï¿½e
 	 */
 	private void remonterCartes(){
 		rangee1 = new ArrayList<Carte>(rangee2);
+	}
+	/*
+	 * Recuperer une carte de l'Ã©talage (action piocher 3 cartes)
+	 */
+	public Carte recupererCarte(int idCarte){
+		Carte c=null;
+		c = getCarteParIdRangee1(idCarte);
+		if(c!=null){
+			rangee1.remove(c);
+			//remplir les vides
+			if(rangee1.size()<tailleEtalage){
+				int i=0;
+				while(rangee1.size()<tailleEtalage && rangee2.size()>0){
+					if(rangee2.size()>0){
+						rangee1.add(rangee2.remove(i));
+					}
+					i++;
+				}
+			}
+			return c;
+		}
+		c = getCarteParIdRangee2(idCarte);
+		if(c!=null){
+			rangee2.remove(c);
+		}
+		return c;
 	}
 	
 	/*
@@ -44,14 +68,14 @@ public class Etalage implements Serializable{
 	}
 	
 	/*
-	 * retourner une copie de la rangée 2
+	 * retourner une copie de la rangï¿½e 2
 	 */
 	public ArrayList<Carte> getRangee2(){
 		return new ArrayList<Carte>(rangee2);
 	}
 	
 	/*
-	 * retourner une copie de la rangée 1
+	 * retourner une copie de la rangï¿½e 1
 	 */
 	public ArrayList<Carte> getRangee1(){
 		return new ArrayList<Carte>(rangee1);
@@ -61,20 +85,23 @@ public class Etalage implements Serializable{
 	 * ajouter une carte dans la zone de construction
 	 */
 	public void ajouterCarte(Carte c){
+		System.out.println(tailleEtalage);
 		if (rangee1.size() < tailleEtalage){
 			rangee1.add(c);}
-		else {
+		else if(rangee2.size() < tailleEtalage){
+			rangee2.add(c);
+		}else{
 			remonterCartes();
-			rangee1.clear();
-			rangee1.add(c);
+			rangee2.clear();
+			rangee2.add(c);
 		}
 	}
 	
 	public String toString(){
-		String tmp = "1e rangee de l'étalage \n";
+		String tmp = "1e rangee de l'ï¿½talage \n";
 		for(Carte c : rangee1)
 			tmp += c.toString();
-		tmp += "-------------\n2e rangee de l'étalage \n";
+		tmp += "-------------\n2e rangee de l'ï¿½talage \n";
 		for(Carte c : rangee2)
 			tmp += c.toString();
 		return tmp;
@@ -88,5 +115,15 @@ public class Etalage implements Serializable{
 		rangee1 = new ArrayList<Carte>();
 		rangee2 = new ArrayList<Carte>();
 	}
+
+	public int getTailleEtalage() {
+		return tailleEtalage;
+	}
+
+	public void setTailleEtalage(int tailleEtalage) {
+		this.tailleEtalage = tailleEtalage;
+	}
+	
+	
 
 }

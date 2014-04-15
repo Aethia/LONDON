@@ -87,6 +87,10 @@ public class CarteActor extends Actor{
 	public int getId() {
 		return id;
 	}
+
+	public Carte getCarte() {
+		return carte;
+	}
 	
 
 }

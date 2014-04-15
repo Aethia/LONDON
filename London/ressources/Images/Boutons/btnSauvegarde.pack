@@ -1,0 +1,20 @@
+btnSauvegarde.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ButtonOff
+	rotate: false
+	xy: 1, 1
+	size: 66, 69
+	split: 0, 0, 0, 0
+	orig: 66, 69
+	offset: 0, 0
+	index:-1
+ButtonOn
+	rotate: false
+	xy: 1, 69
+	size: 66, 69
+	split: 0, 0, 0, 0
+	orig: 66, 69
+	offset: 0, 0
+	index:-1

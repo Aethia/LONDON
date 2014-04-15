@@ -50,12 +50,36 @@ public class GameScreen extends Screen{
 
 	private int time =0;
 	private static final int TIME_OUT_CARD = 150;
+	
+	public static Button btnSauvegarde;
+	
 
 	public GameScreen(){
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
-		/*Parametres Boutons d'action -> si le tour n'est pas termin�, on continue d'afficher actions*/
+		
+		//sauvegarde
+		btnSauvegarde = new Button(Buttons.styleBtnSauvegarde);
+		btnSauvegarde.setPosition(1250, 720); //changer la position
+		btnSauvegarde.addListener(new InputListener(){
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
+			}
+			
+		});
+		stage.addActor(btnSauvegarde);
+		
+		/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
 		if(!londonG.partie.isTourTermine()){
 			Table tableActions = new Table();
 			tableActions.setPosition(780, 485);
@@ -102,6 +126,22 @@ public class GameScreen extends Screen{
 			tableActions.add(investirBtn);
 
 			piocherBtn = new Button(Buttons.styleBtnPiocher);
+			piocherBtn.addListener(new InputListener(){
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					return true;
+				}
+
+				@Override
+				public void touchUp(InputEvent event, float x, float y,
+						int pointer, int button) {
+					Screen.setScreen(new EtalageScreen(true));
+					super.touchUp(event, x, y, pointer, button);
+				}
+				
+			});
 			tableActions.add(piocherBtn);
 
 			tableActions.pad(30f);		
@@ -159,10 +199,28 @@ public class GameScreen extends Screen{
 		});
 		tMenu.add(zoneConstructionBtn).row().padTop(20f);
 
-		etalageCartesBtn = new TextButton("Etalage de cartes",Buttons.styleInGameMenu); //** Button text and style **//
-		tMenu.add(etalageCartesBtn).row().padTop(20f);
+		etalageCartesBtn = new TextButton("Etalage de cartes",Buttons.styleInGameMenu);
+		etalageCartesBtn.addListener(new InputListener(){
 
-		quartiersBtn = new TextButton("Quartiers",Buttons.styleInGameMenu); //** Button text and style **//
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new EtalageScreen(false));
+				super.touchUp(event, x, y, pointer, button);
+			}
+			
+		});
+		tMenu.add(etalageCartesBtn).row().padTop(20f);
+		
+
+		quartiersBtn = new TextButton("Quartiers",Buttons.styleInGameMenu); 
+		
 		quartiersBtn.addListener(new InputListener(){
 
 			@Override

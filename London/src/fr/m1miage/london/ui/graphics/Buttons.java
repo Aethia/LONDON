@@ -38,8 +38,20 @@ public class Buttons {
 	public static TextButtonStyle styleEmprunt2;
 
 	
+	public static ButtonStyle styleBtnSauvegarde;	
+	
 	public static TextButton button; 
 	private static BitmapFont font;
+	
+	
+	private static void boutonSauvegarde(){
+		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE_BOUTONS+"btnSauvegarde.pack"); 
+		Skin buttonSkin = new Skin();
+		buttonSkin.addRegions(btnAtlas); 
+		styleBtnSauvegarde = new ButtonStyle();
+		styleBtnSauvegarde.up = buttonSkin.getDrawable("ButtonOff");
+		styleBtnSauvegarde.down = buttonSkin.getDrawable("ButtonOn");
+	}
 	
 	private static void boutonFinTour(){
 		TextureAtlas btnAtlas = new TextureAtlas(Prefs.REPERTOIRE_ACTIONS+"buttonFinTour.pack"); 
@@ -206,5 +218,6 @@ public class Buttons {
 		boutonsEmprunt();
 		boutonFinTour();
 		boutonIcoZoneConstru();
+		boutonSauvegarde();
 	}
 }

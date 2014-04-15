@@ -12,7 +12,7 @@ public class Joueur implements Serializable {
 	private int id;
 	private String nom;
 	private Color couleur;
-	// les points de pauvreté du joueur
+	// les points de pauvretï¿½ du joueur
 	private int point_pauvrete;
 	// les pts de victoire du joueur
 	private int point_victoire;
@@ -20,7 +20,7 @@ public class Joueur implements Serializable {
 	private int argent;
 
 	private int montantEmprunts;
-	// les zones de construction qu'il peut posséder
+	// les zones de construction qu'il peut possï¿½der
 	private ZoneConstruction zoneConstruction;
 	// la main du joueurs (ses cartes)
 	private Main mainDuJoueur;
@@ -126,13 +126,21 @@ public class Joueur implements Serializable {
 	public Boolean supprimerCarteMainParId(int idCarte){
 		return this.mainDuJoueur.supprimerCarteParId(idCarte);
 	}
-
+/*
+ * Defausse
+ */
+	public void seDefausser(Carte c, Etalage etalage){
+		etalage.ajouterCarte(c);
+		mainDuJoueur.supprimerCarteParId(c.getId_carte());
+	}
+	
+	
 	public Carte choisirCarteParId(int idCarte){
 		return this.mainDuJoueur.choisirCarte(idCarte);				
 	}
 
 	/*
-	 * vérifier si le joueur peut finir son tour
+	 * vï¿½rifier si le joueur peut finir son tour
 	 */
 	public Boolean VerifierFinDeTour(){
 		return this.mainDuJoueur.VerifierQteCarteFinDeTour();
@@ -158,7 +166,7 @@ public class Joueur implements Serializable {
 		boolean investir;
 		if (quartier > 0 && quartier < 21) {
 
-			//on verifie si le joueur à assez d'argent
+			//on verifie si le joueur ï¿½ assez d'argent
 			if(this.getArgent()>=plateau.getQuartier(quartier).getPrix()){
 				//on verifie si on peut investir dans le quartier
 				investir = plateau.getQuartier(quartier).investirQuartier(this);
@@ -166,7 +174,7 @@ public class Joueur implements Serializable {
 				if(investir==true){
 					this.argent-=plateau.getQuartier(quartier).getPrix();
 
-					//le joueur pioche le nb de cartes précisé sur le quartier
+					//le joueur pioche le nb de cartes prï¿½cisï¿½ sur le quartier
 					this.ajouterCartesMain(pioche.tirerNCartes(plateau.getQuartier(quartier).getNb_carte_a_piocher()));
 
 					return GestionErreurs.NONE;
@@ -285,14 +293,14 @@ public class Joueur implements Serializable {
 	}
 
 	/*
-	 * méthode pour la restauration de la ville
+	 * mï¿½thode pour la restauration de la ville
 	 * code retour : 
-	 * -1 : cartes non trouvées
+	 * -1 : cartes non trouvï¿½es
 	 * 1 : pas de pb
 	 */
 	public int restaurerVille(List<Integer> idCartes){
 		/*
-		 * Vérifier si les cartes existent
+		 * Vï¿½rifier si les cartes existent
 		 */
 		// les cartes "activables" (qui sont sur le dessus des piles)
 		List<Carte> cartesDessus = zoneConstruction.getCarteDessus();
@@ -301,17 +309,17 @@ public class Joueur implements Serializable {
 		// pour tous les id de cartes qu'on veut activer
 		for(int i = 0;i<idCartes.size();i++){
 			for (Carte c : cartesDessus) {
-				// si on a trouvé la carte et qu'on peut l'activer
+				// si on a trouvï¿½ la carte et qu'on peut l'activer
 				if (c.getId_carte() == idCartes.get(i) && c.isDesactivee() == false) {
 					trouve = true;		
 					cartesAActiver.add(c);
 				}
 						
 			}
-			// si on a pas trouvé cette carte, on sort
+			// si on a pas trouvï¿½ cette carte, on sort
 			if (!trouve)
 				return -1;
-			// on remet le flag à faux pour la carte suivante
+			// on remet le flag ï¿½ faux pour la carte suivante
 			trouve = false;	
 		}
 		/*
@@ -345,18 +353,18 @@ public class Joueur implements Serializable {
 	}
 	
 	/*
-	 * méthode pour payer la restauration de la ville
+	 * mï¿½thode pour payer la restauration de la ville
 	 * -1 : manque d'argent
 	 * -2 : manque carte rose
 	 * -3 : manque carte bleue
 	 * -4 : manque carte grise
 	 * -5 : manque carte brun
-	 * -6 : carte non trouvée
+	 * -6 : carte non trouvï¿½e
 	 */
 	public int payerRestaurationVille(List<Carte> cartesADefausser){
 		int roseADefausser = 0,bleuADefausser = 0,grisADefausser = 0,brunADefausser = 0;
 		int rose = 0,bleu = 0,gris = 0,brun = 0;
-		// on compte le nb de carte de chaque couleur que l'on veut défausser
+		// on compte le nb de carte de chaque couleur que l'on veut dï¿½fausser
 		for(Carte c : cartesADefausser){
 			switch (c.getCouleur()){
 			case "Rose" : roseADefausser++;break;
