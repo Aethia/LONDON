@@ -1,9 +1,10 @@
 package fr.m1miage.london.classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main implements Cloneable{
+public class Main implements Cloneable, Serializable{
 	// les cartes qui constituent la main
 	private List<Carte> lesCartes = new ArrayList<Carte>(); 
 	

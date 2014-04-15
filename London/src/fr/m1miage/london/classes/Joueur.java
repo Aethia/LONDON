@@ -1,11 +1,13 @@
 package fr.m1miage.london.classes;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import fr.m1miage.london.Regles;
 
-public class Joueur {
+public class Joueur implements Serializable {
 	private int id;
 	private String nom;
 	private Color couleur;

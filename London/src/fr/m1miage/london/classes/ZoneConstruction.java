@@ -1,9 +1,9 @@
 package fr.m1miage.london.classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
-public class ZoneConstruction{
+public class ZoneConstruction implements Serializable{
 	
 	// liste a deux dimensions de la pile de cartes devant le joueur
 	private ArrayList<ArrayList<Carte>> cartes; 

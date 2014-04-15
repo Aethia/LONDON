@@ -1,27 +1,38 @@
 package fr.m1miage.london;
 
 import java.awt.Color;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import fr.m1miage.london.classes.Carte;
+import fr.m1miage.london.classes.Etalage;
 import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.classes.Pioche;
 import fr.m1miage.london.classes.Plateau;
 
-public class Partie {
+public class Partie implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2213991896715924627L;
 	private List<Joueur> listeJoueurs = new ArrayList<Joueur>();
 	private int nbJoueurs = 0;
 	private Plateau plateau;
 	private Pioche pioche;
-	private Scanner sc = new Scanner(System.in);
-
+	private static transient Scanner sc = new Scanner(System.in);
+	
 	private final Color rouge = Color.red;
 	private final Color vert = Color.green;
 	private final Color jaune = Color.yellow;
 	private final Color bleu = Color.blue;
-
+	private boolean actionEffectuee;
 	// le joueur actuellement actif
 
 	private int joueurActif=0;
@@ -129,15 +140,16 @@ public class Partie {
 			joueurActif++;
 		}
 	}
-
+	
 
 	// la boucle de jeu
-	public void lancerJeu() {
-		Boolean actionEffectuee = false;
-		// on initialise le premier joueur
-		joueurActif = 0;
-		listeJoueurs.get(joueurActif).piocher(pioche);
-		// on joue tant qu'il y a des cartes dans la pioche
+	public void lancerJeu(Boolean nouveau) {
+		if(nouveau == true){
+			actionEffectuee = false;
+			// on initialise le premier joueur
+			joueurActif = 0;
+			listeJoueurs.get(joueurActif).piocher(pioche);
+		}
 
 		while (pioche.getNbCartes() > 0){
 			// le joueur actif doit choisir une action
@@ -156,6 +168,7 @@ public class Partie {
 			System.out.println("6. Consulter mes cartes en main");
 			System.out.println("7. Consulter l'étalage de cartes");
 			System.out.println("8. Finir mon tour");
+			System.out.println("9. Sauvegarder la partie");
 
 			if(sc.hasNextInt()){
 				
@@ -222,14 +235,27 @@ public class Partie {
 					case 8: {
 						System.out.println("Vous voulez finir votre tour");
 						if (!actionEffectuee) {
-							System.err
-									.println("Vous ne pouvez pas finir votre tour sans faire d'action! \n");
+							System.err.println("Vous ne pouvez pas finir votre tour sans faire d'action! \n");
 							break;
 						}
 						// passe au suivant
 						joueurSuivant();
 						listeJoueurs.get(joueurActif).piocher(pioche);
 						actionEffectuee = false;
+						break;
+					}
+					case 9:{
+						if(actionEffectuee == true){
+							joueurSuivant();
+							listeJoueurs.get(joueurActif).piocher(pioche);
+							actionEffectuee = false;	
+						}
+						try {
+							sauvegarder();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						break;
 					}
 		
@@ -271,7 +297,6 @@ public class Partie {
 			sc.next();
 		}
 		
-		
 	}
 	
 	
@@ -312,10 +337,13 @@ public class Partie {
 	}
 
 	private void consulterEtalage() {
+		
 		System.out.println("Vous voulez consulter l'étalage de cartes");
+		System.out.println(Plateau.etalage.toString());
 	}
 
 	private void consulterMain() {
+		listeJoueurs.get(joueurActif).afficherMain();
 		System.out.println("Vous voulez consulter vos cartes en main");
 
 	}
@@ -378,5 +406,30 @@ public class Partie {
 	public void setJoueurActif(int joueurActif) {
 		this.joueurActif = joueurActif;
 
+	}
+	
+	public void sauvegarder() throws IOException{
+		FileOutputStream out = new FileOutputStream("save.txt");
+		ObjectOutputStream s = new ObjectOutputStream(out);
+		s.writeObject(this);
+		s.writeObject(this.plateau.getEtalage());
+		for(Joueur i:listeJoueurs){
+			s.writeObject(i.getMainDuJoueur());
+		}
+		System.out.println("Objet s�rialis�");
+		s.close();
+	}
+	
+	public void chargerPartie() throws IOException, ClassNotFoundException{
+		FileInputStream in=new FileInputStream("save.txt");
+		ObjectInputStream s = new ObjectInputStream(in);
+		
+		Partie p = (Partie) s.readObject();
+		
+		Etalage etalage = (Etalage)s.readObject();
+		p.getPlateau().setEtalage(etalage);
+		System.out.println("Partie charg�e");
+		p.lancerJeu(false);
+		s.close();
 	}
 }

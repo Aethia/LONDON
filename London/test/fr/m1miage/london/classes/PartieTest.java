@@ -57,7 +57,9 @@ public class PartieTest implements Serializable{
 		
 //		Etalage etalage = (Etalage)s.readObject();
 //		Plateau.setEtalage(etalage);
-		assertEquals(joueurs, partie2.getListeJoueurs());
+		System.out.println(joueurs);
+		assertEquals(joueurs.toString(), partie2.getListeJoueurs().toString());
+		//assertEquals(joueurs.get(1).getArgent(), partie2.getListeJoueurs().get(1).getArgent());
 	}
 
 }

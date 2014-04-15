@@ -1,6 +1,8 @@
 package fr.m1miage.london.classes;
 
-public class CoutActivation {
+import java.io.Serializable;
+
+public class CoutActivation implements Serializable {
 	private int typeActiv; //0: aucun cout, 1 :montantLivres, 2 : Carte couleur unique, 3 : n'importe quelle couleur
 	private int livresAPayer;
 	private String couleurADefausser;
