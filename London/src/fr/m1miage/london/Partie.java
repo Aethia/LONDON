@@ -69,7 +69,7 @@ public class Partie implements Serializable{
 					condition = true;
 				}
 				else{
-					System.out.println("Valeur incorrecte. Il ne peut y avoir que de 2 Ã  5 joueurs.");
+					System.out.println("Valeur incorrecte. Il ne peut y avoir que de 2 à 5 joueurs.");
 				}
 			}
 			else{
@@ -167,7 +167,7 @@ public class Partie implements Serializable{
 				System.out.println(" -- Autre --");
 			}
 			System.out.println("5. Contracter un pret");			System.out.println("6. Consulter mes cartes en main");
-			System.out.println("7. Consulter l'Ã©talage de cartes");
+			System.out.println("7. Consulter l'étalage de cartes");
 			System.out.println("8. Finir mon tour");
 			System.out.println("9. Sauvegarder la partie");
 
@@ -175,9 +175,9 @@ public class Partie implements Serializable{
 				// switch de l'action
 				switch(sc.nextInt()){
 				case 1: {
-					// si une action a dÃ©jÃ  Ã©tÃ© faite dans le tour
+					// si une action a déjà été faite dans le tour
 					if (actionEffectuee) {
-						System.err.println("Vous avez dÃ©jÃ  effectuÃ© une action pour ce tour!");
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
 						break;
 					}
 					jouerCarte();
@@ -186,9 +186,9 @@ public class Partie implements Serializable{
 				}
 
 				case 2: {
-					// si une action a dÃ©jÃ  Ã©tÃ© faite dans le tour
+					// si une action a déjà été faite dans le tour
 					if (actionEffectuee) {
-						System.err.println("Vous avez dÃ©jÃ  effectuÃ© une action pour ce tour!");
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
 						break;
 					}
 					if (restaurerVille())
@@ -197,9 +197,9 @@ public class Partie implements Serializable{
 				}
 
 				case 3: {
-					// si une action a dÃ©jÃ  Ã©tÃ© faite dans le tour
+					// si une action a déjà été faite dans le tour
 					if (actionEffectuee) {
-						System.err.println("Vous avez dÃ©jÃ  effectuÃ© une action pour ce tour!");
+						System.err.println("Vous avez déjà effectué une action pour ce tour!");
 						break;
 					}
 					investir();
@@ -288,13 +288,13 @@ public class Partie implements Serializable{
 				}
 				erreur.getMsgError();
 			}
-			//passe au prochaine scanner (le précédent n'étant pas un int)
+			//passe au prochaine scanner (le pr�c�dent n'�tant pas un int)
 			else{
 				GestionErreurs.INCORRECT_NUMBER.getMsgError();
 				sc.next();
 			}
 		}
-		//passe au prochaine scanner (le precedent n'étant pas un int)
+		//passe au prochaine scanner (le precedent n'�tant pas un int)
 	}
 	/*
 	 * action restaurer la ville
@@ -309,7 +309,7 @@ public class Partie implements Serializable{
 		String[] lesValeurs;
 		List<Integer> listVal = new ArrayList<Integer>();
 		/*
-		 * Choix des cartes à activer
+		 * Choix des cartes � activer
 		 */		System.out.println("Votre zone de construction : \n"+listeJoueurs.get(joueurActif).getZone_construction().toString());
 		 System.out.println("Quelle(s) carte(s) activer ?");
 		 args = sc.next();
@@ -375,6 +375,19 @@ public class Partie implements Serializable{
 		 /*
 		  * activation des cartes
 		  */
+		
+			System.out.println("Voulez vous vraiment payer cette somme et restaurer la ville ? oui/non");
+			String ret = sc.next();
+			if (ret.equalsIgnoreCase("oui")) {
+				// tente de payer la restauration de la ville
+				listeJoueurs.get(joueurActif).payerRestaurationVille(listeCartes);
+				// on retourne les cartes que l'on souhaite activer
+				for(int idCarte : listVal){
+					listeJoueurs.get(joueurActif).getZone_construction().retournerCarte(idCarte);
+				}
+				// todo m�thode de joueur pour payer la somme et retourner les cartes
+				System.out.println("Cartes activees !");
+			}
 
 		 System.out.println("Voulez vous vraiment payer cette somme et restaurer la ville ? oui/non");
 		 String ret = sc.next();
@@ -398,19 +411,19 @@ public class Partie implements Serializable{
 		while(finConstruction == 1){
 			System.out.println(listeJoueurs.get(joueurActif).getArgent());
 			listeJoueurs.get(joueurActif).afficherMain();
-			System.out.println("Choisissez la carte à poser dans la zone de construction : ");
+			System.out.println("Choisissez la carte � poser dans la zone de construction : ");
 			int idCarte=(Integer.parseInt(sc.next()));
 			Carte cPosee = listeJoueurs.get(joueurActif).choisirCarteParId(idCarte);
 			List<Carte> lDefausse = listeJoueurs.get(joueurActif).getCartesCouleur(cPosee);
 			if(lDefausse.size()==0){
 				GestionErreurs.DEFAUSSE_INDISPO.getMsgError();
 			}else{
-				System.out.println("Quelle carte de même couleur voulez-vous défausser ?");
+				System.out.println("Quelle carte de m�me couleur voulez-vous d�fausser ?");
 				System.out.println(listeJoueurs.get(joueurActif).getCartesCouleur(cPosee).toString());
 				int idCarteDefausse=Integer.parseInt(sc.next());
 				Carte cDefausse = listeJoueurs.get(joueurActif).choisirCarteParId(idCarteDefausse);
 				listeJoueurs.get(joueurActif).getZone_construction().afficherCarteDessus();
-				System.out.println("Choisir une pile ou en créer une nouvelle (0):");
+				System.out.println("Choisir une pile ou en cr�er une nouvelle (0):");
 				int indexPile=Integer.parseInt(sc.next());	
 				erreur = listeJoueurs.get(joueurActif).construire(cPosee, cDefausse, indexPile);
 				if(erreur.equals(GestionErreurs.NONE)){
@@ -434,6 +447,7 @@ public class Partie implements Serializable{
 	}
 
 	private void consulterEtalage() {
+		System.out.println("Vous voulez consulter l'étalage de cartes");
 		System.out.println(Plateau.etalage.toString());
 	}
 
