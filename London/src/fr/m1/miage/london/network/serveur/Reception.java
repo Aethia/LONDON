@@ -22,6 +22,9 @@ public class Reception implements Runnable {
 	        	
 			message = in.readLine();
 			System.out.println(login+" : "+message);
+			for( Chat_ClientServeur chat : Serveur.lesClients){
+				chat.sendMsg(login+" : "+message);
+			}
 			
 		    } catch (IOException e) {
 				

@@ -1,6 +1,5 @@
 package fr.m1.miage.london.network.serveur;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
@@ -23,8 +22,9 @@ public class Emission implements Runnable {
 		  while(true){
 			    System.out.println("Votre message :");
 				message = sc.nextLine();
-				out.println(message);
-			    out.flush();
+				for( Chat_ClientServeur chat : Serveur.lesClients){
+					chat.sendMsg("serveur : "+message);
+				}
 			  }
 	}
 }

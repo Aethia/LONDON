@@ -1,11 +1,13 @@
 package fr.m1.miage.london.network.serveur;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.util.ArrayList;
 
 public class Serveur {
  public static ServerSocket ss = null;
  public static Thread t;
+ public static ArrayList<Chat_ClientServeur> lesClients = new ArrayList<Chat_ClientServeur>();
 
  
 	public static void main(String[] args) {

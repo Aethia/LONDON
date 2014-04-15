@@ -12,12 +12,12 @@ public class Chat_ClientServeur implements Runnable {
 	private Socket socket = null;
 	private BufferedReader in = null;
 	private PrintWriter out = null;
-	private String login = "zero";
+	private String login;
 	private Thread t3, t4;
 	
 	
 	public Chat_ClientServeur(Socket s, String log){
-		
+		Serveur.lesClients.add(this);
 		socket = s;
 		login = log;
 	}
@@ -36,4 +36,8 @@ public class Chat_ClientServeur implements Runnable {
 			System.err.println(login +"s'est déconnecté ");
 		}
 }
+	public void sendMsg(String msg){
+		out.println(msg);
+	    out.flush();
+	}
 }
