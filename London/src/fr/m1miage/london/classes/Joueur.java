@@ -7,7 +7,7 @@ import java.util.List;
 import fr.m1miage.london.GestionErreurs;
 import fr.m1miage.london.Regles;
 
-public class Joueur {
+public class Joueur implements Comparable{
 	private int id;
 	private String nom;
 	private Color couleur;
@@ -23,6 +23,8 @@ public class Joueur {
 	private ZoneConstruction zoneConstruction;
 	// la main du joueurs (ses cartes)
 	private Main mainDuJoueur;
+	
+	private int nbQuartiers;
 
 
 	// constructeur
@@ -38,9 +40,46 @@ public class Joueur {
 		montantEmprunts=0;
 		mainDuJoueur = new Main();
 		zoneConstruction=new ZoneConstruction();
+		nbQuartiers = 0;
 	}
 
 
+	public ZoneConstruction getZone_construction() {
+		return zoneConstruction;
+	}
+
+
+	public void setZoneConstruction(ZoneConstruction zoneConstruction) {
+		this.zoneConstruction = zoneConstruction;
+	}
+
+
+	public void setMontantEmprunts(int montantEmprunts) {
+		this.montantEmprunts = montantEmprunts;
+	}
+
+
+	public void setAddPoint_pauvrete(int point_pauvrete) {
+		this.point_pauvrete += point_pauvrete;
+	}
+
+	public void setAddQuartiers() {
+		this.nbQuartiers ++;
+	}
+	
+	public void setAddPoint_victoire(int point_victoire) {
+		this.point_victoire += point_victoire;
+	}
+
+
+	public void setAddArgent(int argent) {
+		this.argent += argent;
+	}
+
+	public void setArgent(int argent) {
+		this.argent = argent;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -60,7 +99,10 @@ public class Joueur {
 		return point_pauvrete;
 	}
 
-
+	public int getQuartiers() {
+		return nbQuartiers;
+	}
+	
 	public int getPoint_victoire() {
 		return point_victoire;
 	}
@@ -73,11 +115,6 @@ public class Joueur {
 
 	public int getMontantEmprunts() {
 		return montantEmprunts;
-	}
-
-
-	public ZoneConstruction getZone_construction() {
-		return zoneConstruction;
 	}
 
 
@@ -182,21 +219,6 @@ public class Joueur {
 
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	//affiche les cartes de la m�me couleur qu'une carte choisie
 	public List<Carte> getCartesCouleur(Carte c){
 
@@ -258,8 +280,14 @@ public class Joueur {
 		}
 	}
 
-	public void piocher(Pioche laPioche){
-		mainDuJoueur.ajouterCarte(laPioche.tirerUneCarte());
+	public GestionErreurs piocher(Pioche laPioche){
+		if(laPioche.getNbCartes() > 0){
+			mainDuJoueur.ajouterCarte(laPioche.tirerUneCarte());
+			return GestionErreurs.NONE;
+		}
+		else
+			return GestionErreurs.NOT_ENOUGH_CARD;
+			
 	}
 
 
@@ -288,5 +316,97 @@ public class Joueur {
 	 */
 	public int restaurerVille(int[] idCartes){
 		return 0;
+	}
+	
+	public void condictionVictoireCalcul(){
+		
+		//remboursement de l'emprunt (�15 pour �10 emprunt�)
+		montantEmprunts = (int) (montantEmprunts*1.5);
+		int nb_emprunt = montantEmprunts/15;
+		//nb_packet_argent est le nombre de packet de �15 que le joueur poss�de
+		int nb_packet_argent = argent/15;
+		
+		if(nb_emprunt >= nb_packet_argent){
+			argent += (-15*nb_packet_argent);
+			nb_emprunt = nb_emprunt - nb_packet_argent;
+		}
+		else{
+			argent += (-15*nb_emprunt);
+			nb_emprunt = 0;
+		}
+		
+		//un point de pauvret� en plus par carte en main
+		point_pauvrete += mainDuJoueur.getNb_cartes();
+		
+		//un point de victoire pour �3
+		point_victoire += argent / 3;
+		
+		//quartier + m�tro
+		
+		//carte zone de construction
+		for(int i=0;i<zoneConstruction.getNbPiles();i++){
+			ArrayList<Carte> pile= zoneConstruction.getCartesPile(i);
+			for(Carte c: pile){
+				point_victoire += c.getPointsVictoire();
+			}
+		}
+
+		//-7 points de victoire par emprunt non rembours�
+		point_victoire += (-7*nb_emprunt);
+		
+		//parcours points de pauvret� pour savoir qui a le moins, on supprime � tout le monde ce nombre
+		
+		
+		//Penalit� des points de pauvret�
+		if(point_pauvrete <= 2)
+			point_victoire += -1;
+		else if(point_pauvrete == 3)
+			point_victoire += -2;
+		else if(point_pauvrete == 4)
+			point_victoire += -3;
+		else if(point_pauvrete == 5)
+			point_victoire += -5;
+		else if(point_pauvrete == 6)
+			point_victoire += -7;
+		else if(point_pauvrete == 7)
+			point_victoire += -9;
+		else if(point_pauvrete == 8)
+			point_victoire += -11;
+		else if(point_pauvrete == 9)
+			point_victoire += -13;
+		else{
+			point_victoire += -15;
+			if(point_pauvrete > 10){
+				point_pauvrete = point_pauvrete-10;
+				point_victoire += -3*point_pauvrete;
+			}
+		}
+		//si �galit�		
+		
+	}
+
+
+	@Override
+	public int compareTo(Object joueur) {
+		Joueur j = (Joueur)joueur;
+		if(this.point_victoire > j.getPoint_victoire())
+			return 1;
+		else if(this.point_victoire < j.getPoint_victoire())
+			return -1;
+		else{
+			if(this.point_pauvrete > j.getPoint_pauvrete())
+				return 1;
+			else if(this.point_pauvrete < j.getPoint_pauvrete())
+				return -1;
+			else{
+				if(this.nbQuartiers > j.getQuartiers())
+					return 1;
+				else if(this.nbQuartiers < j.getQuartiers())
+					return -1;
+				else{
+					return 0;
+				}
+			}
+		}
 	}
 }

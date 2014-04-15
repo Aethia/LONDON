@@ -12,6 +12,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import fr.m1miage.london.GestionErreurs;
+
 public class JoueurTest {
 
 	private Joueur j;
@@ -59,13 +61,13 @@ public class JoueurTest {
 	
 	public void testEmpruntNegative(){
 		Joueur j = new Joueur(1,"toto",Color.black);
-		assertEquals("Montant incorrect \n", j.emprunter(-1));
+		assertEquals(GestionErreurs.MONTANT_INCORRECT, j.emprunter(-1));
 	}
 	@Test
 	
 	public void testEmpruntZero(){
 		Joueur j = new Joueur(1,"toto",Color.black);
-		assertEquals("Montant incorrect \n", j.emprunter(0));
+		assertEquals(GestionErreurs.MONTANT_INCORRECT, j.emprunter(0));
 	}	@Test
 	
 	public void testEmpruntMultiple(){
@@ -101,19 +103,19 @@ public class JoueurTest {
 	
 	public void testEmpruntPasMultiple(){
 		Joueur j = new Joueur(1,"toto",Color.black);
-		assertEquals("Montant incorrect \n", j.emprunter(1));
+		assertEquals(GestionErreurs.MONTANT_INCORRECT, j.emprunter(1));
 	}	@Test
 	
 	public void testEmpruntHorsLimite(){
 		Joueur j = new Joueur(1,"toto",Color.black);
-		assertEquals("Montant incorrect \n", j.emprunter(110));
+		assertEquals(GestionErreurs.MONTANT_INCORRECT, j.emprunter(110));
 	}	@Test
 	
 	public void testEmpruntLimite(){
 		Joueur j = new Joueur(1,"toto",Color.black);
 		j.emprunter(50);
 		assertEquals(55, j.getArgent());
-		assertEquals("Montant incorrect \n", j.emprunter(60));
+		assertEquals(GestionErreurs.MAX_EMPRUNT, j.emprunter(60));
 	}
 		
 	

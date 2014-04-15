@@ -11,6 +11,7 @@ public enum GestionErreurs {
 	DEFAUSSE_INDISPO("Aucune carte à defausser"),
 	MAX_EMPRUNT("Vous avez atteint la limite pour emprunter (100£)"),
 	MONTANT_INCORRECT("Montant incorrect, veuillez inserer une valeur entiere multiple de 10 inférieure à 100"),
+	NOT_ENOUGH_CARD("Il n'y a plus de carte � piocher"),
 	;
 	
 private String name = "";
