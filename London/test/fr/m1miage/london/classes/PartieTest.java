@@ -14,7 +14,6 @@ import fr.m1miage.london.Partie;
 public class PartieTest {
 
 	private Partie p;
-	private Plateau pl;
 	private Joueur j;
 	private Joueur j1;
 	private Carte c, c1, c2, c3;
@@ -26,9 +25,8 @@ public class PartieTest {
 	public void setUp() throws Exception{
 
 		listeJoueurs = new ArrayList<Joueur>();
-		pl = new Plateau();
 		j = new Joueur(1,"toto",Color.black);
-		j1 = new Joueur(1,"titi",Color.red);
+		j1 = new Joueur(2,"titi",Color.red);
 		listeJoueurs.add(j);
 		listeJoueurs.add(j1);
 		p = new Partie(listeJoueurs, 2);
@@ -75,7 +73,7 @@ public class PartieTest {
 	}
 
 	@Test
-	public void testCalculPointsVictoireTrancheArgent() {
+	public void testCalculPointsVictoireArgentMultiple() {
 		j.setAddPoint_victoire(10);
 		j.setAddArgent(4);
 		p.calculPointsVictoire();
@@ -83,15 +81,13 @@ public class PartieTest {
 	}
 
 	@Test
-	public void testCalculPointsVictoirePasTrancheArgent() {
+	public void testCalculPointsVictoireArgentPasMultiple() {
 		j.setAddPoint_victoire(10);
 		//j.setArgent(10);
 		p.calculPointsVictoire();
 		assertEquals(11, j.getPoint_victoire());
 	}
 
-	//arrondissement
-	//carte zone de construct ou pas
 	@Test
 	public void testCalculPointsVictoireArrondissement() {
 		q1.setId(1);
@@ -100,11 +96,9 @@ public class PartieTest {
 
 		Plateau plateau = new Plateau();
 		plateau.getQuartiers().put(1, q1);
-
 		p.setPlateau(plateau);
 
 		p.calculPointsVictoire();
-		//assertEquals(j, q1.getProprietaireQuartier());
 		assertEquals(11, j.getPoint_victoire());
 	}
 
@@ -115,6 +109,11 @@ public class PartieTest {
 		q1.setProprietaireQuartier(j);
 		q1.setPoint_victoire(10);
 		q1.setMetro_pose(true);
+		
+		Plateau plateau = new Plateau();
+		plateau.getQuartiers().put(1, q1);
+		p.setPlateau(plateau);
+		
 		p.calculPointsVictoire();
 		assertEquals(13, j.getPoint_victoire());
 	}
@@ -156,13 +155,16 @@ public class PartieTest {
 	public void testCalculGagnantEgaliteVictoire() {
 		j.setAddPoint_victoire(20);
 		j1.setAddPoint_victoire(20);
-		j.setAddPoint_pauvrete(5);
-		j1.setAddPoint_pauvrete(5);
+		//j.setAddPoint_pauvrete(5);
+		//j1.setAddPoint_pauvrete(5);
+		
 		q1.setProprietaireQuartier(j1);
-
+		Plateau plateau = new Plateau();
+		plateau.getQuartiers().put(1, q1);
+		p.setPlateau(plateau);
+		
+		p.calculPointsVictoire();
 		p.calculGagnant();
 		assertEquals(j1, listeJoueurs.get(0));
 	}
-
-
 }

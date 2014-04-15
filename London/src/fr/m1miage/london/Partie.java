@@ -418,20 +418,7 @@ public class Partie {
 				}
 				
 			}
-			
-			//Autre méthode de parcours de la liste des quartiers
-			/*
-			for(Map.Entry<Integer, Quartier> e : quartiers.entrySet()){
-				if( (e.getValue().getProprietaireQuartier()== listeJoueurs.get(i)) && e.getValue().isMetro_pose() ){
-					listeJoueurs.get(i).setAddPoint_victoire(e.getValue().getPoint_victoire() + 2);
-					listeJoueurs.get(i).setAddQuartiers();
-				}
-				else if(e.getValue().getProprietaireQuartier() == listeJoueurs.get(i)){
-					listeJoueurs.get(i).setAddPoint_victoire(e.getValue().getPoint_victoire());
-					listeJoueurs.get(i).setAddQuartiers();
-				}
-			}
-			*/
+
 			//carte zone de construction
 			for(int j = 0; j < listeJoueurs.get(i).getZone_construction().getNbPiles(); j++){
 				ArrayList<Carte> pile= listeJoueurs.get(i).getZone_construction().getCartesPile(j);
@@ -497,10 +484,12 @@ public class Partie {
 				break;
 	
 			default:
-				listeJoueurs.get(i).setAddPoint_victoire(-15);
-				if(listeJoueurs.get(i).getPoint_pauvrete() > 10){
-					listeJoueurs.get(i).setAddPoint_pauvrete(-10);
-					listeJoueurs.get(i).setAddArgent(-3 * listeJoueurs.get(i).getPoint_pauvrete());
+				if(listeJoueurs.get(i).getPoint_pauvrete() >= 10){
+					listeJoueurs.get(i).setAddPoint_victoire(-15);
+					if(listeJoueurs.get(i).getPoint_pauvrete() > 10){
+						listeJoueurs.get(i).setAddPoint_pauvrete(-10);
+						listeJoueurs.get(i).setAddArgent(-3 * listeJoueurs.get(i).getPoint_pauvrete());
+					}
 				}
 				break;
 			}

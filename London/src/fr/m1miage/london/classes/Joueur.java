@@ -323,9 +323,9 @@ public class Joueur implements Comparable{
 	@Override
 	public int compareTo(Object joueur) {
 		Joueur j = (Joueur)joueur;
-		if(this.point_victoire > j.getPoint_victoire())
+		if(this.point_victoire < j.getPoint_victoire())
 			return 1;
-		else if(this.point_victoire < j.getPoint_victoire())
+		else if(this.point_victoire > j.getPoint_victoire())
 			return -1;
 		else{
 			if(this.point_pauvrete > j.getPoint_pauvrete())
@@ -333,13 +333,13 @@ public class Joueur implements Comparable{
 			else if(this.point_pauvrete < j.getPoint_pauvrete())
 				return -1;
 			else{
-				if(this.nbQuartiers > j.getQuartiers())
+				if(this.nbQuartiers < j.getQuartiers())
 					return 1;
-				else if(this.nbQuartiers < j.getQuartiers())
+				else if(this.nbQuartiers > j.getQuartiers())
 					return -1;
-				else{
+				else
 					return 0;
-				}
+				
 			}
 		}
 	}
