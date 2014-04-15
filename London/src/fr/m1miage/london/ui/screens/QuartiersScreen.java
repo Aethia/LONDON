@@ -27,7 +27,7 @@ import fr.m1miage.london.ui.graphics.Score;
 public class QuartiersScreen extends Screen{
 
 	private Integer nbQuartierSelected = 0;
-
+	private Integer nbQuartierHovered = 0;
 	private static int iconsMarginLeft = 815;
 	private static int iconsMarginTop = 400;
 
@@ -134,7 +134,8 @@ public class QuartiersScreen extends Screen{
 				@Override
 				public boolean mouseMoved(InputEvent event, float x, float y) {
 					System.out.println( quartier.getNom());
-					//nbQuartierSelected = j;
+					
+					nbQuartierHovered = j;
 					return super.mouseMoved(event, x, y);
 				}
 
@@ -167,7 +168,7 @@ public class QuartiersScreen extends Screen{
 
 
 	}
-
+	
 	@Override
 	public void render() {
 		spriteBatch.begin();
@@ -175,6 +176,7 @@ public class QuartiersScreen extends Screen{
 		draw(Art.bgPartie, 0, 0);
 
 		Fonts.FONT_TITLE.draw(spriteBatch, "QUARTIERS", 500, 20);
+		draw(Art.imagesQuartiers.get(0), 500, 100);
 
 		if(nbQuartierSelected!=0){
 
@@ -198,7 +200,6 @@ public class QuartiersScreen extends Screen{
 			TextureRegion img = new TextureRegion(t, 0, 0, 512, 256);
 			img.flip(true, true);
 			draw(img, 660,210);
-
 			//livres
 			draw(Art.iconeLivres,iconsMarginLeft,iconsMarginTop);
 			Fonts.FONT_ICON_WHITE.draw(spriteBatch, "" + quartier.getPrix() + "£", iconsMarginLeft + 20, iconsMarginTop + 18);
@@ -217,7 +218,10 @@ public class QuartiersScreen extends Screen{
 
 			Fonts.FONT_BLACK.draw(spriteBatch, messageInvestir , 1100, 250);
 		}
-
+		if(nbQuartierHovered == 1){
+			draw(Art.imagesQuartiers.get(nbQuartierHovered), 500, 100);
+		}
+		
 		spriteBatch.end();
 		stage.act();
 		stage.draw();
