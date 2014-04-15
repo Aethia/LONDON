@@ -1,9 +1,10 @@
 package fr.m1.miage.london.network.serveur;
 
-import java.net.*;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 
 public class Authentification implements Runnable {
 
@@ -24,26 +25,20 @@ public class Authentification implements Runnable {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream());
 			
-		while(!authentifier){
+		
 			
 			out.println("Entrez votre login :");
 			out.flush();
 			login = in.readLine();
-			
-			
-			out.println("Entrez votre mot de passe :");
-			out.flush();
-			pass = in.readLine();
 
-			if(isValid(login, pass)){
+
 				
 				out.println("connecte");
 				System.out.println(login +" vient de se connecter ");
 				out.flush();
 				authentifier = true;	
-			}
-			else {out.println("erreur"); out.flush();}
-		 }
+
+		 
 			t2 = new Thread(new Chat_ClientServeur(socket,login));
 			t2.start();
 			

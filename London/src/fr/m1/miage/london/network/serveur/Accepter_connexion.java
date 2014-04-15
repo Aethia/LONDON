@@ -1,7 +1,8 @@
 package fr.m1.miage.london.network.serveur;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 
 public class Accepter_connexion implements Runnable{
@@ -20,7 +21,7 @@ public class Accepter_connexion implements Runnable{
 			while(true){
 				
 			socket = socketserver.accept();
-			System.out.println("Un zéro veut se connecter  ");
+			System.out.println("Nouveau client !");
 			
 			t1 = new Thread(new Authentification(socket));
 			t1.start();
