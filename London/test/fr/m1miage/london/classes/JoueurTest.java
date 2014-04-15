@@ -80,14 +80,16 @@ public class JoueurTest {
 	@Test
 	public void testConstruire(){
 		Plateau p = new Plateau();
+		p.setEtalage(new Etalage());
 		p.init();
 		j.getZone_construction().addPile();
-		assertEquals(GestionErreurs.NONE, j.construire(c, c1, 1));
+		assertEquals(GestionErreurs.NONE, j.construire(c, c1, 1,p.getEtalage()));
 	}
 	
 	@Test
 	public void testNotConstruire(){
 		Plateau p = new Plateau();
+		p.setEtalage(new Etalage());
 		p.init();
 		Carte c3 = new Carte(3, "nom2", "A", 1, "Rose", null);
 		Carte c4 = new Carte(4, "nom4", "A", 7, "Brun", null);
@@ -95,9 +97,9 @@ public class JoueurTest {
 		j.ajouterCarteMain(c3);
 		j.ajouterCarteMain(c4);
 		j.getZone_construction().addPile();
-		assertEquals(GestionErreurs.INCORRECT_CARTE_DEFAUSSE, j.construire(c, c3, 1));
-		assertEquals(GestionErreurs.NOT_ENOUGH_MONEY, j.construire(c4, c, 1));
-		assertEquals(GestionErreurs.INCORRECT_CARTE, j.construire(c5, c, 1));
+		assertEquals(GestionErreurs.INCORRECT_CARTE_DEFAUSSE, j.construire(c, c3, 1,p.getEtalage()));
+		assertEquals(GestionErreurs.NOT_ENOUGH_MONEY, j.construire(c4, c, 1,p.getEtalage()));
+		assertEquals(GestionErreurs.INCORRECT_CARTE, j.construire(c5, c, 1,p.getEtalage()));
 	}
 	
 	@Test

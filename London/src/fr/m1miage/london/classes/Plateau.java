@@ -12,7 +12,7 @@ public class Plateau implements Serializable{
 	 */
 	private static final long serialVersionUID = 2566214763475494062L;
 	private Map<Integer,Quartier> quartiers = new HashMap<Integer, Quartier>();
-	public static Etalage etalage;
+	private Etalage etalage;
 	
 	public Plateau(){
 		
@@ -44,7 +44,7 @@ public class Plateau implements Serializable{
 		return etalage;
 	}
 	public void setEtalage(Etalage etalage) {
-		Plateau.etalage = etalage;
+		this.etalage = etalage;
 	}
 	
 	
