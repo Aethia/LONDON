@@ -62,7 +62,7 @@ public class JoueurTest {
 	
 	public void testEmpruntNegative(){
 		Joueur j = new Joueur(1,"toto",Color.black);
-		assertEquals("Montant incorrect \n", j.emprunter(-1));
+		assertEquals(GestionErreurs.MONTANT_INCORRECT, j.emprunter(-1));
 	}
 	@Test
 	
@@ -82,7 +82,7 @@ public class JoueurTest {
 		Plateau p = new Plateau();
 		p.init();
 		j.getZone_construction().addPile();
-		assertEquals("Construction termin�e !", j.construire(c, c1, 1));
+		assertEquals(GestionErreurs.NONE, j.construire(c, c1, 1));
 	}
 	
 	@Test
@@ -95,16 +95,16 @@ public class JoueurTest {
 		j.ajouterCarteMain(c3);
 		j.ajouterCarteMain(c4);
 		j.getZone_construction().addPile();
-		assertEquals("Carte � d�fausser n'existe pas", j.construire(c, c3, 1));
-		assertEquals("Argent insuffisant", j.construire(c4, c, 1));
-		assertEquals("Carte � poser n'existe pas", j.construire(c5, c, 1));
+		assertEquals(GestionErreurs.INCORRECT_CARTE_DEFAUSSE, j.construire(c, c3, 1));
+		assertEquals(GestionErreurs.NOT_ENOUGH_MONEY, j.construire(c4, c, 1));
+		assertEquals(GestionErreurs.INCORRECT_CARTE, j.construire(c5, c, 1));
 	}
 	
 	@Test
 	
 	public void testEmpruntPasMultiple(){
 		Joueur j = new Joueur(1,"toto",Color.black);
-		assertEquals("Montant incorrect \n", j.emprunter(1));
+		assertEquals(GestionErreurs.MONTANT_INCORRECT, j.emprunter(1));
 	}	@Test
 	
 	public void testEmpruntHorsLimite(){
@@ -146,13 +146,33 @@ public class JoueurTest {
 	}
 	
 	@Test
-	public void testInvestirQuartier(){
+	public void testInvestirQuartierInexistant(){
 		Joueur j = new Joueur(1,"toto",Color.black);
 		Plateau pl = new Plateau();
 		Pioche p = new Pioche();
 		pl.init();
 		p.init();
-		j.invest(1,pl,p);
+		assertEquals(GestionErreurs.INCORRECT_NUMBER,j.invest(30,pl,p));
+	}
+	
+	@Test
+	public void testInvestirQuartierIndispo(){
+		Joueur j = new Joueur(1,"toto",Color.black);
+		Plateau pl = new Plateau();
+		Pioche p = new Pioche();
+		pl.init();
+		p.init();
+		assertEquals(GestionErreurs.DISABLED_QUARTIER,j.invest(10,pl,p));
+	}
+	
+	@Test
+	public void testInvestirQuartierOk(){
+		Joueur j = new Joueur(1,"toto",Color.black);
+		Plateau pl = new Plateau();
+		Pioche p = new Pioche();
+		pl.init();
+		p.init();
+		assertEquals(GestionErreurs.NONE,j.invest(2,pl,p));
 	}
 	
 	@Test
