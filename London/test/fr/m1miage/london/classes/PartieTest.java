@@ -3,11 +3,7 @@ package fr.m1miage.london.classes;
 import static org.junit.Assert.assertEquals;
 
 import java.awt.Color;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,27 +35,13 @@ public class PartieTest implements Serializable{
 		j2.ajouterCarteMain(c2);
 		j.construire(c, c1, 0);
 		partie.setListeJoueurs(joueurs);
+		partie.sauvegarder();
 		
-		FileOutputStream out = new FileOutputStream("save.txt");
-		ObjectOutputStream s = new ObjectOutputStream(out);
-		s.writeObject(partie);
-		//s.writeObject(this.plateau.getEtalage());
-		for(Joueur i:joueurs){
-			s.writeObject(i.getMainDuJoueur());
-		}
-		System.out.println("Objet sérialisé");
-		s.close();
-		
-		//Partie partie2 = new Partie();
-		FileInputStream in=new FileInputStream("save.txt");
-		ObjectInputStream s2 = new ObjectInputStream(in);
-		Partie partie2 = (Partie) s2.readObject();
-		
-//		Etalage etalage = (Etalage)s.readObject();
-//		Plateau.setEtalage(etalage);
-		System.out.println(joueurs);
+		Partie partie2 = new Partie();
+		partie2.chargerPartie();
+		System.out.println(partie2.getListeJoueurs().toString());
+		System.out.println(partie.getListeJoueurs().toString());
 		assertEquals(joueurs.toString(), partie2.getListeJoueurs().toString());
-		//assertEquals(joueurs.get(1).getArgent(), partie2.getListeJoueurs().get(1).getArgent());
 	}
 
 }

@@ -413,6 +413,7 @@ public class Partie implements Serializable{
 		ObjectOutputStream s = new ObjectOutputStream(out);
 		s.writeObject(this);
 		s.writeObject(this.plateau.getEtalage());
+		s.writeObject(listeJoueurs);
 		for(Joueur i:listeJoueurs){
 			s.writeObject(i.getMainDuJoueur());
 		}
@@ -429,7 +430,13 @@ public class Partie implements Serializable{
 		Etalage etalage = (Etalage)s.readObject();
 		p.getPlateau().setEtalage(etalage);
 		System.out.println("Partie charg�e");
-		p.lancerJeu(false);
 		s.close();
+		this.listeJoueurs=p.listeJoueurs;
+		this.nbJoueurs=p.nbJoueurs;
+		this.pioche = p.pioche;
+		this.plateau = p.plateau;
+		this.joueurActif=p.joueurActif;
+		this.actionEffectuee=p.actionEffectuee;
+		
 	}
 }

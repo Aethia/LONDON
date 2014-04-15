@@ -40,6 +40,7 @@ public class London {
 			nb = sc.nextInt();
 			if(nb == 2){
 				partie.chargerPartie();
+				partie.lancerJeu(false);
 			}
 			else{
 				partie.init();
