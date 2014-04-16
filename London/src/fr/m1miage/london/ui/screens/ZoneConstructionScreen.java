@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 
 import fr.m1miage.london.GestionErreurs;
 import fr.m1miage.london.classes.Carte;
@@ -223,9 +224,22 @@ public class ZoneConstructionScreen extends Screen{
 			i++;
 			final CarteActor ca = new CarteActor(c,350+i*50,10);
 			stage.addActor(ca);
+			ca.addListener(new DragListener(){
+				public void touchDragged (InputEvent event, float x, float y, int pointer) {
+                    System.out.println("touchdragged ---> X=" + x + "  , Y=" + y);  
+                    float dx = x-ca.getWidth()*0.5f; 
+                    float dy = y-ca.getHeight()*0.5f; 
+                    System.out.println("DX : "+y);
+                    System.out.println("DY : "+ca.getHeight());
+                    //ca.setPosition(ca.getX() + dx, ca.getY() + dy); 
+                    //ca.changerPlaceImage(ca.getX(), ca.getY());
+                    ca.setX(ca.getX()+dx);
+                    ca.setY(ca.getY()+dy);
+                }
+		});
 			ca.addListener(new InputListener(){
 
-				@Override
+				/*@Override
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {				
 					if(idCarteSelected!=0 && idDefausseSelected==0 && idCarteSelected!=c.getId_carte()){ //si on a deja select carte, mais pas la defausse
@@ -253,7 +267,7 @@ public class ZoneConstructionScreen extends Screen{
 
 					}
 					return super.touchDown(event, x, y, pointer, button);
-				}
+				}*/
 
 			});
 			main.put(c.getId_carte(), ca);
