@@ -303,14 +303,10 @@ public class ZoneConstructionScreen extends Screen{
 					@Override
 					public boolean touchDown(InputEvent event, float x,
 							float y, int pointer, int button) {
-						System.out.println("la");
 						if(idCarteSelected!=0 && idCarteSelected == ca.getId()){ //si on a recliqué sur la carte, on la met a sa place
 							idCarteSelected=0;
-							ca.setDefaultPosition();
 							afficherCartes();
 						}else if(idCarteSelected ==0 && !ca.getCarte().isDesactivee()){
-							System.out.println("select card");
-							ca.setPosition(600, 300);
 							idCarteSelected = ca.getId();
 							Carte c = ca.getCarte();
 							lCartes.add(c.getId_carte());
@@ -383,11 +379,14 @@ public class ZoneConstructionScreen extends Screen{
 	private void activation(CarteActor ca){
 		Carte c=ca.getCarte();
 		joueur.aActive(c);
-		System.out.println("putain de carte : " + c.isDesactivee());
+		londonG.partie.setActionChoisie(Regles.RESTAURER);
+		londonG.partie.setTourTermine(true);
 		if(c.isDesactivee()){
-			System.out.println("huhuhuehuehuehu");
 			ca.setDisabled();
 		}
+		stage.getRoot().removeActor(scoreJoueur);
+		scoreJoueur = new Score(joueur);
+		stage.addActor(scoreJoueur);
 	}
 	
 	private int masquerCartes(String couleurAafficher){
