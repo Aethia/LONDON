@@ -29,11 +29,11 @@ public class Chat_ClientServeur implements Runnable {
 		
 		Thread t3 = new Thread(new Reception(in,login));
 		t3.start();
-		Thread t4 = new Thread(new Emission(out));
-		t4.start();
+//		Thread t4 = new Thread(new Emission(out));
+//		t4.start();
 		
 		} catch (IOException e) {
-			System.err.println(login +"s'est déconnecté ");
+			System.err.println(login +"s'est dï¿½connectï¿½ ");
 		}
 }
 	public void sendMsg(String msg){

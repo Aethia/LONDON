@@ -35,6 +35,7 @@ public class ReseauScreen extends Screen{
 
 		@Override
 		public void nouveauMessage(String message) {
+			System.out.println("wtf");
 			listeMessage.concat("\n" + message);
 		}
 
@@ -50,7 +51,10 @@ public class ReseauScreen extends Screen{
 
 		@Override
 		public void nouveauMessage(String message) {
-			listeMessage.concat("\n" + message);
+			//Screen.setScreen(new MainMenuScreen());
+			listeMessage+=("\n"+message);
+			
+			System.out.println("nouveau :" + message);
 		}
 
 

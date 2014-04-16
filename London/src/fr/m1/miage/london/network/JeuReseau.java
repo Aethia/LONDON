@@ -11,7 +11,11 @@ public class JeuReseau {
 		
 	}
 	
-	public void lancerPartieReseau(){
+	public static void main(String[] args){
+		lancerPartieReseau();
+	}
+	
+	public static void lancerPartieReseau(){
 		System.out.println("\t 1 : h�berger une partie");
 		System.out.println("\t 2 : rejoindre une partie");
 		Scanner sc = new Scanner(System.in);
@@ -25,7 +29,7 @@ public class JeuReseau {
 		}
 		case 2 : {
 				Client cli = new Client();
-				cli.connecterServeur();
+				cli.seConnecter();
 				break;
 		}
 		default : break;
