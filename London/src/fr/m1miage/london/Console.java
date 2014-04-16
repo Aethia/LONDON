@@ -283,7 +283,7 @@ public class Console {
 			String[] lesValeurs;
 			List<Integer> listVal = new ArrayList<Integer>();
 			/*
-			 * Choix des cartes ï¿½ activer
+			 * Choix des cartes a activer
 			 */		System.out.println("Votre zone de construction : \n"+partie.getObjJoueurActif().getZone_construction().toString());
 			System.out.println("Quelle(s) carte(s) activer ?");
 			args = sc.next();
@@ -298,7 +298,7 @@ public class Console {
 					return false;
 				}
 			}
-			// on regarde s'il est possible de restaurer la ville avec les cartes sï¿½lectionnï¿½es
+			// on regarde s'il est possible de restaurer la ville avec les cartes selectionnees
 			if (partie.getObjJoueurActif().restaurerVille(listVal) < 0) {
 				System.err.println("impossible d'activer ces cartes.");
 				return false;
@@ -383,13 +383,13 @@ public class Console {
 					}
 					erreur.getMsgError();
 				}
-				//passe au prochaine scanner (le prï¿½cï¿½dent n'ï¿½tant pas un int)
+				//passe au prochaine scanner (le precedent n'etant pas un int)
 				else{
 					GestionErreurs.INCORRECT_NUMBER.getMsgError();
 					sc.next();
 				}
 			}
-			//passe au prochaine scanner (le precedent n'ï¿½tant pas un int)
+			//passe au prochaine scanner (le precedent n'etant pas un int)
 		}
 		private void piocherCartes() {
 			System.out.println("Vous voulez piocher 3 cartes");
