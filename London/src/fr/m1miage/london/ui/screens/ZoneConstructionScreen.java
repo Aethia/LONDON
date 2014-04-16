@@ -231,10 +231,33 @@ public class ZoneConstructionScreen extends Screen{
                     float dy = y-ca.getHeight()*0.5f; 
                     System.out.println("DX : "+y);
                     System.out.println("DY : "+ca.getHeight());
-                    //ca.setPosition(ca.getX() + dx, ca.getY() + dy); 
-                    //ca.changerPlaceImage(ca.getX(), ca.getY());
                     ca.setX(ca.getX()+dx);
                     ca.setY(ca.getY()+dy);
+                    if(idCarteSelected!=0 && idDefausseSelected==0 && idCarteSelected!=c.getId_carte()){ //si on a deja select carte, mais pas la defausse
+						//ca.setY(ca.getyDefault()+350);
+						//ca.setX(600);
+						ca.setSelected(true);
+						idDefausseSelected = c.getId_carte();
+						messageConstruire = "Choisir une pile";
+						tPiles.setVisible(true);
+					}else if (idCarteSelected==0){ //si on a selectionné aucune carte, on rend visible certains boutons/fonds
+						ca.setY(ca.getyDefault()+350);
+						ca.setX(300);
+						ca.setSelected(true);
+						idCarteSelected = c.getId_carte();
+						if(c.isConstructible()){ //on verifie que la carte soit constructible
+							btnAnnulCarte.setVisible(true);
+							fondChoixCartes.setVisible(true);
+							messageConstruire = "Choisir une carte à defausser";
+						}else{
+							messageConstruire = "Cette carte n'est pas constructible";
+							btnAnnulCarte.setVisible(false);
+							ca.setDefaultPosition();
+							idCarteSelected=0;
+						}
+
+					}
+
                 }
 		});
 			ca.addListener(new InputListener(){
