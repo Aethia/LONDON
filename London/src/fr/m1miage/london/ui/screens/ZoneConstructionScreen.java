@@ -1,9 +1,11 @@
 package fr.m1miage.london.ui.screens;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,6 +22,7 @@ import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.CarteActor;
 import fr.m1miage.london.ui.graphics.Fonts;
+import fr.m1miage.london.ui.graphics.PileActor;
 import fr.m1miage.london.ui.graphics.Score;
 
 public class ZoneConstructionScreen extends Screen{
@@ -220,25 +223,30 @@ public class ZoneConstructionScreen extends Screen{
 
 	private void afficherCartes() {
 		int i=0;
+
 		for(final Carte c: joueur.getLesCartes()){
 			i++;
 			final CarteActor ca = new CarteActor(c,350+i*50,10);
 			stage.addActor(ca);
+						
 			ca.addListener(new DragListener(){
 				public void touchDragged (InputEvent event, float x, float y, int pointer) {
-                    System.out.println("touchdragged ---> X=" + x + "  , Y=" + y);  
                     float dx = x-ca.getWidth()*0.5f; 
                     float dy = y-ca.getHeight()*0.5f; 
-                    System.out.println("DX : "+y);
-                    System.out.println("DY : "+ca.getHeight());
                     ca.setX(ca.getX()+dx);
                     ca.setY(ca.getY()+dy);
+					
+
                     if(idCarteSelected!=0 && idDefausseSelected==0 && idCarteSelected!=c.getId_carte()){ //si on a deja select carte, mais pas la defausse
 						//ca.setY(ca.getyDefault()+350);
 						//ca.setX(600);
 						ca.setSelected(true);
 						idDefausseSelected = c.getId_carte();
 						messageConstruire = "Choisir une pile";
+					
+														
+						
+						
 						tPiles.setVisible(true);
 					}else if (idCarteSelected==0){ //si on a selectionné aucune carte, on rend visible certains boutons/fonds
 						ca.setY(ca.getyDefault()+350);
@@ -253,11 +261,10 @@ public class ZoneConstructionScreen extends Screen{
 							messageConstruire = "Cette carte n'est pas constructible";
 							btnAnnulCarte.setVisible(false);
 							ca.setDefaultPosition();
-							idCarteSelected=0;
+						idCarteSelected=0;
 						}
 
 					}
-
                 }
 		});
 			ca.addListener(new InputListener(){
@@ -298,7 +305,7 @@ public class ZoneConstructionScreen extends Screen{
 	}
 
 	private void afficherPiles() {
-		int left = 100;
+		/*int left = 100;
 		int i = 0;
 		for(Carte pile : joueur.getZone_construction().cartesTop()){
 
@@ -306,8 +313,79 @@ public class ZoneConstructionScreen extends Screen{
 			System.out.println("carte dessus pile :" + pile.getNom());
 			stage.addActor(ca);
 			i++;
-		}
+		}*/
+		tPiles = new Table();
+        int j=1;
+        ArrayList<Carte> pile = new ArrayList<Carte>();
+        PileActor pa= new PileActor(pile, 250, 500);
+        pa.setId(0);
+        tPiles.add(pa);
+        for(final ArrayList<Carte> pileList: joueur.getZone_construction().getCartes()){
+			
+			System.out.println("J'ai une pile");
+			PileActor paLi = new PileActor(pileList, 350+50*j, 500);
+			paLi.setId(j);
+			stage.addActor(paLi);
+			//pa.setPosition(1000, 500);
+			//paLi.setVisible(false);
+			tPiles.add(paLi);
+			paLi.addListener(new InputListener(){
 
+
+				@Override
+				public void enter(InputEvent event, float x, float y,
+						int pointer, Actor actor) {
+					System.out.println("ENTREE DANS LA BOUCLE");
+					
+				}
+
+				
+				
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					System.out.println("Je suis là");
+					return true;
+				}
+
+				@Override
+				public void touchUp(InputEvent event, float x, float y,
+						int pointer, int button) {
+					System.out.println("Je suis ici");
+
+				}
+			});
+
+
+			j++;
+		}
+        stage.addActor(pa);
+        System.out.println("Pas de pile");
+        pa.addListener(new InputListener(){
+			@Override
+			public void enter(InputEvent event, float x, float y,
+					int pointer, Actor actor) {
+				
+				
+				
+			}
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				System.out.println("Je suis là");
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				System.out.println("Je suis ici");
+
+			}
+		});
+        stage.addActor(tPiles);
+        //pa.setVisible(false);
+        tPiles.setVisible(false);
 	}
 
 	@Override
