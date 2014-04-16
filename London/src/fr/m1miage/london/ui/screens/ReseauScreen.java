@@ -15,8 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
-import fr.m1.miage.london.network.JeuReseau;
+import fr.m1.miage.london.network.IncomingListenerClient;
+import fr.m1.miage.london.network.IncomingListenerServeur;
 import fr.m1.miage.london.network.client.Client;
+import fr.m1.miage.london.network.serveur.Reception;
 import fr.m1.miage.london.network.serveur.Serveur;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
@@ -25,19 +27,35 @@ import fr.m1miage.london.ui.graphics.Fonts;
 
 public class ReseauScreen extends Screen{
 	
-//	/**
-//	 * Listener du reseau.
-//	 */
-//
-//	private IReseauListener reseauListener = new IReseauListener(){
-//
-//		@Override
-//		public void reseauMSGUpdate(String message) {
-//			listeMessage.concat("\n"+message);
-//			
-//		}
-//		
-//	};
+	/**
+	 * Listener du reseau (client).
+	 */
+
+	private IncomingListenerClient reseauClientListener = new IncomingListenerClient(){
+
+		@Override
+		public void nouveauMessage(String message) {
+			listeMessage.concat("\n" + message);
+		}
+
+
+		
+	};
+	
+	/**
+	 * Listener du reseau (serveur).
+	 */
+
+	private IncomingListenerServeur reseauServeurListener = new IncomingListenerServeur(){
+
+		@Override
+		public void nouveauMessage(String message) {
+			listeMessage.concat("\n" + message);
+		}
+
+
+		
+	};
 
 		
 	private Stage stage; 
@@ -48,6 +66,7 @@ public class ReseauScreen extends Screen{
 	private int type =0;
 	
 	public ReseauScreen(){
+		Reception.addListener(reseauServeurListener);
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
@@ -148,7 +167,7 @@ public class ReseauScreen extends Screen{
 					if(type==2){
 						
 					}
-					JeuReseau.message = mTextField.getText();
+			
 					mTextField.setText("");
 				}
 				return super.keyDown(event, keycode);
@@ -175,7 +194,7 @@ public class ReseauScreen extends Screen{
 
 		spriteBatch.begin();
 		//maj a deplacer
-		listeMessage = JeuReseau.messageReceived;
+		
 		
 		Fonts.FONT_BLACK.draw(spriteBatch, listeMessage, 420, 200);
 
