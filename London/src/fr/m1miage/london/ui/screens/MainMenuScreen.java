@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import fr.m1miage.london.ui.Prefs;
@@ -11,25 +12,24 @@ import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 
 public class MainMenuScreen extends Screen {
-	private static TextButton nouvellePartie;
-	private static TextButton chargerPartie;
-	private static TextButton quitterJeu;
-	
 	private static int selection=0;
 	private Stage stage; 
+	private Table tMenu;
 	
 	public MainMenuScreen(){
-		loadButtons();
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
-		
+		tMenu = new Table();
+		tMenu.setPosition(705, 420);
+		//tMenu.pad(40f);
+		loadButtons();
+		stage.addActor(tMenu);
 	}
 	
-	private static void loadButtons(){
+	private void loadButtons(){
 		/* Parametres Boutons */
-		nouvellePartie = new TextButton("Nouvelle partie",Buttons.styleInGameMenu); 
-		nouvellePartie.setPosition(600, 510); 
+		TextButton nouvellePartie = new TextButton("Nouvelle partie",Buttons.styleInGameMenu); 
 		nouvellePartie.addListener(new InputListener(){
 			
 			@Override
@@ -46,11 +46,34 @@ public class MainMenuScreen extends Screen {
 			}
 			
 		});
-		chargerPartie = new TextButton("Charger une partie",Buttons.styleInGameMenuDisabled);
-		chargerPartie.setPosition(600, 435); 
+		tMenu.add(nouvellePartie).row().pad(20f);
 		
-		quitterJeu = new TextButton("Quitter",Buttons.styleInGameMenu);
-		quitterJeu.setPosition(600, 235); 
+		TextButton chargerPartie = new TextButton("Charger une partie",Buttons.styleInGameMenuDisabled);
+		tMenu.add(chargerPartie).row();
+		
+		
+		//mode reseau
+		TextButton reseauPartie = new TextButton("Jouer en réseau",Buttons.styleInGameMenu);
+		reseauPartie.addListener(new InputListener(){
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new ReseauScreen());
+				super.touchUp(event, x, y, pointer, button);
+			}
+			
+		});
+		tMenu.add(reseauPartie).row().pad(20f);
+		
+		
+		TextButton quitterJeu = new TextButton("Quitter",Buttons.styleInGameMenu);
 		quitterJeu.addListener(new InputListener(){
 
 			@Override
@@ -68,6 +91,7 @@ public class MainMenuScreen extends Screen {
 			
 		});
 		
+		tMenu.add(quitterJeu).row();
 	}
 	
 	@Override
@@ -79,9 +103,6 @@ public class MainMenuScreen extends Screen {
 		draw(Art.bg, 0, 0);
 		draw(Art.menu_bg,575,200);
 		spriteBatch.end();
-		stage.addActor(nouvellePartie);
-		stage.addActor(chargerPartie);
-		stage.addActor(quitterJeu);
 		stage.act();
 		stage.draw();
 	}
