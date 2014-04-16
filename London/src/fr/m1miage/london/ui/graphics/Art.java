@@ -42,6 +42,7 @@ public class Art {
 	
 	/*--- carte ---*/
 	public static TextureRegion  emplacement_etalage;
+	public static TextureRegion carteDisabled;
 	
 	public static void load () {
 		Fonts.load();
@@ -72,7 +73,9 @@ public class Art {
 		
 		emplacement_etalage = load(Prefs.REPERTOIRE + "etalage_carte.png", 256,512);
 		
-		
+		Texture t= new Texture(Gdx.files.internal(Prefs.REPERTOIRE_CARTES+"carteDisabled.png"));
+		carteDisabled = new TextureRegion(t, 0, 0, Prefs.LARGEUR_CARTE, Prefs.HAUTEUR_CARTE);
+		carteDisabled.flip(false, false);
 	}
 
 	public static TextureRegion load (String name, int width, int height) {

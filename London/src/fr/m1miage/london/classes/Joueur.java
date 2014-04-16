@@ -326,7 +326,7 @@ public class Joueur implements Serializable, Comparable {
 	 * -1 : cartes non trouv�es
 	 * 1 : pas de pb
 	 */
-	public int restaurerVille(List<Integer> idCartes){
+	public GestionErreurs restaurerVille(List<Integer> idCartes){
 		/*
 		 * V�rifier si les cartes existent
 		 */
@@ -346,7 +346,7 @@ public class Joueur implements Serializable, Comparable {
 			}
 			// si on a pas trouv� cette carte, on sort
 			if (!trouve)
-				return -1;
+				return GestionErreurs.INCORRECT_NUMBER;
 			// on remet le flag � faux pour la carte suivante
 			trouve = false;	
 		}
@@ -358,14 +358,14 @@ public class Joueur implements Serializable, Comparable {
 		TraderClassRestaurerVille.reset();
 		for(Carte c : cartesAActiver){
 			// si la carte n'est pas activable
-			if (c.coutActivation() == null){
-				return -2;
+			if (c.getCoutActivation() == null){
+				return GestionErreurs.NON_ACTIVABLE_CARD;
 			}
-			switch (c.coutActivation().getTypeActiv()){
+			switch (c.getCoutActivation().getTypeActiv()){
 			case 0 : break;
-			case 1 : TraderClassRestaurerVille.addCoutEnLivres(c.coutActivation().getLivresAPayer());break;
+			case 1 : TraderClassRestaurerVille.addCoutEnLivres(c.getCoutActivation().getLivresAPayer());break;
 			case 2 : {
-				switch (c.coutActivation().getCouleurADefausser()){
+				switch (c.getCoutActivation().getCouleurADefausser()){
 				case "Brun" : TraderClassRestaurerVille.addNbCartesBrunes();break;
 				case "Bleu" : TraderClassRestaurerVille.addNbCartesBleues();break;
 				case "Gris" : TraderClassRestaurerVille.addNbCartesGrises();break;
@@ -377,7 +377,19 @@ public class Joueur implements Serializable, Comparable {
 			case 3 : TraderClassRestaurerVille.addNbCartesOsefCouleur();break;
 			}
 		}
-		return 1;
+		return GestionErreurs.NONE;
+	}
+	
+	public void aActive(Carte carte){
+		this.argent = this.argent + carte.getArgentActivation();
+		this.point_pauvrete= this.point_pauvrete + carte.getPtsPauvreteGagnes();
+		this.point_pauvrete= this.point_pauvrete - carte.getPtsPauvretePerdus();
+		this.point_victoire= this.point_victoire + carte.getPointsVictoire();
+		System.out.println("a retourner : " + carte.getCoutActivation().isaRetourner());
+		if(carte.getCoutActivation().isaRetourner()){
+			System.out.println("yes");
+			carte.setDesactivee(true);
+		}
 	}
 	
 	/*
@@ -389,7 +401,7 @@ public class Joueur implements Serializable, Comparable {
 	 * -5 : manque carte brun
 	 * -6 : carte non trouv�e
 	 */
-	public int payerRestaurationVille(List<Carte> cartesADefausser){
+	public GestionErreurs payerRestaurationVille(List<Carte> cartesADefausser){
 		int roseADefausser = 0,bleuADefausser = 0,grisADefausser = 0,brunADefausser = 0;
 		int rose = 0,bleu = 0,gris = 0,brun = 0;
 		// on compte le nb de carte de chaque couleur que l'on veut d�fausser
@@ -412,27 +424,29 @@ public class Joueur implements Serializable, Comparable {
 		}
 		
 		// test pour voir si on manque de ressources
+		System.err.println( "argent du joueur :" + this.argent);
+		System.err.println( "truc :" + TraderClassRestaurerVille.getCoutEnLivres());
 		if (this.argent - TraderClassRestaurerVille.getCoutEnLivres() < 0)
-			return -1;
+			return GestionErreurs.NOT_ENOUGH_MONEY;
 		if (rose-roseADefausser < 0){
-			return -2;
+			return GestionErreurs.NO_ROSE_CARD;
 		}
 		if (bleu-bleuADefausser < 0){
-			return -3;
+			return GestionErreurs.NO_BLEU_CARD;
 		}
 		if (gris-grisADefausser < 0){
-			return -4;
+			return GestionErreurs.NO_GRIS_CARD;
 		}
 		if (brun-brunADefausser < 0){
-			return -5;
+			return GestionErreurs.NO_BRUN_CARD;
 		}
 		for(Carte c : cartesADefausser){
 			if (!this.mainDuJoueur.supprimerCarteParId(c.getId_carte())){
-				return -6;
+				return GestionErreurs.INCORRECT_CARTE;
 			}
 		}
 		
-		return 1;
+		return GestionErreurs.NONE;
 	}
 	
 	

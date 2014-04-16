@@ -95,7 +95,7 @@ public class GameScreen extends Screen{
 				@Override
 				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
-					Screen.setScreen(new ZoneConstructionScreen("Choisir une carte"));
+					Screen.setScreen(new ZoneConstructionScreen("Choisir une carte", Regles.CONSTRUIRE));
 					super.touchUp(event, x, y, pointer, button);
 				}
 
@@ -104,6 +104,22 @@ public class GameScreen extends Screen{
 			tableActions.add(construireBtn);
 
 			restaurerBtn = new Button(Buttons.styleBtnRestaurer);
+			restaurerBtn.addListener(new InputListener(){
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					return true;
+				}
+
+				@Override
+				public void touchUp(InputEvent event, float x, float y,
+						int pointer, int button) {
+					Screen.setScreen(new ZoneConstructionScreen("Choisir un batiment à restaurer",Regles.RESTAURER));
+					super.touchUp(event, x, y, pointer, button);
+				}
+				
+			});
 			tableActions.add(restaurerBtn);
 
 			investirBtn = new Button(Buttons.styleBtnInvestir);

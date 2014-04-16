@@ -39,6 +39,10 @@ public class CarteActor extends Actor{
 		this.setX(x);
 	}
 	
+	public void setDisabled(){
+		this.img =Art.carteDisabled;
+	}
+	
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		//batch.end();
@@ -53,6 +57,13 @@ public class CarteActor extends Actor{
 		this.x = (int) x;
 
 		super.setX(x);
+	}
+
+	@Override
+	public void setPosition(float x, float y) {
+		this.x = (int) x;
+		this.y = (int)y;
+		super.setPosition(x, y);
 	}
 
 	@Override
