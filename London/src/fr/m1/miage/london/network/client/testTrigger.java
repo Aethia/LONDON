@@ -6,7 +6,7 @@ public class testTrigger implements IncomingListenerClient{
 
 	@Override
 	public void nouveauMessage(String message) {
-		System.out.println(message);
+		System.out.println("trigger déclanché : "+message);
 		
 	}
 

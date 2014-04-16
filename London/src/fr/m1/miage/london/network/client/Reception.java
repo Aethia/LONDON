@@ -31,10 +31,10 @@ public class Reception implements Runnable {
 	        try {
 	        	
 			message = in.readLine();
+			// on notifie tous ceux qui écoutent
 			for (IncomingListenerClient list : listeners){
 				list.nouveauMessage(message);
 			}
-			//System.out.println(message);
 			
 			
 		    } catch (IOException e) {
