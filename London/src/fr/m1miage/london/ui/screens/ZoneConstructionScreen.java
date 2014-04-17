@@ -1,10 +1,11 @@
 package fr.m1miage.london.ui.screens;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -35,6 +36,7 @@ public class ZoneConstructionScreen extends Screen{
 
 	private int idCarteSelected =0;
 	private int idDefausseSelected =0;
+	private int pileSelected = 0;
 	private int idPile = 0;
 
 	private AreaColorRect fondChoixCartes= new AreaColorRect(200, 320, 900, 350);
@@ -150,7 +152,7 @@ public class ZoneConstructionScreen extends Screen{
 		stage.addActor(btnAnnulCarte);
 
 		//choisir la pile
-		tPiles= new Table();
+		//tPiles= new Table();
 		final int nbpiles = joueur.getZone_construction().getNbPiles();
 		TextButton btnP;
 		for(int k =1; k<=nbpiles+1; k++){
@@ -182,9 +184,9 @@ public class ZoneConstructionScreen extends Screen{
 			});
 			tPiles.add(btnP).row();
 		}
-		tPiles.setSize(50, 50);
-		tPiles.setPosition(800, 500);
-		tPiles.setVisible(false);
+		//tPiles.setSize(50, 50);
+		//tPiles.setPosition(800, 500);
+		//tPiles.setVisible(false);
 		stage.addActor(tPiles);
 
 		//bouton de validation des choix
@@ -228,13 +230,19 @@ public class ZoneConstructionScreen extends Screen{
 			i++;
 			final CarteActor ca = new CarteActor(c,350+i*50,10);
 			stage.addActor(ca);
+			
 						
 			ca.addListener(new DragListener(){
 				public void touchDragged (InputEvent event, float x, float y, int pointer) {
                     float dx = x-ca.getWidth()*0.5f; 
                     float dy = y-ca.getHeight()*0.5f; 
-                    ca.setX(ca.getX()+dx);
-                    ca.setY(ca.getY()+dy);
+                    //ca.setX(ca.getX()+dx);
+                    
+                    
+                    //ca.setY(ca.getY()+dy);
+                    TextureRegion t = new TextureRegion(ca.getImage());
+                    t.setU(ca.getX()+dx);
+                    t.setV(ca.getY()+dy);
 					
 
                     if(idCarteSelected!=0 && idDefausseSelected==0 && idCarteSelected!=c.getId_carte()){ //si on a deja select carte, mais pas la defausse
@@ -266,6 +274,18 @@ public class ZoneConstructionScreen extends Screen{
 
 					}
                 }
+				
+				public void touchUp(InputEvent event,float x,float y,int pointer,int button){
+					System.out.println("Stop drag");
+					System.out.println("pile selected : "+pileSelected);
+					System.out.println("Carte selected "+idCarteSelected);
+					if(pileSelected != 0 && idCarteSelected != 0){
+						System.out.println("pileSelected et CarteSelected !=0");
+					}
+					else{
+						System.out.println("Pile et carte == 0");
+					}
+				}
 		});
 			ca.addListener(new InputListener(){
 
@@ -305,26 +325,22 @@ public class ZoneConstructionScreen extends Screen{
 	}
 
 	private void afficherPiles() {
-		/*int left = 100;
+		int left = 100;
 		int i = 0;
-		for(Carte pile : joueur.getZone_construction().cartesTop()){
+		tPiles = new Table();
+		tPiles.setPosition(left+i*215,360);
+		tPiles.setSize(500, 500);
+		
+		for(Carte pileC : joueur.getZone_construction().cartesTop()){
 
-			CarteActor ca = new CarteActor(pile, left+i*215, 360);
-			System.out.println("carte dessus pile :" + pile.getNom());
+			CarteActor ca = new CarteActor(pileC, left+i*215, 360);
+			
+			System.out.println("carte dessus pile :" + pileC.getNom());
 			stage.addActor(ca);
 			i++;
-		}*/
-		tPiles = new Table();
-        int j=1;
-        ArrayList<Carte> pile = new ArrayList<Carte>();
-        PileActor pa= new PileActor(pile, 250, 500);
-        pa.setId(0);
-        tPiles.add(pa);
-        for(final ArrayList<Carte> pileList: joueur.getZone_construction().getCartes()){
-			
-			System.out.println("J'ai une pile");
-			PileActor paLi = new PileActor(pileList, 350+50*j, 500);
-			paLi.setId(j);
+			final PileActor paLi = new PileActor(pileC, left+i*215, 360);
+			paLi.setId(i);
+			System.out.println(paLi.getId());
 			stage.addActor(paLi);
 			//pa.setPosition(1000, 500);
 			//paLi.setVisible(false);
@@ -335,8 +351,13 @@ public class ZoneConstructionScreen extends Screen{
 				@Override
 				public void enter(InputEvent event, float x, float y,
 						int pointer, Actor actor) {
-					System.out.println("ENTREE DANS LA BOUCLE");
+					pileSelected = paLi.getId();
 					
+				}
+				
+				@Override
+				public void  exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+					pileSelected = 0;
 				}
 
 				
@@ -344,48 +365,58 @@ public class ZoneConstructionScreen extends Screen{
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {
-					System.out.println("Je suis là");
+					System.out.println("Je suis là boucle");
 					return true;
 				}
-
-				@Override
-				public void touchUp(InputEvent event, float x, float y,
-						int pointer, int button) {
-					System.out.println("Je suis ici");
-
-				}
+//
+//				@Override
+//				public void touchUp(InputEvent event, float x, float y,
+//						int pointer, int button) {
+//					System.out.println("Je suis ici boucle");
+//
+//				}
 			});
 
-
-			j++;
 		}
+        
+        Carte pile = new Carte();
+        final PileActor pa= new PileActor(pile, left+i*215, 260);
+        pa.setId(i+1);
+        tPiles.add(pa);
         stage.addActor(pa);
-        System.out.println("Pas de pile");
+        Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE_CARTES+"carteNew.png"));
+		
+        pa.setImg(t);
         pa.addListener(new InputListener(){
 			@Override
 			public void enter(InputEvent event, float x, float y,
 					int pointer, Actor actor) {
-				
-				
+				pileSelected = pa.getId();
+				System.out.println("Valeur de pile : "+pileSelected);
 				
 			}
+			
+			@Override
+			public void  exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+				pileSelected = 0;
+				
+			}
+			
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				System.out.println("Je suis là");
 				return true;
 			}
-
-			@Override
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				System.out.println("Je suis ici");
-
-			}
+//
+//			@Override
+//			public void touchUp(InputEvent event, float x, float y,
+//					int pointer, int button) {
+//				System.out.println("Je suis ici");
+//
+//			}
 		});
         stage.addActor(tPiles);
-        //pa.setVisible(false);
-        tPiles.setVisible(false);
 	}
 
 	@Override
