@@ -3,12 +3,17 @@ package fr.m1miage.london.ui.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
@@ -18,7 +23,7 @@ import fr.m1miage.london.ui.graphics.Fonts;
 public class ChoixModeReseauScreen extends Screen{
 	
 
-		
+
 	private Stage stage; 
 
 	private ShapeRenderer fondChat;
@@ -78,7 +83,44 @@ public class ChoixModeReseauScreen extends Screen{
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 					// event client
-				Screen.setScreen(new ReseauScreenClient());
+
+				Skin menuSkin = new Skin();
+				TextureAtlas menuAtlas = new TextureAtlas("ressources/Images/text_area.pack");
+				menuSkin.addRegions(menuAtlas);
+				TextFieldStyle txtStyle = new TextFieldStyle();
+				txtStyle.background = menuSkin.getDrawable("Area");
+				txtStyle.font = new BitmapFont(Gdx.files.internal("ressources/Fnt/font_quartiers.fnt"), false);
+				txtStyle.fontColor = Color.BLACK;
+				txtStyle.background.setBottomHeight(32f);
+				txtStyle.background.setLeftWidth(10f);
+				final TextField mTextField = new TextField("", txtStyle);
+				mTextField.setPosition(600 , 400);
+				mTextField.setHeight(70);
+				mTextField.setWidth(300);
+				stage.addActor(mTextField);
+				
+				
+				TextButton btnRejoindrePartie =new TextButton("Rejoindre",Buttons.styleInGameMenu); 
+				btnRejoindrePartie.setPosition(600, 350); 
+				btnRejoindrePartie.addListener(new InputListener(){
+					@Override
+					public void touchUp(InputEvent event, float x, float y,
+							int pointer, int button) {
+						//traitement reseau
+						// event ok client
+						Screen.setScreen(new ReseauScreenClient());
+						super.touchUp(event, x, y, pointer, button);
+					}
+
+					@Override
+					public boolean touchDown(InputEvent event, float x, float y,
+							int pointer, int button) {
+						return true;
+					}
+				});
+				stage.addActor(btnRejoindrePartie);
+				
+
 				super.touchUp(event, x, y, pointer, button);
 			}
 
