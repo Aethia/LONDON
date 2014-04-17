@@ -358,7 +358,14 @@ public class Console {
 					// on retourne les cartes que l'on souhaite activer
 					for(int idCarte : listVal){
 						partie.getObjJoueurActif().getZone_construction().retournerCarte(idCarte);
+						
+						//Lance la fonction metro si la carte est wait for it ...metro
+						if(idCarte==76||idCarte==79||idCarte==84||idCarte==85||idCarte==97){
+							metro();
+						}
+						
 					}
+					
 					// todo mï¿½thode de joueur pour payer la somme et retourner les cartes
 					System.out.println("Cartes activees !");
 				}
@@ -424,6 +431,25 @@ public class Console {
 			System.out.println("Vous voulez consulter vos cartes en main");
 			partie.getObjJoueurActif().afficherMain();
 
+		}
+		
+		private void metro(){
+		
+			System.out.println(partie.getPlateau().getQuartiersMetro());
+			
+			
+			
+			
+			System.out.println("Tu veux activer le metro ?(oui/non)");
+			String rep = sc.next();
+			if (rep.equalsIgnoreCase("oui")) {
+				System.out.println("metro activé");
+			}
+			else{
+				System.out.println("metro non activé");
+			}
+			
+			
 		}
 
 }

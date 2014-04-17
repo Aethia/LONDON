@@ -36,6 +36,16 @@ public class Plateau implements Serializable{
 		return qDispo;
 	}
 	
+	public Map<Integer,Quartier> getQuartiersMetro(){
+		Map<Integer,Quartier> qMetro = new HashMap<Integer, Quartier>();
+		for(Integer key : quartiers.keySet()){
+			if(quartiers.get(key).isMetro()){
+				qMetro.put(key, quartiers.get(key));
+			}
+		}
+		return qMetro;
+	}
+	
 	public Quartier getQuartier(int idQuartier){
 		return quartiers.get(idQuartier);
 	}
