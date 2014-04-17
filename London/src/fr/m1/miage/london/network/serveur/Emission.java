@@ -17,14 +17,13 @@ public class Emission implements Runnable {
 	
 	public void run() {
 		
-		  sc = new Scanner(System.in);
-		  
-		  while(true){
-			    System.out.println("Votre message :");
-				message = sc.nextLine();
-				for( Chat_ClientServeur chat : Serveur.lesClients){
-					chat.sendMsg("serveur : "+message);
-				}
-			  }
+		 
 	}
+	
+	public void sendMessage(String msg){
+		out.println(msg);
+	    out.flush();	
+	}
+	
+	
 }

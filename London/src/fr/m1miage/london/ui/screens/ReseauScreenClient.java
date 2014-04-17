@@ -1,5 +1,8 @@
 package fr.m1miage.london.ui.screens;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -15,24 +18,37 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
+import fr.m1.miage.london.network.IncomingListenerClient;
+import fr.m1.miage.london.network.IncomingListenerServeur;
+import fr.m1.miage.london.network.client.Client;
+import fr.m1.miage.london.network.client.Sender;
+import fr.m1.miage.london.network.client.Reception;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.Fonts;
 
-public class ReseauScreenClient extends Screen{
+public class ReseauScreenClient extends Screen implements IncomingListenerClient{
 	
+		@Override
+		public void nouveauMessage(String message) {
+			//Screen.setScreen(new MainMenuScreen());
+			System.out.println("message recu coté ui (cli)," + message);
+			listeMessage+=("\n"+message);	
+		}	
 
 
-		
+
 	private Stage stage; 
-
+	private String login;
 	private String listeMessage= new String("Chat reseau \n");
 	private ShapeRenderer fondChat;
 
 	private int type =0;
 	
-	public ReseauScreenClient(){
+	public ReseauScreenClient(String log){
+		Reception.addListener(this);
+		this.login = log;
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
@@ -59,31 +75,6 @@ public class ReseauScreenClient extends Screen{
 		stage.addActor(btnRetour);
 
 
-
-		
-		/*
-		 * bouton envoyer (pour le chat)
-		 */
-		TextButton btnEnvoyer =new TextButton("Envoyer",Buttons.styleInGameMenu); 
-		btnEnvoyer.setPosition(1100, 100); 
-		btnEnvoyer.addListener(new InputListener(){
-			@Override
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				// code event
-				System.out.println("wut");
-				super.touchUp(event, x, y, pointer, button);
-			}
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				return true;
-			}
-		});
-		stage.addActor(btnEnvoyer);
-
-
 		//zone de texte
 		Skin menuSkin = new Skin();
 		TextureAtlas menuAtlas = new TextureAtlas("ressources/Images/text_area.pack");
@@ -100,28 +91,37 @@ public class ReseauScreenClient extends Screen{
 		mTextField.setPosition(400 , 120);
 		mTextField.setHeight(70);
 		mTextField.setWidth(850);
-		mTextField.addListener(new InputListener(){
+		stage.addActor(mTextField);
+		
+		/*
+		 * bouton envoyer (pour le chat)
+		 */
+		TextButton btnEnvoyer =new TextButton("Envoyer",Buttons.styleInGameMenu); 
+		btnEnvoyer.setPosition(1100, 100); 
+		btnEnvoyer.addListener(new InputListener(){
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				// code event
+				Sender.e.sendMessage(login+" : "+mTextField.getText());
+				mTextField.setText("");
+				
+				super.touchUp(event, x, y, pointer, button);
+			}
 
 			@Override
-			public boolean keyDown(InputEvent event, int keycode) {
-				if(keycode==66){
-					if(type==1){
-//					for( Chat_ClientServeur chat : Serveur.lesClients){
-//						chat.sendMsg("serveur : "+mTextField.getText());
-//					}
-					
-					}
-					if(type==2){
-						
-					}
-			
-					mTextField.setText("");
-				}
-				return super.keyDown(event, keycode);
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
 			}
-			
 		});
-		stage.addActor(mTextField);
+		stage.addActor(btnEnvoyer);
+
+
+
+		
+		
+
 	}
 	
 

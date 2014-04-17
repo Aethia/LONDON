@@ -12,7 +12,7 @@ public class Reception implements Runnable {
 
 	private BufferedReader in;
 	private String message = null, login = null;
-	private static List<IncomingListenerServeur> listeners = new ArrayList<IncomingListenerServeur>();
+	public static List<IncomingListenerServeur> listeners = new ArrayList<IncomingListenerServeur>();
 	
 	public Reception(BufferedReader in, String login){
 		
@@ -34,8 +34,8 @@ public class Reception implements Runnable {
 				list.nouveauMessage(message);
 			}
 			//System.out.println(login+" : "+message);
-			for( Chat_ClientServeur chat : Serveur.lesClients){
-				chat.sendMsg(login+" : "+message);
+			for( Emission e : Serveur.lesClients){
+				e.sendMessage(message);
 			}
 			
 		    } catch (IOException e) {
@@ -44,5 +44,6 @@ public class Reception implements Runnable {
 			}
 		}
 	}
+	
 
 }

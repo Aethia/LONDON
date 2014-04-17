@@ -17,35 +17,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
 import fr.m1.miage.london.network.IncomingListenerClient;
 import fr.m1.miage.london.network.IncomingListenerServeur;
+import fr.m1.miage.london.network.serveur.Emission;
 import fr.m1.miage.london.network.serveur.Reception;
+import fr.m1.miage.london.network.serveur.Serveur;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.Fonts;
 
-public class ReseauScreenServeur extends Screen{
-	
-	/**
-	 * Listener du reseau (client).
-	 */
-
-	private IncomingListenerClient reseauClientListener = new IncomingListenerClient(){
-
-		@Override
-		public void nouveauMessage(String message) {
-			System.out.println("wtf");
-			listeMessage.concat("\n" + message);
-		}
-
-
+public class ReseauScreenServeur extends Screen implements IncomingListenerServeur{
 		
-	};
+
 	
 	/**
 	 * Listener du reseau (serveur).
 	 */
-
-	private IncomingListenerServeur reseauServeurListener = new IncomingListenerServeur(){
 
 		@Override
 		public void nouveauMessage(String message) {
@@ -53,11 +39,8 @@ public class ReseauScreenServeur extends Screen{
 			listeMessage+=("\n"+message);
 			
 			System.out.println("nouveau :" + message);
-		}
+		}	
 
-
-		
-	};
 
 		
 	private Stage stage; 
@@ -68,13 +51,30 @@ public class ReseauScreenServeur extends Screen{
 	private int type =0;
 	
 	public ReseauScreenServeur(){
-		Reception.addListener(reseauServeurListener);
+		Reception.addListener(this);
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 
 		fondChat = new ShapeRenderer();
+		
+		//zone de texte
+		Skin menuSkin = new Skin();
+		TextureAtlas menuAtlas = new TextureAtlas("ressources/Images/text_area.pack");
+		menuSkin.addRegions(menuAtlas);
+		TextFieldStyle txtStyle = new TextFieldStyle();
+		txtStyle.background = menuSkin.getDrawable("Area");
+		txtStyle.font = new BitmapFont(Gdx.files.internal("ressources/Fnt/font_quartiers.fnt"), false);
+		txtStyle.fontColor = Color.BLACK;
+		txtStyle.background.setBottomHeight(32f);
+		txtStyle.background.setLeftWidth(10f);
 
+		//creation des textfields
+		final TextField mTextField = new TextField("", txtStyle);
+		mTextField.setPosition(400 , 120);
+		mTextField.setHeight(70);
+		mTextField.setWidth(850);
+		stage.addActor(mTextField);
 
 		TextButton btnRetour =new TextButton("Retour",Buttons.styleInGameMenu); 
 		btnRetour.setPosition(100, 135); 
@@ -123,7 +123,13 @@ public class ReseauScreenServeur extends Screen{
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// code event
-				System.out.println("wut");
+				// on envoie le message au clients
+				for (Emission e : Serveur.lesClients){
+					e.sendMessage("hôte : "+mTextField.getText());
+				}
+				listeMessage+=("\n"+"hôte : "+mTextField.getText());
+				mTextField.setText("");
+				
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -136,44 +142,14 @@ public class ReseauScreenServeur extends Screen{
 		stage.addActor(btnEnvoyer);
 
 
-		//zone de texte
-		Skin menuSkin = new Skin();
-		TextureAtlas menuAtlas = new TextureAtlas("ressources/Images/text_area.pack");
-		menuSkin.addRegions(menuAtlas);
-		TextFieldStyle txtStyle = new TextFieldStyle();
-		txtStyle.background = menuSkin.getDrawable("Area");
-		txtStyle.font = new BitmapFont(Gdx.files.internal("ressources/Fnt/font_quartiers.fnt"), false);
-		txtStyle.fontColor = Color.BLACK;
-		txtStyle.background.setBottomHeight(32f);
-		txtStyle.background.setLeftWidth(10f);
 
-		//creation des textfields
-		final TextField mTextField = new TextField("", txtStyle);
-		mTextField.setPosition(400 , 120);
-		mTextField.setHeight(70);
-		mTextField.setWidth(850);
-		mTextField.addListener(new InputListener(){
-
-			@Override
-			public boolean keyDown(InputEvent event, int keycode) {
-				if(keycode==66){
-					if(type==1){
-//					for( Chat_ClientServeur chat : Serveur.lesClients){
-//						chat.sendMsg("serveur : "+mTextField.getText());
-//					}
-					
-					}
-					if(type==2){
-						
-					}
-			
-					mTextField.setText("");
-				}
-				return super.keyDown(event, keycode);
-			}
-			
-		});
-		stage.addActor(mTextField);
+		
+		/*
+		 * On lance le serveur (mais pas trop loin)
+		 */
+		
+		Serveur srv = new Serveur();
+		srv.hebergerPartie();
 	}
 	
 

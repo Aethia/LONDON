@@ -17,7 +17,6 @@ public class Chat_ClientServeur implements Runnable {
 	
 	
 	public Chat_ClientServeur(Socket s, String log){
-		Serveur.lesClients.add(this);
 		socket = s;
 		login = log;
 	}
@@ -27,17 +26,16 @@ public class Chat_ClientServeur implements Runnable {
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream());
 		
+		
 		Thread t3 = new Thread(new Reception(in,login));
 		t3.start();
-//		Thread t4 = new Thread(new Emission(out));
-//		t4.start();
+		Emission e = new Emission(out);
+		Serveur.lesClients.add(e);
+		Thread t4 = new Thread(e);
+		t4.start();
 		
 		} catch (IOException e) {
 			System.err.println(login +"s'est d�connect� ");
 		}
 }
-	public void sendMsg(String msg){
-		out.println(msg);
-	    out.flush();
-	}
 }

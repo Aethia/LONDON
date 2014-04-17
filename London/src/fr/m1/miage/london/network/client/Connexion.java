@@ -14,11 +14,10 @@ public class Connexion implements Runnable {
 	public static String login = null, pass = null, message1 = null, message2 = null, message3 = null;
 	private PrintWriter out = null;
 	private BufferedReader in = null;
-	private Scanner sc = null;
 	private boolean connect = false;
 	
-	public Connexion(Socket s){
-		
+	public Connexion(Socket s,String client){
+		this.login = client;
 		socket = s;
 	}
 	
@@ -27,21 +26,15 @@ public class Connexion implements Runnable {
 		try {
 			
 		out = new PrintWriter(socket.getOutputStream());
-		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));	
-		sc = new Scanner(System.in);
-	
+		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));		
 		
-
-		
-		System.out.println(in.readLine());
-		login = sc.nextLine();
 		out.println(login);
 		out.flush();
 		
 		
 		if(in.readLine().equals("connecte")){
 			
-		System.out.println("Je suis connecté "); 
+		System.out.println("Je suis connectï¿½ "); 
 		connect = true;
 		  }
 		else {
@@ -50,12 +43,12 @@ public class Connexion implements Runnable {
 		
 	
 			
-			t2 = new Thread(new Chat_ClientServeur(socket));
+			t2 = new Thread(new Chat_ClientServeur(socket,login));
 			t2.start();
 		
 		} catch (IOException e) {
 			
-			System.err.println("Le serveur ne répond plus ");
+			System.err.println("Le serveur ne rï¿½pond plus ");
 		}
 	}
 

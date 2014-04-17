@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
+import fr.m1.miage.london.network.client.Client;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -108,7 +109,17 @@ public class ChoixModeReseauScreen extends Screen{
 							int pointer, int button) {
 						//traitement reseau
 						// event ok client
-						Screen.setScreen(new ReseauScreenClient());
+						
+						/*
+						 * On lance le client
+						 */
+						
+						String login = mTextField.getText();
+						Client cli = new Client();
+						cli.seConnecter(login);
+						
+						
+						Screen.setScreen(new ReseauScreenClient(login));
 						super.touchUp(event, x, y, pointer, button);
 					}
 

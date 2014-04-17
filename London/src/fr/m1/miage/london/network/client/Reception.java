@@ -12,12 +12,13 @@ public class Reception implements Runnable {
 
 	private BufferedReader in;
 	private String message = null;
+	private String login;
 	private static List<IncomingListenerClient> listeners = new ArrayList<IncomingListenerClient>();
 	
 	
 	
-	public Reception(BufferedReader in){
-		
+	public Reception(BufferedReader in, String login){
+		this.login = login;
 		this.in = in;
 	}
 	
