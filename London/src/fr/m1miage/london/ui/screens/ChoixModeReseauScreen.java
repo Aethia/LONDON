@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
 import fr.m1.miage.london.network.client.Client;
+import fr.m1miage.london.sound.SoundPlayer;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -64,6 +65,7 @@ public class ChoixModeReseauScreen extends Screen{
 					int pointer, int button) {
 				//traitement reseau
 				// event serveur
+				SoundPlayer.jouerSon("clic.wav");
 				Screen.setScreen(new ReseauScreenServeur());
 				super.touchUp(event, x, y, pointer, button);
 			}
@@ -113,7 +115,7 @@ public class ChoixModeReseauScreen extends Screen{
 						/*
 						 * On lance le client
 						 */
-						
+						SoundPlayer.jouerSon("clic.wav");
 						String login = mTextField.getText();
 						Client cli = new Client();
 						cli.seConnecter(login);

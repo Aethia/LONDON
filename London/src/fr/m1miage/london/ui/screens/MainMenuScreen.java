@@ -1,5 +1,7 @@
 package fr.m1miage.london.ui.screens;
 
+
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -7,6 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+
+
+import fr.m1miage.london.sound.SoundPlayer;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -25,6 +30,9 @@ public class MainMenuScreen extends Screen {
 		//tMenu.pad(40f);
 		loadButtons();
 		stage.addActor(tMenu);
+		// la musique
+		
+
 	}
 	
 	private void loadButtons(){
@@ -35,6 +43,7 @@ public class MainMenuScreen extends Screen {
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
+				SoundPlayer.jouerSon("clic.wav");
 				Screen.setScreen(new CreationPartieScreen());
 				super.touchUp(event, x, y, pointer, button);
 			}
@@ -65,6 +74,7 @@ public class MainMenuScreen extends Screen {
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
+				SoundPlayer.jouerSon("clic.wav");
 				Screen.setScreen(new ChoixModeReseauScreen());
 				super.touchUp(event, x, y, pointer, button);
 			}
@@ -80,6 +90,7 @@ public class MainMenuScreen extends Screen {
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				selection = -1;
+				SoundPlayer.jouerSon("clic.wav");
 				super.touchUp(event, x, y, pointer, button);
 			}
 
