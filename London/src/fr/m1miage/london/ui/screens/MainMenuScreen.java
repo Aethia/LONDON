@@ -22,6 +22,11 @@ public class MainMenuScreen extends Screen {
 	private Table tMenu;
 	
 	public MainMenuScreen(){
+		
+		if (!SoundPlayer.musique) {
+			SoundPlayer.musique = true;
+			SoundPlayer.jouerSon("menu.wav");
+		}
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
