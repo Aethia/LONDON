@@ -21,7 +21,7 @@ import fr.m1miage.london.ui.graphics.CarteActor;
 import fr.m1miage.london.ui.graphics.Score;
 import fr.m1miage.london.ui.graphics.TableauScores;
 
-public class GameScreen extends Screen{
+public class GameScreenReseauClient extends Screen{
 
 	/*Boutons du menu*/
 	public TextButton zoneConstructionBtn;
@@ -54,7 +54,7 @@ public class GameScreen extends Screen{
 	public static Button btnSauvegarde;
 	
 
-	public GameScreen(){
+	public GameScreenReseauClient(){
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
@@ -80,7 +80,7 @@ public class GameScreen extends Screen{
 		stage.addActor(btnSauvegarde);
 		
 		/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
-		if(!londonG.partie.isTourTermine()){
+		//if(!londonG.partie.isTourTermine()){
 			Table tableActions = new Table();
 			tableActions.setPosition(780, 485);
 			construireBtn = new Button(Buttons.styleBtnConstruire);
@@ -146,7 +146,8 @@ public class GameScreen extends Screen{
 
 			tableActions.pad(30f);		
 			stage.addActor(tableActions);
-		}else{ /*sinon, on demande au joueur de confirmer qu'il a termine son tour*/
+			
+		/*}else{ //sinon, on demande au joueur de confirmer qu'il a termine son tour
 			finTourBtn = new Button(Buttons.styleBtnFinTour);
 			finTourBtn.setPosition(700, 400); //changer la position
 			finTourBtn.addListener(new InputListener(){
@@ -175,7 +176,7 @@ public class GameScreen extends Screen{
 
 			});
 			stage.addActor(finTourBtn);	
-		}
+		}*/
 
 		/* Parametres Boutons Menu General*/
 		//faire une classe du menu ?
@@ -266,7 +267,7 @@ public class GameScreen extends Screen{
 		
 		//a ameliorer
 		// les cartes du joueur actif
-		Joueur j = londonG.partie.getObjJoueurActif();
+		/*Joueur j = londonG.partie.getObjJoueurActif();
 		int i=0;
 		for(final Carte c: j.getLesCartes()){
 			i++;
@@ -299,7 +300,7 @@ public class GameScreen extends Screen{
 		scores = new TableauScores(londonG.partie.getListeJoueurs());
 		stage.addActor(scores);
 		scoreJoueur = new Score(j);
-		stage.addActor(scoreJoueur);
+		stage.addActor(scoreJoueur);*/
 
 	}
 
@@ -312,11 +313,11 @@ public class GameScreen extends Screen{
 
 
 		draw(Art.menu_bg,70,150);
-		if(londonG.partie.isTourTermine()){
+		//if(londonG.partie.isTourTermine()){
 			draw(Art.finTour_bg,400,150);
-		}else{
+		/*}else{
 			draw(Art.action_bg,400,150);
-		}
+		}*/
 		String msg = "COPYRIGHT Aethia 2014";
 		drawString(msg, 2, 800 -6 -2);
 

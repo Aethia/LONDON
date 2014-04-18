@@ -1,5 +1,7 @@
 package fr.m1miage.london.ui.screens;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -20,6 +22,8 @@ import fr.m1.miage.london.network.IncomingListenerServeur;
 import fr.m1.miage.london.network.serveur.Emission;
 import fr.m1.miage.london.network.serveur.Reception;
 import fr.m1.miage.london.network.serveur.Serveur;
+import fr.m1miage.london.Partie;
+import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -37,7 +41,6 @@ public class ReseauScreenServeur extends Screen implements IncomingListenerServe
 		public void nouveauMessage(String message) {
 			//Screen.setScreen(new MainMenuScreen());
 			listeMessage+=("\n"+message);
-			
 			System.out.println("nouveau :" + message);
 		}	
 
@@ -103,6 +106,24 @@ public class ReseauScreenServeur extends Screen implements IncomingListenerServe
 					int pointer, int button) {
 				//lancement de la partie
 				super.touchUp(event, x, y, pointer, button);
+				
+				// on récupère les joueurs
+				ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>();
+				Joueur j = new Joueur(0, "host", java.awt.Color.BLUE);
+				listeJoueurs.add(j);
+				int i=1;
+				for(Emission cli : Serveur.lesClients){
+					j = new Joueur(i++, cli.getLogin(), java.awt.Color.BLUE);
+					listeJoueurs.add(j);
+				}
+				 
+				
+				// on lance la partie
+				londonG.partie = new Partie(listeJoueurs,listeJoueurs.size());
+				londonG.partie.init();
+				Screen.setScreen(new GameScreenReseauServeur());	
+				
+				
 			}
 
 			@Override

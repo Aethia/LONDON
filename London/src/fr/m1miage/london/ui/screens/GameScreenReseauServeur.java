@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import fr.m1.miage.london.network.serveur.Emission;
+import fr.m1.miage.london.network.serveur.Serveur;
 import fr.m1miage.london.Regles;
 import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.classes.Joueur;
@@ -21,7 +23,7 @@ import fr.m1miage.london.ui.graphics.CarteActor;
 import fr.m1miage.london.ui.graphics.Score;
 import fr.m1miage.london.ui.graphics.TableauScores;
 
-public class GameScreen extends Screen{
+public class GameScreenReseauServeur extends Screen{
 
 	/*Boutons du menu*/
 	public TextButton zoneConstructionBtn;
@@ -54,7 +56,7 @@ public class GameScreen extends Screen{
 	public static Button btnSauvegarde;
 	
 
-	public GameScreen(){
+	public GameScreenReseauServeur(){
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
@@ -265,8 +267,8 @@ public class GameScreen extends Screen{
 		
 		
 		//a ameliorer
-		// les cartes du joueur actif
-		Joueur j = londonG.partie.getObjJoueurActif();
+		// les cartes du joueur host
+		Joueur j = londonG.partie.getJoueurParNom("host");
 		int i=0;
 		for(final Carte c: j.getLesCartes()){
 			i++;
@@ -301,6 +303,13 @@ public class GameScreen extends Screen{
 		scoreJoueur = new Score(j);
 		stage.addActor(scoreJoueur);
 
+		
+		// on envoie un message de synchro a tous les clients
+		for (Emission e : Serveur.lesClients){
+			e.sendMessage("0xFFFFFF");
+		}
+		
+		
 	}
 
 

@@ -20,6 +20,8 @@ public class Chat_ClientServeur implements Runnable {
 		socket = s;
 		login = log;
 	}
+	
+	
 	public void run() {
 		
 		try {
@@ -29,7 +31,7 @@ public class Chat_ClientServeur implements Runnable {
 		
 		Thread t3 = new Thread(new Reception(in,login));
 		t3.start();
-		Emission e = new Emission(out);
+		Emission e = new Emission(out,login);
 		Serveur.lesClients.add(e);
 		Thread t4 = new Thread(e);
 		t4.start();

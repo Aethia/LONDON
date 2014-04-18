@@ -34,7 +34,12 @@ public class ReseauScreenClient extends Screen implements IncomingListenerClient
 		public void nouveauMessage(String message) {
 			//Screen.setScreen(new MainMenuScreen());
 			System.out.println("message recu coté ui (cli)," + message);
-			listeMessage+=("\n"+message);	
+			if (message.equals("0xFFFFFF")){
+				// on lance la partie
+				Screen.setScreen(new GameScreenReseauClient());	
+			}
+			else
+				System.out.println("nouveau :" + message);
 		}	
 
 
