@@ -265,10 +265,8 @@ public class Joueur implements Serializable, Comparable {
 				if(cPosee.getPrix()<= argent){ 		
 					if(indexPile-1 >= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
 						this.zoneConstruction.addPile(cPosee);	
-						System.out.println("NB PILES : "+this.getZone_construction().getNbPiles());
 					}
 					else{
-						System.out.println("Indexpile : "+indexPile);
 						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
 					}			
 					argent -= cPosee.getPrix();
