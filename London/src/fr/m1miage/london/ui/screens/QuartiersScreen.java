@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,7 +23,6 @@ import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.Fonts;
-import fr.m1miage.london.ui.graphics.MapActor;
 import fr.m1miage.london.ui.graphics.Score;
 
 public class QuartiersScreen extends Screen{
@@ -131,8 +131,7 @@ public class QuartiersScreen extends Screen{
 			}else{
 				btn= new TextButton(quartier.getNom(),Buttons.styleInGameMenuDisabled); 
 			}
-			final MapActor actor = new MapActor(600, 100);
-			stage.addActor(actor);
+			Actor actor = new Actor();
 			btn.addListener(new InputListener(){
 				@Override
 				public boolean mouseMoved(InputEvent event, float x, float y) {
@@ -140,10 +139,7 @@ public class QuartiersScreen extends Screen{
 					
 					nbQuartierHovered = j;
 					
-					if(nbQuartierHovered < 21){
-						actor.setTexture(Art.imagesQuartiers.get(nbQuartierHovered));
-						
-					}
+					
 					
 					return super.mouseMoved(event, x, y);
 				}
@@ -223,8 +219,16 @@ public class QuartiersScreen extends Screen{
 			}else{
 				Fonts.FONT_BLACK.draw(spriteBatch, "Propriétaire : "+quartier.getProprietaireQuartier().getNom(), 600, 470);
 			}
-
+			
 			Fonts.FONT_BLACK.draw(spriteBatch, messageInvestir , 1100, 250);
+			btnRetour.setVisible(true);
+			btnValider.setVisible(true);
+		}
+		else if(nbQuartierHovered < 21){
+			draw(Art.imagesQuartiers.get(0), 600, 100);
+			draw(Art.imagesQuartiers.get(nbQuartierHovered), 600, 100);
+			btnRetour.setVisible(false);
+			btnValider.setVisible(false);
 		}
 		
 		spriteBatch.end();
