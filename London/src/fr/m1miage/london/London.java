@@ -3,6 +3,8 @@ package fr.m1miage.london;
 import java.io.IOException;
 import java.util.Scanner;
 
+import fr.m1miage.london.sound.*;
+
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -16,6 +18,7 @@ public class London {
 	
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
+        
 		// TODO Auto-generated method stub
 		System.out.println("Choix du lancement de LONDON :");
 		System.out.println("\t 1 : Console");

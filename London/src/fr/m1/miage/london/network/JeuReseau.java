@@ -29,7 +29,7 @@ public class JeuReseau {
 		}
 		case 2 : {
 				Client cli = new Client();
-				cli.seConnecter();
+				cli.seConnecter("toto");
 				break;
 		}
 		default : break;

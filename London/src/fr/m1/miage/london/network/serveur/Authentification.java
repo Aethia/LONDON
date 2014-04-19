@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import fr.m1.miage.london.network.IncomingListenerServeur;
+
 public class Authentification implements Runnable {
 
 	private Socket socket;
@@ -34,7 +36,12 @@ public class Authentification implements Runnable {
 
 				
 				out.println("connecte");
-				System.out.println(login +" vient de se connecter ");
+				for(Emission e : Serveur.lesClients){
+					e.sendMessage(login +" vient de se connecter ");
+				}
+				for (IncomingListenerServeur list : Reception.listeners){
+					list.nouveauMessage(login +" vient de se connecter ");
+				}
 				out.flush();
 				authentifier = true;	
 
@@ -44,7 +51,7 @@ public class Authentification implements Runnable {
 			
 		} catch (IOException e) {
 			
-			System.err.println(login+" ne répond pas !");
+			System.err.println(login+" ne rï¿½pond pas !");
 		}
 	}
 	

@@ -52,7 +52,6 @@ public class Partie implements Serializable{
 		this.nbJoueurs = nbJ;
 	}
 
-	
 
 
 	public void init(){
@@ -255,6 +254,15 @@ public class Partie implements Serializable{
 
 	public Joueur getObjJoueurActif(){
 		return jActif;
+	}
+	
+	public Joueur getJoueurParNom(String nom){
+		for (Joueur j : this.listeJoueurs) {
+			if (j.getNom().equalsIgnoreCase(nom)) {
+				return j;
+			}
+		}
+		return null;
 	}
 
 	public void setJoueurActif(int joueurActif) {

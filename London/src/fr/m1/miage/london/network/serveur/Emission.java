@@ -9,22 +9,28 @@ public class Emission implements Runnable {
 	private PrintWriter out;
 	private String message = null;
 	private Scanner sc = null;
+	private String login;
 	
-	public Emission(PrintWriter out) {
+	public Emission(PrintWriter out,String login) {
 		this.out = out;
+		this.login = login;
 	}
 
 	
 	public void run() {
 		
-		  sc = new Scanner(System.in);
-		  
-		  while(true){
-			    System.out.println("Votre message :");
-				message = sc.nextLine();
-				for( Chat_ClientServeur chat : Serveur.lesClients){
-					chat.sendMsg("serveur : "+message);
-				}
-			  }
+		 
 	}
+	
+	public String getLogin(){
+		return login;
+	}
+	
+	
+	public void sendMessage(String msg){
+		out.println(msg);
+	    out.flush();	
+	}
+	
+	
 }

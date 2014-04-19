@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Serveur {
 	public static ServerSocket ss = null;
 	public static Thread t;
-	public static ArrayList<Chat_ClientServeur> lesClients = new ArrayList<Chat_ClientServeur>();
+	public static ArrayList<Emission> lesClients = new ArrayList<Emission>();
 
 	public void hebergerPartie(){
 		testTrigger tt = new testTrigger();
