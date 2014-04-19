@@ -1,5 +1,6 @@
 package fr.m1miage.london.ui.screens;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,6 +74,11 @@ public class GameScreen extends Screen{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
+				try {
+					londonG.partie.sauvegarder();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				super.touchUp(event, x, y, pointer, button);
 			}
 			

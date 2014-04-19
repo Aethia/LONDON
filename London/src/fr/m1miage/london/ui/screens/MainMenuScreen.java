@@ -1,5 +1,7 @@
 package fr.m1miage.london.ui.screens;
 
+import java.io.IOException;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -7,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import fr.m1miage.london.Partie;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -48,7 +51,34 @@ public class MainMenuScreen extends Screen {
 		});
 		tMenu.add(nouvellePartie).row().pad(20f);
 		
-		TextButton chargerPartie = new TextButton("Charger une partie",Buttons.styleInGameMenuDisabled);
+		TextButton chargerPartie = new TextButton("Charger une partie",Buttons.styleInGameMenu);
+		chargerPartie.addListener(new InputListener(){
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				try {
+
+					londonG.partie = new Partie();
+					
+					londonG.partie.chargerPartie();
+					Screen.setScreen(new GameScreen());
+					System.out.println("gamescreen");
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				super.touchUp(event, x, y, pointer, button);
+			}
+			
+		});
 		tMenu.add(chargerPartie).row();
 		
 		
