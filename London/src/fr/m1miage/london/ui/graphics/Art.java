@@ -12,7 +12,7 @@ import fr.m1miage.london.ui.Prefs;
 /**
  * 
  * @author Aethia
- * Classe ou sont "initialis�es" toutes nos ressources
+ * Classe ou sont "initialisées" toutes nos ressources
  */
 public class Art {
 	public static TextureRegion bg;
