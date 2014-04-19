@@ -99,7 +99,7 @@ public class Art {
 	}
 	
 	private static void chargerImagesQuartiers(){
-		for(int i = 0; i<=5; i++){
+		for(int i = 0; i<=20; i++){
 			imagesQuartiers.put(i,load("ressources/Images/Quartiers/q"+i+".png", 1024, 1024));
 		}
 	}

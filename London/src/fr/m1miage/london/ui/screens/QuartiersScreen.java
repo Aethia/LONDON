@@ -22,6 +22,7 @@ import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.Fonts;
+import fr.m1miage.london.ui.graphics.MapActor;
 import fr.m1miage.london.ui.graphics.Score;
 
 public class QuartiersScreen extends Screen{
@@ -130,12 +131,20 @@ public class QuartiersScreen extends Screen{
 			}else{
 				btn= new TextButton(quartier.getNom(),Buttons.styleInGameMenuDisabled); 
 			}
+			final MapActor actor = new MapActor(600, 100);
+			stage.addActor(actor);
 			btn.addListener(new InputListener(){
 				@Override
 				public boolean mouseMoved(InputEvent event, float x, float y) {
 					System.out.println( quartier.getNom());
 					
 					nbQuartierHovered = j;
+					
+					if(nbQuartierHovered < 21){
+						actor.setTexture(Art.imagesQuartiers.get(nbQuartierHovered));
+						
+					}
+					
 					return super.mouseMoved(event, x, y);
 				}
 
@@ -176,7 +185,6 @@ public class QuartiersScreen extends Screen{
 		draw(Art.bgPartie, 0, 0);
 
 		Fonts.FONT_TITLE.draw(spriteBatch, "QUARTIERS", 500, 20);
-		draw(Art.imagesQuartiers.get(0), 500, 100);
 
 		if(nbQuartierSelected!=0){
 
@@ -217,9 +225,6 @@ public class QuartiersScreen extends Screen{
 			}
 
 			Fonts.FONT_BLACK.draw(spriteBatch, messageInvestir , 1100, 250);
-		}
-		if(nbQuartierHovered < 6){
-			draw(Art.imagesQuartiers.get(nbQuartierHovered), 500, 100);
 		}
 		
 		spriteBatch.end();
