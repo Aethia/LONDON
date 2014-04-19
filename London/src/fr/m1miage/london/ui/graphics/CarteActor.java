@@ -19,9 +19,8 @@ public class CarteActor extends Actor{
 	private int xDefault;
 	private int yDefault;
 	private TextureRegion img;
+	private boolean visible=true;
 	private boolean selected = false;
-
-	private int time =0;
 
 	public CarteActor(Carte c, int x, int y){
 		this.carte = c;
@@ -46,11 +45,21 @@ public class CarteActor extends Actor{
 	public void setDisabled(){
 		this.img =Art.carteDisabled;
 	}
+	
+	
+
+	@Override
+	public void setVisible(boolean visible) {
+		this.visible=visible;
+		super.setVisible(visible);
+	}
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		//batch.end();
-		batch.draw(img, x, y);
+		if(this.visible){
+			batch.draw(img, x, y);
+		}
 
 
 		//batch.begin();
