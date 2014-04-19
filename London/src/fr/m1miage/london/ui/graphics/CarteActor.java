@@ -46,13 +46,6 @@ public class CarteActor extends Actor{
 		this.img =Art.carteDisabled;
 	}
 	
-	
-
-	@Override
-	public void setVisible(boolean visible) {
-		this.visible=visible;
-		super.setVisible(visible);
-	}
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {

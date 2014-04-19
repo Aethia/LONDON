@@ -68,56 +68,20 @@ public class ZoneRestaurerScreen extends Screen{
 		});
 		stage.addActor(btnRetour);
 
-		afficherPiles();
+
 
 		if(londonG.partie.getObjJoueurActif().equals(joueur)==true){ //si on est bien sur le joueur actif 
 			//si tour terminé, mais action choisie => on peut continuer ou tour pas terminé mais zoneC du joueur Actif
 			if((londonG.partie.isTourTermine()==true && londonG.partie.getActionChoisie()!=0) || !londonG.partie.isTourTermine() ){ 
-				afficherCartesInvestir();
+				afficherPiles();
 			}
 
 
 
 		}
 
-
-		//		//bouton de validation des choix
-		//		validerRestaurer = new TextButton("Activer !", Buttons.styleInGameMenu);
-		//		validerRestaurer.setSize(200, 50);
-		//		validerRestaurer.setPosition(800, 280);
-		//		validerRestaurer.setVisible(false);
-		//		validerRestaurer.addListener(new InputListener(){
-		//
-		//			@Override
-		//			public boolean touchDown(InputEvent event, float x, float y,
-		//					int pointer, int button) {
-		//				return true;
-		//			}
-		//
-		//			@Override
-		//			public void touchUp(InputEvent event, float x, float y,
-		//					int pointer, int button) {
-		//
-		//				erreur = joueur.restaurerVille2(carteActivation.getCarte(), cDefausse.getCarte(), londonG.partie.getPlateau().getEtalage());
-		//				if(erreur.equals(GestionErreurs.NONE)){ //si aucune erreur, le tour est terminé
-		//					londonG.partie.setActionChoisie(Regles.RESTAURER);
-		//					londonG.partie.setTourTermine(true);
-		//				}else{
-		//					Screen.setScreen(new ZoneConstructionScreen(erreur.getMsgErrorString())); 
-		//				}
-		//				super.touchUp(event, x, y, pointer, button);
-		//			}
-		//
-		//		});
-		//
-		//
-		//		
-		//		stage.addActor(validerRestaurer);
-
-
-
 		activerBtn = new TextButton("activer", Buttons.styleInGameMenu );
-		activerBtn.setPosition(500, 400);
+		activerBtn.setPosition(100, 250);
 		activerBtn.setVisible(false);
 		activerBtn.addListener(new InputListener(){
 
@@ -131,20 +95,28 @@ public class ZoneRestaurerScreen extends Screen{
 			@Override
 			public void touchUp(InputEvent event, float x,
 					float y, int pointer, int button) {
+				if(carteDefausse == null){ //si le type d'activation = aucun ou livre, rien a defausser
+					erreur =joueur.restaurerVille2(carteActivation.getCarte(), null, londonG.partie.getEtalage());
+				}else{
+					erreur =joueur.restaurerVille2(carteActivation.getCarte(), carteDefausse.getCarte(), londonG.partie.getEtalage());
+				}
 
-				erreur =joueur.restaurerVille2(carteActivation.getCarte(), carteDefausse.getCarte(), londonG.partie.getEtalage());
-				if(erreur.equals(GestionErreurs.NONE)){
+				if(!erreur.equals(GestionErreurs.NONE)){
 					messageAction = erreur.getMsgErrorString();
 				}else{
 					activation(carteActivation);
 				}
+				activerBtn.setVisible(false);
+				carteActivation =null;
+				carteDefausse = null;
+				masquerMain();
 				super.touchUp(event, x, y, pointer, button);
 			}
 
 		});
 
 
-
+		stage.addActor(activerBtn);
 		scoreJoueur = new Score(joueur);
 		stage.addActor(scoreJoueur);
 
@@ -164,7 +136,6 @@ public class ZoneRestaurerScreen extends Screen{
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {				
-					System.out.println("je clique sur une carte de la main");
 					if(carteDefausse!=null && carteDefausse==ca){ //si on a deja cliqué sur cette carte
 						carteDefausse =null;
 						activerBtn.setVisible(false);
@@ -207,17 +178,6 @@ public class ZoneRestaurerScreen extends Screen{
 
 
 
-	private void afficherCartesInvestir(){
-		int i=0;
-		for(final Carte c: joueur.getLesCartes()){
-			i++;
-			final CarteActor ca = new CarteActor(c,350+i*50,10);
-			stage.addActor(ca);
-			ca.addListener(new InputListener(){
-
-			});
-		}
-	}
 
 	//si le type du jeu est restaurer, les cartes ont un listener
 	private void afficherPiles() {
@@ -225,7 +185,6 @@ public class ZoneRestaurerScreen extends Screen{
 		int i = 0;
 		for(Carte pile : joueur.getZone_construction().cartesTop()){
 			final CarteActor ca = new CarteActor(pile, left+i*215, 360);
-			System.out.println("carte dessus pile :" + pile.getNom());
 
 			ca.addListener(new InputListener(){
 
@@ -234,13 +193,10 @@ public class ZoneRestaurerScreen extends Screen{
 						float y, int pointer, int button) {
 					if(!ca.getCarte().isDesactivee()){ //si c'est pas null et que la carte n'est pas desactivée
 						carteActivation = ca;
-						System.out.println("c'est une carte activable");
 						Carte cActiv = carteActivation.getCarte();
 						int type = cActiv.getCoutActivation().getTypeActiv();
-						System.out.println("wut" + type);
 						switch(type){
 						case Regles.ACTIVATION_AUCUN :
-							System.out.println("aucun cout");
 							activerBtn.setText("Activer");
 							activerBtn.setVisible(true);
 							break;
@@ -286,7 +242,6 @@ public class ZoneRestaurerScreen extends Screen{
 
 	private void activation(CarteActor ca){
 		Carte c=ca.getCarte();
-		//joueur.aActive(c);
 		londonG.partie.setActionChoisie(Regles.RESTAURER);
 		londonG.partie.setTourTermine(true);
 		if(c.isDesactivee()){
@@ -315,6 +270,11 @@ public class ZoneRestaurerScreen extends Screen{
 		}
 	}
 
+	private void masquerMain(){
+		for(CarteActor ca : main){
+			ca.setVisible(false);
+		}
+	}
 	@Override
 	public void render() {
 		spriteBatch.begin();
