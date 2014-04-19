@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -137,9 +136,9 @@ public class ZoneRestaurerScreen extends Screen{
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {				
 					if(carteDefausse!=null && carteDefausse==ca){ //si on a deja cliqué sur cette carte
-						carteDefausse =null;
 						activerBtn.setVisible(false);
 						carteDefausse.setDefaultPosition();
+						carteDefausse =null;
 					}else if(carteDefausse != null && carteDefausse!=ca){ //si on a cliqué sur une autre carte
 						carteDefausse.setDefaultPosition();
 						ca.setY(300);
@@ -147,25 +146,10 @@ public class ZoneRestaurerScreen extends Screen{
 						carteDefausse = ca;
 					}else if(carteDefausse ==null){
 						carteDefausse = ca;
+						ca.setY(300);
 						activerBtn.setVisible(true);
 					}
 					return super.touchDown(event, x, y, pointer, button);
-				}
-
-
-				@Override
-				public void exit(InputEvent event, float x, float y,
-						int pointer, Actor toActor) {
-					ca.setDefaultPosition();
-					super.exit(event, x, y, pointer, toActor);
-				}
-
-
-				@Override
-				public void enter(InputEvent event, float x, float y,
-						int pointer, Actor fromActor) {
-					ca.setY(300);
-					super.enter(event, x, y, pointer, fromActor);
 				}
 
 			});

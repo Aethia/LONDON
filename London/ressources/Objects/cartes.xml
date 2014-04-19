@@ -423,7 +423,7 @@ id_EffActivation*, Activation?)>
 		<id>26</id>
 		<nom>Rue d'Oxford</nom>
 		<prix>4</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte26.png</image>
 		<Activation>
@@ -442,7 +442,7 @@ id_EffActivation*, Activation?)>
 		<id>27</id>
 		<nom>Maison des Travailleurs</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte27.png</image>
 		<Activation>
@@ -459,7 +459,7 @@ id_EffActivation*, Activation?)>
 		<id>28</id>
 		<nom>Marché de fournitures</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte28.png</image>
 		<ptsVictoire>1</ptsVictoire>
@@ -477,7 +477,7 @@ id_EffActivation*, Activation?)>
 		<id>29</id>
 		<nom>Dock d'Albert</nom>
 		<prix>2</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte29.png</image>
 		<ptsVictoire>2</ptsVictoire>
@@ -496,7 +496,7 @@ id_EffActivation*, Activation?)>
 		<id>30</id>
 		<nom>Cimetière Highgate</nom>
 		<prix>4</prix>
-		<couleur>rose</couleur>
+		<couleur>Rose</couleur>
 		<periode>B</periode>
 		<image>carte30.png</image>
 		<ptsVictoire>2</ptsVictoire>
@@ -514,7 +514,7 @@ id_EffActivation*, Activation?)>
 		<id>31</id>
 		<nom>Jardins Kew</nom>
 		<prix>7</prix>
-		<couleur>bleu</couleur>
+		<couleur>Bleu</couleur>
 		<periode>B</periode>
 		<image>carte31.png</image>
 		<ptsVictoire>4</ptsVictoire>
@@ -532,7 +532,7 @@ id_EffActivation*, Activation?)>
 		<id>32</id>
 		<nom>Dock Royal Victoria</nom>
 		<prix>2</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte32.png</image>
 		<ptsVictoire>2</ptsVictoire>
@@ -551,7 +551,7 @@ id_EffActivation*, Activation?)>
 		<id>33</id>
 		<nom>Chanting Naval</nom>
 		<prix>2</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte33.png</image>
 		<ptsVictoire>1</ptsVictoire>
@@ -570,7 +570,7 @@ id_EffActivation*, Activation?)>
 		<id>34</id>
 		<nom>Colonne de Nelson</nom>
 		<prix>8</prix>
-		<couleur>bleu</couleur>
+		<couleur>Bleu</couleur>
 		<periode>B</periode>
 		<image>carte34.png</image>
 		<ptsVictoire>5</ptsVictoire><Activation>
@@ -584,7 +584,7 @@ id_EffActivation*, Activation?)>
 		<id>35</id>
 		<nom>Docks des Indes Occidentales</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte35.png</image>
 		<ptsVictoire>2</ptsVictoire>
@@ -602,7 +602,7 @@ id_EffActivation*, Activation?)>
 		<id>36</id>
 		<nom>Chantier Naval</nom>
 		<prix>2</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte36.png</image>
 		<ptsVictoire>1</ptsVictoire>
@@ -621,7 +621,7 @@ id_EffActivation*, Activation?)>
 		<id>37</id>
 		<nom>Hotel de Ville</nom>
 		<prix>4</prix>
-		<couleur>bleu</couleur>
+		<couleur>Bleu</couleur>
 		<periode>B</periode>
 		<image>carte37.png</image>
 		<id_EffActivation>7</id_EffActivation>
@@ -636,7 +636,7 @@ id_EffActivation*, Activation?)>
 		<id>38</id>
 		<nom>Horlogers</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte38.png</image>
 		<ptsVictoire>1</ptsVictoire>
@@ -654,7 +654,7 @@ id_EffActivation*, Activation?)>
 		<id>39</id>
 		<nom>Force de Police</nom>
 		<prix>2</prix>
-		<couleur>rose</couleur>
+		<couleur>Rose</couleur>
 		<periode>B</periode>
 		<image>carte39.png</image>
 		<id_EffActivation>8</id_EffActivation>
@@ -672,7 +672,7 @@ id_EffActivation*, Activation?)>
 		<id>40</id>
 		<nom>Maison des Travailleurs</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte40.png</image>
 		<Activation>
@@ -689,7 +689,7 @@ id_EffActivation*, Activation?)>
 		<id>41</id>
 		<nom>Rue de la Flotte</nom>
 		<prix>0</prix>
-		<couleur>rose</couleur>
+		<couleur>Rose</couleur>
 		<periode>B</periode>
 		<image>carte41.png</image>
 		<id_EffActivation>9</id_EffActivation>
@@ -707,7 +707,7 @@ id_EffActivation*, Activation?)>
 		<id>42</id>
 		<nom>Assurance Lloyds de Londres</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte42.png</image>
 		<ptsVictoire>2</ptsVictoire>
@@ -723,7 +723,7 @@ id_EffActivation*, Activation?)>
 		<id>43</id>
 		<nom>Tissage de Soie</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte43.png</image>
 		<ptsVictoire>1</ptsVictoire>
@@ -741,7 +741,7 @@ id_EffActivation*, Activation?)>
 		<id>44</id>
 		<nom>Brasserie</nom>
 		<prix>2</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte44.png</image>
 		<ptsVictoire>1</ptsVictoire>
@@ -759,7 +759,7 @@ id_EffActivation*, Activation?)>
 		<id>45</id>
 		<nom>Rue du Régent</nom>
 		<prix>2</prix>
-		<couleur>rose</couleur>
+		<couleur>Rose</couleur>
 		<periode>B</periode>
 		<image>carte45.png</image>
 		<ptsVictoire>2</ptsVictoire>
@@ -779,7 +779,7 @@ id_EffActivation*, Activation?)>
 		<id>46</id>
 		<nom>Brasserie</nom>
 		<prix>2</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte46.png</image>
 		<ptsVictoire>1</ptsVictoire>
@@ -797,7 +797,7 @@ id_EffActivation*, Activation?)>
 		<id>47</id>
 		<nom>Musée Britannique</nom>
 		<prix>4</prix>
-		<couleur>bleu</couleur>
+		<couleur>Bleu</couleur>
 		<periode>B</periode>
 		<image>carte47.png</image>
 		<ptsVictoire>2</ptsVictoire>
@@ -816,7 +816,7 @@ id_EffActivation*, Activation?)>
 		<id>48</id>
 		<nom>Pauvres</nom>
 		<prix>0</prix>
-		<couleur>gris</couleur>
+		<couleur>Gris</couleur>
 		<periode>B</periode>
 		<image>carte47.png</image>
 	</carte>
@@ -824,7 +824,7 @@ id_EffActivation*, Activation?)>
 		<id>49</id>
 		<nom>Palais de Buckingham</nom>
 		<prix>10</prix>
-		<couleur>bleu</couleur>
+		<couleur>Bleu</couleur>
 		<periode>B</periode>
 		<image>carte49.png</image>
 		<ptsVictoire>7</ptsVictoire>
@@ -845,7 +845,7 @@ id_EffActivation*, Activation?)>
 		<id>50</id>
 		<nom>Pont</nom>
 		<prix>2</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte50.png</image>
 		<ptsVictoire>2</ptsVictoire>
@@ -861,7 +861,7 @@ id_EffActivation*, Activation?)>
 		<id>51</id>
 		<nom>Marché de fournitures</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte51.png</image>
 		<ptsVictoire>1</ptsVictoire>
@@ -879,7 +879,7 @@ id_EffActivation*, Activation?)>
 		<id>52</id>
 		<nom>Pauvres</nom>
 		<prix>0</prix>
-		<couleur>gris</couleur>
+		<couleur>Gris</couleur>
 		<periode>B</periode>
 		<image>carte52.png</image>
 	</carte>
@@ -887,7 +887,7 @@ id_EffActivation*, Activation?)>
 		<id>53</id>
 		<nom>Hopital</nom>
 		<prix>0</prix>
-		<couleur>bleu</couleur>
+		<couleur>Bleu</couleur>
 		<periode>B</periode>
 		<image>carte53.png</image>
 		<ptsVictoire>3</ptsVictoire>
@@ -903,7 +903,7 @@ id_EffActivation*, Activation?)>
 		<id>54</id>
 		<nom>Omnibus</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte54.png</image>
 		<id_EffActivation>12</id_EffActivation>
@@ -918,7 +918,7 @@ id_EffActivation*, Activation?)>
 		<id>55</id>
 		<nom>Echange de stock</nom>
 		<prix>2</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte55.png</image>
 		<ptsVictoire>1</ptsVictoire>
@@ -937,7 +937,7 @@ id_EffActivation*, Activation?)>
 		<id>56</id>
 		<nom>Prison Brixton</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte56.png</image>
 		<id_EffActivation>14</id_EffActivation>
@@ -952,7 +952,7 @@ id_EffActivation*, Activation?)>
 		<id>57</id>
 		<nom>Bateaux à Vapeur</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte57.png</image>
 		<id_EffActivation>15</id_EffActivation>
@@ -967,7 +967,7 @@ id_EffActivation*, Activation?)>
 		<id>58</id>
 		<nom>Lampadaires</nom>
 		<prix>0</prix>
-		<couleur>bleu</couleur>
+		<couleur>Bleu</couleur>
 		<periode>B</periode>
 		<image>carte58.png</image>
 		<Activation>
@@ -986,7 +986,7 @@ id_EffActivation*, Activation?)>
 		<id>59</id>
 		<nom>Bateaux à Vapeur</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte59.png</image>
 		<id_EffActivation>15</id_EffActivation>
@@ -1001,7 +1001,7 @@ id_EffActivation*, Activation?)>
 		<id>60</id>
 		<nom>Lampadaires</nom>
 		<prix>0</prix>
-		<couleur>bleu</couleur>
+		<couleur>Bleu</couleur>
 		<periode>B</periode>
 		<image>carte60.png</image>
 		<Activation>
@@ -1020,7 +1020,7 @@ id_EffActivation*, Activation?)>
 		<id>61</id>
 		<nom>Pauvres</nom>
 		<prix>0</prix>
-		<couleur>gris</couleur>
+		<couleur>Gris</couleur>
 		<periode>B</periode>
 		<image>carte61.png</image>
 	</carte>
@@ -1028,7 +1028,7 @@ id_EffActivation*, Activation?)>
 		<id>62</id>
 		<nom>Pont</nom>
 		<prix>2</prix>
-		<couleur>rose</couleur>
+		<couleur>Rose</couleur>
 		<periode>B</periode>
 		<image>carte62.png</image>
 		<ptsVictoire>2</ptsVictoire>
@@ -1044,7 +1044,7 @@ id_EffActivation*, Activation?)>
 		<id>63</id>
 		<nom>Hotel de Ville</nom>
 		<prix>4</prix>
-		<couleur>bleu</couleur>
+		<couleur>Bleu</couleur>
 		<periode>B</periode>
 		<image>carte63.png</image>
 		<id_EffActivation>7</id_EffActivation>
@@ -1059,7 +1059,7 @@ id_EffActivation*, Activation?)>
 		<id>64</id>
 		<nom>Tannerie</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte64.png</image>
 		<ptsVictoire>1</ptsVictoire>
@@ -1078,7 +1078,7 @@ id_EffActivation*, Activation?)>
 		<id>65</id>
 		<nom>Magasins</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte28.png</image>
 		<id_EffActivation>16</id_EffActivation>
@@ -1098,7 +1098,7 @@ id_EffActivation*, Activation?)>
 		<id>66</id>
 		<nom>Pauvres</nom>
 		<prix>0</prix>
-		<couleur>gris</couleur>
+		<couleur>Gris</couleur>
 		<periode>B</periode>
 		<image>carte66.png</image>
 	</carte>
@@ -1106,7 +1106,7 @@ id_EffActivation*, Activation?)>
 		<id>67</id>
 		<nom>Omnibus</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte67.png</image>
 		<id_EffActivation>12</id_EffActivation>
@@ -1121,7 +1121,7 @@ id_EffActivation*, Activation?)>
 		<id>68</id>
 		<nom>Tannerie</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte68.png</image>
 		<ptsVictoire>1</ptsVictoire>
@@ -1140,7 +1140,7 @@ id_EffActivation*, Activation?)>
 		<id>69</id>
 		<nom>Université de Londres</nom>
 		<prix>5</prix>
-		<couleur>bleu</couleur>
+		<couleur>Bleu</couleur>
 		<periode>B</periode>
 		<image>carte69.png</image>
 		<ptsVictoire>3</ptsVictoire>
@@ -1156,7 +1156,7 @@ id_EffActivation*, Activation?)>
 		<id>70</id>
 		<nom>Lords</nom>
 		<prix>0</prix>
-		<couleur>bleu</couleur>
+		<couleur>Bleu</couleur>
 		<periode>B</periode>
 		<image>carte70.png</image>
 		<ptsVictoire>1</ptsVictoire>
@@ -1175,7 +1175,7 @@ id_EffActivation*, Activation?)>
 		<id>71</id>
 		<nom>Brigade de Pompier</nom>
 		<prix>0</prix>
-		<couleur>rose</couleur>
+		<couleur>Rose</couleur>
 		<periode>B</periode>
 		<image>carte28.png</image>
 		<id_EffActivation>19</id_EffActivation>
@@ -1193,7 +1193,7 @@ id_EffActivation*, Activation?)>
 		<id>72</id>
 		<nom>Banque d'Angleterre</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte72.png</image>
 		<ptsVictoire>2</ptsVictoire>
@@ -1212,7 +1212,7 @@ id_EffActivation*, Activation?)>
 		<id>73</id>
 		<nom>Hopital</nom>
 		<prix>2</prix>
-		<couleur>bleu</couleur>
+		<couleur>Bleu</couleur>
 		<periode>B</periode>
 		<image>carte73.png</image>
 		<ptsVictoire>3</ptsVictoire>
@@ -1228,7 +1228,7 @@ id_EffActivation*, Activation?)>
 		<id>74</id>
 		<nom>Magasins</nom>
 		<prix>0</prix>
-		<couleur>brun</couleur>
+		<couleur>Brun</couleur>
 		<periode>B</periode>
 		<image>carte74.png</image>
 		<id_EffActivation>16</id_EffActivation>
@@ -1248,7 +1248,7 @@ id_EffActivation*, Activation?)>
 		<id>75</id>
 		<nom>Prison Millbank</nom>
 		<prix>5</prix>
-		<couleur>rose</couleur>
+		<couleur>Rose</couleur>
 		<periode>B</periode>
 		<image>carte75.png</image>
 		<id_EffActivation>21</id_EffActivation>
