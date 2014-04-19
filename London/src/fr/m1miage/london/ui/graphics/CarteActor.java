@@ -61,7 +61,9 @@ public class CarteActor extends Actor{
 		super.setY(y);
 	}
 	
-	
+	public TextureRegion getImage(){
+		return this.img;
+	}
 	public int getxDefault() {
 		return xDefault;
 	}
@@ -91,6 +93,8 @@ public class CarteActor extends Actor{
 	public Carte getCarte() {
 		return carte;
 	}
+	
+
 	
 
 }
