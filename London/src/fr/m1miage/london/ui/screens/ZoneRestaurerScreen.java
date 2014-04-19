@@ -169,7 +169,7 @@ public class ZoneRestaurerScreen extends Screen{
 		int i = 0;
 		for(Carte pile : joueur.getZone_construction().cartesTop()){
 			final CarteActor ca = new CarteActor(pile, left+i*215, 360);
-
+System.out.println("pile");
 			ca.addListener(new InputListener(){
 
 				@Override
@@ -218,7 +218,7 @@ public class ZoneRestaurerScreen extends Screen{
 			});
 
 
-
+i++;
 			stage.addActor(ca);
 		}
 
