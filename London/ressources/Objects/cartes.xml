@@ -187,7 +187,7 @@ id_EffActivation*, Activation?)>
 	</carte>
 	<carte>
 		<id>10</id>
-		<nom>Covent Garden</nom>
+		<nom>Jardin Covent</nom>
 		<prix>0</prix>
 		<couleur>Brun</couleur>
 		<periode>A</periode>
@@ -395,7 +395,7 @@ id_EffActivation*, Activation?)>
 	</carte>
 	<carte>
 		<id>24</id>
-		<nom>savant et architecte Wren</nom>
+		<nom>Savant et Architecte Wren</nom>
 		<prix>0</prix>
 		<couleur>Bleu</couleur>
 		<periode>A</periode>
@@ -457,7 +457,7 @@ id_EffActivation*, Activation?)>
 	</carte>
 	<carte>
 		<id>28</id>
-		<nom>Marché de fournitures</nom>
+		<nom>Marchés de fourniture</nom>
 		<prix>0</prix>
 		<couleur>Brun</couleur>
 		<periode>B</periode>
@@ -549,7 +549,7 @@ id_EffActivation*, Activation?)>
 	</carte>
 	<carte>
 		<id>33</id>
-		<nom>Chanting Naval</nom>
+		<nom>Chantier Naval</nom>
 		<prix>2</prix>
 		<couleur>Brun</couleur>
 		<periode>B</periode>
@@ -845,7 +845,7 @@ id_EffActivation*, Activation?)>
 		<id>50</id>
 		<nom>Pont</nom>
 		<prix>2</prix>
-		<couleur>Brun</couleur>
+		<couleur>Bleu</couleur>
 		<periode>B</periode>
 		<image>carte50.png</image>
 		<ptsVictoire>2</ptsVictoire>
@@ -859,7 +859,7 @@ id_EffActivation*, Activation?)>
 	</carte>
 	<carte>
 		<id>51</id>
-		<nom>Marché de fournitures</nom>
+		<nom>Marchés de fourniture</nom>
 		<prix>0</prix>
 		<couleur>Brun</couleur>
 		<periode>B</periode>
@@ -937,7 +937,7 @@ id_EffActivation*, Activation?)>
 		<id>56</id>
 		<nom>Prison Brixton</nom>
 		<prix>0</prix>
-		<couleur>Brun</couleur>
+		<couleur>Rose</couleur>
 		<periode>B</periode>
 		<image>carte56.png</image>
 		<id_EffActivation>14</id_EffActivation>
@@ -1076,7 +1076,7 @@ id_EffActivation*, Activation?)>
 	</carte>
 	<carte>
 		<id>65</id>
-		<nom>Magasins</nom>
+		<nom>Boutiques</nom>
 		<prix>0</prix>
 		<couleur>Brun</couleur>
 		<periode>B</periode>
@@ -1154,7 +1154,7 @@ id_EffActivation*, Activation?)>
 	</carte>
 	<carte>
 		<id>70</id>
-		<nom>Lords</nom>
+		<nom>Terre des Lords</nom>
 		<prix>0</prix>
 		<couleur>Bleu</couleur>
 		<periode>B</periode>
@@ -1365,7 +1365,7 @@ id_EffActivation*, Activation?)>
 	</carte>
 	<carte>
 		<id>83</id>
-		<nom>Gare de train</nom>
+		<nom>Gare</nom>
 		<prix>3</prix>
 		<couleur>Brun</couleur>
 		<periode>C</periode>
@@ -1507,13 +1507,13 @@ id_EffActivation*, Activation?)>
 	</carte>
 	<carte>
 		<id>91</id>
-		<nom>Gare de train</nom>
+		<nom>Gare</nom>
 		<prix>3</prix>
 		<couleur>Brun</couleur>
 		<periode>C</periode>
 		<image>carte91.png</image>
 		<ptsVictoire>3</ptsVictoire>
-		<id_EffActivation>23</id_EffActivation>
+		<id_EffActivation>25</id_EffActivation>
 		<Activation>
 			<CoutActivation>	
 				<id_Activation>3</id_Activation>
@@ -1544,13 +1544,13 @@ id_EffActivation*, Activation?)>
 	</carte>
 	<carte>
 		<id>93</id>
-		<nom>Gare de train</nom>
+		<nom>Gare</nom>
 		<prix>3</prix>
 		<couleur>Brun</couleur>
 		<periode>C</periode>
 		<image>carte93.png</image>
 		<ptsVictoire>3</ptsVictoire>
-		<id_EffActivation>23</id_EffActivation>
+		<id_EffActivation>25</id_EffActivation>
 		<Activation>
 			<CoutActivation>	
 				<id_Activation>3</id_Activation>
@@ -1698,7 +1698,7 @@ id_EffActivation*, Activation?)>
 	</carte>
 	<carte>
 		<id>103</id>
-		<nom>Foyer de travailleurs</nom>
+		<nom>Maison de correction</nom>
 		<prix>0</prix>
 		<couleur>Rose</couleur>
 		<periode>C</periode>
