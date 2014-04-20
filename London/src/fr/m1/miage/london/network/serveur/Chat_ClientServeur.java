@@ -3,6 +3,8 @@ package fr.m1.miage.london.network.serveur;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -10,8 +12,8 @@ import java.net.Socket;
 public class Chat_ClientServeur implements Runnable {
 
 	private Socket socket = null;
-	private BufferedReader in = null;
-	private PrintWriter out = null;
+	private ObjectInputStream in = null;
+	private ObjectOutputStream out = null;
 	private String login;
 	private Thread t3, t4;
 	
@@ -25,8 +27,8 @@ public class Chat_ClientServeur implements Runnable {
 	public void run() {
 		
 		try {
-		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		out = new PrintWriter(socket.getOutputStream());
+		in = new ObjectInputStream(socket.getInputStream());
+		out = new ObjectOutputStream(socket.getOutputStream());
 		
 		
 		Thread t3 = new Thread(new Reception(in,login));

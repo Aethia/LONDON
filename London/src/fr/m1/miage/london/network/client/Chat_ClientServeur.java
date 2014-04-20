@@ -8,8 +8,8 @@ import java.util.Scanner;
 public class Chat_ClientServeur implements Runnable {
 
 	private Socket socket;
-	private PrintWriter out = null;
-	private BufferedReader in = null;
+	private ObjectOutputStream  out = null;
+	private ObjectInputStream  in = null;
 	private Scanner sc;
 	private Thread t3, t4;
 	private String login;
@@ -21,8 +21,8 @@ public class Chat_ClientServeur implements Runnable {
 	
 	public void run() {
 		try {
-			out = new PrintWriter(socket.getOutputStream());
-			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			out = new ObjectOutputStream (socket.getOutputStream());
+			in = new ObjectInputStream (socket.getInputStream());
 			
 			sc = new Scanner(System.in);
 			

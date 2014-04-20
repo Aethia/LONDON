@@ -3,6 +3,8 @@ package fr.m1.miage.london.network.serveur;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -11,8 +13,8 @@ import fr.m1.miage.london.network.IncomingListenerServeur;
 public class Authentification implements Runnable {
 
 	private Socket socket;
-	private PrintWriter out = null;
-	private BufferedReader in = null;
+	private ObjectOutputStream out = null;
+	private ObjectInputStream in = null;
 	private String login = "zero", pass =  null;
 	public boolean authentifier = false;
 	public Thread t2;
@@ -24,18 +26,25 @@ public class Authentification implements Runnable {
 	
 		try {
 			
-			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			out = new PrintWriter(socket.getOutputStream());
+			in = new ObjectInputStream (socket.getInputStream());
+			out = new ObjectOutputStream (socket.getOutputStream());
 			
 		
 			
-			out.println("Entrez votre login :");
-			out.flush();
-			login = in.readLine();
+/*			out.println("Entrez votre login :");
+			out.flush();*/
+			try {
+				login = (String)in.readObject();
+				System.out.println("recu du client : "+login);
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 
+
+				out.writeInt(1);
 				
-				out.println("connecte");
 				for(Emission e : Serveur.lesClients){
 					e.sendMessage(login +" vient de se connecter ");
 				}
