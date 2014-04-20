@@ -1,5 +1,6 @@
 package fr.m1miage.london.ui.screens;
 
+import java.awt.Point;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
@@ -17,9 +18,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import fr.m1miage.london.GestionErreurs;
+import fr.m1miage.london.Regles;
 import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.classes.Quartier;
 import fr.m1miage.london.ui.Prefs;
+import fr.m1miage.london.ui.graphics.AreaColorRect;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.Fonts;
@@ -50,6 +53,18 @@ public class QuartiersScreen extends Screen{
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
+		stage.addListener(new InputListener() {
+			
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				float truc = Gdx.input.getX();
+				float truc2 = Gdx.input.getY();
+				System.out.println(truc+" "+truc2);
+				return true;
+			}
+
+		});
 
 		joueur = londonG.partie.getObjJoueurActif();
 		scoreJoueur = new Score(joueur);
@@ -60,7 +75,6 @@ public class QuartiersScreen extends Screen{
 		listerQuartiers();
 		btnRetour =new TextButton("Retour",Buttons.styleInGameMenu); 
 		btnRetour.setPosition(1100, 135); 
-
 		btnRetour.addListener(new InputListener(){
 
 			@Override
@@ -134,14 +148,14 @@ public class QuartiersScreen extends Screen{
 			Actor actor = new Actor();
 			btn.addListener(new InputListener(){
 				@Override
-				public boolean mouseMoved(InputEvent event, float x, float y) {
-					System.out.println( quartier.getNom());
+				public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+					//System.out.println( quartier.getNom());
 					
 					nbQuartierHovered = j;
 					
 					
 					
-					return super.mouseMoved(event, x, y);
+					super.enter(event, x, y, pointer, fromActor);
 				}
 
 				@Override
@@ -225,9 +239,26 @@ public class QuartiersScreen extends Screen{
 			btnValider.setVisible(true);
 		}
 		else if(nbQuartierHovered < 21){
-			draw(Art.imagesQuartiers.get(0), 600, 100);
-			draw(Art.imagesQuartiers.get(nbQuartierHovered), 600, 100);
-			btnRetour.setVisible(false);
+			Map<Integer, Quartier> quartiers = londonG.partie.getPlateau().getQuartiers();
+		
+			draw(Art.imagesQuartiers.get(0), 580, 100);
+			
+			for(Integer q: quartiers.keySet()){
+				if(quartiers.get(q).getProprietaireQuartier()!= null){
+					Regles r = new Regles();
+					Point p = r.listePoints.get(q);
+					System.out.println("color : "+joueur.getCouleur().getRed());
+					
+					AreaColorRect proprietaire = new AreaColorRect(p.x, p.y, 15, 15);
+					//proprietaire.setShapeFillColor(joueur.getCouleur().getRed(), joueur.getCouleur().getGreen(), joueur.getCouleur().getBlue(), 1f);
+					proprietaire.setShapeFillColor(67, 48, 127, 0.5f);
+					stage.addActor(proprietaire);
+				}
+			}
+			Quartier quartier = londonG.partie.getPlateau().getQuartier(nbQuartierHovered);
+			
+			draw(Art.imagesQuartiers.get(nbQuartierHovered), 580, 100);
+			btnRetour.setPosition(160, 160);
 			btnValider.setVisible(false);
 		}
 		
