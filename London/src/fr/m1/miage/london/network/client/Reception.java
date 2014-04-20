@@ -12,14 +12,17 @@ public class Reception implements Runnable {
 
 	private BufferedReader in;
 	private String message = null;
-	List<IncomingListenerClient> listeners = new ArrayList<IncomingListenerClient>();
+	private String login;
+	private static List<IncomingListenerClient> listeners = new ArrayList<IncomingListenerClient>();
 	
-	public Reception(BufferedReader in){
-		
+	
+	
+	public Reception(BufferedReader in, String login){
+		this.login = login;
 		this.in = in;
 	}
 	
-	public void addListener(IncomingListenerClient toAdd){
+	public static void addListener(IncomingListenerClient toAdd){
 		listeners.add(toAdd);
 	}
 	
@@ -29,10 +32,10 @@ public class Reception implements Runnable {
 	        try {
 	        	
 			message = in.readLine();
+			// on notifie tous ceux qui écoutent
 			for (IncomingListenerClient list : listeners){
 				list.nouveauMessage(message);
 			}
-			System.out.println(message);
 			
 			
 		    } catch (IOException e) {

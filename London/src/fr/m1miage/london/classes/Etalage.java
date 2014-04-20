@@ -85,7 +85,6 @@ public class Etalage implements Serializable{
 	 * ajouter une carte dans la zone de construction
 	 */
 	public void ajouterCarte(Carte c){
-		System.out.println(tailleEtalage);
 		if (rangee1.size() < tailleEtalage){
 			rangee1.add(c);}
 		else if(rangee2.size() < tailleEtalage){

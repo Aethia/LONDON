@@ -52,6 +52,16 @@ public class Carte implements Serializable{
 
 
 
+	public CoutActivation getCoutActivation() {
+		return coutActivation;
+	}
+
+
+
+
+
+
+
 	public String getNom() {
 		return nom;
 	}
@@ -106,12 +116,6 @@ public class Carte implements Serializable{
 
 	public String getImage() {
 		return image;
-	}
-
-
-
-	public CoutActivation coutActivation() {
-		return coutActivation;
 	}
 
 	public int getArgentActivation() {

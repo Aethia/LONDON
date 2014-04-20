@@ -5,25 +5,29 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 
 public class Serveur {
- public static ServerSocket ss = null;
- public static Thread t;
- public static ArrayList<Chat_ClientServeur> lesClients = new ArrayList<Chat_ClientServeur>();
+	public static ServerSocket ss = null;
+	public static Thread t;
+	public static ArrayList<Emission> lesClients = new ArrayList<Emission>();
 
- 
-	public static void main(String[] args) {
-		
+	public void hebergerPartie(){
+		testTrigger tt = new testTrigger();
+		Reception.addListener(tt);
+
 		try {
 			ss = new ServerSocket(2009);
-			System.out.println("Le serveur est à l'écoute du port "+ss.getLocalPort());
-			
+			System.out.println("Le serveur est a l'ecoute du port"+ss.getLocalPort());
+
 			t = new Thread(new Accepter_connexion(ss));
 			t.start();
-			
+
 		} catch (IOException e) {
-			System.err.println("Le port "+ss.getLocalPort()+" est déjà utilisé !");
+			System.err.println("Le port "+ss.getLocalPort()+" est dï¿½jï¿½ utilisï¿½ !");
 		}
-	
+
 	}
 
-	
-	}
+
+
+
+
+}

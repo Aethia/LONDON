@@ -11,8 +11,12 @@ public class JeuReseau {
 		
 	}
 	
-	public void lancerPartieReseau(){
-		System.out.println("\t 1 : héberger une partie");
+	public static void main(String[] args){
+		lancerPartieReseau();
+	}
+	
+	public static void lancerPartieReseau(){
+		System.out.println("\t 1 : hï¿½berger une partie");
 		System.out.println("\t 2 : rejoindre une partie");
 		Scanner sc = new Scanner(System.in);
 		int nb;
@@ -20,12 +24,12 @@ public class JeuReseau {
 		switch (nb){
 		case 1 : {
 				Serveur srv = new Serveur();
-				//srv.hebergerPartie();
+				srv.hebergerPartie();
 				break;
 		}
 		case 2 : {
 				Client cli = new Client();
-				//cli.connecterServeur();
+				cli.seConnecter("toto");
 				break;
 		}
 		default : break;

@@ -300,10 +300,12 @@ public class Console {
 				}
 			}
 			// on regarde s'il est possible de restaurer la ville avec les cartes selectionnees
-			if (partie.getObjJoueurActif().restaurerVille(listVal) < 0) {
-				System.err.println("impossible d'activer ces cartes.");
+			erreur = partie.getObjJoueurActif().restaurerVille(listVal);
+			if(!erreur.equals(GestionErreurs.NONE)){
+				erreur.getMsgError();
 				return false;
 			}
+		
 			/*
 			 * Affichage du cout de l'activation
 			 */
@@ -366,8 +368,9 @@ public class Console {
 						}
 						
 					}
-					
-					// todo mï¿½thode de joueur pour payer la somme et retourner les cartes
+
+				// todo méthode de joueur pour payer la somme et retourner les cartes
+
 					System.out.println("Cartes activees !");
 				}
 
