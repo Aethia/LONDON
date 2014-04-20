@@ -118,6 +118,7 @@ public class Console {
 						+ ", que faites vous ?");
 				if (!actionEffectuee) {
 					System.out.println(" -- Les Actions --");
+					System.out.println(partie.getObjJoueurActif().getArgent());
 					System.out.println("1. Jouer une carte (poser une carte devant soi)");
 					System.out.println("2. Restaurer la ville (activer des cartes)");
 					System.out.println("3. Investir (acheter un quartier)");
@@ -432,24 +433,57 @@ public class Console {
 			partie.getObjJoueurActif().afficherMain();
 
 		}
-		
+	//-----------------------------------------------------------------------------------	
 		private void metro(){
 		
-			System.out.println(partie.getPlateau().getQuartiersMetro());
-			
-			
-			
-			
-			System.out.println("Tu veux activer le metro ?(oui/non)");
-			String rep = sc.next();
-			if (rep.equalsIgnoreCase("oui")) {
-				System.out.println("metro activé");
+			if(partie.getPlateau().PoserMetro()==true){
+				System.out.println(partie.getPlateau().getQuartiersMetro());
+				System.out.println("Dans quel quartier voulez-vous placer le 1er marqueur");
+				int quartier1;
+				
+				if(sc.hasNextInt()){
+					quartier1 = sc.nextInt();
+					
+					//fonction effet quartier1.metro()
+					partie.getPlateau().getQuartier(quartier1).QuartierMetro();
+					
+					System.out.println("Marqueur ajouté !");
+					
+					System.out.println(partie.getPlateau().getQuartiersMetro());
+					System.out.println("Dans quel quartier voulez-vous placer le 2ème marqueur");
+					
+					int quartier2;
+					
+					if(sc.hasNextInt()){
+						quartier2 = sc.nextInt();
+						
+						//fonction effet quartier2.metro()
+						partie.getPlateau().getQuartier(quartier2).QuartierMetro();
+						
+						if(partie.getPlateau().getQuartier(quartier1).isAuSudTamise()
+						   != partie.getPlateau().getQuartier(quartier2).isAuSudTamise()){
+							partie.getObjJoueurActif().setAddArgent(-3);
+							
+						}
+						
+						partie.getObjJoueurActif().setAddPoint_victoire(4);
+						
+					}
+					else{
+						System.err.println("Numero de quartier incorrect \n");
+						sc.next();
+					}
+				}
+				else{
+					System.err.println("Numero de quartier incorrect \n");
+					sc.next();
+				}
 			}
+			
 			else{
-				System.out.println("metro non activé");
-			}
-			
-			
+				System.out.println("Vous ne pouvez pas poser de metro");
+			}			
+
 		}
 
 }

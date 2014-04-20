@@ -51,10 +51,22 @@ public class Quartier implements Serializable{
 				AdjMetro=true;
 			}			
 		}
-		if(this.id==1 || AdjMetro==true){//si le quartier courant est "La City" ou si le metro passe par un quartier adjacent
+		if(AdjMetro==true){//si le metro passe par un quartier adjacent
 			this.metro=true;	//rendre possible la construction du metro pour ce quartier
 		}
 		return true;
+	}
+	
+	public void QuartierMetro(){
+		
+		this.metro=false;
+		this.metro_pose=true;
+		
+		for(Quartier q : this.quartiersAdjacents){
+			if(q.proprietaireQuartier!=null && q.metro_pose==false){ //si quartiers adjacents occupés et sans metro 
+				q.metro=true;	//alors on rend dispo le fait de pouvoir mettre un metro
+			}			
+		}		
 	}
 
 	

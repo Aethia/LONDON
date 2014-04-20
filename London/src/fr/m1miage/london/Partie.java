@@ -67,7 +67,10 @@ public class Partie implements Serializable{
 
 		// on distribue les cartes (los cartos en espagnol)
 		for (Joueur i : listeJoueurs) {
+			
+			
 			i.ajouterCartesMain(pioche.tirerNCartes(Regles.NBCARTESDEPART));
+		
 		}
 
 		//le premier joueur pioche une carte
