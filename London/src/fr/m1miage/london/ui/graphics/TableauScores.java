@@ -21,11 +21,10 @@ import fr.m1miage.london.ui.screens.ZoneConstructionScreen;
 
 public class TableauScores extends Table {
 	private final float ATOG_COLOR = 1f/255f;
-	
+	private Skin skin = new Skin();
 	public TableauScores(List<Joueur> joueurs){
-
-		Skin skin= new Skin(Gdx.files.internal(Prefs.REPERTOIRE +"ui.json"));
-		this.setSkin(skin);
+		skin = Art.skinTableauScores;
+		this.setSkin(Art.skinTableauScores);
 		this.add("").colspan(1);
 		TextureRegion t = new TextureRegion (Art.ico_Livres);
 		t.flip(false, true);

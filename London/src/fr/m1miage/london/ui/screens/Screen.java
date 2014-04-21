@@ -20,7 +20,7 @@ public abstract class Screen {
 	private final String[] chars = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", ".,!?:;\"'+-=/\\< "};
 	protected static Random random = new Random();
 	protected static LondonGame londonG;
-	public SpriteBatch spriteBatch;
+	public static SpriteBatch spriteBatch;
 	private static int time = 0;
 
 	public void removed () {
