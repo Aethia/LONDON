@@ -308,4 +308,12 @@ public class EffetTest {
 		assertEquals(5, j.getArgent());
 	}
 	
+	@Test
+	public void testArgentRecolterDeuxParJoueurUnArgent(){
+		j1.setAddArgent(-4);
+		effet.argentRecolterDeuxParJoueur(p, j);
+		assertEquals(0, j1.getArgent());
+		assertEquals(6, j.getArgent());
+	}
+	
 }
