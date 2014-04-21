@@ -52,8 +52,10 @@ public class Art {
 	public static Texture carteEtalage;
 	public static Skin skinTableauScores;
 	public static Skin skinScoreJoueur;
+	public static Skin skin;
 	
 	
+	public static Texture scroll;
 	public static TextureRegion getCarteID(int idCarte){
 		return cartes.get(idCarte);
 	}
@@ -61,6 +63,7 @@ public class Art {
 	public static void load () {
 		Fonts.load();
 		Buttons.load();
+		scroll = new Texture(Gdx.files.internal(Prefs.REPERTOIRE+"default-scroll.png"));
 		bg = load("ressources/Images/background.png", 1400, 800);
 		bgPartie = load("ressources/Images/backgroundPartie.png", 1400, 800);
 		menu_bg = Art.load("ressources/Images/menu_background.png", 256, 512);
@@ -87,6 +90,7 @@ public class Art {
 		
 		skinTableauScores= new Skin(Gdx.files.internal(Prefs.REPERTOIRE +"ui.json"));
 		skinScoreJoueur =new Skin( Gdx.files.internal(Prefs.REPERTOIRE +"ui.json"));
+		skin = new Skin( Gdx.files.internal(Prefs.REPERTOIRE +"ui.json"));
 		emplacement_etalage = load(Prefs.REPERTOIRE + "etalage_carte.png", 256,512);
 		/*cartes*/
 		for(int i=1;i<=75;i++){
