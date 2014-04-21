@@ -27,6 +27,7 @@ public class Quartier implements Serializable{
 	// le joueur propriétaire du métro !
 	private Joueur proprietaireMetro;
 	
+	
 	public Quartier(){
 		this.metro = false;
 		this.metro_pose=false;
@@ -177,6 +178,8 @@ public class Quartier implements Serializable{
 		
 		return msg.toString();
 	}
+	
+	
 	
 	
 	
