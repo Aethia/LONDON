@@ -51,8 +51,10 @@ public class Emission implements Runnable {
 			a.setType(type);
 			a.setObject(o);
 			out.writeObject(a); 
+			out.reset();
 			out.flush();
-			out.flush();
+			out.reset();
+			
 			a = null;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -66,10 +68,12 @@ public class Emission implements Runnable {
 			a.setType(5);
 			a.setObject(o);
 			a.setText("lol samarchpa");
+
 			out.writeObject(a); 
+			out.reset();
 			out.flush();
-			out.flush();
-			a = null;
+			out.reset();
+		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

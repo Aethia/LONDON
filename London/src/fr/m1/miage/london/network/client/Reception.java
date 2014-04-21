@@ -43,7 +43,11 @@ public class Reception implements Runnable {
 	        try {
 	        	
 	        try {
+	        	
 				action = (Action)in.readObject();
+				
+				
+				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -58,11 +62,11 @@ public class Reception implements Runnable {
 				}
 	        	// echange de l'objet partie
 	        	else if (action.getType() == 5) {
-	        		synchronized (listenersPartie) {
+
 	        			for (IncomingPartieObjectListenerClient list : listenersPartie){
 		        			list.nouvelObjet(action.getObject());
 		        		}
-					}
+				
 	        		
 	        	}
 			
