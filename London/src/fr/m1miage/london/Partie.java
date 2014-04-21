@@ -52,7 +52,6 @@ public class Partie implements Serializable{
 		this.nbJoueurs = nbJ;
 	}
 
-	
 
 
 	public void init(){
@@ -67,7 +66,10 @@ public class Partie implements Serializable{
 
 		// on distribue les cartes (los cartos en espagnol)
 		for (Joueur i : listeJoueurs) {
+			
+			
 			i.ajouterCartesMain(pioche.tirerNCartes(Regles.NBCARTESDEPART));
+		
 		}
 
 		//le premier joueur pioche une carte
@@ -120,13 +122,13 @@ public class Partie implements Serializable{
 					nb_emprunt = 0;
 				}
 			}
-			//un point de pauvreté en plus par carte en main
+			//un point de pauvretï¿½ en plus par carte en main
 			listeJoueurs.get(i).setAddPoint_pauvrete(listeJoueurs.get(i).getMainDuJoueur().getNb_cartes());
 			
-			//un point de victoire pour £
+			//un point de victoire pour ï¿½
 			listeJoueurs.get(i).setAddPoint_victoire(listeJoueurs.get(i).getArgent() / 3);
 			
-			//quartier + métro
+			//quartier + mï¿½tro
 			Map<Integer,Quartier> quartiers = plateau.getQuartiers();
 			
 			for(Integer key : quartiers.keySet()){
@@ -217,7 +219,7 @@ public class Partie implements Serializable{
 			}
 		}
 		
-		//si égalité, on tri selon différents critères
+		//si ï¿½galitï¿½, on tri selon diffï¿½rents critï¿½res
 		java.util.Collections.sort(listeJoueurs);
 		
 		for(Joueur j : listeJoueurs){
@@ -255,6 +257,15 @@ public class Partie implements Serializable{
 
 	public Joueur getObjJoueurActif(){
 		return jActif;
+	}
+	
+	public Joueur getJoueurParNom(String nom){
+		for (Joueur j : this.listeJoueurs) {
+			if (j.getNom().equalsIgnoreCase(nom)) {
+				return j;
+			}
+		}
+		return null;
 	}
 
 	public void setJoueurActif(int joueurActif) {

@@ -109,7 +109,7 @@ public class ZoneConstruction implements Serializable{
 	public void retournerCarte(int idCarte){
 		List<Carte> lesCartesDessus = getCarteDessus();
 		for(Carte c : lesCartesDessus) {
-			if (c.getId_carte() == idCarte && c.coutActivation().isaRetourner() == true)
+			if (c.getId_carte() == idCarte && c.getCoutActivation().isaRetourner() == true)
 				c.setDesactivee(true);
 		}
 		

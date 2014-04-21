@@ -41,13 +41,32 @@ public class Quartier implements Serializable{
 		this.proprietaireQuartier = joueur;
 		this.investir_possible = false; //quartier reservé
 		
-		
+		boolean AdjMetro=false;//booléen pour savoir s'il existe un quartier adjacent avec le metro
+
 		for(Quartier q : this.quartiersAdjacents){
 			if(q.proprietaireQuartier==null){ //on rend les quartier "investissables" seulement s'ils ne sont pas deja occupés
 				q.investir_possible=true;
 			}
+			if(q.metro_pose){ //si un quartier adjacent a le metro
+				AdjMetro=true;
+			}			
+		}
+		if(AdjMetro==true){//si le metro passe par un quartier adjacent
+			this.metro=true;	//rendre possible la construction du metro pour ce quartier
 		}
 		return true;
+	}
+	
+	public void QuartierMetro(){
+		
+		this.metro=false;
+		this.metro_pose=true;
+		
+		for(Quartier q : this.quartiersAdjacents){
+			if(q.proprietaireQuartier!=null && q.metro_pose==false){ //si quartiers adjacents occupés et sans metro 
+				q.metro=true;	//alors on rend dispo le fait de pouvoir mettre un metro
+			}			
+		}		
 	}
 
 	
