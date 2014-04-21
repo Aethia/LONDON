@@ -183,9 +183,11 @@ public class GameScreenReseauServeur extends Screen implements IncomingPartieObj
 					}else{
 						londonG.partie.joueurSuivant();	
 						j = londonG.partie.getObjJoueurActif();
+						
+						
 						// on envoie le nouvel objet au clients
 						for (Emission e : Serveur.lesClients){		
-							Object partie = londonG.partie;
+							Partie partie = londonG.partie;
 							e.sendObjectPartie(partie);
 						}
 						Screen.setScreen(new GameScreenReseauServeur(j.getNom()));

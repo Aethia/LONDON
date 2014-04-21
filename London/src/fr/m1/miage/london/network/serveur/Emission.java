@@ -38,6 +38,7 @@ public class Emission implements Runnable {
 			a.setText(msg);
 			out.writeObject(a); 
 			out.flush();
+			out.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -51,6 +52,8 @@ public class Emission implements Runnable {
 			a.setObject(o);
 			out.writeObject(a); 
 			out.flush();
+			out.flush();
+			a = null;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,8 +65,11 @@ public class Emission implements Runnable {
 			Action a = new Action();
 			a.setType(5);
 			a.setObject(o);
+			a.setText("lol samarchpa");
 			out.writeObject(a); 
 			out.flush();
+			out.flush();
+			a = null;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

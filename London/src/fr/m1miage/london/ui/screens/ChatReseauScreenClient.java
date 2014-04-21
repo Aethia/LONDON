@@ -30,7 +30,10 @@ import fr.m1.miage.london.network.IncomingMessageListenerClient;
 import fr.m1.miage.london.network.IncomingObjectListenerClient;
 import fr.m1.miage.london.network.client.Sender;
 import fr.m1.miage.london.network.client.Reception;
+import fr.m1.miage.london.network.serveur.Emission;
+import fr.m1.miage.london.network.serveur.Serveur;
 import fr.m1miage.london.*;
+import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -51,7 +54,9 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		public void nouvelObjet(Object o, int type) {	
 			if (type == 3) {
 				londonG.partie = (Partie)o;		
-				Screen.setScreen(new GameScreenReseauClient(login,joueurActif));	
+				afficherbouton();
+		
+				
 			}
 			if (type == 4) {
 				this.joueurActif = (String)o;
@@ -67,7 +72,9 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 	private TextButton btnLancerPartie;
 	private InputListener list;
 
-
+	public void afficherbouton(){
+		btnLancerPartie.setVisible(true);
+	}
 
 	public ChatReseauScreenClient(String log){
 		Reception.addListenerM(this);
@@ -80,7 +87,26 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		fondChat = new ShapeRenderer();
 		
 		
+		btnLancerPartie =new TextButton("Lancer partie",Buttons.styleInGameMenu); 
+		btnLancerPartie.setPosition(100, 600); 
+		btnLancerPartie.setVisible(false);
+		btnLancerPartie.addListener(new InputListener(){
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				//lancement de la partie
+				super.touchUp(event, x, y, pointer, button);		
+				Screen.setScreen(new GameScreenReseauClient(login,joueurActif));	
+							
+			}
 
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+		});
+		stage.addActor(btnLancerPartie);
 
 		TextButton btnRetour =new TextButton("Retour",Buttons.styleInGameMenu); 
 		btnRetour.setPosition(100, 135); 

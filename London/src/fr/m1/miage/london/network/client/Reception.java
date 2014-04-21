@@ -84,6 +84,8 @@ public class Reception implements Runnable {
 				
 				e.printStackTrace();
 			}
+	        
+	        action = null;
 		}
 	}
 

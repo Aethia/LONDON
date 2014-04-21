@@ -17,6 +17,7 @@ import fr.m1.miage.london.network.IncomingMessageListenerClient;
 import fr.m1.miage.london.network.IncomingObjectListenerClient;
 import fr.m1.miage.london.network.IncomingPartieObjectListenerClient;
 import fr.m1.miage.london.network.RegisterClient;
+import fr.m1.miage.london.network.client.Client;
 import fr.m1.miage.london.network.client.Reception;
 import fr.m1.miage.london.network.client.Sender;
 import fr.m1.miage.london.network.serveur.Emission;
@@ -25,6 +26,7 @@ import fr.m1miage.london.Partie;
 import fr.m1miage.london.Regles;
 import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.classes.Joueur;
+import fr.m1miage.london.sound.SoundPlayer;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -33,7 +35,7 @@ import fr.m1miage.london.ui.graphics.Fonts;
 import fr.m1miage.london.ui.graphics.Score;
 import fr.m1miage.london.ui.graphics.TableauScores;
 
-public class GameScreenReseauClient extends Screen implements IncomingPartieObjectListenerClient{
+public class GameScreenReseauClient extends Screen implements IncomingPartieObjectListenerClient,IncomingObjectListenerClient{
 
 	/*Boutons du menu*/
 	public TextButton zoneConstructionBtn;
@@ -69,14 +71,24 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 	private String joueurActif;
 	
 	public static GameScreenReseauClient game;
+	private TextButton btnSuivant;
 	
 	@Override
 	// arrivée d'un nouvel objet de type Partie
 	public void nouvelObjet(Object o) {
 		londonG.partie = (Partie)o;
-		londonG.partie.joueurSuivant();
-		Screen.setScreen(new GameScreenReseauClient(login,londonG.partie.getObjJoueurActif().getNom()));	
-		
+		afficherBouton();
+	}
+	
+	@Override
+	public void nouvelObjet(Object o, int type) {
+		afficherBouton();
+	}
+	
+	
+
+	private void afficherBouton() {
+		btnSuivant.setVisible(true);
 	}
 	
 	public GameScreenReseauClient(String login, String joueurActif){
@@ -90,6 +102,7 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 			  @Override
 			  public void run() {
 				  Reception.addListenerPartie(GameScreenReseauClient.game);
+				  Reception.addListenerO(GameScreenReseauClient.game);
 			  }
 			}, 5000);
 		
@@ -356,6 +369,38 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 		}
 		else {
 			
+			
+			btnSuivant =new TextButton("A moi",Buttons.styleInGameMenu); 
+			btnSuivant.setPosition(600, 350); 
+			btnSuivant.setVisible(false);
+			btnSuivant.addListener(new InputListener(){
+				@Override
+				public void touchUp(InputEvent event, float x, float y,
+						int pointer, int button) {
+					//traitement reseau
+					// event ok client
+					
+					/*
+					 * On lance le client
+					 */
+					Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.log,londonG.partie.getObjJoueurActif().getNom()));
+					super.touchUp(event, x, y, pointer, button);
+				}
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					return true;
+				}
+			});
+			stage.addActor(btnSuivant);
+			
+			
+			
+			
+			
+			
+			
 		}
 	}
 
@@ -413,6 +458,8 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 		}
 
 	}
+
+
 
 
 
