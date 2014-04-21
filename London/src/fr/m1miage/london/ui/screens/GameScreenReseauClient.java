@@ -2,6 +2,8 @@ package fr.m1miage.london.ui.screens;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -13,7 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import fr.m1.miage.london.network.IncomingMessageListenerClient;
 import fr.m1.miage.london.network.IncomingObjectListenerClient;
+import fr.m1.miage.london.network.IncomingPartieObjectListenerClient;
+import fr.m1.miage.london.network.RegisterClient;
 import fr.m1.miage.london.network.client.Reception;
+import fr.m1.miage.london.network.client.Sender;
 import fr.m1.miage.london.network.serveur.Emission;
 import fr.m1.miage.london.network.serveur.Serveur;
 import fr.m1miage.london.Partie;
@@ -28,7 +33,7 @@ import fr.m1miage.london.ui.graphics.Fonts;
 import fr.m1miage.london.ui.graphics.Score;
 import fr.m1miage.london.ui.graphics.TableauScores;
 
-public class GameScreenReseauClient extends Screen{
+public class GameScreenReseauClient extends Screen implements IncomingPartieObjectListenerClient{
 
 	/*Boutons du menu*/
 	public TextButton zoneConstructionBtn;
@@ -55,6 +60,7 @@ public class GameScreenReseauClient extends Screen{
 
 	private Stage stage; 
 	private String login;
+	public static String log;
 
 	private int time =0;
 	private static final int TIME_OUT_CARD = 150;
@@ -62,9 +68,35 @@ public class GameScreenReseauClient extends Screen{
 	public static Button btnSauvegarde;
 	private String joueurActif;
 	
+	public static GameScreenReseauClient game;
+	
+	@Override
+	// arrivée d'un nouvel objet de type Partie
+	public void nouvelObjet(Object o) {
+		londonG.partie = (Partie)o;
+		londonG.partie.joueurSuivant();
+		Screen.setScreen(new GameScreenReseauClient(login,londonG.partie.getObjJoueurActif().getNom()));	
+		
+	}
 	
 	public GameScreenReseauClient(String login, String joueurActif){
+		this.game = this;
+		
+		Timer timer = new Timer();
+		
+		
+		
+		timer.schedule(new TimerTask() {
+			  @Override
+			  public void run() {
+				  Reception.addListenerPartie(GameScreenReseauClient.game);
+			  }
+			}, 5000);
+		
+		
+		
 		this.login = login;
+		this.log = login;
 		this.joueurActif = joueurActif;
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
@@ -111,7 +143,7 @@ public class GameScreenReseauClient extends Screen{
 				@Override
 				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
-					Screen.setScreen(new ZoneConstructionScreen("Choisir une carte"));
+					Screen.setScreen(new ZoneConstructionScreen("Choisir une carte",GameScreenReseauClient.log,londonG.partie.getObjJoueurActif().getNom(),"client"));
 					super.touchUp(event, x, y, pointer, button);
 				}
 
@@ -128,7 +160,7 @@ public class GameScreenReseauClient extends Screen{
 				@Override
 				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
-					Screen.setScreen(new QuartiersScreen());
+					Screen.setScreen(new QuartiersScreen(GameScreenReseauClient.log,londonG.partie.getObjJoueurActif().getNom(),"client"));
 					super.touchUp(event, x, y, pointer, button);
 				}
 
@@ -153,7 +185,7 @@ public class GameScreenReseauClient extends Screen{
 				@Override
 				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
-					Screen.setScreen(new EtalageScreen(true));
+					Screen.setScreen(new EtalageScreen(true,GameScreenReseauClient.log,londonG.partie.getObjJoueurActif().getNom(),"client"));
 					super.touchUp(event, x, y, pointer, button);
 				}
 				
@@ -178,7 +210,11 @@ public class GameScreenReseauClient extends Screen{
 						londonG.setScreen(new DefausserScreen(j,nbD));
 					}else{
 						londonG.partie.joueurSuivant();	
-						Screen.setScreen(new GameScreen());
+						j = londonG.partie.getObjJoueurActif();
+						// on envoie le nouvel objet partie aux autres
+						Sender.e.sendObject(5, londonG.partie);
+						Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.log,j.getNom()));
+						
 					}
 					super.touchUp(event, x, y, pointer, button);
 				}

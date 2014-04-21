@@ -11,9 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import fr.m1.miage.london.network.IncomingPartieObjectListenerClient;
+import fr.m1.miage.london.network.IncomingPartieObjectListenerServeur;
+import fr.m1.miage.london.network.client.Reception;
 import fr.m1.miage.london.network.serveur.Emission;
 import fr.m1.miage.london.network.serveur.Serveur;
-import fr.m1miage.london.Regles;
+import fr.m1miage.london.*;
 import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.ui.Prefs;
@@ -24,7 +27,7 @@ import fr.m1miage.london.ui.graphics.Fonts;
 import fr.m1miage.london.ui.graphics.Score;
 import fr.m1miage.london.ui.graphics.TableauScores;
 
-public class GameScreenReseauServeur extends Screen{
+public class GameScreenReseauServeur extends Screen implements IncomingPartieObjectListenerServeur{
 
 	/*Boutons du menu*/
 	public TextButton zoneConstructionBtn;
@@ -57,8 +60,18 @@ public class GameScreenReseauServeur extends Screen{
 	
 	public static Button btnSauvegarde;
 	
-
+	@Override
+	// arrivée d'un nouvel objet de type Partie
+	public void nouvelObjet(Object o) {
+		londonG.partie = (Partie)o;
+	//	Screen.setScreen(new GameScreenReseauClient(login,londonG.partie.getObjJoueurActif().getNom()));	
+	
+	}
+	
 	public GameScreenReseauServeur(String joueurActif){
+		synchronized (Reception.listenersPartie) {
+			fr.m1.miage.london.network.serveur.Reception.addListenerPartie(this);
+		}
 		this.joueurActif = joueurActif;
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
@@ -102,7 +115,7 @@ public class GameScreenReseauServeur extends Screen{
 				@Override
 				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
-					Screen.setScreen(new ZoneConstructionScreen("Choisir une carte"));
+					Screen.setScreen(new ZoneConstructionScreen("Choisir une carte","host",londonG.partie.getObjJoueurActif().getNom(),"serveur"));
 					super.touchUp(event, x, y, pointer, button);
 				}
 
@@ -119,7 +132,7 @@ public class GameScreenReseauServeur extends Screen{
 				@Override
 				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
-					Screen.setScreen(new QuartiersScreen());
+					Screen.setScreen(new QuartiersScreen("host",londonG.partie.getObjJoueurActif().getNom(),"serveur"));
 					super.touchUp(event, x, y, pointer, button);
 				}
 
@@ -144,7 +157,7 @@ public class GameScreenReseauServeur extends Screen{
 				@Override
 				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
-					Screen.setScreen(new EtalageScreen(true));
+					Screen.setScreen(new EtalageScreen(true,"host",londonG.partie.getObjJoueurActif().getNom(),"serveur"));
 					super.touchUp(event, x, y, pointer, button);
 				}
 				
@@ -169,7 +182,13 @@ public class GameScreenReseauServeur extends Screen{
 						londonG.setScreen(new DefausserScreen(j,nbD));
 					}else{
 						londonG.partie.joueurSuivant();	
-						Screen.setScreen(new GameScreen());
+						j = londonG.partie.getObjJoueurActif();
+						// on envoie le nouvel objet au clients
+						for (Emission e : Serveur.lesClients){		
+							Object partie = londonG.partie;
+							e.sendObjectPartie(partie);
+						}
+						Screen.setScreen(new GameScreenReseauServeur(j.getNom()));
 					}
 					super.touchUp(event, x, y, pointer, button);
 				}
@@ -378,5 +397,8 @@ public class GameScreenReseauServeur extends Screen{
 		}
 
 	}
+
+
+
 
 }

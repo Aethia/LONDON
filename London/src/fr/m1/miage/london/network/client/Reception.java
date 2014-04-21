@@ -16,6 +16,7 @@ public class Reception implements Runnable {
 	private String login;
 	private static List<IncomingMessageListenerClient> listenersM = new ArrayList<IncomingMessageListenerClient>();
 	private static List<IncomingObjectListenerClient> listenersO = new ArrayList<IncomingObjectListenerClient>();
+	public static List<IncomingPartieObjectListenerClient> listenersPartie = new ArrayList<IncomingPartieObjectListenerClient>();
 	
 	
 	
@@ -32,6 +33,10 @@ public class Reception implements Runnable {
 		listenersO.add(toAdd);
 	}
 	
+	public static void addListenerPartie(IncomingPartieObjectListenerClient toAdd){
+		listenersPartie.add(toAdd);
+	}
+	
 	public void run() {
 		
 		while(true){
@@ -44,12 +49,22 @@ public class Reception implements Runnable {
 				e.printStackTrace();
 			}
 
+	        	// message de chat
 	        	if (action.getType() == 2) {
 					// on notifie tous ceux qui écoutent
 					for (IncomingMessageListenerClient list : listenersM){
 						list.nouveauMessage(action.getText());
 					}
 				}
+	        	// echange de l'objet partie
+	        	else if (action.getType() == 5) {
+	        		synchronized (listenersPartie) {
+	        			for (IncomingPartieObjectListenerClient list : listenersPartie){
+		        			list.nouvelObjet(action.getObject());
+		        		}
+					}
+	        		
+	        	}
 			
 
 	        	else {

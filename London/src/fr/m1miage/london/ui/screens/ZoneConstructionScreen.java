@@ -54,6 +54,7 @@ public class ZoneConstructionScreen extends Screen{
 	private String messageConstruire = new String("");
 	private GestionErreurs erreur;
 	private Joueur joueur;
+	public static String log,joueurActif,sender=null;
 
 	/* Scores */
 	private Score scoreJoueur;
@@ -75,6 +76,15 @@ public class ZoneConstructionScreen extends Screen{
 		joueur = londonG.partie.getObjJoueurActif();
 		constructionScreen();
 	}
+	
+	public ZoneConstructionScreen(String msg,String login,String joueurActif,String sender){
+		messageConstruire = msg;
+		this.log = login;
+		this.joueurActif = joueurActif;
+		this.sender = sender;
+		joueur = londonG.partie.getObjJoueurActif();
+		constructionScreen();
+	}
 
 	private void constructionScreen() {
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
@@ -90,7 +100,15 @@ public class ZoneConstructionScreen extends Screen{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new GameScreen());
+				// si c'est une partie multijoueur
+				if (ZoneConstructionScreen.log != null) {
+					if (ZoneConstructionScreen.sender.equals("client"))
+						Screen.setScreen(new GameScreenReseauClient(ZoneConstructionScreen.log, ZoneConstructionScreen.joueurActif));
+					else
+						Screen.setScreen(new GameScreenReseauServeur(ZoneConstructionScreen.joueurActif));
+				}
+				else
+					Screen.setScreen(new GameScreen());
 				super.touchUp(event, x, y, pointer, button);
 			}
 

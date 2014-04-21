@@ -41,11 +41,23 @@ public class QuartiersScreen extends Screen{
 	private String messageInvestir = new String("");
 	
 	private Joueur joueur;
+	public static String log,joueurActif,sender=null;
 
 	/* Scores */
 	private Score scoreJoueur;
+	
+	public QuartiersScreen(String login,String joeurActif,String sender){
+		this.log = login;
+		this.joueurActif = joeurActif;
+		this.sender = sender;
+		affichage();
+	}
 
 	public QuartiersScreen(){
+		affichage();
+	}
+
+	private void affichage() {
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
@@ -65,7 +77,14 @@ public class QuartiersScreen extends Screen{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new GameScreen());
+				if (QuartiersScreen.sender  != null) {
+					if (QuartiersScreen.sender.equals("client"))
+						Screen.setScreen(new GameScreenReseauClient(QuartiersScreen.log, QuartiersScreen.joueurActif));
+					else
+						Screen.setScreen(new GameScreenReseauServeur(QuartiersScreen.joueurActif));
+				}
+				else
+					Screen.setScreen(new GameScreen());
 				super.touchUp(event, x, y, pointer, button);
 			}
 

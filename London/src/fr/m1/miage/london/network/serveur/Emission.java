@@ -57,6 +57,19 @@ public class Emission implements Runnable {
 		} 
 	}
 	
+	public void sendObjectPartie(Object o){
+		try {
+			Action a = new Action();
+			a.setType(5);
+			a.setObject(o);
+			out.writeObject(a); 
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+	
 	
 	
 	

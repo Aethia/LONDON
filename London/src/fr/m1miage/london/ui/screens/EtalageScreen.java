@@ -39,10 +39,21 @@ public class EtalageScreen extends Screen{
 
 	private Joueur joueur;
 	private Pioche pioche;
-
+	public static String log,joueurActif,sender=null;
 	private int cartesPiochees = 0;
 
+	public EtalageScreen(boolean actionPioche,String login,String joueurActif,String sender){
+		this.log = login;
+		this.joueurActif = joueurActif;
+		this.sender = sender;
+		afficher(actionPioche);
+
+	}
 	public EtalageScreen(boolean actionPioche){ //si action choisie = piocher 3 cartes
+		afficher(actionPioche);
+
+	}
+	private void afficher(boolean actionPioche) {
 		joueur = londonG.partie.getObjJoueurActif();
 		pioche = londonG.partie.getPioche();
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
@@ -57,7 +68,14 @@ public class EtalageScreen extends Screen{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new GameScreen());
+				if (EtalageScreen.sender != null) {
+					if (EtalageScreen.sender.equals("client"))
+						Screen.setScreen(new GameScreenReseauClient(EtalageScreen.log, EtalageScreen.joueurActif));
+					else
+						Screen.setScreen(new GameScreenReseauServeur(EtalageScreen.joueurActif));
+				}
+				else
+					Screen.setScreen(new GameScreen());
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -158,7 +176,6 @@ public class EtalageScreen extends Screen{
 			});
 			stage.addActor(btnPiocher);
 		}
-
 	}
 
 	private void checkPiocher(){
