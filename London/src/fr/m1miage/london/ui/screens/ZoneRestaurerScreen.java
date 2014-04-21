@@ -177,6 +177,7 @@ System.out.println("pile");
 						float y, int pointer, int button) {
 					if(!ca.getCarte().isDesactivee()){ //si c'est pas null et que la carte n'est pas desactivée
 						carteActivation = ca;
+						System.out.println(ca.getCarte().getNom());
 						Carte cActiv = carteActivation.getCarte();
 						int type = cActiv.getCoutActivation().getTypeActiv();
 						switch(type){

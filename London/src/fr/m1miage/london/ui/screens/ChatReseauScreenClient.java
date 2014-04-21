@@ -38,6 +38,7 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		messageChat(message);
 	}	
 
+	
 	@Override
 	public void nouvelObjet(Object o, int type) {	
 		if (type == 3) {
@@ -59,6 +60,7 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 	private InputListener list;
 	private Chat chat;
 	private int cPosition=0;
+	
 
 
 	public ChatReseauScreenClient(String log){
@@ -116,8 +118,12 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 			@Override
 			public boolean keyUp(InputEvent event, int keycode) {
 				if(keycode==66){
+					if(Sender.e==null){
+						System.out.println("wtf");
+					}else{
 					Sender.e.sendMessageString(login+" : "+mTextField.getText());
 					mTextField.setText("");
+					}
 				}
 				return super.keyUp(event, keycode);
 			}

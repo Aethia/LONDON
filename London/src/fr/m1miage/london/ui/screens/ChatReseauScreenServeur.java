@@ -132,6 +132,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 				listeJoueurs.add(j);
 				int i=1;
 				for(Emission cli : Serveur.lesClients){
+					
 					j = new Joueur(i++, cli.getLogin(), java.awt.Color.BLUE);
 					listeJoueurs.add(j);
 				}
