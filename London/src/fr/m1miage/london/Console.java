@@ -463,6 +463,13 @@ public class Console {
 								}
 								break;
 							
+							//cartes 71
+							//effet 19
+							//Chaque autre joueur doit payer £1 à la banque pour chaque quartier que vous avez investi
+							case 71:
+								effet.joueursPayeQuartiersInversti(partie, partie.getObjJoueurActif());
+								break;
+								
 							default:
 								
 								break;

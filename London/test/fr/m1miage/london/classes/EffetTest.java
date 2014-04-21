@@ -255,5 +255,39 @@ public class EffetTest {
 		assertEquals(GestionErreurs.NOT_ENOUGH_PAUPERS, effet.donneUnDeVosPP(1, p, j, 2));
 	}
 
+	@Test
+	public void testJoueursPayeQuartiersInverstiReceveur(){
+		q1.setId(1);
+		q1.setProprietaireQuartier(j);
+		q2.setId(2);
+		q2.setProprietaireQuartier(j);
+		plateau.getQuartiers().put(1, q1);
+		plateau.getQuartiers().put(2, q2);
+		
+		effet.joueursPayeQuartiersInversti(p, j);
+		assertEquals(7, j.getArgent());
+	}
+	
+	@Test
+	public void testJoueursPayeQuartiersInverstiPayeur(){
+		q1.setId(1);
+		q1.setProprietaireQuartier(j);
+		q2.setId(2);
+		q2.setProprietaireQuartier(j);
+		plateau.getQuartiers().put(1, q1);
+		plateau.getQuartiers().put(2, q2);
+		
+		effet.joueursPayeQuartiersInversti(p, j);
+		assertEquals(3, j1.getArgent());
+	}	
+	
+	@Test
+	public void testJoueursPayeQuartiersInverstiAucunQuartier(){
+		
+		effet.joueursPayeQuartiersInversti(p, j);
+		assertEquals(5, j.getArgent());
+	}
+
+
 
 }

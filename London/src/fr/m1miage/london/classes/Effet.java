@@ -181,4 +181,23 @@ public class Effet implements Serializable{
 		else 
 			return GestionErreurs.NONEXISTANT_PLAYER;
 	}
+	
+	//cartes 71
+	//effet 19
+	//Chaque autre joueur doit payer £1 à la banque pour chaque quartier que vous avez investi
+	public void joueursPayeQuartiersInversti(Partie partie, Joueur jcourant){
+		Map<Integer,Quartier> quartiers = partie.getPlateau().getQuartiers();
+		for(Integer key : quartiers.keySet()){
+			if(quartiers.get(key).getProprietaireQuartier() == jcourant){
+				List<Joueur> l = partie.getListeJoueurs();
+				for(Joueur joueur : l){
+					//on vérifie si le joueur a au moins £1
+					if(joueur.getArgent() >= 1 || joueur.equals(jcourant)){
+						joueur.setAddArgent(-1);
+						jcourant.setAddArgent(1);
+					}
+				}
+			}
+		}
+	}
 }
