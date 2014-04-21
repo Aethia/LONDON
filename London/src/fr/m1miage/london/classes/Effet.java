@@ -2,10 +2,12 @@ package fr.m1miage.london.classes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import fr.m1miage.london.GestionErreurs;
 import fr.m1miage.london.Partie;
+import fr.m1miage.london.Regles;
 
 public class Effet implements Serializable{
 	private int idEffet;
@@ -141,5 +143,48 @@ public class Effet implements Serializable{
 				}
 			}
 		}
+	}
+	
+	//cartes 39
+	//effet 8
+	//donne à un joueur de notre choix 1 point de pauvreté
+	public GestionErreurs donneUnDeVosPP(int numJoueur, Partie partie, Joueur j){
+		if(j.getPoint_pauvrete() < 1)
+			return GestionErreurs.NOT_ENOUGH_PAUPERS;
+		int nbJoueur = 0; 
+		List<Joueur> l = partie.getListeJoueurs();
+		for(Joueur i : l){
+			nbJoueur++;
+		}
+		if(numJoueur <= nbJoueur)
+			if(j.getId() != numJoueur){
+				j.setAddPoint_pauvrete(-1);
+				l.get(numJoueur-1).setAddPoint_pauvrete(1);;
+				return GestionErreurs.NONE;
+			}
+			else
+				return GestionErreurs.WRONG_PLAYER;
+		else 
+			return GestionErreurs.NONEXISTANT_PLAYER;
+	}
+	
+	//cartes 41
+	//effet 9
+	//le joueur de votre choix prend 2 points de pauvreté
+	public GestionErreurs prendDeuxPP(int numJoueur, Partie partie, Joueur j){
+		int nbJoueur = 0; 
+		List<Joueur> l = partie.getListeJoueurs();
+		for(Joueur i : l){
+			nbJoueur++;
+		}
+		if(numJoueur <= nbJoueur)
+			if(j.getId() != numJoueur){
+				l.get(numJoueur-1).setAddPoint_pauvrete(2);;
+				return GestionErreurs.NONE;
+			}
+			else
+				return GestionErreurs.WRONG_PLAYER;
+		else 
+			return GestionErreurs.NONEXISTANT_PLAYER;
 	}
 }

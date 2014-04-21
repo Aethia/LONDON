@@ -11,7 +11,10 @@ public enum GestionErreurs {
 	DEFAUSSE_INDISPO("Aucune carte à defausser"),
 	MAX_EMPRUNT("Vous avez atteint la limite pour emprunter (100£)"),
 	MONTANT_INCORRECT("Montant incorrect, veuillez inserer une valeur entiere multiple de 10 inférieure à 100"),
-	NOT_ENOUGH_CARD("Il n'y a plus de carte � piocher"),
+	NOT_ENOUGH_CARD("Il n'y a plus de carte � piocher"),
+	NONEXISTANT_PLAYER("Ce joueur n'existe pas"),
+	WRONG_PLAYER("Vous ne pouvez pas réaliser cette action sur vous même"),
+	NOT_ENOUGH_PAUPERS("Vous n'avez pas assez de point de pauvreté"),
 	;
 	
 private String name = "";

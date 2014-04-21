@@ -3,6 +3,7 @@ package fr.m1miage.london.classes;
 import static org.junit.Assert.*;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,11 +11,12 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
+import fr.m1miage.london.GestionErreurs;
 import fr.m1miage.london.Partie;
 
 public class EffetTest {
 	
-	private Joueur j;
+	private Joueur j, j1;
 	private Carte c, c1, c2;
 	private ZoneConstruction zc;
 	private Pioche pioche;
@@ -35,6 +37,7 @@ public class EffetTest {
 		pioche = new Pioche();
 		//p.setPioche(pioche);
 		j = new Joueur(1,"toto",Color.black);
+		j1 = new Joueur(2,"titi",Color.red);
 		j.setZoneConstruction(zc);
 		c = new Carte(1,"nom","A",2,"Brun",null);
 		c1 =new Carte(2,"nom","A",2,"Bleu",null);
@@ -43,6 +46,10 @@ public class EffetTest {
 		q2 = new Quartier();
 		q3 = new Quartier();
 		plateau = new Plateau();
+		listeJoueurs = new ArrayList<Joueur>();
+		listeJoueurs.add(j);
+		listeJoueurs.add(j1);
+		p = new Partie(listeJoueurs, 2);
 		
 		p.setPlateau(plateau);
 	}
@@ -218,6 +225,34 @@ public class EffetTest {
 		
 		effet.argentQuartiersAdjacentsTamise(plateau, j);
 		assertEquals(5, j.getArgent());
+	}
+	
+	@Test
+	public void testDonneUnDeVosPPEnleve(){
+		effet.donneUnDeVosPP(2, p, j);
+		assertEquals(4, j.getPoint_pauvrete());
+	}
+	
+	@Test
+	public void testDonneUnDeVosPPRecoit(){
+		effet.donneUnDeVosPP(2, p, j);
+		assertEquals(6, j1.getPoint_pauvrete());
+	}
+	
+	@Test
+	public void testDonneUnDeVosPPInexistant(){
+		assertEquals(GestionErreurs.NONEXISTANT_PLAYER, effet.donneUnDeVosPP(5, p, j));
+	}
+	
+	@Test
+	public void testDonneUnDeVosPPSoiMeme(){
+		assertEquals(GestionErreurs.WRONG_PLAYER, effet.donneUnDeVosPP(1, p, j));
+	}
+	
+	@Test
+	public void testDonneUnDeVosPPPasDePauvre(){
+		j.setAddPoint_pauvrete(-5);
+		assertEquals(GestionErreurs.NOT_ENOUGH_PAUPERS, effet.donneUnDeVosPP(1, p, j));
 	}
 
 
