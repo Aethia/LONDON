@@ -21,6 +21,9 @@ public enum GestionErreurs {
 	NO_BRUN_CARD("Vous n'avez pas de carte brune"),
 	NO_BLEU_CARD("Vous n'avez pas de carte bleue"),
 	NO_GRIS_CARD("Vous n'avez pas de carte grise"),
+	NONEXISTANT_PLAYER("Ce joueur n'existe pas"),
+	WRONG_PLAYER("Vous ne pouvez pas réaliser cette action sur vous même"),
+	NOT_ENOUGH_PAUPERS("Vous n'avez pas assez de point de pauvreté"),
 	;
 	
 private String name = "";

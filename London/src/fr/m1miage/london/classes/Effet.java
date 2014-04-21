@@ -1,6 +1,13 @@
 package fr.m1miage.london.classes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import fr.m1miage.london.GestionErreurs;
+import fr.m1miage.london.Partie;
+import fr.m1miage.london.Regles;
 
 public class Effet implements Serializable{
 	private int idEffet;
@@ -42,6 +49,142 @@ public class Effet implements Serializable{
 		return msg.toString();
 	}
 
+	//cartes 19, 106, 110
+	//effet 5
+	//on pioche 2 cartes
+	public GestionErreurs prendreDeuxCartes(Pioche pioche, Joueur j){
+		if(pioche.getNbCartes() >= 2){
+			j.ajouterCartesMain(pioche.tirerNCartes(2));
+			return GestionErreurs.NONE;
+		}
+		else
+			return GestionErreurs.NOT_ENOUGH_CARD;
+	}
 	
+	//cartes 37, 63
+	//effet 7
+	//on reçoit un point de victoire pour chaque carte non brune dans la zone de construction
+	public void pVPourCartesNonBrune(Joueur j){
+		//for(int i = 0; i < j.getZone_construction().getNbPiles(); i++){
+			//ArrayList<Carte> pile= j.getZone_construction().getCartesPile(i);
+		
+		ArrayList<ArrayList<Carte>> zc = j.getZone_construction().getCartes();
+		for(ArrayList<Carte> pile : zc){
+				
+			for(Carte c: pile){
+				if(!c.getCouleur().equals("Brun"))
+					j.setAddPoint_victoire(1);
+			}
+		}
+	}
 	
+	//cartes 50, 62, 94
+	//effet 11
+	//on reçoit un point de victoire pour chaque carte brune dans la zone de construction
+	public void pVPourCartesBrune(Joueur j){
+		ArrayList<ArrayList<Carte>> zc = j.getZone_construction().getCartes();
+		for(ArrayList<Carte> pile : zc){
+			for(Carte c: pile){
+				if(c.getCouleur().equals("Brun"))
+					j.setAddPoint_victoire(1);
+			}
+		}
+	}
+	
+	//cartes 91, 93
+	//effet 25
+	//£2 pour chaque quartier au nord de la tamise
+	public void argentQuartiersNord(Plateau plateau, Joueur j){
+		Map<Integer,Quartier> quartiers = plateau.getQuartiers();
+		for(Integer key : quartiers.keySet()){
+			if( ( quartiers.get(key).getProprietaireQuartier() == j ) && ( !quartiers.get(key).isAuSudTamise() ) ) {
+				j.setAddArgent(2);
+			}
+		}
+	}
+	
+	//cartes 83
+	//effet 23
+	//£2 pour chaque quartier au sud de la tamise
+	public void argentQuartiersSud(Plateau plateau, Joueur j){
+		Map<Integer,Quartier> quartiers = plateau.getQuartiers();
+		for(Integer key : quartiers.keySet()){
+			if( ( quartiers.get(key).getProprietaireQuartier() == j ) && ( quartiers.get(key).isAuSudTamise() ) ) {
+				j.setAddArgent(2);
+			}
+		}
+	}
+	
+	//cartes 54, 67
+	//effet 12
+	//£1 pour chaque quartier occupé
+	public void argentQuartiersOccupes(Plateau plateau, Joueur j){
+		Map<Integer,Quartier> quartiers = plateau.getQuartiers();
+		for(Integer key : quartiers.keySet()){
+			if(quartiers.get(key).getProprietaireQuartier() == j){
+				j.setAddArgent(1);
+			}
+		}
+	}
+	
+	//cartes 57, 59
+	//effet 15
+	//£2 pour chaque quartier adjacent à la tamise
+	public void argentQuartiersAdjacentsTamise(Plateau plateau, Joueur j){
+		Map<Integer,Quartier> quartiers = plateau.getQuartiers();
+		for(Integer key : quartiers.keySet()){
+			if(quartiers.get(key).getProprietaireQuartier() == j){
+				boolean position = quartiers.get(key).isAuSudTamise();
+				for(Quartier q : quartiers.get(key).getQuartiersAdjacents()){
+					if(q.isAuSudTamise() != position){
+						j.setAddArgent(2);
+						break;
+					}
+				}
+			}
+		}
+	}
+	
+	//cartes 39
+	//effet 8
+	//donne à un joueur de notre choix 1 point de pauvreté
+	public GestionErreurs donneUnDeVosPP(int numJoueur, Partie partie, Joueur j){
+		if(j.getPoint_pauvrete() < 1)
+			return GestionErreurs.NOT_ENOUGH_PAUPERS;
+		int nbJoueur = 0; 
+		List<Joueur> l = partie.getListeJoueurs();
+		for(Joueur i : l){
+			nbJoueur++;
+		}
+		if(numJoueur <= nbJoueur)
+			if(j.getId() != numJoueur){
+				j.setAddPoint_pauvrete(-1);
+				l.get(numJoueur-1).setAddPoint_pauvrete(1);;
+				return GestionErreurs.NONE;
+			}
+			else
+				return GestionErreurs.WRONG_PLAYER;
+		else 
+			return GestionErreurs.NONEXISTANT_PLAYER;
+	}
+	
+	//cartes 41
+	//effet 9
+	//le joueur de votre choix prend 2 points de pauvreté
+	public GestionErreurs prendDeuxPP(int numJoueur, Partie partie, Joueur j){
+		int nbJoueur = 0; 
+		List<Joueur> l = partie.getListeJoueurs();
+		for(Joueur i : l){
+			nbJoueur++;
+		}
+		if(numJoueur <= nbJoueur)
+			if(j.getId() != numJoueur){
+				l.get(numJoueur-1).setAddPoint_pauvrete(2);;
+				return GestionErreurs.NONE;
+			}
+			else
+				return GestionErreurs.WRONG_PLAYER;
+		else 
+			return GestionErreurs.NONEXISTANT_PLAYER;
+	}
 }
