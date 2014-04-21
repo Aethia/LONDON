@@ -118,7 +118,6 @@ public class Console {
 						+ ", que faites vous ?");
 				if (!actionEffectuee) {
 					System.out.println(" -- Les Actions --");
-					System.out.println(partie.getObjJoueurActif().getArgent());
 					System.out.println("1. Jouer une carte (poser une carte devant soi)");
 					System.out.println("2. Restaurer la ville (activer des cartes)");
 					System.out.println("3. Investir (acheter un quartier)");
@@ -249,7 +248,8 @@ public class Console {
 					Carte cDefausse = jActif.choisirCarteParId(idCarteDefausse);
 					jActif.getZone_construction().afficherCarteDessus();
 					System.out.println("Choisir une pile ou en cr�er une nouvelle (0):");
-					int indexPile=Integer.parseInt(sc.next());	
+					int indexPile=Integer.parseInt(sc.next());
+
 					erreur = jActif.construire(cPosee, cDefausse, indexPile,partie.getEtalage());
 					if(erreur.equals(GestionErreurs.NONE)){
 						System.out.println(jActif.getZone_construction().getNbPiles());
@@ -320,7 +320,7 @@ public class Console {
 				System.out.println("- "+TraderClassRestaurerVille.getNbCartesRoses()+" Carte de couleur rose");
 				carte = true;
 			}
-			if (TraderClassRestaurerVille.getNbCartesBrunes() != 0) {
+			if (TraderClassRestaurerVille.getNbCarteegles.NBCARTESDEPARTsBrunes() != 0) {
 				System.out.println("- "+TraderClassRestaurerVille.getNbCartesBrunes()+" Carte de couleur brun");
 				carte = true;
 			}
@@ -362,9 +362,12 @@ public class Console {
 					for(int idCarte : listVal){
 						partie.getObjJoueurActif().getZone_construction().retournerCarte(idCarte);
 						
-						//Lance la fonction metro si la carte est wait for it ...metro
-						if(idCarte==76||idCarte==79||idCarte==84||idCarte==85||idCarte==97){
-							metro();
+						switch(idCarte){
+						
+							//Lance la fonction metro si la carte est wait for it ...metro
+							case 76|79|84|85|97: {
+								metro();
+							}
 						}
 						
 					}
