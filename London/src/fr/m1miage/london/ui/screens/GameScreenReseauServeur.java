@@ -302,9 +302,15 @@ public class GameScreenReseauServeur extends Screen{
 		stage.addActor(scores);
 		scoreJoueur = new Score(j);
 		stage.addActor(scoreJoueur);
+		
+		// on distribue les cartes à tout le monde
+	/*	for (Emission e : Serveur.lesClients){		
+			Object cartes = londonG.partie.getJoueurParNom(e.getLogin()).getLesCartes();
+			e.sendMessage(londonG.partie.getJoueurParNom(e.getLogin()).getLesCartes().);
+		}*/
 
 		
-		// on envoie un message de synchro a tous les clients
+		// on envoie un message de synchro a tous les clients pour charger la page de jeu
 		for (Emission e : Serveur.lesClients){
 			e.sendMessage("0xFFFFFF");
 		}
