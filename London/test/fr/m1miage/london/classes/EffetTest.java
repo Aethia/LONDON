@@ -229,30 +229,30 @@ public class EffetTest {
 	
 	@Test
 	public void testDonneUnDeVosPPEnleve(){
-		effet.donneUnDeVosPP(2, p, j);
+		effet.donneUnDeVosPP(2, p, j, 2);
 		assertEquals(4, j.getPoint_pauvrete());
 	}
 	
 	@Test
 	public void testDonneUnDeVosPPRecoit(){
-		effet.donneUnDeVosPP(2, p, j);
+		effet.donneUnDeVosPP(2, p, j, 2);
 		assertEquals(6, j1.getPoint_pauvrete());
 	}
 	
 	@Test
 	public void testDonneUnDeVosPPInexistant(){
-		assertEquals(GestionErreurs.NONEXISTANT_PLAYER, effet.donneUnDeVosPP(5, p, j));
+		assertEquals(GestionErreurs.NONEXISTANT_PLAYER, effet.donneUnDeVosPP(5, p, j, 2));
 	}
 	
 	@Test
 	public void testDonneUnDeVosPPSoiMeme(){
-		assertEquals(GestionErreurs.WRONG_PLAYER, effet.donneUnDeVosPP(1, p, j));
+		assertEquals(GestionErreurs.WRONG_PLAYER, effet.donneUnDeVosPP(1, p, j, 2));
 	}
 	
 	@Test
 	public void testDonneUnDeVosPPPasDePauvre(){
 		j.setAddPoint_pauvrete(-5);
-		assertEquals(GestionErreurs.NOT_ENOUGH_PAUPERS, effet.donneUnDeVosPP(1, p, j));
+		assertEquals(GestionErreurs.NOT_ENOUGH_PAUPERS, effet.donneUnDeVosPP(1, p, j, 2));
 	}
 
 

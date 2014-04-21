@@ -439,7 +439,7 @@ public class Console {
 								System.out.println("Entrez le numéro du joueur : ");
 								if(sc.hasNextInt()){
 									int numJoueur = sc.nextInt();
-									effet.donneUnDeVosPP(numJoueur, partie, partie.getObjJoueurActif());
+									effet.donneUnDeVosPP(numJoueur, partie, partie.getObjJoueurActif(), nbJoueurs);
 								}
 								else{
 									System.out.println("Valeur incorrecte.");
@@ -455,7 +455,7 @@ public class Console {
 								System.out.println("Entrez le numéro du joueur : ");
 								if(sc.hasNextInt()){
 									int numJoueur = sc.nextInt();
-									effet.prendDeuxPP(numJoueur, partie, partie.getObjJoueurActif());
+									effet.prendDeuxPP(numJoueur, partie, partie.getObjJoueurActif(), nbJoueurs);
 								}
 								else{
 									System.out.println("Valeur incorrecte.");

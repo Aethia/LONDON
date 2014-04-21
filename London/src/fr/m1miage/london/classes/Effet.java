@@ -148,14 +148,11 @@ public class Effet implements Serializable{
 	//cartes 39
 	//effet 8
 	//donne à un joueur de notre choix 1 point de pauvreté
-	public GestionErreurs donneUnDeVosPP(int numJoueur, Partie partie, Joueur j){
+	public GestionErreurs donneUnDeVosPP(int numJoueur, Partie partie, Joueur j, int nbJoueur){
 		if(j.getPoint_pauvrete() < 1)
 			return GestionErreurs.NOT_ENOUGH_PAUPERS;
-		int nbJoueur = 0; 
+		
 		List<Joueur> l = partie.getListeJoueurs();
-		for(Joueur i : l){
-			nbJoueur++;
-		}
 		if(numJoueur <= nbJoueur)
 			if(j.getId() != numJoueur){
 				j.setAddPoint_pauvrete(-1);
@@ -171,12 +168,9 @@ public class Effet implements Serializable{
 	//cartes 41
 	//effet 9
 	//le joueur de votre choix prend 2 points de pauvreté
-	public GestionErreurs prendDeuxPP(int numJoueur, Partie partie, Joueur j){
-		int nbJoueur = 0; 
+	public GestionErreurs prendDeuxPP(int numJoueur, Partie partie, Joueur j, int nbJoueur){ 
 		List<Joueur> l = partie.getListeJoueurs();
-		for(Joueur i : l){
-			nbJoueur++;
-		}
+		
 		if(numJoueur <= nbJoueur)
 			if(j.getId() != numJoueur){
 				l.get(numJoueur-1).setAddPoint_pauvrete(2);;
