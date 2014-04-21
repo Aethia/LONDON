@@ -192,10 +192,31 @@ public class Effet implements Serializable{
 				List<Joueur> l = partie.getListeJoueurs();
 				for(Joueur joueur : l){
 					//on vérifie si le joueur a au moins £1
-					if(joueur.getArgent() >= 1 || joueur.equals(jcourant)){
+					if(joueur.getArgent() >= 1 || !joueur.equals(jcourant)){
 						joueur.setAddArgent(-1);
 						jcourant.setAddArgent(1);
 					}
+				}
+			}
+		}
+	}
+	
+	//cartes 42
+	//effet 10
+	//On prend £2 à chaque autres joueurs
+	public void argentRecolterDeuxParJoueur(Partie partie, Joueur jcourant){
+		List<Joueur> l = partie.getListeJoueurs();
+		for(Joueur joueur : l){
+			if(!joueur.equals(jcourant)){
+				//on vérifie si le joueur a £2
+				if(joueur.getArgent() >= 2){
+					joueur.setAddArgent(-2);
+					jcourant.setAddArgent(2);
+				}
+				//ou au moins £1
+				else if(joueur.getArgent() == 1){
+					joueur.setAddArgent(-1);
+					jcourant.setAddArgent(1);
 				}
 			}
 		}

@@ -470,6 +470,13 @@ public class Console {
 								effet.joueursPayeQuartiersInversti(partie, partie.getObjJoueurActif());
 								break;
 								
+							//cartes 42
+							//effet 10
+							//On prend £2 à chaque autres joueurs
+							case 42:
+								effet.argentRecolterDeuxParJoueur(partie, partie.getObjJoueurActif());
+								break;
+								
 							default:
 								
 								break;

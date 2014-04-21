@@ -288,6 +288,24 @@ public class EffetTest {
 		assertEquals(5, j.getArgent());
 	}
 
-
-
+	@Test
+	public void testArgentRecolterDeuxParJoueurReceveur(){
+		effet.argentRecolterDeuxParJoueur(p, j);
+		assertEquals(7, j.getArgent());
+	}
+	
+	@Test
+	public void testArgentRecolterDeuxParJoueurPayeur(){
+		effet.argentRecolterDeuxParJoueur(p, j);
+		assertEquals(3, j1.getArgent());
+	}
+	
+	@Test
+	public void testArgentRecolterDeuxParJoueurPasArgent(){
+		j1.setAddArgent(-5);
+		effet.argentRecolterDeuxParJoueur(p, j);
+		assertEquals(0, j1.getArgent());
+		assertEquals(5, j.getArgent());
+	}
+	
 }
