@@ -12,12 +12,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane.ScrollPaneStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
@@ -32,6 +28,7 @@ import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
+import fr.m1miage.london.ui.graphics.Chat;
 import fr.m1miage.london.ui.graphics.Fonts;
 
 public class ChatReseauScreenServeur extends Screen implements IncomingMessageListenerServeur{
@@ -48,16 +45,15 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		messageChat(message);
 	}	
 
-	
+
 
 	private Stage stage; 
 
 	private String listeMessage= new String("Chat reseau \n");
 	private ShapeRenderer fondChat;
 
-	private Table chat;
-	private ScrollPane sPChat;
-	private int type =0;
+	private Chat chat;
+	private int cPosition=0;
 
 	public ChatReseauScreenServeur(){
 		Reception.addListener(this);
@@ -83,6 +79,23 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		mTextField.setPosition(400 , 120);
 		mTextField.setHeight(70);
 		mTextField.setWidth(850);
+		mTextField.setMaxLength(50);
+		mTextField.addListener(new InputListener(){
+
+			@Override
+			public boolean keyUp(InputEvent event, int keycode) {
+				if(keycode==66){
+					// on envoie le message au clients
+					for (Emission e : Serveur.lesClients){
+						e.sendMessageString("hôte : "+mTextField.getText());
+					}
+					messageChat("hôte : "+mTextField.getText());
+					mTextField.setText("");
+				}
+				return super.keyUp(event, keycode);
+			}
+			
+		});
 		stage.addActor(mTextField);
 
 		TextButton btnRetour =new TextButton("Retour",Buttons.styleInGameMenu); 
@@ -177,8 +190,6 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 				for (Emission e : Serveur.lesClients){
 					e.sendMessageString("hôte : "+mTextField.getText());
 				}
-				//listeMessage+=("\n"+);
-				System.out.println("huheuhueheue");
 				messageChat("hôte : "+mTextField.getText());
 				mTextField.setText("");
 				super.touchUp(event, x, y, pointer, button);
@@ -192,58 +203,39 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		});
 		stage.addActor(btnEnvoyer);
 
-	
+
 		//creation chat
-		ScrollPaneStyle s =  new ScrollPaneStyle();
-		Image r = new Image(Art.scroll);
-		s.vScroll= r.getDrawable();
-		s.hScrollKnob = r.getDrawable();
-		s.vScrollKnob = r.getDrawable();
-		//s.background = r.getDrawable();
-		s.hScroll = r.getDrawable();
-	
-		//sPChat.setFillParent(true);
-		chat = new Table(Art.skin);
-		chat.setSize(750, 350);
-	//	chat.setFillParent(true);
-	 //chat.setPosition(100, 100);
-	 
-	   		 sPChat = new ScrollPane(chat,s);
-	   		sPChat.setSize(750, 350);
-	   			sPChat.setPosition(100, 215);
-	   		//	sPChat.setScrollBarPositions(true, true);
-		sPChat.setWidget(chat);
-	     		 
-		stage.addActor(sPChat);
+		chat = new Chat(Art.skin);
+		stage.addActor(chat.getSPChat());
+
 		/*
 		 * On lance le serveur (mais pas trop loin)
 		 */
 		Serveur srv = new Serveur();
 		srv.hebergerPartie();
 	}
-private int o=0;
+
 	private void messageChat(String message){
 		System.out.println(message);
-		
+
 		Label temp = new Label(message, Art.skin);
-		temp.setAlignment(Align.left);
-		// temp.setWrap(true);
-		 temp.setColor(Color.BLACK);
-		 chat.add(temp).row();
-		 chat.pack();
-		 o=o+1000;
-		 sPChat.setScrollPercentY(0.50f);
-		 sPChat.setScrollY(o);
-		
-		 
-		
+		temp.setAlignment(Align.left,Align.left);
+		temp.setWrap(true);
+		temp.setColor(Color.BLACK);
+		chat.add(temp).colspan(0).row();
+
+		cPosition=cPosition+100;
 	}
 
 	@Override
 	public void render() {
 		spriteBatch.begin();
 		draw(Art.bgPartie, 0, 0);
-		sPChat.setScrollY(o);
+		
+		if(!chat.isOverTable()){
+			chat.getSPChat().setScrollY(cPosition);
+		}
+
 		Fonts.FONT_TITLE.draw(spriteBatch, "RESEAU", 500, 20);
 		spriteBatch.end();
 		Gdx.gl.glEnable(GL10.GL_BLEND);
