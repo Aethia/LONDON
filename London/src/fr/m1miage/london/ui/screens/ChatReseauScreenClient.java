@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -22,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import fr.m1.miage.london.network.IncomingMessageListenerClient;
 import fr.m1.miage.london.network.IncomingObjectListenerClient;
@@ -45,13 +48,18 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		}	
 
 		@Override
-		public void nouvelObjet(Object o, int type) {		
-			londonG.partie = (Partie)o;		
-			Screen.setScreen(new GameScreenReseauClient(login));	
+		public void nouvelObjet(Object o, int type) {	
+			if (type == 3) {
+				londonG.partie = (Partie)o;		
+				Screen.setScreen(new GameScreenReseauClient(login,joueurActif));	
+			}
+			if (type == 4) {
+				this.joueurActif = (String)o;
+			}
 		}
 
 
-
+	private String joueurActif;
 	private Stage stage; 
 	private String login;
 	private String listeMessage= new String("Chat reseau \n");
@@ -71,28 +79,6 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 
 		fondChat = new ShapeRenderer();
 		
-		
-		/*btnLancerPartie =new TextButton("Lancer partie",Buttons.styleInGameMenu); 
-		btnLancerPartie.setPosition(110, 610); 
-		btnLancerPartie.addListener(list = new InputListener(){
-			@Override
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				//lancement de la partie
-				super.touchUp(event, x, y, pointer, button);
-		
-				Screen.setScreen(new GameScreenReseauClient(login));	
-				
-				
-			}
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				return true;
-			}
-		});
-		stage.addActor(btnLancerPartie);*/
 		
 
 

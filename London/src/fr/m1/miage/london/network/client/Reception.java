@@ -43,18 +43,26 @@ public class Reception implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (action.getType() == 2) {
-				// on notifie tous ceux qui écoutent
-				for (IncomingMessageListenerClient list : listenersM){
-					list.nouveauMessage(action.getText());
+
+	        	if (action.getType() == 2) {
+					// on notifie tous ceux qui écoutent
+					for (IncomingMessageListenerClient list : listenersM){
+						list.nouveauMessage(action.getText());
+					}
 				}
-			}
-			if (action.getType() == 3) {
-				// on notifie tous ceux qui écoutent
-				for (IncomingObjectListenerClient list : listenersO){
-					list.nouvelObjet(action.getObject(), action.getType());
+			
+
+	        	else {
+					// on notifie tous ceux qui écoutent
+					for (IncomingObjectListenerClient list : listenersO){
+						list.nouvelObjet(action.getObject(), action.getType());
+					}
 				}
-			}
+				
+			
+			
+			
+		
 			
 			
 		    } catch (IOException e) {

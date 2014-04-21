@@ -122,6 +122,16 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 				londonG.partie = new Partie(listeJoueurs,listeJoueurs.size());
 				londonG.partie.init();
 				
+				String joueurActif;
+				// on envoie le joueur
+				joueurActif = londonG.partie.getObjJoueurActif().getNom();
+				for (Emission e : Serveur.lesClients){		
+					Object o = (String)joueurActif;
+					int type = 4;
+					e.sendObject(type, o);
+				}
+				
+				
 				
 				// on distribue les cartes à tout le monde
 				for (Emission e : Serveur.lesClients){		
@@ -129,10 +139,12 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 					e.sendObject(3, partie);
 				}
 				
+
 				
 				
 				
-				Screen.setScreen(new GameScreenReseauServeur());	
+				
+				Screen.setScreen(new GameScreenReseauServeur(joueurActif));	
 				
 				
 			}

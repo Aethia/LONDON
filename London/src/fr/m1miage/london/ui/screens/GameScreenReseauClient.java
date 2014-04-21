@@ -11,7 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import fr.m1.miage.london.network.IncomingMessageListenerClient;
 import fr.m1.miage.london.network.IncomingObjectListenerClient;
+import fr.m1.miage.london.network.client.Reception;
 import fr.m1.miage.london.network.serveur.Emission;
 import fr.m1.miage.london.network.serveur.Serveur;
 import fr.m1miage.london.Partie;
@@ -22,10 +24,11 @@ import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.CarteActor;
+import fr.m1miage.london.ui.graphics.Fonts;
 import fr.m1miage.london.ui.graphics.Score;
 import fr.m1miage.london.ui.graphics.TableauScores;
 
-public class GameScreenReseauClient extends Screen implements IncomingObjectListenerClient{
+public class GameScreenReseauClient extends Screen{
 
 	/*Boutons du menu*/
 	public TextButton zoneConstructionBtn;
@@ -57,18 +60,20 @@ public class GameScreenReseauClient extends Screen implements IncomingObjectList
 	private static final int TIME_OUT_CARD = 150;
 	
 	public static Button btnSauvegarde;
-	
-	@Override
-	public void nouvelObjet(Object o, int type) {
-
-	}
+	private String joueurActif;
 	
 	
-	public GameScreenReseauClient(String login){
+	public GameScreenReseauClient(String login, String joueurActif){
 		this.login = login;
+		this.joueurActif = joueurActif;
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
+		
+		// si c'est a moi
+		if (this.login.equalsIgnoreCase(this.joueurActif)) {
+			
+		
 		
 		//sauvegarde
 		btnSauvegarde = new Button(Buttons.styleBtnSauvegarde);
@@ -312,11 +317,10 @@ public class GameScreenReseauClient extends Screen implements IncomingObjectList
 		stage.addActor(scores);
 		scoreJoueur = new Score(londonG.partie.getJoueurParNom(login));
 		stage.addActor(scoreJoueur);
-		
-		
-
-		
-		
+		}
+		else {
+			
+		}
 	}
 
 
@@ -324,17 +328,20 @@ public class GameScreenReseauClient extends Screen implements IncomingObjectList
 	public void render() {
 		spriteBatch.begin();
 		tick();
+		
 		draw(Art.bg, 0, 0);
-
-
+		if (this.login.equalsIgnoreCase(this.joueurActif)) {
 		draw(Art.menu_bg,70,150);
-		if(londonG.partie.isTourTermine()){
-			draw(Art.finTour_bg,400,150);
-		}else{
-			draw(Art.action_bg,400,150);
+		
+			if(londonG.partie.isTourTermine()){
+				draw(Art.finTour_bg,400,150);
+			}else{
+				draw(Art.action_bg,400,150);
+			}
 		}
-		String msg = "COPYRIGHT Aethia 2014";
-		drawString(msg, 2, 800 -6 -2);
+		else {
+			Fonts.FONT_TITLE.draw(spriteBatch, "Au tour de : "+this.joueurActif, 450, 300);
+		}
 
 
 		spriteBatch.end();
@@ -370,5 +377,8 @@ public class GameScreenReseauClient extends Screen implements IncomingObjectList
 		}
 
 	}
+
+
+
 
 }
