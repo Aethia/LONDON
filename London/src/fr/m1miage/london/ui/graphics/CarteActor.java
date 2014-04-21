@@ -1,6 +1,7 @@
 package fr.m1miage.london.ui.graphics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -28,12 +29,8 @@ public class CarteActor extends Actor{
 		if(c.isDesactivee()){
 			setDisabled();
 		}else{
-			Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE_CARTES+carte.getImage()));
-			img = new TextureRegion(t, 0, 0, LARGEUR_CARTE, HAUTEUR_CARTE);
-			img.flip(false, false);
+			img = Art.getCarteID(carte.getId_carte());
 		}
-		this.x = x;
-		this.y = y;
 		this.xDefault = x;
 		this.yDefault = y;
 		this.setHeight(HAUTEUR_CARTE);
@@ -61,7 +58,6 @@ public class CarteActor extends Actor{
 	@Override
 	public void setX(float x) {
 		this.x = (int) x;
-
 		super.setX(x);
 	}
 

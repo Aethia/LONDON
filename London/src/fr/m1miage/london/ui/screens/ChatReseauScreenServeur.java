@@ -1,7 +1,6 @@
 package fr.m1miage.london.ui.screens;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -18,48 +17,67 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
-import fr.m1.miage.london.network.IncomingListenerClient;
-import fr.m1.miage.london.network.IncomingListenerServeur;
-import fr.m1.miage.london.network.client.Client;
-import fr.m1.miage.london.network.client.Sender;
-import fr.m1.miage.london.network.client.Reception;
+import fr.m1.miage.london.network.IncomingMessageListenerClient;
+import fr.m1.miage.london.network.IncomingMessageListenerServeur;
+import fr.m1.miage.london.network.serveur.Emission;
+import fr.m1.miage.london.network.serveur.Reception;
+import fr.m1.miage.london.network.serveur.Serveur;
+import fr.m1miage.london.Partie;
+import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.Fonts;
 
-public class ReseauScreenClient extends Screen implements IncomingListenerClient{
+public class ChatReseauScreenServeur extends Screen implements IncomingMessageListenerServeur{
+		
+
 	
+	/**
+	 * Listener du reseau (serveur).
+	 */
+
 		@Override
 		public void nouveauMessage(String message) {
 			//Screen.setScreen(new MainMenuScreen());
-			System.out.println("message recu coté ui (cli)," + message);
-			if (message.equals("0xFFFFFF")){
-				// on lance la partie
-				Screen.setScreen(new GameScreenReseauClient());	
-			}
-			else
-				System.out.println("nouveau :" + message);
+			listeMessage+=("\n"+message);
+			System.out.println("nouveau :" + message);
 		}	
 
 
-
+		
 	private Stage stage; 
-	private String login;
+
 	private String listeMessage= new String("Chat reseau \n");
 	private ShapeRenderer fondChat;
 
 	private int type =0;
 	
-	public ReseauScreenClient(String log){
+	public ChatReseauScreenServeur(){
 		Reception.addListener(this);
-		this.login = log;
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 
 		fondChat = new ShapeRenderer();
+		
+		//zone de texte
+		Skin menuSkin = new Skin();
+		TextureAtlas menuAtlas = new TextureAtlas("ressources/Images/text_area.pack");
+		menuSkin.addRegions(menuAtlas);
+		TextFieldStyle txtStyle = new TextFieldStyle();
+		txtStyle.background = menuSkin.getDrawable("Area");
+		txtStyle.font = new BitmapFont(Gdx.files.internal("ressources/Fnt/font_quartiers.fnt"), false);
+		txtStyle.fontColor = Color.BLACK;
+		txtStyle.background.setBottomHeight(32f);
+		txtStyle.background.setLeftWidth(10f);
 
+		//creation des textfields
+		final TextField mTextField = new TextField("", txtStyle);
+		mTextField.setPosition(400 , 120);
+		mTextField.setHeight(70);
+		mTextField.setWidth(850);
+		stage.addActor(mTextField);
 
 		TextButton btnRetour =new TextButton("Retour",Buttons.styleInGameMenu); 
 		btnRetour.setPosition(100, 135); 
@@ -80,23 +98,64 @@ public class ReseauScreenClient extends Screen implements IncomingListenerClient
 		stage.addActor(btnRetour);
 
 
-		//zone de texte
-		Skin menuSkin = new Skin();
-		TextureAtlas menuAtlas = new TextureAtlas("ressources/Images/text_area.pack");
-		menuSkin.addRegions(menuAtlas);
-		TextFieldStyle txtStyle = new TextFieldStyle();
-		txtStyle.background = menuSkin.getDrawable("Area");
-		txtStyle.font = new BitmapFont(Gdx.files.internal("ressources/Fnt/font_quartiers.fnt"), false);
-		txtStyle.fontColor = Color.BLACK;
-		txtStyle.background.setBottomHeight(32f);
-		txtStyle.background.setLeftWidth(10f);
+		TextButton btnLancerPartie =new TextButton("Lancer partie",Buttons.styleInGameMenu); 
+		btnLancerPartie.setPosition(100, 600); 
+		btnLancerPartie.addListener(new InputListener(){
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				//lancement de la partie
+				super.touchUp(event, x, y, pointer, button);
+				
+				// on récupère les joueurs
+				ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>();
+				Joueur j = new Joueur(0, "host", java.awt.Color.BLUE);
+				listeJoueurs.add(j);
+				int i=1;
+				for(Emission cli : Serveur.lesClients){
+					j = new Joueur(i++, cli.getLogin(), java.awt.Color.BLUE);
+					listeJoueurs.add(j);
+				}
+				 
+				
+				// on lance la partie
+				londonG.partie = new Partie(listeJoueurs,listeJoueurs.size());
+				londonG.partie.init();
+				
+				String joueurActif;
+				// on envoie le joueur
+				joueurActif = londonG.partie.getObjJoueurActif().getNom();
+				for (Emission e : Serveur.lesClients){		
+					Object o = (String)joueurActif;
+					int type = 4;
+					e.sendObject(type, o);
+				}
+				
+				
+				
+				// on distribue les cartes à tout le monde
+				for (Emission e : Serveur.lesClients){		
+					Object partie = londonG.partie;
+					e.sendObject(3, partie);
+				}
+				
 
-		//creation des textfields
-		final TextField mTextField = new TextField("", txtStyle);
-		mTextField.setPosition(400 , 120);
-		mTextField.setHeight(70);
-		mTextField.setWidth(850);
-		stage.addActor(mTextField);
+				
+				
+				
+				
+				Screen.setScreen(new GameScreenReseauServeur(joueurActif));	
+				
+				
+			}
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+		});
+		stage.addActor(btnLancerPartie);
 		
 		/*
 		 * bouton envoyer (pour le chat)
@@ -108,7 +167,11 @@ public class ReseauScreenClient extends Screen implements IncomingListenerClient
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// code event
-				Sender.e.sendMessage(login+" : "+mTextField.getText());
+				// on envoie le message au clients
+				for (Emission e : Serveur.lesClients){
+					e.sendMessageString("hôte : "+mTextField.getText());
+				}
+				listeMessage+=("\n"+"hôte : "+mTextField.getText());
 				mTextField.setText("");
 				
 				super.touchUp(event, x, y, pointer, button);
@@ -125,8 +188,12 @@ public class ReseauScreenClient extends Screen implements IncomingListenerClient
 
 
 		
+		/*
+		 * On lance le serveur (mais pas trop loin)
+		 */
 		
-
+		Serveur srv = new Serveur();
+		srv.hebergerPartie();
 	}
 	
 

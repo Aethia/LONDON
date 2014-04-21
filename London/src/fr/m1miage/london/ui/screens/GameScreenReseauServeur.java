@@ -20,6 +20,7 @@ import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.CarteActor;
+import fr.m1miage.london.ui.graphics.Fonts;
 import fr.m1miage.london.ui.graphics.Score;
 import fr.m1miage.london.ui.graphics.TableauScores;
 
@@ -49,18 +50,22 @@ public class GameScreenReseauServeur extends Screen{
 	private TableauScores scores;
 
 	private Stage stage; 
-
+	private String joueurActif;
+	private String login = "host";
 	private int time =0;
 	private static final int TIME_OUT_CARD = 150;
 	
 	public static Button btnSauvegarde;
 	
 
-	public GameScreenReseauServeur(){
+	public GameScreenReseauServeur(String joueurActif){
+		this.joueurActif = joueurActif;
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 		
+		// si c'est a moi
+		if (this.login.equalsIgnoreCase(this.joueurActif)) {
 		//sauvegarde
 		btnSauvegarde = new Button(Buttons.styleBtnSauvegarde);
 		btnSauvegarde.setPosition(1250, 720); //changer la position
@@ -298,16 +303,21 @@ public class GameScreenReseauServeur extends Screen{
 			main.put(c.getId_carte(), ca);
 			stage.addActor(ca);
 		}
+		
 		scores = new TableauScores(londonG.partie.getListeJoueurs());
 		stage.addActor(scores);
 		scoreJoueur = new Score(j);
 		stage.addActor(scoreJoueur);
+		}
+		else {
+			
+		}
+		
+		
 
 		
-		// on envoie un message de synchro a tous les clients
-		for (Emission e : Serveur.lesClients){
-			e.sendMessage("0xFFFFFF");
-		}
+		
+
 		
 		
 	}
@@ -317,14 +327,19 @@ public class GameScreenReseauServeur extends Screen{
 	public void render() {
 		spriteBatch.begin();
 		tick();
+		
 		draw(Art.bg, 0, 0);
-
-
+		if (this.login.equalsIgnoreCase(this.joueurActif)) {
 		draw(Art.menu_bg,70,150);
-		if(londonG.partie.isTourTermine()){
-			draw(Art.finTour_bg,400,150);
-		}else{
-			draw(Art.action_bg,400,150);
+		
+			if(londonG.partie.isTourTermine()){
+				draw(Art.finTour_bg,400,150);
+			}else{
+				draw(Art.action_bg,400,150);
+			}
+		}
+		else {
+			Fonts.FONT_TITLE.draw(spriteBatch, "Au tour de : "+this.joueurActif, 450, 300);
 		}
 		String msg = "COPYRIGHT Aethia 2014";
 		drawString(msg, 2, 800 -6 -2);

@@ -2,28 +2,34 @@ package fr.m1.miage.london.network.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.m1.miage.london.network.IncomingListenerClient;
+import fr.m1.miage.london.network.*;
 
 
 public class Reception implements Runnable {
 
-	private BufferedReader in;
-	private String message = null;
+	private ObjectInputStream  in;
+	private Action action = null;
 	private String login;
-	private static List<IncomingListenerClient> listeners = new ArrayList<IncomingListenerClient>();
+	private static List<IncomingMessageListenerClient> listenersM = new ArrayList<IncomingMessageListenerClient>();
+	private static List<IncomingObjectListenerClient> listenersO = new ArrayList<IncomingObjectListenerClient>();
 	
 	
 	
-	public Reception(BufferedReader in, String login){
+	public Reception(ObjectInputStream  in, String login){
 		this.login = login;
 		this.in = in;
 	}
 	
-	public static void addListener(IncomingListenerClient toAdd){
-		listeners.add(toAdd);
+	public static void addListenerM(IncomingMessageListenerClient toAdd){
+		listenersM.add(toAdd);
+	}
+	
+	public static void addListenerO(IncomingObjectListenerClient toAdd){
+		listenersO.add(toAdd);
 	}
 	
 	public void run() {
@@ -31,11 +37,32 @@ public class Reception implements Runnable {
 		while(true){
 	        try {
 	        	
-			message = in.readLine();
-			// on notifie tous ceux qui écoutent
-			for (IncomingListenerClient list : listeners){
-				list.nouveauMessage(message);
+	        try {
+				action = (Action)in.readObject();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+
+	        	if (action.getType() == 2) {
+					// on notifie tous ceux qui écoutent
+					for (IncomingMessageListenerClient list : listenersM){
+						list.nouveauMessage(action.getText());
+					}
+				}
+			
+
+	        	else {
+					// on notifie tous ceux qui écoutent
+					for (IncomingObjectListenerClient list : listenersO){
+						list.nouvelObjet(action.getObject(), action.getType());
+					}
+				}
+				
+			
+			
+			
+		
 			
 			
 		    } catch (IOException e) {

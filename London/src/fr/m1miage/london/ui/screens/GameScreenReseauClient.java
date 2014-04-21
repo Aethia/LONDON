@@ -11,10 +11,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import fr.m1.miage.london.network.IncomingMessageListenerClient;
+import fr.m1.miage.london.network.IncomingObjectListenerClient;
+import fr.m1.miage.london.network.client.Reception;
+import fr.m1.miage.london.network.serveur.Emission;
+import fr.m1.miage.london.network.serveur.Serveur;
+import fr.m1miage.london.Partie;
+import fr.m1miage.london.Regles;
+import fr.m1miage.london.classes.Carte;
+import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.CarteActor;
+import fr.m1miage.london.ui.graphics.Fonts;
 import fr.m1miage.london.ui.graphics.Score;
 import fr.m1miage.london.ui.graphics.TableauScores;
 
@@ -44,17 +54,26 @@ public class GameScreenReseauClient extends Screen{
 	private TableauScores scores;
 
 	private Stage stage; 
+	private String login;
 
 	private int time =0;
 	private static final int TIME_OUT_CARD = 150;
 	
 	public static Button btnSauvegarde;
+	private String joueurActif;
 	
-
-	public GameScreenReseauClient(){
+	
+	public GameScreenReseauClient(String login, String joueurActif){
+		this.login = login;
+		this.joueurActif = joueurActif;
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
+		
+		// si c'est a moi
+		if (this.login.equalsIgnoreCase(this.joueurActif)) {
+			
+		
 		
 		//sauvegarde
 		btnSauvegarde = new Button(Buttons.styleBtnSauvegarde);
@@ -77,7 +96,7 @@ public class GameScreenReseauClient extends Screen{
 		stage.addActor(btnSauvegarde);
 		
 		/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
-		//if(!londonG.partie.isTourTermine()){
+		if(!londonG.partie.isTourTermine()){
 			Table tableActions = new Table();
 			tableActions.setPosition(780, 485);
 			construireBtn = new Button(Buttons.styleBtnConstruire);
@@ -143,8 +162,7 @@ public class GameScreenReseauClient extends Screen{
 
 			tableActions.pad(30f);		
 			stage.addActor(tableActions);
-			
-		/*}else{ //sinon, on demande au joueur de confirmer qu'il a termine son tour
+		}else{ //sinon, on demande au joueur de confirmer qu'il a termine son tour
 			finTourBtn = new Button(Buttons.styleBtnFinTour);
 			finTourBtn.setPosition(700, 400); //changer la position
 			finTourBtn.addListener(new InputListener(){
@@ -173,7 +191,7 @@ public class GameScreenReseauClient extends Screen{
 
 			});
 			stage.addActor(finTourBtn);	
-		}*/
+		}
 
 		/* Parametres Boutons Menu General*/
 		//faire une classe du menu ?
@@ -263,8 +281,8 @@ public class GameScreenReseauClient extends Screen{
 		
 		
 		//a ameliorer
-		// les cartes du joueur actif
-		/*Joueur j = londonG.partie.getObjJoueurActif();
+		// les cartes du joueur host
+		Joueur j = londonG.partie.getJoueurParNom(login);
 		int i=0;
 		for(final Carte c: j.getLesCartes()){
 			i++;
@@ -294,11 +312,15 @@ public class GameScreenReseauClient extends Screen{
 			main.put(c.getId_carte(), ca);
 			stage.addActor(ca);
 		}
+		
 		scores = new TableauScores(londonG.partie.getListeJoueurs());
 		stage.addActor(scores);
-		scoreJoueur = new Score(j);
-		stage.addActor(scoreJoueur);*/
-
+		scoreJoueur = new Score(londonG.partie.getJoueurParNom(login));
+		stage.addActor(scoreJoueur);
+		}
+		else {
+			
+		}
 	}
 
 
@@ -306,17 +328,20 @@ public class GameScreenReseauClient extends Screen{
 	public void render() {
 		spriteBatch.begin();
 		tick();
+		
 		draw(Art.bg, 0, 0);
-
-
+		if (this.login.equalsIgnoreCase(this.joueurActif)) {
 		draw(Art.menu_bg,70,150);
-		//if(londonG.partie.isTourTermine()){
-			draw(Art.finTour_bg,400,150);
-		/*}else{
-			draw(Art.action_bg,400,150);
-		}*/
-		String msg = "COPYRIGHT Aethia 2014";
-		drawString(msg, 2, 800 -6 -2);
+		
+			if(londonG.partie.isTourTermine()){
+				draw(Art.finTour_bg,400,150);
+			}else{
+				draw(Art.action_bg,400,150);
+			}
+		}
+		else {
+			Fonts.FONT_TITLE.draw(spriteBatch, "Au tour de : "+this.joueurActif, 450, 300);
+		}
 
 
 		spriteBatch.end();
@@ -352,5 +377,8 @@ public class GameScreenReseauClient extends Screen{
 		}
 
 	}
+
+
+
 
 }

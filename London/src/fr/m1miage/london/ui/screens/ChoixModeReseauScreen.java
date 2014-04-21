@@ -10,10 +10,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import fr.m1.miage.london.network.client.Client;
 import fr.m1miage.london.sound.SoundPlayer;
@@ -66,7 +68,7 @@ public class ChoixModeReseauScreen extends Screen{
 				//traitement reseau
 				// event serveur
 				SoundPlayer.jouerSon("clic.wav");
-				Screen.setScreen(new ReseauScreenServeur());
+				Screen.setScreen(new ChatReseauScreenServeur());
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -96,11 +98,21 @@ public class ChoixModeReseauScreen extends Screen{
 				txtStyle.fontColor = Color.BLACK;
 				txtStyle.background.setBottomHeight(32f);
 				txtStyle.background.setLeftWidth(10f);
-				final TextField mTextField = new TextField("", txtStyle);
-				mTextField.setPosition(600 , 400);
-				mTextField.setHeight(70);
-				mTextField.setWidth(300);
-				stage.addActor(mTextField);
+				
+				
+				final TextField textBoxPseudo = new TextField("pseudo", txtStyle);
+				textBoxPseudo.setPosition(600 , 400);
+				textBoxPseudo.setHeight(70);
+				textBoxPseudo.setWidth(300);
+				textBoxPseudo.addListener(new ClickListener(){
+					 @Override
+					 public void clicked(InputEvent event, float x, float y) {
+						 textBoxPseudo.setText("");
+					 
+					 }
+				});
+				stage.addActor(textBoxPseudo);
+				
 				
 				
 				TextButton btnRejoindrePartie =new TextButton("Rejoindre",Buttons.styleInGameMenu); 
@@ -116,12 +128,12 @@ public class ChoixModeReseauScreen extends Screen{
 						 * On lance le client
 						 */
 						SoundPlayer.jouerSon("clic.wav");
-						String login = mTextField.getText();
+						String login = textBoxPseudo.getText();
 						Client cli = new Client();
 						cli.seConnecter(login);
 						
 						
-						Screen.setScreen(new ReseauScreenClient(login));
+						Screen.setScreen(new ChatReseauScreenClient(login));
 						super.touchUp(event, x, y, pointer, button);
 					}
 
