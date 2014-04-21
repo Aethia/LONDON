@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import fr.m1.miage.london.network.IncomingListenerServeur;
+import fr.m1.miage.london.network.IncomingMessageListenerServeur;
 
 public class Authentification implements Runnable {
 
@@ -46,9 +46,9 @@ public class Authentification implements Runnable {
 				out.writeInt(1);
 				
 				for(Emission e : Serveur.lesClients){
-					e.sendMessage(login +" vient de se connecter ");
+					e.sendMessageString(login +" vient de se connecter ");
 				}
-				for (IncomingListenerServeur list : Reception.listeners){
+				for (IncomingMessageListenerServeur list : Reception.listeners){
 					list.nouveauMessage(login +" vient de se connecter ");
 				}
 				out.flush();

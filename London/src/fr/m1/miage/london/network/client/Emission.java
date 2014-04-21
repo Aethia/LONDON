@@ -5,6 +5,8 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import fr.m1.miage.london.network.Action;
+
 
 
 public class Emission implements Runnable{
@@ -26,15 +28,31 @@ public class Emission implements Runnable{
 
 
 
-	public void sendMessage(String message) {
+	public void sendMessageString(String message) {
 		try {
-			out.writeObject(message); 
+			Action a = new Action();
+			a.setType(2);
+			a.setText(message);
+			out.writeObject(a); 
 			out.flush();	
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	   
+	}
+	
+	public void sendObject(int type, Object o){
+		try {
+			Action a = new Action();
+			a.setType(type);
+			a.setObject(o);
+			out.writeObject(a); 
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
 	
 	

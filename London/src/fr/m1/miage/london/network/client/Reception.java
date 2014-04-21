@@ -6,15 +6,16 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.m1.miage.london.network.IncomingListenerClient;
+import fr.m1.miage.london.network.*;
 
 
 public class Reception implements Runnable {
 
 	private ObjectInputStream  in;
-	private String message = null;
+	private Action action = null;
 	private String login;
-	private static List<IncomingListenerClient> listeners = new ArrayList<IncomingListenerClient>();
+	private static List<IncomingMessageListenerClient> listenersM = new ArrayList<IncomingMessageListenerClient>();
+	private static List<IncomingObjectListenerClient> listenersO = new ArrayList<IncomingObjectListenerClient>();
 	
 	
 	
@@ -23,8 +24,12 @@ public class Reception implements Runnable {
 		this.in = in;
 	}
 	
-	public static void addListener(IncomingListenerClient toAdd){
-		listeners.add(toAdd);
+	public static void addListenerM(IncomingMessageListenerClient toAdd){
+		listenersM.add(toAdd);
+	}
+	
+	public static void addListenerO(IncomingObjectListenerClient toAdd){
+		listenersO.add(toAdd);
 	}
 	
 	public void run() {
@@ -32,15 +37,23 @@ public class Reception implements Runnable {
 		while(true){
 	        try {
 	        	
-			try {
-				message = (String)in.readObject();
+	        try {
+				action = (Action)in.readObject();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// on notifie tous ceux qui écoutent
-			for (IncomingListenerClient list : listeners){
-				list.nouveauMessage(message);
+			if (action.getType() == 2) {
+				// on notifie tous ceux qui écoutent
+				for (IncomingMessageListenerClient list : listenersM){
+					list.nouveauMessage(action.getText());
+				}
+			}
+			if (action.getType() == 3) {
+				// on notifie tous ceux qui écoutent
+				for (IncomingObjectListenerClient list : listenersO){
+					list.nouvelObjet(action.getObject(), action.getType());
+				}
 			}
 			
 			

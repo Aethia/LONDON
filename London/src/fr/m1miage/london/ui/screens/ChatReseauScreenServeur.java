@@ -17,8 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
-import fr.m1.miage.london.network.IncomingListenerClient;
-import fr.m1.miage.london.network.IncomingListenerServeur;
+import fr.m1.miage.london.network.IncomingMessageListenerClient;
+import fr.m1.miage.london.network.IncomingMessageListenerServeur;
 import fr.m1.miage.london.network.serveur.Emission;
 import fr.m1.miage.london.network.serveur.Reception;
 import fr.m1.miage.london.network.serveur.Serveur;
@@ -29,7 +29,7 @@ import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.Fonts;
 
-public class ReseauScreenServeur extends Screen implements IncomingListenerServeur{
+public class ChatReseauScreenServeur extends Screen implements IncomingMessageListenerServeur{
 		
 
 	
@@ -53,7 +53,7 @@ public class ReseauScreenServeur extends Screen implements IncomingListenerServe
 
 	private int type =0;
 	
-	public ReseauScreenServeur(){
+	public ChatReseauScreenServeur(){
 		Reception.addListener(this);
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
@@ -121,6 +121,17 @@ public class ReseauScreenServeur extends Screen implements IncomingListenerServe
 				// on lance la partie
 				londonG.partie = new Partie(listeJoueurs,listeJoueurs.size());
 				londonG.partie.init();
+				
+				
+				// on distribue les cartes à tout le monde
+				for (Emission e : Serveur.lesClients){		
+					Object partie = londonG.partie;
+					e.sendObject(3, partie);
+				}
+				
+				
+				
+				
 				Screen.setScreen(new GameScreenReseauServeur());	
 				
 				
@@ -146,7 +157,7 @@ public class ReseauScreenServeur extends Screen implements IncomingListenerServe
 				// code event
 				// on envoie le message au clients
 				for (Emission e : Serveur.lesClients){
-					e.sendMessage("hôte : "+mTextField.getText());
+					e.sendMessageString("hôte : "+mTextField.getText());
 				}
 				listeMessage+=("\n"+"hôte : "+mTextField.getText());
 				mTextField.setText("");

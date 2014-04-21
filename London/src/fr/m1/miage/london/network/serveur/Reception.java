@@ -6,14 +6,15 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.m1.miage.london.network.IncomingListenerServeur;
+import fr.m1.miage.london.network.*;
 
 
 public class Reception implements Runnable {
 
 	private ObjectInputStream in;
-	private String message = null, login = null;
-	public static List<IncomingListenerServeur> listeners = new ArrayList<IncomingListenerServeur>();
+	private Action action = null;
+	private String login = null;
+	public static List<IncomingMessageListenerServeur> listeners = new ArrayList<IncomingMessageListenerServeur>();
 	
 	public Reception(ObjectInputStream in, String login){
 		
@@ -21,33 +22,42 @@ public class Reception implements Runnable {
 		this.login = login;
 	}
 	
-	public static void addListener(IncomingListenerServeur toAdd){
+	public static void addListener(IncomingMessageListenerServeur toAdd){
 		listeners.add(toAdd);
 	}
 	
 	public void run() {
-		
+		int type;
 		while(true){
+	   
 	        try {
-	        	
-			try {
-				message = (String) in.readObject();
+				action = (Action) in.readObject();
+				 if (action.getType() == 2 ) {
+				        for (IncomingMessageListenerServeur list : listeners){
+							list.nouveauMessage(action.getText());
+						}
+						for( Emission e : Serveur.lesClients){
+							e.sendMessageString(action.getText());
+						}
+			        }
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-			for (IncomingListenerServeur list : listeners){
-				list.nouveauMessage(message);
-			}
-			//System.out.println(login+" : "+message);
-			for( Emission e : Serveur.lesClients){
-				e.sendMessage(message);
-			}
-			
-		    } catch (IOException e) {
+	        
+	       
+	       
+	        
+		
 				
-				e.printStackTrace();
-			}
+				
+
+
+
+			
 		}
 	}
 	

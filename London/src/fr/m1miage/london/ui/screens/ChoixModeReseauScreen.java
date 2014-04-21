@@ -66,7 +66,7 @@ public class ChoixModeReseauScreen extends Screen{
 				//traitement reseau
 				// event serveur
 				SoundPlayer.jouerSon("clic.wav");
-				Screen.setScreen(new ReseauScreenServeur());
+				Screen.setScreen(new ChatReseauScreenServeur());
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -121,7 +121,7 @@ public class ChoixModeReseauScreen extends Screen{
 						cli.seConnecter(login);
 						
 						
-						Screen.setScreen(new ReseauScreenClient(login));
+						Screen.setScreen(new ChatReseauScreenClient(login));
 						super.touchUp(event, x, y, pointer, button);
 					}
 

@@ -1,8 +1,8 @@
 package fr.m1.miage.london.network.client;
 
-import fr.m1.miage.london.network.IncomingListenerClient;
+import fr.m1.miage.london.network.IncomingMessageListenerClient;
 
-public class testTrigger implements IncomingListenerClient{
+public class testTrigger implements IncomingMessageListenerClient{
 
 	@Override
 	public void nouveauMessage(String message) {

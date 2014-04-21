@@ -1,5 +1,6 @@
 package fr.m1miage.london.ui.graphics;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;

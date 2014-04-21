@@ -12,10 +12,6 @@ public class Client {
 	public static Emission emiss;
 
 	public void seConnecter(String client){
-		// creation d'un objet de test l'objet devra juste implÃ©menter la mÃ©thode  public void nouveauMessage(String message)
-		testTrigger tt = new testTrigger();
-		// on ajoute cet objet dans la liste des listeners
-		Reception.addListener(tt);
 
 		try {
 
