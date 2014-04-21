@@ -371,79 +371,71 @@ public class Console {
 							case 79:
 							case 84:
 							case 85:
-							case 97:{
+							case 97:
 								metro();
 								break;
-							}
 							
 							//cartes 19, 106, 110
 							//effet 5
 							//on pioche 2 cartes
 							case 19:
 							case 106:
-							case 110:{
+							case 110:
 								effet.prendreDeuxCartes(partie.getPioche(), partie.getObjJoueurActif());
 								break;
-							}
 							
 							//cartes 37, 63
 							//effet 7
 							//on reçoit un point de victoire pour chaque carte non brune dans la zone de construction
 							case 37:
-							case 63:{
+							case 63:
 								effet.pVPourCartesNonBrune(partie.getObjJoueurActif());
 								break;
-							}
 							
 							//cartes 50, 62, 94
 							//effet 11
 							//on reçoit un point de victoire pour chaque carte brune dans la zone de construction
 							case 50:
 							case 62:
-							case 94:{
+							case 94:
 								effet.pVPourCartesBrune(partie.getObjJoueurActif());
 								break;
-							}
 							
 							//cartes 91, 93
 							//effet 25
 							//£2 pour chaque quartier au nord de la tamise
 							case 91:
-							case 93:{
+							case 93:
 								effet.argentQuartiersNord(partie.getPlateau(), partie.getObjJoueurActif());
 								break;
-							}
 							
 							//cartes 83
 							//effet 23
 							//£2 pour chaque quartier au sud de la tamise
-							case 83:{
+							case 83:
 								effet.argentQuartiersSud(partie.getPlateau(), partie.getObjJoueurActif());
 								break;
-							}
 							
 							//cartes 54, 67
 							//effet 12
 							//£1 pour chaque quartier occupé
 							case 54:
-							case 67:{
+							case 67:
 								effet.argentQuartiersOccupes(partie.getPlateau(), partie.getObjJoueurActif());
 								break;
-							}
 							
 							//cartes 57, 59
 							//effet 15
 							//£2 pour chaque quartier adjacent à la tamise
 							case 57:
-							case 59:{
+							case 59:
 								effet.argentQuartiersAdjacentsTamise(partie.getPlateau(), partie.getObjJoueurActif());
 								break;
-							}
 							
 							//cartes 39
 							//effet 8
 							//donne à un joueur de notre choix 1 point de pauvreté
-							case 39:{
+							case 39:
 								System.out.println("Entrez le numéro du joueur : ");
 								if(sc.hasNextInt()){
 									int numJoueur = sc.nextInt();
@@ -454,12 +446,12 @@ public class Console {
 									sc.next();
 								}
 								break;
-							}
+
 							
 							//cartes 41
 							//effet 9
 							//le joueur de votre choix prend 2 points de pauvreté
-							case 41:{
+							case 41:
 								System.out.println("Entrez le numéro du joueur : ");
 								if(sc.hasNextInt()){
 									int numJoueur = sc.nextInt();
@@ -470,9 +462,9 @@ public class Console {
 									sc.next();
 								}
 								break;
-							}
+							
 							default:
-								System.out.println("Effet de carte non implémenté");
+								
 								break;
 						}
 						
