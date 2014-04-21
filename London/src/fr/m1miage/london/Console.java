@@ -320,7 +320,7 @@ public class Console {
 				System.out.println("- "+TraderClassRestaurerVille.getNbCartesRoses()+" Carte de couleur rose");
 				carte = true;
 			}
-			if (TraderClassRestaurerVille.getNbCarteegles.NBCARTESDEPARTsBrunes() != 0) {
+			if (TraderClassRestaurerVille.getNbCartesBrunes() != 0) {
 				System.out.println("- "+TraderClassRestaurerVille.getNbCartesBrunes()+" Carte de couleur brun");
 				carte = true;
 			}
