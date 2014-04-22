@@ -221,4 +221,11 @@ public class Effet implements Serializable{
 			}
 		}
 	}
+	
+	//cartes 103
+	//effet 28
+	//Prenez £1 et perdez un point de pauvreté pour chaque carte "Pauvres" que vous placez sur l'étalage
+	public void pauvresSurEtalage(Partie partie, Joueur j){
+		
+	}
 }
