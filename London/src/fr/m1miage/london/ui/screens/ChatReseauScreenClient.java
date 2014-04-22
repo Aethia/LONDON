@@ -20,12 +20,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import fr.m1.miage.london.network.IncomingMessageListenerClient;
 import fr.m1.miage.london.network.IncomingObjectListenerClient;
 import fr.m1.miage.london.network.client.Reception;
 import fr.m1.miage.london.network.client.Sender;
+import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -42,7 +42,7 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		messageChat(message);
 	}	
 
-		@Override
+	@Override
 	public void nouvelObjet(Object o, int type) {		
 		if (type == 3) {
 			afficherbouton();
@@ -51,15 +51,15 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 			this.joueurActif = (String)o;
 		}
 		if (type == 0){
-			lesJoueurs = (ArrayList)o;
+			lesJoueurs = (ArrayList<Joueur>)o;
 		}
-		
-	}
-		
-		
-	
 
-	private List<String> lesJoueurs = new ArrayList<String>();
+	}
+
+
+
+
+	private List<Joueur> lesJoueurs = new ArrayList<Joueur>();
 	private String joueurActif;
 	private Stage stage; 
 	private String login;
@@ -98,7 +98,7 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 				//lancement de la partie
 				super.touchUp(event, x, y, pointer, button);		
 				Screen.setScreen(new GameScreenReseauClient(login,joueurActif));	
-							
+
 			}
 
 			@Override
@@ -151,7 +151,7 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		mTextField.setPosition(400 , 120);
 		mTextField.setHeight(70);
 		mTextField.setWidth(850);
-		mTextField.setMaxLength(50);
+		mTextField.setMaxLength(40);
 		mTextField.addListener(new InputListener(){
 
 			@Override
@@ -180,7 +180,7 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// code event
-			
+
 				Sender.e.sendMessageString(login+" : "+mTextField.getText());
 				mTextField.setText("");
 				super.touchUp(event, x, y, pointer, button);
@@ -198,17 +198,17 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		//creation chat
 		chat = new Chat(Art.skin);
 		stage.addActor(chat.getSPChat());
-		
-		
+
+
 		// on demande à recupérer les participants
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
-			  @Override
-			  public void run() {
-				  Sender.e.sendObject(0, null);
-			  }
-			}, 1000);
-		
+			@Override
+			public void run() {
+				Sender.e.sendObject(0, null);
+			}
+		}, 1000);
+
 
 
 
@@ -217,11 +217,30 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 	private void messageChat(String message){
 		System.out.println(message);
 
-		Label temp = new Label(message, Art.skin);
-		temp.setAlignment(Align.left,Align.left);
-		temp.setWrap(true);
-		temp.setColor(Color.BLACK);
-		chat.add(temp).colspan(0).row();
+		if(message.contains(" : ")){
+			System.out.println("huehue "+message);
+			String[] msg = message.split(" : ");
+			System.out.println(msg[0]);
+			System.out.println(msg[1]);
+			Label proprietaire =new Label(msg[0], Art.skin);
+			for(Joueur j : lesJoueurs){
+				System.out.println(msg[0] + j.getNom());
+				if(msg[0].equals(j.getNom())){
+					proprietaire.setColor(Prefs.conversionCouleur(j.getCouleur()));
+				}
+			}
+
+
+			Label temp = new Label(": " +msg[1], Art.skin);
+			temp.setColor(Color.BLACK);
+			chat.add(proprietaire).colspan(0);
+			chat.add(temp).colspan(2).padLeft(175f).row();
+
+		}else{
+			Label temp = new Label(message, Art.skin);
+			temp.setColor(Color.BLACK);
+			chat.add(temp).colspan(0).row();
+		}
 
 		cPosition=cPosition+100;
 	}
@@ -237,13 +256,24 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 
 		Fonts.FONT_BLACK.draw(spriteBatch, "Joueurs connectés", 1180, 150);
 
-		Fonts.FONT_BLACK.draw(spriteBatch, "hôte", 1200, jPosition);
 
-		for (String e : lesJoueurs){
-			jPosition = jPosition+ 35;
-			Fonts.FONT_BLACK.draw(spriteBatch, e, 1200, jPosition);
+
+
+		Fonts.FONT_BLACK.draw(spriteBatch, "hôte", 1200, 200);
+
+		for (Joueur e : lesJoueurs){
+			jPosition = jPosition- 35;
+			Label l = new Label(e.getNom(),Art.skin);
+			java.awt.Color c = e.getCouleur();
+			c.getRed();
+
+			Color color = new Color((float)c.getRed()/255,(float)c.getGreen()/255,(float)c.getBlue()/255,1);
+			l.setColor(color);
+			l.setPosition(1200, jPosition);
+			stage.addActor(l);
+			//Fonts.FONT_BLACK.draw(spriteBatch, e.getJoueur().getNom(), 1200, jPosition);
 		}
-		jPosition = 200;
+		jPosition = 565;
 
 		spriteBatch.end();
 		Gdx.gl.glEnable(GL10.GL_BLEND);

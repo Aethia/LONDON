@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import fr.m1.miage.london.network.IncomingMessageListenerServeur;
 import fr.m1.miage.london.network.serveur.Emission;
@@ -79,7 +78,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		mTextField.setPosition(400 , 120);
 		mTextField.setHeight(70);
 		mTextField.setWidth(850);
-		mTextField.setMaxLength(50);
+		mTextField.setMaxLength(40);
 		mTextField.addListener(new InputListener(){
 
 			@Override
@@ -94,7 +93,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 				}
 				return super.keyUp(event, keycode);
 			}
-			
+
 		});
 		stage.addActor(mTextField);
 
@@ -132,7 +131,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 				listeJoueurs.add(j);
 				int i=1;
 				for(Emission cli : Serveur.lesClients){
-					
+
 					j = new Joueur(i++, cli.getJoueur().getNom(), cli.getJoueur().getCouleur());
 					listeJoueurs.add(j);
 				}
@@ -208,7 +207,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		//creation chat
 		chat = new Chat(Art.skin);
 		stage.addActor(chat.getSPChat());
-		
+
 
 		/*
 		 * On lance le serveur (mais pas trop loin)
@@ -220,34 +219,73 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 	private void messageChat(String message){
 		System.out.println(message);
 
-		Label temp = new Label(message, Art.skin);
-		temp.setAlignment(Align.left,Align.left);
-		temp.setWrap(true);
-		temp.setColor(Color.BLACK);
-		chat.add(temp).colspan(0).row();
+		if(message.contains(" : ")){
+			System.out.println("huehue "+message);
+			String[] msg = message.split(" : ");
+			System.out.println(msg[0]);
+			System.out.println(msg[1]);
+			Label proprietaire =new Label(msg[0], Art.skin);
+			for(Emission e : Serveur.lesClients){
+				System.out.println(msg[0] + e.getJoueur().getNom());
+				if(msg[0].equals(e.getJoueur().getNom())){
+					proprietaire.setColor(Prefs.conversionCouleur(e.getJoueur().getCouleur()));
+				}
+			}
+
+
+			Label temp = new Label(": " +msg[1], Art.skin);
+			temp.setColor(Color.BLACK);
+			chat.add(proprietaire).colspan(0);
+			chat.add(temp).colspan(2).padLeft(175f).row();
+
+		}else{
+			Label temp = new Label(message, Art.skin);
+			temp.setColor(Color.BLACK);
+			chat.add(temp).colspan(0).row();
+		}
 
 		cPosition=cPosition+100;
 	}
+
+	//	private void messageChat(String message){
+	//		System.out.println(message);
+	//
+	//		Label temp = new Label(message, Art.skin);
+	//		temp.setAlignment(Align.left,Align.left);
+	//		temp.setWrap(true);
+	//		temp.setColor(Color.BLACK);
+	//		chat.add(temp).colspan(0).row();
+	//
+	//		cPosition=cPosition+100;
+	//	}
 
 	@Override
 	public void render() {
 		spriteBatch.begin();
 		draw(Art.bgPartie, 0, 0);
-		
+
 		if(!chat.isOverTable()){
 			chat.getSPChat().setScrollY(cPosition);
 		}
-		
+
 		Fonts.FONT_BLACK.draw(spriteBatch, "Joueurs connectés", 1180, 150);
 
-		Fonts.FONT_BLACK.draw(spriteBatch, "hôte", 1200, jPosition);
-		
+		Fonts.FONT_BLACK.draw(spriteBatch, "hôte", 1200, 200);
+
 		for (Emission e : Serveur.lesClients){
-			jPosition = jPosition+ 35;
-			Fonts.FONT_BLACK.draw(spriteBatch, e.getJoueur().getNom(), 1200, jPosition);
+			jPosition = jPosition- 35;
+			Label l = new Label(e.getJoueur().getNom(),Art.skin);
+			java.awt.Color c = e.getJoueur().getCouleur();
+			c.getRed();
+
+			Color color = new Color((float)c.getRed()/255,(float)c.getGreen()/255,(float)c.getBlue()/255,1);
+			l.setColor(color);
+			l.setPosition(1200, jPosition);
+			stage.addActor(l);
+			//Fonts.FONT_BLACK.draw(spriteBatch, e.getJoueur().getNom(), 1200, jPosition);
 		}
-		jPosition = 200;
-		
+		jPosition = 565;
+
 		Fonts.FONT_TITLE.draw(spriteBatch, "RESEAU", 500, 20);
 		spriteBatch.end();
 		Gdx.gl.glEnable(GL10.GL_BLEND);
@@ -262,7 +300,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		//maj a deplacer
 
 
-	//	Fonts.FONT_BLACK.draw(spriteBatch, listeMessage, 420, 200);
+		//	Fonts.FONT_BLACK.draw(spriteBatch, listeMessage, 420, 200);
 
 
 

@@ -41,9 +41,9 @@ public class Reception implements Runnable {
 				action = (Action) in.readObject();
 				// demande de recup les joueurs du chat
 				if(action.getType()==0){
-					List<String> lesJoueurs = new ArrayList<String>();				
+					List<Joueur> lesJoueurs = new ArrayList<Joueur>();				
 					 for( Emission e : Serveur.lesClients){
-						 lesJoueurs.add(e.getJoueur().getNom());
+						 lesJoueurs.add(e.getJoueur());
 					}
 
 					 for( Emission e : Serveur.lesClients){
