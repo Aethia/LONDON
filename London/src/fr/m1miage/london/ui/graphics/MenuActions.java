@@ -6,6 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import fr.m1miage.london.ui.screens.EtalageScreen;
+import fr.m1miage.london.ui.screens.GameScreen;
+import fr.m1miage.london.ui.screens.GameScreenReseauClient;
+import fr.m1miage.london.ui.screens.GameScreenReseauServeur;
 import fr.m1miage.london.ui.screens.QuartiersScreen;
 import fr.m1miage.london.ui.screens.Screen;
 import fr.m1miage.london.ui.screens.ZoneConstructionScreen;
@@ -17,17 +20,6 @@ public class MenuActions extends Table{
 	private Button restaurerBtn;
 	private Button investirBtn;
 	private Button piocherBtn;
-	public static String login = null;
-	public static String joeurActif = null;
-	public static String sender = null;
-	
-	public MenuActions(String login,String joeurActif,String sender){
-		super();
-		MenuActions.login = login;
-		MenuActions.joeurActif = joeurActif;
-		MenuActions.sender = sender;
-		afficherMenu();		
-	}
 	
 	public MenuActions(){
 		super();
@@ -48,7 +40,14 @@ public class MenuActions extends Table{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new ZoneConstructionScreen("Choisir une carte", MenuActions.login, MenuActions.joeurActif, MenuActions.sender));
+				if(GameScreenReseauClient.joueur!=null){
+					Screen.setScreen(new ZoneConstructionScreen(GameScreenReseauClient.joueur));
+				}else if(GameScreenReseauServeur.joueur!=null){
+					Screen.setScreen(new ZoneConstructionScreen(GameScreenReseauServeur.joueur));
+				}else{
+					Screen.setScreen(new ZoneConstructionScreen(GameScreen.joueur));
+				}
+				
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -68,7 +67,7 @@ public class MenuActions extends Table{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new ZoneRestaurerScreen("Choisir un batiment à restaurer",MenuActions.login, MenuActions.joeurActif, MenuActions.sender));
+				Screen.setScreen(new ZoneRestaurerScreen("Choisir un batiment à restaurer"));
 				super.touchUp(event, x, y, pointer, button);
 			}
 			
@@ -81,7 +80,7 @@ public class MenuActions extends Table{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new QuartiersScreen(MenuActions.login, MenuActions.joeurActif, MenuActions.sender));
+				Screen.setScreen(new QuartiersScreen());
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -106,7 +105,7 @@ public class MenuActions extends Table{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new EtalageScreen(true,MenuActions.login, MenuActions.joeurActif, MenuActions.sender));
+				Screen.setScreen(new EtalageScreen(true));
 				super.touchUp(event, x, y, pointer, button);
 			}
 			

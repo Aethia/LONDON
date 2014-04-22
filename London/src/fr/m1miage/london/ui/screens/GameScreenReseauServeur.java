@@ -41,100 +41,35 @@ public class GameScreenReseauServeur extends Screen implements IncomingPartieObj
 	private TableauScores scores;
 
 	private Stage stage; 
-	public static String joueurActif;
-	private String login = "host";
+	private static String login = "host";
+	public static Joueur joueur;
 	private int time =0;
 	private static final int TIME_OUT_CARD = 150;
-	
+
 	public static Button btnSauvegarde;
-	
+
 	@Override
 	// arrivée d'un nouvel objet de type Partie
 	public void nouvelObjet(Object o) {
 		londonG.partie = (Partie)o;
-	//	Screen.setScreen(new GameScreenReseauClient(login,londonG.partie.getObjJoueurActif().getNom()));	
-	
+		System.out.println("j'ai recu une partie");
+		Screen.setScreen(new GameScreenReseauServeur());	
+
 	}
-	
-	public GameScreenReseauServeur(String joueurActif){
+
+	public GameScreenReseauServeur(){
 		synchronized (Reception.listenersPartie) {
 			fr.m1.miage.london.network.serveur.Reception.addListenerPartie(this);
 		}
-		this.joueurActif = joueurActif;
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 		
-		// si c'est a moi
-		if (this.login.equalsIgnoreCase(this.joueurActif)) {
-		//sauvegarde
-		btnSauvegarde = new Button(Buttons.styleBtnSauvegarde);
-		btnSauvegarde.setPosition(1250, 720); //changer la position
-		btnSauvegarde.addListener(new InputListener(){
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				return true;
-			}
-
-			@Override
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				super.touchUp(event, x, y, pointer, button);
-			}
-			
-		});
-		stage.addActor(btnSauvegarde);
-		
-		/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
-		if(!londonG.partie.isTourTermine()){
-		MenuActions tableActions = new MenuActions(this.login,this.joueurActif,"serveur");			
-		stage.addActor(tableActions);
-		}else{ /*sinon, on demande au joueur de confirmer qu'il a termine son tour*/
-			finTourBtn = new Button(Buttons.styleBtnFinTour);
-			finTourBtn.setPosition(700, 400); //changer la position
-			finTourBtn.addListener(new InputListener(){
-
-
-				@Override
-				public void touchUp(InputEvent event, float x, float y,
-						int pointer, int button) {
-					//avant de finir le tour, on verifie la taille de la main
-					Joueur j = londonG.partie.getObjJoueurActif();
-					if(j.getMainDuJoueur().getNb_cartes()>Regles.NBMAXCARTES){
-						int nbD = j.getMainDuJoueur().getNb_cartes()- Regles.NBMAXCARTES;
-						londonG.setScreen(new DefausserScreen(j,nbD,login,GameScreenReseauServeur.joueurActif, "host"));
-					}else{
-						londonG.partie.joueurSuivant();	
-						j = londonG.partie.getObjJoueurActif();
-						
-						
-						// on envoie le nouvel objet au clients
-						for (Emission e : Serveur.lesClients){		
-							Partie partie = londonG.partie;
-							e.sendObjectPartie(partie);
-						}
-						Screen.setScreen(new GameScreenReseauServeur(j.getNom()));
-					}
-					super.touchUp(event, x, y, pointer, button);
-				}
-
-				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button) {
-					return true;
-				}
-
-			});
-			stage.addActor(finTourBtn);	
-		}
-
 		/* Parametres Boutons Menu General*/
 		MenuGlobal tMenu = new MenuGlobal();
 		stage.addActor(tMenu);
 
-		
+		joueur = londonG.partie.getJoueurParNom("host");
 		
 		//a ameliorer
 		// les cartes du joueur host
@@ -173,18 +108,81 @@ public class GameScreenReseauServeur extends Screen implements IncomingPartieObj
 		stage.addActor(scores);
 		scoreJoueur = new Score(j);
 		stage.addActor(scoreJoueur);
-		}
-		else {
-			
-		}
-		
-		
 
-		
-		
+		// si c'est a moi
+		if (GameScreenReseauServeur.login.equalsIgnoreCase(londonG.partie.getObjJoueurActif().getNom())) {
+			//sauvegarde
+			btnSauvegarde = new Button(Buttons.styleBtnSauvegarde);
+			btnSauvegarde.setPosition(1250, 720); //changer la position
+			btnSauvegarde.addListener(new InputListener(){
 
-		
-		
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					return true;
+				}
+
+				@Override
+				public void touchUp(InputEvent event, float x, float y,
+						int pointer, int button) {
+					super.touchUp(event, x, y, pointer, button);
+				}
+
+			});
+			stage.addActor(btnSauvegarde);
+
+			/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
+			if(!londonG.partie.isTourTermine()){
+				MenuActions tableActions = new MenuActions();			
+				stage.addActor(tableActions);
+			}else{ /*sinon, on demande au joueur de confirmer qu'il a termine son tour*/
+				finTourBtn = new Button(Buttons.styleBtnFinTour);
+				finTourBtn.setPosition(700, 400); //changer la position
+				finTourBtn.addListener(new InputListener(){
+
+
+					@Override
+					public void touchUp(InputEvent event, float x, float y,
+							int pointer, int button) {
+						//avant de finir le tour, on verifie la taille de la main
+						Joueur j = londonG.partie.getObjJoueurActif();
+						if(j.getMainDuJoueur().getNb_cartes()>Regles.NBMAXCARTES){
+							int nbD = j.getMainDuJoueur().getNb_cartes()- Regles.NBMAXCARTES;
+							londonG.setScreen(new DefausserScreen(j,nbD));
+						}else{
+							londonG.partie.joueurSuivant();	
+							j = londonG.partie.getObjJoueurActif();
+
+
+							// on envoie le nouvel objet au clients
+							for (Emission e : Serveur.lesClients){		
+								Partie partie = londonG.partie;
+								e.sendObjectPartie(partie);
+							}
+							Screen.setScreen(new GameScreenReseauServeur());
+						}
+						super.touchUp(event, x, y, pointer, button);
+					}
+
+					@Override
+					public boolean touchDown(InputEvent event, float x, float y,
+							int pointer, int button) {
+						return true;
+					}
+
+				});
+				stage.addActor(finTourBtn);	
+			}
+
+
+		}
+
+
+
+
+
+
+
 	}
 
 
@@ -192,11 +190,11 @@ public class GameScreenReseauServeur extends Screen implements IncomingPartieObj
 	public void render() {
 		spriteBatch.begin();
 		tick();
-		
+
 		draw(Art.bg, 0, 0);
-		if (this.login.equalsIgnoreCase(this.joueurActif)) {
-		draw(Art.menu_bg,70,150);
-		
+		if (GameScreenReseauServeur.login.equalsIgnoreCase(londonG.partie.getObjJoueurActif().getNom())) {
+			draw(Art.menu_bg,70,150);
+
 			if(londonG.partie.isTourTermine()){
 				draw(Art.finTour_bg,400,150);
 			}else{
@@ -204,7 +202,7 @@ public class GameScreenReseauServeur extends Screen implements IncomingPartieObj
 			}
 		}
 		else {
-			Fonts.FONT_TITLE.draw(spriteBatch, "Au tour de : "+this.joueurActif, 450, 300);
+			Fonts.FONT_TITLE.draw(spriteBatch, "Au tour de : "+londonG.partie.getObjJoueurActif().getNom(), 450, 300);
 		}
 		String msg = "COPYRIGHT Aethia 2014";
 		drawString(msg, 2, 800 -6 -2);

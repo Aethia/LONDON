@@ -48,7 +48,8 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		System.out.println("type de la reception : " + type);
 		if(type==5){
 			londonG.partie = (Partie) o;
-			Screen.setScreen(new GameScreenReseauClient(login,joueurActif));
+			Joueur thisJoueur = londonG.partie.getJoueurParNom(login);
+			Screen.setScreen(new GameScreenReseauClient(thisJoueur));
 			//afficherbouton();
 		}
 		if (type == 3) {
@@ -95,26 +96,26 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		/*
 		 * bouton lancer partie
 		 */
-		btnLancerPartie =new TextButton("Lancer partie",Buttons.styleInGameMenu); 
-		btnLancerPartie.setPosition(100, 600); 
-		btnLancerPartie.setVisible(false);
-		btnLancerPartie.addListener(new InputListener(){
-			@Override
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				//lancement de la partie
-				super.touchUp(event, x, y, pointer, button);		
-				Screen.setScreen(new GameScreenReseauClient(login,joueurActif));	
-
-			}
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				return true;
-			}
-		});
-		stage.addActor(btnLancerPartie);
+//		btnLancerPartie =new TextButton("Lancer partie",Buttons.styleInGameMenu); 
+//		btnLancerPartie.setPosition(100, 600); 
+//		btnLancerPartie.setVisible(false);
+//		btnLancerPartie.addListener(new InputListener(){
+//			@Override
+//			public void touchUp(InputEvent event, float x, float y,
+//					int pointer, int button) {
+//				//lancement de la partie
+//				super.touchUp(event, x, y, pointer, button);		
+//				Screen.setScreen(new GameScreenReseauClient(login));	
+//
+//			}
+//
+//			@Override
+//			public boolean touchDown(InputEvent event, float x, float y,
+//					int pointer, int button) {
+//				return true;
+//			}
+//		});
+//		stage.addActor(btnLancerPartie);
 
 
 		/*

@@ -81,22 +81,30 @@ public class EmprunterScreen extends Screen{
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				
+
 				return true;
 			}
-			
-		
+
+
 		});
-		
+
 		paramBtn.add(btnValider);
 
 		TextButton btnAnnuler = new TextButton("Annuler", Buttons.styleInGameMenu);
 		btnAnnuler.addListener(new InputListener(){
-			
+
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new GameScreen());
+
+				if (londonG.partie.isMultijoueur()) {
+					if (GameScreenReseauClient.joueur!=null)
+						Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.joueur));
+					else
+						Screen.setScreen(new GameScreenReseauServeur());
+				}else{
+					Screen.setScreen(new GameScreen());
+				}
 				super.touchUp(event, x, y, pointer, button);
 			}
 

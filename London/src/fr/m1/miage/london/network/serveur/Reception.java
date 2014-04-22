@@ -63,6 +63,9 @@ public class Reception implements Runnable {
 					 for( Emission e : Serveur.lesClients){
 							e.sendObjectPartie(action.getObject());
 						}
+					 for (IncomingPartieObjectListenerServeur list : listenersPartie){
+							list.nouvelObjet(action.getObject());
+						}
 				 }
 
 			} catch (ClassNotFoundException e1) {

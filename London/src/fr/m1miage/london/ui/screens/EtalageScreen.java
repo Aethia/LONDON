@@ -39,16 +39,9 @@ public class EtalageScreen extends Screen{
 
 	private Joueur joueur;
 	private Pioche pioche;
-	public static String log,joueurActif,sender=null;
+	
 	private int cartesPiochees = 0;
 
-	public EtalageScreen(boolean actionPioche,String login,String joueurActif,String sender){
-		this.log = login;
-		this.joueurActif = joueurActif;
-		this.sender = sender;
-		afficher(actionPioche);
-
-	}
 	public EtalageScreen(boolean actionPioche){ //si action choisie = piocher 3 cartes
 		afficher(actionPioche);
 
@@ -68,11 +61,12 @@ public class EtalageScreen extends Screen{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				if (EtalageScreen.sender != null) {
-					if (EtalageScreen.sender.equals("client"))
-						Screen.setScreen(new GameScreenReseauClient(EtalageScreen.log, EtalageScreen.joueurActif));
+				// si c'est une partie multijoueur
+				if (londonG.partie.isMultijoueur()) {
+					if (GameScreenReseauClient.joueur!=null)
+						Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.joueur));
 					else
-						Screen.setScreen(new GameScreenReseauServeur(EtalageScreen.joueurActif));
+						Screen.setScreen(new GameScreenReseauServeur());
 				}
 				else
 					Screen.setScreen(new GameScreen());
@@ -141,11 +135,12 @@ public class EtalageScreen extends Screen{
 						int pointer, int button) {
 					londonG.partie.setActionChoisie(4);
 					londonG.partie.setTourTermine(true);
-					if (EtalageScreen.sender != null) {
-						if (EtalageScreen.sender.equals("client"))
-							Screen.setScreen(new GameScreenReseauClient(EtalageScreen.log, EtalageScreen.joueurActif));
+					// si c'est une partie multijoueur
+					if (londonG.partie.isMultijoueur()) {
+						if (GameScreenReseauClient.joueur!=null)
+							Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.joueur));
 						else
-							Screen.setScreen(new GameScreenReseauServeur(EtalageScreen.joueurActif));
+							Screen.setScreen(new GameScreenReseauServeur());
 					}
 					else
 						Screen.setScreen(new GameScreen());

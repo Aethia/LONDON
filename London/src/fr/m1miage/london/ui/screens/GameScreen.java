@@ -39,11 +39,12 @@ public class GameScreen extends Screen{
 
 	private int time =0;
 	private static final int TIME_OUT_CARD = 150;
-	
+	public static Joueur joueur;
 	public static Button btnSauvegarde;
 	
 
 	public GameScreen(){
+		joueur = londonG.partie.getObjJoueurActif();
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);

@@ -49,7 +49,9 @@ public class Emission implements Runnable{
 			a.setType(type);
 			a.setObject(o);
 			out.writeObject(a); 
+			out.reset();
 			out.flush();
+			out.reset();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

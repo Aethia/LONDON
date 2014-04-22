@@ -142,9 +142,9 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 				londonG.partie.init();
 				londonG.partie.setMultijoueur(true);
 				
-				String joueurActif;
+				
+				String joueurActif= londonG.partie.getObjJoueurActif().getNom();
 				// on envoie le joueur
-				joueurActif = londonG.partie.getObjJoueurActif().getNom();
 				for (Emission e : Serveur.lesClients){		
 					Object o = (String)joueurActif;
 					int type = 4;
@@ -164,7 +164,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 
 
 
-				Screen.setScreen(new GameScreenReseauServeur(joueurActif));	
+				Screen.setScreen(new GameScreenReseauServeur());	
 
 
 			}

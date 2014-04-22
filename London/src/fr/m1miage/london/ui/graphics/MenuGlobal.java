@@ -7,6 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import fr.m1miage.london.ui.screens.EmprunterScreen;
 import fr.m1miage.london.ui.screens.EtalageScreen;
+import fr.m1miage.london.ui.screens.GameScreen;
+import fr.m1miage.london.ui.screens.GameScreenReseauClient;
+import fr.m1miage.london.ui.screens.GameScreenReseauServeur;
 import fr.m1miage.london.ui.screens.QuartiersScreen;
 import fr.m1miage.london.ui.screens.Screen;
 import fr.m1miage.london.ui.screens.ZoneConstructionScreen;
@@ -17,12 +20,6 @@ public class MenuGlobal extends Table{
 	public TextButton etalageCartesBtn;
 	public TextButton quartiersBtn;
 	public TextButton emprunterBtn;
-	public static String login = null;
-	public static String joeurActif = null;
-	public static String sender = null;	
-	
-	
-	
 	
 	public MenuGlobal(){
 		
@@ -30,14 +27,6 @@ public class MenuGlobal extends Table{
 		afficherMenuGlob();
 	}
 	
-	public MenuGlobal(String login,String joeurActif,String sender){
-		
-		super();
-		this.login = login;
-		this.joeurActif = joeurActif;
-		this.sender = sender;
-		afficherMenuGlob();
-	}
 
 
 	private void afficherMenuGlob() {
@@ -47,7 +36,13 @@ public class MenuGlobal extends Table{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new ZoneConstructionScreen(MenuGlobal.login, MenuGlobal.joeurActif, MenuGlobal.sender));
+				if(GameScreenReseauClient.joueur!=null){
+					Screen.setScreen(new ZoneConstructionScreen(GameScreenReseauClient.joueur));
+				}else if(GameScreenReseauServeur.joueur!=null){
+					Screen.setScreen(new ZoneConstructionScreen(GameScreenReseauServeur.joueur));
+				}else{
+					Screen.setScreen(new ZoneConstructionScreen(GameScreen.joueur));
+				}
 			}
 
 			@Override
@@ -71,7 +66,7 @@ public class MenuGlobal extends Table{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new EtalageScreen(false, MenuGlobal.login, MenuGlobal.joeurActif, MenuGlobal.sender));
+				Screen.setScreen(new EtalageScreen(false));
 				super.touchUp(event, x, y, pointer, button);
 			}
 			
@@ -86,7 +81,7 @@ public class MenuGlobal extends Table{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new QuartiersScreen( MenuGlobal.login, MenuGlobal.joeurActif, MenuGlobal.sender));
+				Screen.setScreen(new QuartiersScreen());
 				super.touchUp(event, x, y, pointer, button);
 			}
 

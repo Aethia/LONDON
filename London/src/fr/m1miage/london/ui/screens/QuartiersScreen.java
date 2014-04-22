@@ -39,22 +39,37 @@ public class QuartiersScreen extends Screen{
 
 	private GestionErreurs erreur;
 	private String messageInvestir = new String("");
-	
+
 	private Joueur joueur;
-	public static String log,joueurActif,sender=null;
 
 	/* Scores */
 	private Score scoreJoueur;
-	
-	public QuartiersScreen(String login,String joeurActif,String sender){
-		this.log = login;
-		this.joueurActif = joeurActif;
-		this.sender = sender;
-		affichage();
-	}
+
 
 	public QuartiersScreen(){
+		if(GameScreenReseauClient.joueur!=null){
+			joueur = GameScreenReseauClient.joueur;
+		}else if(GameScreenReseauServeur.joueur!=null){
+			joueur = GameScreenReseauServeur.joueur;
+		}else{
+			joueur = londonG.partie.getObjJoueurActif();
+		}
 		affichage();
+		Joueur jActif = londonG.partie.getObjJoueurActif();
+		if(!londonG.partie.isMultijoueur()){
+
+			if(londonG.partie.getObjJoueurActif().equals(joueur)==true){
+				if(!londonG.partie.isTourTermine()   ){ 
+					btnValider.setVisible(true);
+				}
+			}
+		}else{//si c'est du multijoueur
+			if(jActif.getNom().equals(joueur.getNom())){//si c'est le meme joueur
+				if(!londonG.partie.isTourTermine()   ){ 
+					btnValider.setVisible(true);
+				}
+			}
+		}
 	}
 
 	private void affichage() {
@@ -62,10 +77,10 @@ public class QuartiersScreen extends Screen{
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 
-		joueur = londonG.partie.getObjJoueurActif();
+
 		scoreJoueur = new Score(joueur);
 		stage.addActor(scoreJoueur);
-		
+
 		fondQuartier = new ShapeRenderer();
 
 		listerQuartiers();
@@ -77,11 +92,11 @@ public class QuartiersScreen extends Screen{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				if (QuartiersScreen.sender  != null) {
-					if (QuartiersScreen.sender.equals("client"))
-						Screen.setScreen(new GameScreenReseauClient(QuartiersScreen.log, QuartiersScreen.joueurActif));
+				if (londonG.partie.isMultijoueur()) {
+					if (GameScreenReseauClient.joueur!=null)
+						Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.joueur));
 					else
-						Screen.setScreen(new GameScreenReseauServeur(QuartiersScreen.joueurActif));
+						Screen.setScreen(new GameScreenReseauServeur());
 				}
 				else
 					Screen.setScreen(new GameScreen());
@@ -96,42 +111,43 @@ public class QuartiersScreen extends Screen{
 		});
 		stage.addActor(btnRetour);
 
-		if(!londonG.partie.isTourTermine()){
-			btnValider = new TextButton("Valider", Buttons.styleInGameMenu);
-			btnValider.setPosition(800, 135);
-			btnValider.addListener(new InputListener(){
 
-				@Override
-				public void touchUp(InputEvent event, float x, float y,
-						int pointer, int button) {
-					if(nbQuartierSelected==0){
-						messageInvestir = "Veuillez selectionner un quartier";
+		btnValider = new TextButton("Valider", Buttons.styleInGameMenu);
+		btnValider.setPosition(800, 135);
+		btnValider.addListener(new InputListener(){
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				if(nbQuartierSelected==0){
+					messageInvestir = "Veuillez selectionner un quartier";
+				}else{
+					Joueur j = londonG.partie.getObjJoueurActif();
+
+					erreur = j.invest(nbQuartierSelected, londonG.partie.getPlateau(), londonG.partie.getPioche());
+					if(erreur.equals(GestionErreurs.NONE)){
+						londonG.partie.setActionChoisie(3);
+						londonG.partie.setTourTermine(true);
+						Screen.setScreen(new GameScreen());
 					}else{
-						Joueur j = londonG.partie.getObjJoueurActif();
-
-						erreur = j.invest(nbQuartierSelected, londonG.partie.getPlateau(), londonG.partie.getPioche());
-						if(erreur.equals(GestionErreurs.NONE)){
-							londonG.partie.setActionChoisie(3);
-							londonG.partie.setTourTermine(true);
-							Screen.setScreen(new GameScreen());
-						}else{
-							messageInvestir=erreur.getMsgErrorString();
-						}
-
-
+						messageInvestir=erreur.getMsgErrorString();
 					}
-					super.touchUp(event, x, y, pointer, button);
-				}
 
-				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button) {
 
-					return true;
 				}
-			});
-			stage.addActor(btnValider);
-		}
+				super.touchUp(event, x, y, pointer, button);
+			}
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+
+				return true;
+			}
+		});
+		btnValider.setVisible(false);
+		stage.addActor(btnValider);
+
 	}
 
 	private void listerQuartiers(){
