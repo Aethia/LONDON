@@ -23,7 +23,6 @@ import fr.m1.miage.london.network.client.Reception;
 import fr.m1.miage.london.network.client.Sender;
 import fr.m1.miage.london.network.serveur.Emission;
 import fr.m1.miage.london.network.serveur.Serveur;
-import fr.m1miage.london.Partie;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -40,10 +39,9 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		messageChat(message);
 	}	
 
-	@Override
-	public void nouvelObjet(Object o, int type) {
+		@Override
+	public void nouvelObjet(Object o, int type) {		
 		if (type == 3) {
-			londonG.partie = (Partie)o;
 			afficherbouton();
 		}
 		if (type == 4) {
@@ -64,12 +62,13 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 	private TextButton btnLancerPartie;
 	private InputListener list;
 	private Chat chat;
+	private int jPosition=200;
 	private int cPosition=0;
-	
 
 	public void afficherbouton(){
 		btnLancerPartie.setVisible(true);
 	}
+
 
 	public ChatReseauScreenClient(String log){
 		Reception.addListenerM(this);
@@ -148,13 +147,13 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 					if(Sender.e==null){
 						System.out.println("wtf");
 					}else{
-					Sender.e.sendMessageString(login+" : "+mTextField.getText());
-					mTextField.setText("");
+						Sender.e.sendMessageString(login+" : "+mTextField.getText());
+						mTextField.setText("");
 					}
 				}
 				return super.keyUp(event, keycode);
 			}
-			
+
 		});
 		stage.addActor(mTextField);
 
@@ -189,7 +188,7 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 
 
 	}
-	
+
 	private void messageChat(String message){
 		System.out.println(message);
 
@@ -210,6 +209,18 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		if(!chat.isOverTable()){
 			chat.getSPChat().setScrollY(cPosition);
 		}
+
+		Fonts.FONT_BLACK.draw(spriteBatch, "Joueurs connectés", 1180, 150);
+
+		Fonts.FONT_BLACK.draw(spriteBatch, "hôte", 1200, jPosition);
+
+		for (Emission e : Serveur.lesClients){
+			System.out.println("wut");
+			jPosition = jPosition+ 35;
+			Fonts.FONT_BLACK.draw(spriteBatch, e.getLogin(), 1200, jPosition);
+		}
+		jPosition = 200;
+
 		spriteBatch.end();
 		Gdx.gl.glEnable(GL10.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);

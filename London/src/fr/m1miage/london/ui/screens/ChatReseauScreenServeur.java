@@ -49,8 +49,8 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 
 	private Stage stage; 
 
-	private String listeMessage= new String("Chat reseau \n");
 	private ShapeRenderer fondChat;
+	private int jPosition=200;
 
 	private Chat chat;
 	private int cPosition=0;
@@ -208,6 +208,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		//creation chat
 		chat = new Chat(Art.skin);
 		stage.addActor(chat.getSPChat());
+		
 
 		/*
 		 * On lance le serveur (mais pas trop loin)
@@ -236,7 +237,17 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		if(!chat.isOverTable()){
 			chat.getSPChat().setScrollY(cPosition);
 		}
+		
+		Fonts.FONT_BLACK.draw(spriteBatch, "Joueurs connectés", 1180, 150);
 
+		Fonts.FONT_BLACK.draw(spriteBatch, "hôte", 1200, jPosition);
+		
+		for (Emission e : Serveur.lesClients){
+			jPosition = jPosition+ 35;
+			Fonts.FONT_BLACK.draw(spriteBatch, e.getLogin(), 1200, jPosition);
+		}
+		jPosition = 200;
+		
 		Fonts.FONT_TITLE.draw(spriteBatch, "RESEAU", 500, 20);
 		spriteBatch.end();
 		Gdx.gl.glEnable(GL10.GL_BLEND);
@@ -251,7 +262,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		//maj a deplacer
 
 
-		Fonts.FONT_BLACK.draw(spriteBatch, listeMessage, 420, 200);
+	//	Fonts.FONT_BLACK.draw(spriteBatch, listeMessage, 420, 200);
 
 
 
