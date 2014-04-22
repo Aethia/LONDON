@@ -547,4 +547,25 @@ public class Joueur implements Serializable, Comparable {
 			}
 		}
 	}
+	
+	public void jouerCarte(Joueur j, Carte c, Pioche pioche){
+		if(c.getEffet_passif()!= null){
+			int idEffet = c.getEffet_passif().getIdEffet();
+			switch(idEffet){
+			case 5 : 
+				c.getEffet_passif().prendreDeuxCartes(pioche, j);
+				j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
+				break;
+			case 106:
+				c.getEffet_passif().prendreDeuxCartes(pioche, j);
+				j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
+				break;
+			case 110:
+				c.getEffet_passif().prendreDeuxCartes(pioche, j);
+				j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
+				break;
+			}
+			this.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
+		}
+	}
 }
