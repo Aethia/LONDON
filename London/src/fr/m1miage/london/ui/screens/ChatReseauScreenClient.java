@@ -1,5 +1,10 @@
 package fr.m1miage.london.ui.screens;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -21,8 +26,6 @@ import fr.m1.miage.london.network.IncomingMessageListenerClient;
 import fr.m1.miage.london.network.IncomingObjectListenerClient;
 import fr.m1.miage.london.network.client.Reception;
 import fr.m1.miage.london.network.client.Sender;
-import fr.m1.miage.london.network.serveur.Emission;
-import fr.m1.miage.london.network.serveur.Serveur;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -47,13 +50,16 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		if (type == 4) {
 			this.joueurActif = (String)o;
 		}
+		if (type == 0){
+			lesJoueurs = (ArrayList)o;
+		}
 		
 	}
 		
 		
 	
 
-
+	private List<String> lesJoueurs = new ArrayList<String>();
 	private String joueurActif;
 	private Stage stage; 
 	private String login;
@@ -79,6 +85,9 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		Gdx.input.setInputProcessor(stage);
 
 		fondChat = new ShapeRenderer();
+		/*
+		 * bouton lancer partie
+		 */
 		btnLancerPartie =new TextButton("Lancer partie",Buttons.styleInGameMenu); 
 		btnLancerPartie.setPosition(100, 600); 
 		btnLancerPartie.setVisible(false);
@@ -101,7 +110,9 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		stage.addActor(btnLancerPartie);
 
 
-
+		/*
+		 * bouton retour
+		 */
 		TextButton btnRetour =new TextButton("Retour",Buttons.styleInGameMenu); 
 		btnRetour.setPosition(100, 135); 
 		btnRetour.addListener(new InputListener(){
@@ -133,7 +144,9 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		txtStyle.background.setLeftWidth(10f);
 
 
-		//creation des textfields
+		/*
+		 * le textfield
+		 */
 		final TextField mTextField = new TextField("", txtStyle);
 		mTextField.setPosition(400 , 120);
 		mTextField.setHeight(70);
@@ -167,6 +180,7 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// code event
+			
 				Sender.e.sendMessageString(login+" : "+mTextField.getText());
 				mTextField.setText("");
 				super.touchUp(event, x, y, pointer, button);
@@ -184,6 +198,17 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		//creation chat
 		chat = new Chat(Art.skin);
 		stage.addActor(chat.getSPChat());
+		
+		
+		// on demande à recupérer les participants
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			  @Override
+			  public void run() {
+				  Sender.e.sendObject(0, null);
+			  }
+			}, 1000);
+		
 
 
 
@@ -214,10 +239,9 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 
 		Fonts.FONT_BLACK.draw(spriteBatch, "hôte", 1200, jPosition);
 
-		for (Emission e : Serveur.lesClients){
-			System.out.println("wut");
+		for (String e : lesJoueurs){
 			jPosition = jPosition+ 35;
-			Fonts.FONT_BLACK.draw(spriteBatch, e.getJoueur().getNom(), 1200, jPosition);
+			Fonts.FONT_BLACK.draw(spriteBatch, e, 1200, jPosition);
 		}
 		jPosition = 200;
 
@@ -231,12 +255,6 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		Gdx.gl.glDisable(GL10.GL_BLEND);
 
 		spriteBatch.begin();
-		//maj a deplacer
-		for(Emission e : Serveur.lesClients){
-			
-			int a = 3;
-			
-		}
 
 
 		Fonts.FONT_BLACK.draw(spriteBatch, listeMessage, 420, 200);

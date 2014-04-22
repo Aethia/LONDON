@@ -9,11 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-import fr.m1.miage.london.network.IncomingPartieObjectListenerClient;
 import fr.m1.miage.london.network.IncomingPartieObjectListenerServeur;
 import fr.m1.miage.london.network.client.Reception;
 import fr.m1.miage.london.network.serveur.Emission;
-import fr.m1.miage.london.network.serveur.Serveur;import fr.m1miage.london.*;
+import fr.m1.miage.london.network.serveur.Serveur;
+import fr.m1miage.london.Partie;
+import fr.m1miage.london.Regles;
 import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.ui.Prefs;

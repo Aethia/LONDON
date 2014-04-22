@@ -125,7 +125,7 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 		
 		/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
 		if(!londonG.partie.isTourTermine()){
-MenuActions tableActions = new MenuActions();				
+			MenuActions tableActions = new MenuActions();				
 			stage.addActor(tableActions);
 		}else{ //sinon, on demande au joueur de confirmer qu'il a termine son tour
 			finTourBtn = new Button(Buttons.styleBtnFinTour);
@@ -162,7 +162,7 @@ MenuActions tableActions = new MenuActions();
 			stage.addActor(finTourBtn);	
 		}
 
-		/* Parametres Boutons Menu General*/
+		/* Parametres Boutons Menu General (menu de droite)*/
 		MenuGlobal tMenu = new MenuGlobal();
 		stage.addActor(tMenu);
 

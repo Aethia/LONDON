@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import fr.m1.miage.london.network.Action;
 import fr.m1miage.london.classes.Joueur;
 
 public class Connexion implements Runnable {
@@ -28,11 +27,8 @@ public class Connexion implements Runnable {
 			
 		out = new ObjectOutputStream (socket.getOutputStream());
 		in = new ObjectInputStream (socket.getInputStream());		
-		Action a = new Action();
-		a.setObject(joueur);
-		a.setType(0);
-		out.writeObject(a);
-		out.reset();
+		
+		out.writeObject(joueur);
 		out.flush();
 		
 		
