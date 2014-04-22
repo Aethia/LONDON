@@ -59,9 +59,9 @@ public class DefausserScreen extends Screen {
 				}
 				if (DefausserScreen.log != null) {
 					if (DefausserScreen.sender.equals("client"))
-						Screen.setScreen(new GameScreenReseauClient(ZoneConstructionScreen.log, ZoneConstructionScreen.joueurActif));
+						Screen.setScreen(new GameScreenReseauClient(DefausserScreen.log, DefausserScreen.joueurActif));
 					else
-						Screen.setScreen(new GameScreenReseauServeur(ZoneConstructionScreen.joueurActif));
+						Screen.setScreen(new GameScreenReseauServeur(DefausserScreen.joueurActif));
 				}
 				else
 					Screen.setScreen(new GameScreen());
