@@ -484,6 +484,13 @@ public class Console {
 								echangePauvresContreArgent();
 								break;
 								
+							//cartes 56
+							//effet 14
+							//Perdez un point de pauvreté par carte de votre main que vous placez sur l'étalage (jusqu'à 3 cartes).
+							case 56:
+								echangePauvresContrePV();
+								break;
+								
 							default:
 								
 								break;
@@ -613,9 +620,8 @@ public class Console {
 		
 		private void echangePauvresContreArgent() {
 			int finEchange=1;
-			System.out.println(partie.getEtalage().toString());
+			Joueur jActif = partie.getObjJoueurActif();
 			while(finEchange == 1){
-				Joueur jActif = partie.getObjJoueurActif();
 				jActif.afficherMain();
 				System.out.println("Choisissez la carte à échanger : ");
 				int idCarte=(Integer.parseInt(sc.next()));
@@ -625,7 +631,28 @@ public class Console {
 
 				jActif.afficherMain();
 				System.out.println(partie.getEtalage().toString());
+				System.out.println("1. Echanger une autre carte \n 2. Finir l'échange");
+				if(sc.hasNextInt()){
+					finEchange = sc.nextInt();
+				}
+			}
+		}
+		
+		private void echangePauvresContrePV() {
+			int finEchange=1;
+			int nbCarteEchanged=0;
+			Joueur jActif = partie.getObjJoueurActif();
+			while(finEchange == 1 || nbCarteEchanged <= 3){
+				jActif.afficherMain();
+				System.out.println("Choisissez la carte à échanger : ");
+				int idCarte=(Integer.parseInt(sc.next()));
+				Carte cChoix = jActif.choisirCarteParId(idCarte);
+				
+				effet.pauvresParCarteSurEtalage(partie, jActif, cChoix);
+				nbCarteEchanged++;
 
+				jActif.afficherMain();
+				System.out.println(partie.getEtalage().toString());
 				System.out.println("1. Echanger une autre carte \n 2. Finir l'échange");
 				if(sc.hasNextInt()){
 					finEchange = sc.nextInt();

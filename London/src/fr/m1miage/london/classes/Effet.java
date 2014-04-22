@@ -236,4 +236,13 @@ public class Effet implements Serializable{
 		}
 		//}
 	}
+	
+	//cartes 56
+	//effet 14
+	//Perdez un point de pauvreté par carte de votre main que vous placez sur l'étalage (jusqu'à 3 cartes).
+	public void pauvresParCarteSurEtalage(Partie partie, Joueur j, Carte c){
+		j.setAddPoint_pauvrete(-1);
+		j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
+		partie.getEtalage().ajouterCarte(c);
+	}
 }
