@@ -17,17 +17,37 @@ public class MenuGlobal extends Table{
 	public TextButton etalageCartesBtn;
 	public TextButton quartiersBtn;
 	public TextButton emprunterBtn;
+	public static String login = null;
+	public static String joeurActif = null;
+	public static String sender = null;	
+	
+	
+	
 	
 	public MenuGlobal(){
 		
 		super();
+		afficherMenuGlob();
+	}
+	
+	public MenuGlobal(String login,String joeurActif,String sender){
+		
+		super();
+		this.login = login;
+		this.joeurActif = joeurActif;
+		this.sender = sender;
+		afficherMenuGlob();
+	}
+
+
+	private void afficherMenuGlob() {
 		zoneConstructionBtn = new TextButton("Zone de construction",Buttons.styleInGameMenu);
 		zoneConstructionBtn.addListener(new InputListener(){
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new ZoneConstructionScreen());
+				Screen.setScreen(new ZoneConstructionScreen(MenuGlobal.login, MenuGlobal.joeurActif, MenuGlobal.sender));
 			}
 
 			@Override
@@ -51,7 +71,7 @@ public class MenuGlobal extends Table{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new EtalageScreen(false));
+				Screen.setScreen(new EtalageScreen(false, MenuGlobal.login, MenuGlobal.joeurActif, MenuGlobal.sender));
 				super.touchUp(event, x, y, pointer, button);
 			}
 			
@@ -66,7 +86,7 @@ public class MenuGlobal extends Table{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new QuartiersScreen());
+				Screen.setScreen(new QuartiersScreen( MenuGlobal.login, MenuGlobal.joeurActif, MenuGlobal.sender));
 				super.touchUp(event, x, y, pointer, button);
 			}
 

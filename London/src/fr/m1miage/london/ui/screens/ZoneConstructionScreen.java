@@ -85,6 +85,14 @@ public class ZoneConstructionScreen extends Screen{
 		joueur = londonG.partie.getObjJoueurActif();
 		constructionScreen();
 	}
+	
+	public ZoneConstructionScreen(String login,String joueurActif,String sender){
+		this.log = login;
+		this.joueurActif = joueurActif;
+		this.sender = sender; 
+		joueur = londonG.partie.getObjJoueurActif();
+		constructionScreen();
+	}
 
 	private void constructionScreen() {
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
