@@ -92,6 +92,7 @@ public class ZoneConstructionScreen extends Screen{
 		this.sender = sender; 
 		joueur = londonG.partie.getObjJoueurActif();
 		constructionScreen();
+		
 	}
 
 	private void constructionScreen() {
@@ -133,7 +134,7 @@ public class ZoneConstructionScreen extends Screen{
 		stage.addActor(fondChoixCartes);
 		if(londonG.partie.getObjJoueurActif().equals(joueur)==true){ //si on est bien sur le joueur actif 
 			//si tour terminé, mais action construire => on peut continuer ou tour pas terminé mais zoneC du joueur Actif
-			if((londonG.partie.isTourTermine()==true && londonG.partie.getActionChoisie()==1) || !londonG.partie.isTourTermine() ){ 
+			if((londonG.partie.isTourTermine()==true && londonG.partie.getActionChoisie()==1) || !londonG.partie.isTourTermine() && this.log.equalsIgnoreCase(this.joueurActif) ){ 
 				afficherCartes();
 				gestionBoutonsConstruction();
 			}

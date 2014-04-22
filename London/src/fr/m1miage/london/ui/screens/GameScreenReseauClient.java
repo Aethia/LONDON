@@ -49,165 +49,140 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 
 	private int time =0;
 	private static final int TIME_OUT_CARD = 150;
-	
+
 	public static Button btnSauvegarde;
 	public static String joueurActif;
-	
+
 	public static GameScreenReseauClient game;
 	private TextButton btnSuivant;
-	
+
 	@Override
 	// arrivée d'un nouvel objet de type Partie
 	public void nouvelObjet(Object o) {
 		londonG.partie = (Partie)o;
 		afficherBouton();
 	}
-	
+
 	@Override
 	public void nouvelObjet(Object o, int type) {
 		afficherBouton();
 	}
-	
-	
+
+
 
 	private void afficherBouton() {
 		btnSuivant.setVisible(true);
 	}
-	
+
 	public GameScreenReseauClient(String login, String joueurActif){
 		this.game = this;
-		
+
 		Timer timer = new Timer();
-		
-		
-		
+
+
+
 		timer.schedule(new TimerTask() {
-			  @Override
-			  public void run() {
-				  Reception.addListenerPartie(GameScreenReseauClient.game);
-				  Reception.addListenerO(GameScreenReseauClient.game);
-			  }
-			}, 5000);
-		
-		
-		
+			@Override
+			public void run() {
+				Reception.addListenerPartie(GameScreenReseauClient.game);
+				Reception.addListenerO(GameScreenReseauClient.game);
+			}
+		}, 5000);
+
+
+
 		this.login = login;
 		this.log = login;
 		this.joueurActif = joueurActif;
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
-		
+
 		// si c'est a moi
 		if (this.login.equalsIgnoreCase(this.joueurActif)) {
-			
-		
-		
-		//sauvegarde
-		btnSauvegarde = new Button(Buttons.styleBtnSauvegarde);
-		btnSauvegarde.setPosition(1250, 720); //changer la position
-		btnSauvegarde.addListener(new InputListener(){
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				return true;
-			}
-
-			@Override
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				super.touchUp(event, x, y, pointer, button);
-			}
-			
-		});
-		stage.addActor(btnSauvegarde);
-		
-		/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
-		if(!londonG.partie.isTourTermine()){
-			MenuActions tableActions = new MenuActions(login, this.joueurActif, login)	;		
-			stage.addActor(tableActions);
-		}else{ //sinon, on demande au joueur de confirmer qu'il a termine son tour
-			finTourBtn = new Button(Buttons.styleBtnFinTour);
-			finTourBtn.setPosition(700, 400); //changer la position
-			finTourBtn.addListener(new InputListener(){
+			/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
+			if(!londonG.partie.isTourTermine()){
+				MenuActions tableActions = new MenuActions(login, this.joueurActif, login)	;		
+				stage.addActor(tableActions);
+			}else{ //sinon, on demande au joueur de confirmer qu'il a termine son tour
+				finTourBtn = new Button(Buttons.styleBtnFinTour);
+				finTourBtn.setPosition(700, 400); //changer la position
+				finTourBtn.addListener(new InputListener(){
 
 
-				@Override
-				public void touchUp(InputEvent event, float x, float y,
-						int pointer, int button) {
-					//avant de finir le tour, on verifie la taille de la main
-					Joueur j = londonG.partie.getObjJoueurActif();
-					if(j.getMainDuJoueur().getNb_cartes()>Regles.NBMAXCARTES){
-						int nbD = j.getMainDuJoueur().getNb_cartes()- Regles.NBMAXCARTES;
-						londonG.setScreen(new DefausserScreen(j,nbD,GameScreenReseauClient.log,GameScreenReseauClient.joueurActif,"client"));
-					}else{
-						londonG.partie.joueurSuivant();	
-						j = londonG.partie.getObjJoueurActif();
-						// on envoie le nouvel objet partie aux autres
-						Sender.e.sendObject(5, londonG.partie);
-						Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.log,j.getNom()));
-						
+					@Override
+					public void touchUp(InputEvent event, float x, float y,
+							int pointer, int button) {
+						//avant de finir le tour, on verifie la taille de la main
+						Joueur j = londonG.partie.getObjJoueurActif();
+						if(j.getMainDuJoueur().getNb_cartes()>Regles.NBMAXCARTES){
+							int nbD = j.getMainDuJoueur().getNb_cartes()- Regles.NBMAXCARTES;
+							londonG.setScreen(new DefausserScreen(j,nbD,GameScreenReseauClient.log,GameScreenReseauClient.joueurActif,"client"));
+						}else{
+							londonG.partie.joueurSuivant();	
+							j = londonG.partie.getObjJoueurActif();
+							// on envoie le nouvel objet partie aux autres
+							Sender.e.sendObject(5, londonG.partie);
+							Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.log,j.getNom()));
+
+						}
+						super.touchUp(event, x, y, pointer, button);
 					}
-					super.touchUp(event, x, y, pointer, button);
-				}
 
-				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button) {
-					return true;
-				}
-
-			});
-			stage.addActor(finTourBtn);	
-		}
-
-		/* Parametres Boutons Menu General (menu de droite)*/
-		MenuGlobal tMenu = new MenuGlobal();
-		stage.addActor(tMenu);
-
-		
-		
-		//a ameliorer
-		// les cartes du joueur host
-		Joueur j = londonG.partie.getJoueurParNom(login);
-		int i=0;
-		for(final Carte c: j.getLesCartes()){
-			i++;
-			final CarteActor ca = new CarteActor(c,350+i*50,10);	
-			ca.addListener(new InputListener(){
-
-				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button) {				
-					if(ca.isSelected()){
-						ca.setSelected(false);
-						idCarteSelected=0;
-					}else{
-						ca.setSelected(true);
-						idCarteSelected = c.getId_carte();
+					@Override
+					public boolean touchDown(InputEvent event, float x, float y,
+							int pointer, int button) {
+						return true;
 					}
-					return super.touchDown(event, x, y, pointer, button);
-				}
 
-				@Override
-				public boolean mouseMoved(InputEvent event, float x, float y) {
-					idCarteOver = c.getId_carte();
-					return true;
-				}
+				});
+				stage.addActor(finTourBtn);	
+			}
+		}else {
 
-			});
-			main.put(c.getId_carte(), ca);
-			stage.addActor(ca);
-		}
-		
-		scores = new TableauScores(londonG.partie.getListeJoueurs());
-		stage.addActor(scores);
-		scoreJoueur = new Score(londonG.partie.getJoueurParNom(login));
-		stage.addActor(scoreJoueur);
-		}
-		else {
+			/* Parametres Boutons Menu General (menu de droite)*/
+			MenuGlobal tMenu = new MenuGlobal();
+			stage.addActor(tMenu);
+
 			
+			
+			//a ameliorer
+			// les cartes du joueur host
+			Joueur j = londonG.partie.getJoueurParNom(login);
+			int i=0;
+			for(final Carte c: j.getLesCartes()){
+				i++;
+				final CarteActor ca = new CarteActor(c,350+i*50,10);	
+				ca.addListener(new InputListener(){
+
+					@Override
+					public boolean touchDown(InputEvent event, float x, float y,
+							int pointer, int button) {				
+						if(ca.isSelected()){
+							ca.setSelected(false);
+							idCarteSelected=0;
+						}else{
+							ca.setSelected(true);
+							idCarteSelected = c.getId_carte();
+						}
+						return super.touchDown(event, x, y, pointer, button);
+					}
+
+					@Override
+					public boolean mouseMoved(InputEvent event, float x, float y) {
+						idCarteOver = c.getId_carte();
+						return true;
+					}
+
+				});
+				main.put(c.getId_carte(), ca);
+				stage.addActor(ca);
+			}
+			
+			scores = new TableauScores(londonG.partie.getListeJoueurs());
+			stage.addActor(scores);
+			scoreJoueur = new Score(londonG.partie.getJoueurParNom(login));
+			stage.addActor(scoreJoueur);
 			
 			btnSuivant =new TextButton("A moi",Buttons.styleInGameMenu); 
 			btnSuivant.setPosition(600, 350); 
@@ -218,7 +193,7 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 						int pointer, int button) {
 					//traitement reseau
 					// event ok client
-					
+
 					/*
 					 * On lance le client
 					 */
@@ -233,13 +208,13 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 				}
 			});
 			stage.addActor(btnSuivant);
-			
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
+
 		}
 	}
 
@@ -248,11 +223,11 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 	public void render() {
 		spriteBatch.begin();
 		tick();
-		
+
 		draw(Art.bg, 0, 0);
 		if (this.login.equalsIgnoreCase(this.joueurActif)) {
-		draw(Art.menu_bg,70,150);
-		
+			draw(Art.menu_bg,70,150);
+
 			if(londonG.partie.isTourTermine()){
 				draw(Art.finTour_bg,400,150);
 			}else{

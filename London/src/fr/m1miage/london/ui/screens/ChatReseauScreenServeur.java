@@ -155,7 +155,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 				// on distribue les cartes à tout le monde
 				for (Emission e : Serveur.lesClients){		
 					Object partie = londonG.partie;
-					e.sendObject(3, partie);
+					e.sendObjectPartie( partie);
 				}
 
 
