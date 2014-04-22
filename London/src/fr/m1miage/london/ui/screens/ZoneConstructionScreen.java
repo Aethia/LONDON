@@ -267,7 +267,7 @@ public class ZoneConstructionScreen extends Screen{
 			i++;
 			final CarteActor ca = new CarteActor(c,350+i*50,10);
 			stage.addActor(ca);
-			final Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE_CARTES+"validTarget.png"));
+			final Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE_CARTES+"ValidTarget.png"));
 			final Texture tNew = new Texture(Gdx.files.internal(Prefs.REPERTOIRE+"carte_etalage.png"));
 			ca.addListener(new DragListener(){
 				public void touchDragged (InputEvent event, float x, float y, int pointer) {

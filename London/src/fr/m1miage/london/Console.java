@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import fr.m1miage.london.classes.Carte;
-import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.classes.Effet;
-import fr.m1miage.london.classes.Plateau;
+import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.classes.TraderClassRestaurerVille;
 
 public class Console {
@@ -463,6 +462,13 @@ public class Console {
 								}
 								break;
 							
+							//cartes 71
+							//effet 19
+							//Chaque autre joueur doit payer £1 à la banque pour chaque quartier que vous avez investi
+							case 71:
+								effet.joueursPayeQuartiersInversti(partie, partie.getObjJoueurActif());
+								break;
+								
 							default:
 								
 								break;
