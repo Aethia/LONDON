@@ -37,7 +37,7 @@ public class Partie implements Serializable{
 	private int actionChoisie =0; //1 construire, 2 restaurer, 3 investir, 4 piocher
 	private boolean tourTermine=false;
 
-
+	private boolean multijoueur = false;
 
 	public Partie(){
 		this.plateau = new Plateau();
@@ -73,6 +73,18 @@ public class Partie implements Serializable{
 		//le premier joueur pioche une carte
 		jActif.piocher(pioche);
 	}
+
+	
+	
+	public boolean isMultijoueur() {
+		return multijoueur;
+	}
+
+
+	public void setMultijoueur(boolean multijoueur) {
+		this.multijoueur = multijoueur;
+	}
+
 
 	// faire passer le joueur actif au joueur suivant
 	public void joueurSuivant() {

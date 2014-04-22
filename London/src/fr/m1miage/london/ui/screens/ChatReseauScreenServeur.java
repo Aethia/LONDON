@@ -140,7 +140,8 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 				// on lance la partie
 				londonG.partie = new Partie(listeJoueurs,listeJoueurs.size());
 				londonG.partie.init();
-
+				londonG.partie.setMultijoueur(true);
+				
 				String joueurActif;
 				// on envoie le joueur
 				joueurActif = londonG.partie.getObjJoueurActif().getNom();
@@ -155,7 +156,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 				// on distribue les cartes à tout le monde
 				for (Emission e : Serveur.lesClients){		
 					Object partie = londonG.partie;
-					e.sendObjectPartie( partie);
+					e.sendObjectPartie(partie);
 				}
 
 

@@ -31,6 +31,7 @@ import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.Chat;
 import fr.m1miage.london.ui.graphics.Fonts;
+import fr.m1miage.london.Partie;
 
 public class ChatReseauScreenClient extends Screen implements IncomingMessageListenerClient,IncomingObjectListenerClient{
 
@@ -43,7 +44,13 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 	}	
 
 	@Override
-	public void nouvelObjet(Object o, int type) {		
+	public void nouvelObjet(Object o, int type) {	
+		System.out.println("type de la reception : " + type);
+		if(type==5){
+			londonG.partie = (Partie) o;
+			Screen.setScreen(new GameScreenReseauClient(login,joueurActif));
+			//afficherbouton();
+		}
 		if (type == 3) {
 			afficherbouton();
 		}

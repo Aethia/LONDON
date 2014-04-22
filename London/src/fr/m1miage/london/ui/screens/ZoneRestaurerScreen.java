@@ -81,11 +81,11 @@ public class ZoneRestaurerScreen extends Screen{
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// si c'est une partie multijoueur
-				if (ZoneConstructionScreen.log != null) {
-					if (ZoneConstructionScreen.sender.equals("client"))
-						Screen.setScreen(new GameScreenReseauClient(ZoneConstructionScreen.log, ZoneConstructionScreen.joueurActif));
+				if (londonG.partie.isMultijoueur()) {
+					if (sender.equals("client"))
+						Screen.setScreen(new GameScreenReseauClient(log,joueurActif));
 					else
-						Screen.setScreen(new GameScreenReseauServeur(ZoneConstructionScreen.joueurActif));
+						Screen.setScreen(new GameScreenReseauServeur(joueurActif));
 				}
 				else
 					Screen.setScreen(new GameScreen());
