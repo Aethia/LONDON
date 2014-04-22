@@ -3,7 +3,6 @@ package fr.m1.miage.london.network.client;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.HashMap;
 
 public class Client {
 
@@ -16,7 +15,7 @@ public class Client {
 		try {
 
 			System.out.println("Demande de connexion");
-			socket = new Socket("127.0.0.1",2009);
+			socket = new Socket("192.168.0.13",2009);
 			System.out.println("Connexion ï¿½tablie avec le serveur, authentification :"); // Si le message s'affiche c'est que je suis connectï¿½
 
 			t1 = new Thread(new Connexion(socket,client));
