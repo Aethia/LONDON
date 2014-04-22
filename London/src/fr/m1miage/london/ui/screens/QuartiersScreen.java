@@ -109,12 +109,12 @@ public class QuartiersScreen extends Screen{
 		btnRetourMap.setVisible(false);
 		stage.addActor(btnRetourMap);
 		
-
+		btnValider = new TextButton("Valider", Buttons.styleInGameMenu);
+		btnValider.setPosition(700, 135);
+		btnValider.setVisible(false);
+		
 
 		if(!londonG.partie.isTourTermine()){
-			btnValider = new TextButton("Valider", Buttons.styleInGameMenu);
-			btnValider.setPosition(700, 135);
-			btnValider.setVisible(false);
 			btnValider.addListener(new InputListener(){
 
 				@Override
@@ -153,8 +153,13 @@ public class QuartiersScreen extends Screen{
 					return true;
 				}
 			});
-			stage.addActor(btnValider);
+			
 		}
+		else{
+			messageInvestir="Vous ne pouvez investir qu'une fois par tour";
+		}
+		stage.addActor(btnValider);
+		
 	}
 
 	private void listerQuartiers(){
