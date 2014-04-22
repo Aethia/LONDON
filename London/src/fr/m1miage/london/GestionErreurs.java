@@ -16,6 +16,7 @@ public enum GestionErreurs {
 	MAX_EMPRUNT("Vous avez atteint la limite pour emprunter (100£)"),
 	MONTANT_INCORRECT("Montant incorrect, veuillez inserer une valeur entiere multiple de 10 inférieure à 100"),
 	NOT_ENOUGH_CARD("Il n'y a plus de carte � piocher"),
+	NON_CONSTRUCTIBLE_CARD("Cette carte n'est pas constructible"),
 	NON_ACTIVABLE_CARD("Cette carte n'est pas activable"),
 	NO_ROSE_CARD("Vous n'avez pas de carte rose"),
 	NO_BRUN_CARD("Vous n'avez pas de carte brune"),

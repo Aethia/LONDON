@@ -12,12 +12,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
-import fr.m1.miage.london.network.IncomingMessageListenerClient;
 import fr.m1.miage.london.network.IncomingMessageListenerServeur;
 import fr.m1.miage.london.network.serveur.Emission;
 import fr.m1.miage.london.network.serveur.Reception;
@@ -27,32 +28,33 @@ import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
+import fr.m1miage.london.ui.graphics.Chat;
 import fr.m1miage.london.ui.graphics.Fonts;
 
 public class ChatReseauScreenServeur extends Screen implements IncomingMessageListenerServeur{
-		
 
-	
+
+
 	/**
 	 * Listener du reseau (serveur).
 	 */
 
-		@Override
-		public void nouveauMessage(String message) {
-			//Screen.setScreen(new MainMenuScreen());
-			listeMessage+=("\n"+message);
-			System.out.println("nouveau :" + message);
-		}	
+	@Override
+	public void nouveauMessage(String message) {
+		//Screen.setScreen(new MainMenuScreen());
+		messageChat(message);
+	}	
 
 
-		
+
 	private Stage stage; 
 
 	private String listeMessage= new String("Chat reseau \n");
 	private ShapeRenderer fondChat;
 
-	private int type =0;
-	
+	private Chat chat;
+	private int cPosition=0;
+
 	public ChatReseauScreenServeur(){
 		Reception.addListener(this);
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
@@ -60,7 +62,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		Gdx.input.setInputProcessor(stage);
 
 		fondChat = new ShapeRenderer();
-		
+
 		//zone de texte
 		Skin menuSkin = new Skin();
 		TextureAtlas menuAtlas = new TextureAtlas("ressources/Images/text_area.pack");
@@ -77,6 +79,23 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		mTextField.setPosition(400 , 120);
 		mTextField.setHeight(70);
 		mTextField.setWidth(850);
+		mTextField.setMaxLength(50);
+		mTextField.addListener(new InputListener(){
+
+			@Override
+			public boolean keyUp(InputEvent event, int keycode) {
+				if(keycode==66){
+					// on envoie le message au clients
+					for (Emission e : Serveur.lesClients){
+						e.sendMessageString("hôte : "+mTextField.getText());
+					}
+					messageChat("hôte : "+mTextField.getText());
+					mTextField.setText("");
+				}
+				return super.keyUp(event, keycode);
+			}
+			
+		});
 		stage.addActor(mTextField);
 
 		TextButton btnRetour =new TextButton("Retour",Buttons.styleInGameMenu); 
@@ -106,22 +125,23 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 					int pointer, int button) {
 				//lancement de la partie
 				super.touchUp(event, x, y, pointer, button);
-				
+
 				// on récupère les joueurs
 				ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>();
 				Joueur j = new Joueur(0, "host", java.awt.Color.BLUE);
 				listeJoueurs.add(j);
 				int i=1;
 				for(Emission cli : Serveur.lesClients){
+					
 					j = new Joueur(i++, cli.getLogin(), java.awt.Color.BLUE);
 					listeJoueurs.add(j);
 				}
-				 
-				
+
+
 				// on lance la partie
 				londonG.partie = new Partie(listeJoueurs,listeJoueurs.size());
 				londonG.partie.init();
-				
+
 				String joueurActif;
 				// on envoie le joueur
 				joueurActif = londonG.partie.getObjJoueurActif().getNom();
@@ -130,23 +150,23 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 					int type = 4;
 					e.sendObject(type, o);
 				}
-				
-				
-				
+
+
+
 				// on distribue les cartes à tout le monde
 				for (Emission e : Serveur.lesClients){		
 					Object partie = londonG.partie;
 					e.sendObject(3, partie);
 				}
-				
 
-				
-				
-				
-				
+
+
+
+
+
 				Screen.setScreen(new GameScreenReseauServeur(joueurActif));	
-				
-				
+
+
 			}
 
 			@Override
@@ -156,7 +176,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 			}
 		});
 		stage.addActor(btnLancerPartie);
-		
+
 		/*
 		 * bouton envoyer (pour le chat)
 		 */
@@ -171,9 +191,8 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 				for (Emission e : Serveur.lesClients){
 					e.sendMessageString("hôte : "+mTextField.getText());
 				}
-				listeMessage+=("\n"+"hôte : "+mTextField.getText());
+				messageChat("hôte : "+mTextField.getText());
 				mTextField.setText("");
-				
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -186,21 +205,38 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		stage.addActor(btnEnvoyer);
 
 
+		//creation chat
+		chat = new Chat(Art.skin);
+		stage.addActor(chat.getSPChat());
 
-		
 		/*
 		 * On lance le serveur (mais pas trop loin)
 		 */
-		
 		Serveur srv = new Serveur();
 		srv.hebergerPartie();
 	}
-	
+
+	private void messageChat(String message){
+		System.out.println(message);
+
+		Label temp = new Label(message, Art.skin);
+		temp.setAlignment(Align.left,Align.left);
+		temp.setWrap(true);
+		temp.setColor(Color.BLACK);
+		chat.add(temp).colspan(0).row();
+
+		cPosition=cPosition+100;
+	}
 
 	@Override
 	public void render() {
 		spriteBatch.begin();
 		draw(Art.bgPartie, 0, 0);
+		
+		if(!chat.isOverTable()){
+			chat.getSPChat().setScrollY(cPosition);
+		}
+
 		Fonts.FONT_TITLE.draw(spriteBatch, "RESEAU", 500, 20);
 		spriteBatch.end();
 		Gdx.gl.glEnable(GL10.GL_BLEND);
@@ -213,11 +249,11 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 
 		spriteBatch.begin();
 		//maj a deplacer
-		
-		
+
+
 		Fonts.FONT_BLACK.draw(spriteBatch, listeMessage, 420, 200);
 
-		
+
 
 		spriteBatch.end();
 		stage.act();

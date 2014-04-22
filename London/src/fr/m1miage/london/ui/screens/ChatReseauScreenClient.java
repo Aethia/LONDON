@@ -1,13 +1,5 @@
 package fr.m1miage.london.ui.screens;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -15,53 +7,53 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import fr.m1.miage.london.network.IncomingMessageListenerClient;
 import fr.m1.miage.london.network.IncomingObjectListenerClient;
-import fr.m1.miage.london.network.client.Sender;
 import fr.m1.miage.london.network.client.Reception;
+import fr.m1.miage.london.network.client.Sender;
 import fr.m1.miage.london.network.serveur.Emission;
 import fr.m1.miage.london.network.serveur.Serveur;
-import fr.m1miage.london.*;
-import fr.m1miage.london.classes.Joueur;
+import fr.m1miage.london.Partie;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
+import fr.m1miage.london.ui.graphics.Chat;
 import fr.m1miage.london.ui.graphics.Fonts;
 
 public class ChatReseauScreenClient extends Screen implements IncomingMessageListenerClient,IncomingObjectListenerClient{
 
-		@Override
-		public void nouveauMessage(String message) {
-			//Screen.setScreen(new MainMenuScreen());
-			System.out.println("message recu coté ui (cli)," + message);
-				System.out.println("nouveau :" + message);
-				listeMessage+=("\n"+message);
-	
-		}	
+	@Override
+	public void nouveauMessage(String message) {
+		//Screen.setScreen(new MainMenuScreen());
+		System.out.println("message recu coté ui (cli)," + message);
+		System.out.println("nouveau :" + message);
+		messageChat(message);
+	}	
 
-		@Override
-		public void nouvelObjet(Object o, int type) {	
-			if (type == 3) {
-				londonG.partie = (Partie)o;		
-				afficherbouton();
-		
-				
-			}
-			if (type == 4) {
-				this.joueurActif = (String)o;
-			}
+	@Override
+	public void nouvelObjet(Object o, int type) {
+		if (type == 3) {
+			londonG.partie = (Partie)o;
+			afficherbouton();
 		}
+		if (type == 4) {
+			this.joueurActif = (String)o;
+		}
+		
+	}
+		
+		
+	
 
 
 	private String joueurActif;
@@ -71,6 +63,9 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 	private ShapeRenderer fondChat;
 	private TextButton btnLancerPartie;
 	private InputListener list;
+	private Chat chat;
+	private int cPosition=0;
+	
 
 	public void afficherbouton(){
 		btnLancerPartie.setVisible(true);
@@ -85,8 +80,6 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		Gdx.input.setInputProcessor(stage);
 
 		fondChat = new ShapeRenderer();
-		
-		
 		btnLancerPartie =new TextButton("Lancer partie",Buttons.styleInGameMenu); 
 		btnLancerPartie.setPosition(100, 600); 
 		btnLancerPartie.setVisible(false);
@@ -107,6 +100,8 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 			}
 		});
 		stage.addActor(btnLancerPartie);
+
+
 
 		TextButton btnRetour =new TextButton("Retour",Buttons.styleInGameMenu); 
 		btnRetour.setPosition(100, 135); 
@@ -137,13 +132,30 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		txtStyle.fontColor = Color.BLACK;
 		txtStyle.background.setBottomHeight(32f);
 		txtStyle.background.setLeftWidth(10f);
-	
+
 
 		//creation des textfields
 		final TextField mTextField = new TextField("", txtStyle);
 		mTextField.setPosition(400 , 120);
 		mTextField.setHeight(70);
 		mTextField.setWidth(850);
+		mTextField.setMaxLength(50);
+		mTextField.addListener(new InputListener(){
+
+			@Override
+			public boolean keyUp(InputEvent event, int keycode) {
+				if(keycode==66){
+					if(Sender.e==null){
+						System.out.println("wtf");
+					}else{
+					Sender.e.sendMessageString(login+" : "+mTextField.getText());
+					mTextField.setText("");
+					}
+				}
+				return super.keyUp(event, keycode);
+			}
+			
+		});
 		stage.addActor(mTextField);
 
 		/*
@@ -158,7 +170,6 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 				// code event
 				Sender.e.sendMessageString(login+" : "+mTextField.getText());
 				mTextField.setText("");
-
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -171,18 +182,34 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		stage.addActor(btnEnvoyer);
 
 
-
+		//creation chat
+		chat = new Chat(Art.skin);
+		stage.addActor(chat.getSPChat());
 
 
 
 	}
+	
+	private void messageChat(String message){
+		System.out.println(message);
 
+		Label temp = new Label(message, Art.skin);
+		temp.setAlignment(Align.left,Align.left);
+		temp.setWrap(true);
+		temp.setColor(Color.BLACK);
+		chat.add(temp).colspan(0).row();
+
+		cPosition=cPosition+100;
+	}
 
 	@Override
 	public void render() {
 		spriteBatch.begin();
 		draw(Art.bgPartie, 0, 0);
 		Fonts.FONT_TITLE.draw(spriteBatch, "RESEAU", 500, 20);
+		if(!chat.isOverTable()){
+			chat.getSPChat().setScrollY(cPosition);
+		}
 		spriteBatch.end();
 		Gdx.gl.glEnable(GL10.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
@@ -194,6 +221,11 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 
 		spriteBatch.begin();
 		//maj a deplacer
+		for(Emission e : Serveur.lesClients){
+			
+			int a = 3;
+			
+		}
 
 
 		Fonts.FONT_BLACK.draw(spriteBatch, listeMessage, 420, 200);
@@ -211,6 +243,8 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		// TODO Auto-generated method stub
 
 	}
+
+
 
 
 

@@ -261,6 +261,9 @@ public class Joueur implements Serializable, Comparable {
 	//On construit "une carte" sur une pile donn?e, et on d?fausse une carte de la m?me couleur
 	public GestionErreurs construire(Carte cPosee, Carte cDefaussee, int indexPile, Etalage etalage){
 		if(this.verifPresenceCarte(cPosee, mainDuJoueur.getLesCartes())){
+			if(!cPosee.isConstructible()){
+				return GestionErreurs.NON_CONSTRUCTIBLE_CARD;
+			}
 			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
 				if(cPosee.getPrix()<= argent){ 		
 					if(indexPile-1 >= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
