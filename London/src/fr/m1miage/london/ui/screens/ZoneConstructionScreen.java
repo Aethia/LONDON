@@ -40,10 +40,10 @@ public class ZoneConstructionScreen extends Screen{
 	private int idDefausseSelected =0;
 	private int pileSelected = -1;
 	private CarteActor cDefausse;
-	
+
 	private List<CarteActor> cActorList= new ArrayList<CarteActor>();
 	//private List<CarteActor> cActorListColor=new ArrayList<CarteActor>();
-	
+
 
 	private AreaColorRect fondChoixCartes= new AreaColorRect(950, 330, 300, 350);
 
@@ -146,11 +146,11 @@ public class ZoneConstructionScreen extends Screen{
 				idDefausseSelected=0;
 				cDefausse=null;
 				pileSelected=-1;
-				
+
 				validerConstru.setVisible(false);
 				fondChoixCartes.setVisible(false);
 				messageConstruire = "";
-				
+
 				btnAnnulCarte.setVisible(false);
 				super.touchUp(event, x, y, pointer, button);
 			}
@@ -158,7 +158,7 @@ public class ZoneConstructionScreen extends Screen{
 		});
 		stage.addActor(btnAnnulCarte);
 
-		
+
 		//bouton de validation des choix
 		validerConstru = new TextButton("Valider construction", Buttons.styleInGameMenu);
 		validerConstru.setSize(200, 50);
@@ -188,15 +188,15 @@ public class ZoneConstructionScreen extends Screen{
 			}
 
 		});
-		
+
 
 		stage.addActor(validerConstru);
 		if(pileSelected != -1 && idCarteSelected != 0 && idDefausseSelected !=0){
 			validerConstru.setVisible(true);
 		}
 	}
-	
-	
+
+
 	private void afficherCartesCouleurs(CarteActor c){ //Méthode qui va afficher les cartes à défausser possibles
 		messageConstruire="Choisissez une carte à défausser";
 		for(final Integer i : main.keySet()){
@@ -205,12 +205,12 @@ public class ZoneConstructionScreen extends Screen{
 				cActorList.add(main.get(i));
 				main.get(i).setVisible(false);
 			}
-			
+
 			//sinon, et si ce n'est pas la carte choisie, on met un input listener 
 			else if(main.get(i).getId()!=c.getId()){
 
 				main.get(i).addListener(new InputListener(){
-					
+
 					@Override
 					public void enter(InputEvent event, float x, float y,
 							int pointer, Actor fromActor) {
@@ -224,12 +224,12 @@ public class ZoneConstructionScreen extends Screen{
 								main.get(i).setY(110);
 							}
 						}
-						
+
 						super.enter(event, x, y, pointer, fromActor);
-				
-					
+
+
 					}
-					
+
 
 
 					@Override
@@ -247,7 +247,7 @@ public class ZoneConstructionScreen extends Screen{
 						 	//On peut affiche le bouton pour valider
 						 	validerConstru.setVisible(true);
 						 }
-						 
+
 						 super.touchDown(event, x, y, pointer, button);
 						 return true;
 					}
@@ -257,13 +257,13 @@ public class ZoneConstructionScreen extends Screen{
 			}
 		}
 	}
-	
-	
+
+
 	private void afficherCartes() {
 		int i=0;
 
 		for(final Carte c: joueur.getLesCartes()){
-			
+
 			i++;
 			final CarteActor ca = new CarteActor(c,350+i*50,10);
 			stage.addActor(ca);
@@ -281,7 +281,7 @@ public class ZoneConstructionScreen extends Screen{
 							c.setImg(t);
 						}
 						else if(c.empty()==true) {
-							
+
 							c.setImg(tNew);
 						}
 					}
@@ -291,9 +291,9 @@ public class ZoneConstructionScreen extends Screen{
 					}
                     super.touchDragged(event, dx, dy, pointer);
                 }
-				
-				
-				
+
+
+
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {
@@ -320,10 +320,10 @@ public class ZoneConstructionScreen extends Screen{
 								pileSelected=pA.getId();
 								btnAnnulCarte.setX(ca.getX()+75);
 								btnAnnulCarte.setVisible(true);
-								
+
 		                    	afficherCartesCouleurs(ca);	
-								
-									
+
+
 								}
 							if(pileSelected < 0 && pileI.hasNext()==false){
 								//Si à la fin du parcours, elle ne se trouve dans aucune pile, on la remet à sa place
@@ -333,14 +333,14 @@ public class ZoneConstructionScreen extends Screen{
 					}
 					super.touchUp(event, x, y, pointer, button);
 				}
-			
+
 		});
-			
+
 			main.put(c.getId_carte(), ca);
-			
+
 		}
 	}
-	
+
 	private void cacherCartes(){		
 		for(CarteActor c : cActorList){
 			c.setVisible(true);
@@ -355,7 +355,7 @@ public class ZoneConstructionScreen extends Screen{
 		for(Carte pileC : joueur.getZone_construction().cartesTop()){
 			CarteActor ca = new CarteActor(pileC, left+i*215, 360);
 			stage.addActor(ca);
-			
+
 			final PileActor paLi = new PileActor(pileC, left+i*215, 360);
 			Point p = new Point(left+i*215, 360);
 	        paLi.sethGauche(p);
@@ -376,7 +376,7 @@ public class ZoneConstructionScreen extends Screen{
         lPiles.add(pa);
         stage.addActor(pa);
         Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE+"carte_etalage.png"));
-		
+
         pa.setImg(t);   
 	}
 

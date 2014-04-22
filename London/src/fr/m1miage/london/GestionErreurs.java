@@ -16,6 +16,14 @@ public enum GestionErreurs {
 	MAX_EMPRUNT("Vous avez atteint la limite pour emprunter (100£)"),
 	MONTANT_INCORRECT("Montant incorrect, veuillez inserer une valeur entiere multiple de 10 inférieure à 100"),
 	NOT_ENOUGH_CARD("Il n'y a plus de carte � piocher"),
+	NON_ACTIVABLE_CARD("Cette carte n'est pas activable"),
+	NO_ROSE_CARD("Vous n'avez pas de carte rose"),
+	NO_BRUN_CARD("Vous n'avez pas de carte brune"),
+	NO_BLEU_CARD("Vous n'avez pas de carte bleue"),
+	NO_GRIS_CARD("Vous n'avez pas de carte grise"),
+	NONEXISTANT_PLAYER("Ce joueur n'existe pas"),
+	WRONG_PLAYER("Vous ne pouvez pas réaliser cette action sur vous même"),
+	NOT_ENOUGH_PAUPERS("Vous n'avez pas assez de point de pauvreté"),
 	;
 	
 private String name = "";

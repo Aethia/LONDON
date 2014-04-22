@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 import fr.m1miage.london.classes.Carte;
 import fr.m1miage.london.classes.Joueur;
+import fr.m1miage.london.classes.Effet;
+import fr.m1miage.london.classes.Plateau;
 import fr.m1miage.london.classes.TraderClassRestaurerVille;
 
 public class Console {
@@ -22,7 +24,7 @@ public class Console {
 	private int nbJoueurs;
 	
 	private Partie partie =  new Partie();
-	
+	private Effet effet = new Effet();
 	
 	public Console(){
 	}
@@ -248,7 +250,8 @@ public class Console {
 					Carte cDefausse = jActif.choisirCarteParId(idCarteDefausse);
 					jActif.getZone_construction().afficherCarteDessus();
 					System.out.println("Choisir une pile ou en cr�er une nouvelle (0):");
-					int indexPile=Integer.parseInt(sc.next());	
+					int indexPile=Integer.parseInt(sc.next());
+
 					erreur = jActif.construire(cPosee, cDefausse, indexPile,partie.getEtalage());
 					if(erreur.equals(GestionErreurs.NONE)){
 						System.out.println(jActif.getZone_construction().getNbPiles());
@@ -299,10 +302,12 @@ public class Console {
 				}
 			}
 			// on regarde s'il est possible de restaurer la ville avec les cartes selectionnees
-			if (partie.getObjJoueurActif().restaurerVille(listVal) < 0) {
-				System.err.println("impossible d'activer ces cartes.");
+			erreur = partie.getObjJoueurActif().restaurerVille(listVal);
+			if(!erreur.equals(GestionErreurs.NONE)){
+				erreur.getMsgError();
 				return false;
 			}
+		
 			/*
 			 * Affichage du cout de l'activation
 			 */
@@ -358,8 +363,115 @@ public class Console {
 					// on retourne les cartes que l'on souhaite activer
 					for(int idCarte : listVal){
 						partie.getObjJoueurActif().getZone_construction().retournerCarte(idCarte);
+						
+						switch(idCarte){
+						
+							//Lance la fonction metro si la carte est wait for it ...metro
+							case 76:
+							case 79:
+							case 84:
+							case 85:
+							case 97:
+								metro();
+								break;
+							
+							//cartes 19, 106, 110
+							//effet 5
+							//on pioche 2 cartes
+							case 19:
+							case 106:
+							case 110:
+								effet.prendreDeuxCartes(partie.getPioche(), partie.getObjJoueurActif());
+								break;
+							
+							//cartes 37, 63
+							//effet 7
+							//on reçoit un point de victoire pour chaque carte non brune dans la zone de construction
+							case 37:
+							case 63:
+								effet.pVPourCartesNonBrune(partie.getObjJoueurActif());
+								break;
+							
+							//cartes 50, 62, 94
+							//effet 11
+							//on reçoit un point de victoire pour chaque carte brune dans la zone de construction
+							case 50:
+							case 62:
+							case 94:
+								effet.pVPourCartesBrune(partie.getObjJoueurActif());
+								break;
+							
+							//cartes 91, 93
+							//effet 25
+							//£2 pour chaque quartier au nord de la tamise
+							case 91:
+							case 93:
+								effet.argentQuartiersNord(partie.getPlateau(), partie.getObjJoueurActif());
+								break;
+							
+							//cartes 83
+							//effet 23
+							//£2 pour chaque quartier au sud de la tamise
+							case 83:
+								effet.argentQuartiersSud(partie.getPlateau(), partie.getObjJoueurActif());
+								break;
+							
+							//cartes 54, 67
+							//effet 12
+							//£1 pour chaque quartier occupé
+							case 54:
+							case 67:
+								effet.argentQuartiersOccupes(partie.getPlateau(), partie.getObjJoueurActif());
+								break;
+							
+							//cartes 57, 59
+							//effet 15
+							//£2 pour chaque quartier adjacent à la tamise
+							case 57:
+							case 59:
+								effet.argentQuartiersAdjacentsTamise(partie.getPlateau(), partie.getObjJoueurActif());
+								break;
+							
+							//cartes 39
+							//effet 8
+							//donne à un joueur de notre choix 1 point de pauvreté
+							case 39:
+								System.out.println("Entrez le numéro du joueur : ");
+								if(sc.hasNextInt()){
+									int numJoueur = sc.nextInt();
+									effet.donneUnDeVosPP(numJoueur, partie, partie.getObjJoueurActif());
+								}
+								else{
+									System.out.println("Valeur incorrecte.");
+									sc.next();
+								}
+								break;
+
+							
+							//cartes 41
+							//effet 9
+							//le joueur de votre choix prend 2 points de pauvreté
+							case 41:
+								System.out.println("Entrez le numéro du joueur : ");
+								if(sc.hasNextInt()){
+									int numJoueur = sc.nextInt();
+									effet.prendDeuxPP(numJoueur, partie, partie.getObjJoueurActif());
+								}
+								else{
+									System.out.println("Valeur incorrecte.");
+									sc.next();
+								}
+								break;
+							
+							default:
+								
+								break;
+						}
+						
 					}
-					// todo mï¿½thode de joueur pour payer la somme et retourner les cartes
+
+				// todo méthode de joueur pour payer la somme et retourner les cartes
+
 					System.out.println("Cartes activees !");
 				}
 
@@ -423,6 +535,58 @@ public class Console {
 			partie.getObjJoueurActif().afficherMain();
 			System.out.println("Vous voulez consulter vos cartes en main");
 			partie.getObjJoueurActif().afficherMain();
+
+		}
+	//-----------------------------------------------------------------------------------	
+		private void metro(){
+		
+			if(partie.getPlateau().PoserMetro()==true){
+				System.out.println(partie.getPlateau().getQuartiersMetro());
+				System.out.println("Dans quel quartier voulez-vous placer le 1er marqueur");
+				int quartier1;
+				
+				if(sc.hasNextInt()){
+					quartier1 = sc.nextInt();
+					
+					//fonction effet quartier1.metro()
+					partie.getPlateau().getQuartier(quartier1).QuartierMetro();
+					
+					System.out.println("Marqueur ajouté !");
+					
+					System.out.println(partie.getPlateau().getQuartiersMetro());
+					System.out.println("Dans quel quartier voulez-vous placer le 2ème marqueur");
+					
+					int quartier2;
+					
+					if(sc.hasNextInt()){
+						quartier2 = sc.nextInt();
+						
+						//fonction effet quartier2.metro()
+						partie.getPlateau().getQuartier(quartier2).QuartierMetro();
+						
+						if(partie.getPlateau().getQuartier(quartier1).isAuSudTamise()
+						   != partie.getPlateau().getQuartier(quartier2).isAuSudTamise()){
+							partie.getObjJoueurActif().setAddArgent(-3);
+							
+						}
+						
+						partie.getObjJoueurActif().setAddPoint_victoire(4);
+						
+					}
+					else{
+						System.err.println("Numero de quartier incorrect \n");
+						sc.next();
+					}
+				}
+				else{
+					System.err.println("Numero de quartier incorrect \n");
+					sc.next();
+				}
+			}
+			
+			else{
+				System.out.println("Vous ne pouvez pas poser de metro");
+			}			
 
 		}
 

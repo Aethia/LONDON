@@ -1,5 +1,6 @@
 package fr.m1miage.london.ui.screens;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,6 +74,11 @@ public class GameScreen extends Screen{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
+				try {
+					londonG.partie.sauvegarder();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				super.touchUp(event, x, y, pointer, button);
 			}
 			
@@ -104,6 +110,22 @@ public class GameScreen extends Screen{
 			tableActions.add(construireBtn);
 
 			restaurerBtn = new Button(Buttons.styleBtnRestaurer);
+			restaurerBtn.addListener(new InputListener(){
+
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					return true;
+				}
+
+				@Override
+				public void touchUp(InputEvent event, float x, float y,
+						int pointer, int button) {
+					Screen.setScreen(new ZoneRestaurerScreen("Choisir un batiment à restaurer"));
+					super.touchUp(event, x, y, pointer, button);
+				}
+				
+			});
 			tableActions.add(restaurerBtn);
 
 			investirBtn = new Button(Buttons.styleBtnInvestir);

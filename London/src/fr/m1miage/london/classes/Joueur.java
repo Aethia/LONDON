@@ -25,7 +25,7 @@ public class Joueur implements Serializable, Comparable {
 	private ZoneConstruction zoneConstruction;
 	// la main du joueurs (ses cartes)
 	private Main mainDuJoueur;
-	
+
 	private int nbQuartiers;
 
 
@@ -68,7 +68,7 @@ public class Joueur implements Serializable, Comparable {
 	public void setAddQuartiers() {
 		this.nbQuartiers ++;
 	}
-	
+
 	public void setAddPoint_victoire(int point_victoire) {
 		this.point_victoire += point_victoire;
 	}
@@ -81,7 +81,7 @@ public class Joueur implements Serializable, Comparable {
 	public void setArgent(int argent) {
 		this.argent = argent;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -104,7 +104,7 @@ public class Joueur implements Serializable, Comparable {
 	public int getQuartiers() {
 		return nbQuartiers;
 	}
-	
+
 	public int getPoint_victoire() {
 		return point_victoire;
 	}
@@ -164,15 +164,15 @@ public class Joueur implements Serializable, Comparable {
 	public Boolean supprimerCarteMainParId(int idCarte){
 		return this.mainDuJoueur.supprimerCarteParId(idCarte);
 	}
-/*
- * Defausse
- */
+	/*
+	 * Defausse
+	 */
 	public void seDefausser(Carte c, Etalage etalage){
 		etalage.ajouterCarte(c);
 		mainDuJoueur.supprimerCarteParId(c.getId_carte());
 	}
-	
-	
+
+
 	public Carte choisirCarteParId(int idCarte){
 		return this.mainDuJoueur.choisirCarte(idCarte);				
 	}
@@ -263,12 +263,12 @@ public class Joueur implements Serializable, Comparable {
 		if(this.verifPresenceCarte(cPosee, mainDuJoueur.getLesCartes())){
 			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
 				if(cPosee.getPrix()<= argent){ 		
-					if(indexPile-1 >= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
+					if(indexPile-1 <= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
 						this.zoneConstruction.addPile(cPosee);	
 					}
 					else{
 						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
-					}			
+					}
 					argent -= cPosee.getPrix();
 					this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
 					this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
@@ -296,7 +296,7 @@ public class Joueur implements Serializable, Comparable {
 		}
 		else
 			return GestionErreurs.NOT_ENOUGH_CARD;
-			
+
 	}
 
 
@@ -319,75 +319,82 @@ public class Joueur implements Serializable, Comparable {
 
 
 	}
-	
+
 	public GestionErreurs restaurerVille2(Carte carteAActiver, Carte cartedefausse, Etalage letalage){
-			// les cartes "activables" (qui sont sur le dessus des piles)
-			List<Carte> cartesDessus = zoneConstruction.getCarteDessus();
-			Boolean trouve = false;
-			for (Carte c : cartesDessus) {
-				if (c.getId_carte() == carteAActiver.getId_carte() && c.isDesactivee() == false) {
-					carteAActiver = c;
-					trouve = true;		
-				}
+		// les cartes "activables" (qui sont sur le dessus des piles)
+		List<Carte> cartesDessus = zoneConstruction.getCarteDessus();
+		Boolean trouve = false;
+		for (Carte c : cartesDessus) {
+			if (c.getId_carte() == carteAActiver.getId_carte() && c.isDesactivee() == false) {
+				carteAActiver = c;
+				trouve = true;		
 			}
-			
-			// si on a pas trouvé
-			if (!trouve){
-				return GestionErreurs.CARTE_NON_TROUVEE;
+		}
+
+		// si on a pas trouvé
+		if (!trouve){
+			return GestionErreurs.CARTE_NON_TROUVEE;
+		}
+
+		// on va stocker le cout d'activation de toutes ces cartes
+		int coutLivres=0;
+
+		// si la carte n'est pas asctivable
+		if (carteAActiver.getCoutActivation() == null ){
+			return GestionErreurs.CARTE_NON_TROUVEE;
+		}
+
+		// on regarde le cout d'activation de cette carte
+		switch(carteAActiver.getCoutActivation().getTypeActiv()){
+		// l'activation est gratuite
+		case 0 : break;
+		// l'activation ne coute que des livres
+		case 1 : coutLivres = carteAActiver.getCoutActivation().getLivresAPayer();break;
+		// si l'activation coute une carte
+		case 2 : 
+			if (cartedefausse == null )
+				return GestionErreurs.CARTE_DEFAUSSE_MANQUE;
+			else {
+				if (!cartedefausse.getCoutActivation().getCouleurADefausser().equalsIgnoreCase(carteAActiver.getCoutActivation().getCouleurADefausser()))
+					return GestionErreurs.CARTE_DEFAUSSE_COULEUR;
+				break;
 			}
-			
-			// on va stocker le cout d'activation de toutes ces cartes
-			int coutLivres=0;
-			
-			// si la carte n'est pas asctivable
-			if (carteAActiver.coutActivation() == null ){
-				return GestionErreurs.CARTE_NON_TROUVEE;
-			}
-			
-			// on regarde le cout d'activation de cette carte
-			switch(carteAActiver.coutActivation().getTypeActiv()){
-			// l'activation est gratuite
-			case 0 : break;
-			// l'activation ne coute que des livres
-			case 1 : coutLivres = carteAActiver.coutActivation().getLivresAPayer();break;
-			// si l'activation coute une carte
-			case 2 : 
-				if (cartedefausse == null )
-					return GestionErreurs.CARTE_DEFAUSSE_MANQUE;
-				else {
-					if (!cartedefausse.coutActivation().getCouleurADefausser().equalsIgnoreCase(carteAActiver.coutActivation().getCouleurADefausser()))
-						return GestionErreurs.CARTE_DEFAUSSE_COULEUR;
-					break;
-				}
 			// l'activation coute une carte, peu importe la couleur
-			case 3 : if (cartedefausse == null ) 
-							return GestionErreurs.CARTE_DEFAUSSE_MANQUE;
-					break;		
-			}
-			
-			// si le joueur n'a pas assez d'argent
-			if (this.argent < coutLivres) {
-				return GestionErreurs.NOT_ENOUGH_MONEY;
-			}
-			
-			// on donne l'argent d'activation
-			this.argent += carteAActiver.getArgentActivation();
-			// on donne les pts de victoire d'activation
-			this.point_victoire += carteAActiver.getPtsVictActivation();
-			// on donne les pts de pauvreté
-			this.point_pauvrete += carteAActiver.getPtsPauvreteGagnes();
-			this.point_pauvrete -= carteAActiver.getPtsPauvretePerdus();
-			if (this.point_pauvrete < 0)
-				this.point_pauvrete = 0;
-			
-			// on supprime la carte qui a été jouée dans la main
-			this.mainDuJoueur.supprimerCarteParId(carteAActiver.getId_carte());
-			
-			// on place la carte défaussée dans l'étalage
+		case 3 : if (cartedefausse == null ) 
+			return GestionErreurs.CARTE_DEFAUSSE_MANQUE;
+		break;		
+		}
+
+		// si le joueur n'a pas assez d'argent
+		if (this.argent < coutLivres) {
+			return GestionErreurs.NOT_ENOUGH_MONEY;
+		}
+
+		// on donne l'argent d'activation
+		this.argent += carteAActiver.getArgentActivation();
+		// on donne les pts de victoire d'activation
+		this.point_victoire += carteAActiver.getPtsVictActivation();
+		// on donne les pts de pauvreté
+		this.point_pauvrete += carteAActiver.getPtsPauvreteGagnes();
+		this.point_pauvrete -= carteAActiver.getPtsPauvretePerdus();
+		if (this.point_pauvrete < 0)
+			this.point_pauvrete = 0;
+
+		// on supprime la carte qui a été jouée dans la main
+		this.mainDuJoueur.supprimerCarteParId(carteAActiver.getId_carte());
+
+		// on place la carte défaussée dans l'étalage s'il y en a une
+		if(cartedefausse!=null){
 			this.mainDuJoueur.supprimerCarteParId(cartedefausse.getId_carte());
 			letalage.ajouterCarte(cartedefausse);
-			
-			return GestionErreurs.NONE;
+		}
+		//si la carte etait a retourner, on la retourne
+		if(carteAActiver.getCoutActivation().isaRetourner()){
+
+			carteAActiver.setDesactivee(true);
+		}
+
+		return GestionErreurs.NONE;
 	}
 
 	/*
@@ -396,7 +403,7 @@ public class Joueur implements Serializable, Comparable {
 	 * -1 : cartes non trouv�es
 	 * 1 : pas de pb
 	 */
-	public int restaurerVille(List<Integer> idCartes){
+	public GestionErreurs restaurerVille(List<Integer> idCartes){
 		/*
 		 * V�rifier si les cartes existent
 		 */
@@ -412,11 +419,11 @@ public class Joueur implements Serializable, Comparable {
 					trouve = true;		
 					cartesAActiver.add(c);
 				}
-						
+
 			}
 			// si on a pas trouv� cette carte, on sort
 			if (!trouve)
-				return -1;
+				return GestionErreurs.INCORRECT_NUMBER;
 			// on remet le flag � faux pour la carte suivante
 			trouve = false;	
 		}
@@ -428,28 +435,36 @@ public class Joueur implements Serializable, Comparable {
 		TraderClassRestaurerVille.reset();
 		for(Carte c : cartesAActiver){
 			// si la carte n'est pas activable
-			if (c.coutActivation() == null){
-				return -2;
+			if (c.getCoutActivation() == null){
+				return GestionErreurs.NON_ACTIVABLE_CARD;
 			}
-			switch (c.coutActivation().getTypeActiv()){
+			switch (c.getCoutActivation().getTypeActiv()){
 			case 0 : break;
-			case 1 : TraderClassRestaurerVille.addCoutEnLivres(c.coutActivation().getLivresAPayer());break;
+			case 1 : TraderClassRestaurerVille.addCoutEnLivres(c.getCoutActivation().getLivresAPayer());break;
 			case 2 : {
-				switch (c.coutActivation().getCouleurADefausser()){
+				switch (c.getCoutActivation().getCouleurADefausser()){
 				case "Brun" : TraderClassRestaurerVille.addNbCartesBrunes();break;
 				case "Bleu" : TraderClassRestaurerVille.addNbCartesBleues();break;
 				case "Gris" : TraderClassRestaurerVille.addNbCartesGrises();break;
 				case "Rose" : TraderClassRestaurerVille.addNbCartesRoses();break;			
 				}
-				
+
 				break;
 			}
 			case 3 : TraderClassRestaurerVille.addNbCartesOsefCouleur();break;
 			}
 		}
-		return 1;
+		return GestionErreurs.NONE;
 	}
-	
+
+	public void aActive(Carte carte){
+		this.argent = this.argent + carte.getArgentActivation();
+		this.point_pauvrete= this.point_pauvrete + carte.getPtsPauvreteGagnes();
+		this.point_pauvrete= this.point_pauvrete - carte.getPtsPauvretePerdus();
+		this.point_victoire= this.point_victoire + carte.getPointsVictoire();
+		
+	}
+
 	/*
 	 * m�thode pour payer la restauration de la ville
 	 * -1 : manque d'argent
@@ -459,7 +474,7 @@ public class Joueur implements Serializable, Comparable {
 	 * -5 : manque carte brun
 	 * -6 : carte non trouv�e
 	 */
-	public int payerRestaurationVille(List<Carte> cartesADefausser){
+	public GestionErreurs payerRestaurationVille(List<Carte> cartesADefausser){
 		int roseADefausser = 0,bleuADefausser = 0,grisADefausser = 0,brunADefausser = 0;
 		int rose = 0,bleu = 0,gris = 0,brun = 0;
 		// on compte le nb de carte de chaque couleur que l'on veut d�fausser
@@ -480,32 +495,34 @@ public class Joueur implements Serializable, Comparable {
 			case "Brun" : brun++;break;		
 			}
 		}
-		
+
 		// test pour voir si on manque de ressources
+		System.err.println( "argent du joueur :" + this.argent);
+		System.err.println( "truc :" + TraderClassRestaurerVille.getCoutEnLivres());
 		if (this.argent - TraderClassRestaurerVille.getCoutEnLivres() < 0)
-			return -1;
+			return GestionErreurs.NOT_ENOUGH_MONEY;
 		if (rose-roseADefausser < 0){
-			return -2;
+			return GestionErreurs.NO_ROSE_CARD;
 		}
 		if (bleu-bleuADefausser < 0){
-			return -3;
+			return GestionErreurs.NO_BLEU_CARD;
 		}
 		if (gris-grisADefausser < 0){
-			return -4;
+			return GestionErreurs.NO_GRIS_CARD;
 		}
 		if (brun-brunADefausser < 0){
-			return -5;
+			return GestionErreurs.NO_BRUN_CARD;
 		}
 		for(Carte c : cartesADefausser){
 			if (!this.mainDuJoueur.supprimerCarteParId(c.getId_carte())){
-				return -6;
+				return GestionErreurs.INCORRECT_CARTE;
 			}
 		}
-		
-		return 1;
+
+		return GestionErreurs.NONE;
 	}
-	
-	
+
+
 	//En cas d'égalité lors du calcul du vainqueur
 	@Override
 	public int compareTo(Object joueur) {
@@ -526,7 +543,7 @@ public class Joueur implements Serializable, Comparable {
 					return -1;
 				else
 					return 0;
-				
+
 			}
 		}
 	}

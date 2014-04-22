@@ -11,4 +11,8 @@ public class Prefs {
 	public static final String REPERTOIRE_ACTIONS = "ressources/Images/Boutons/Actions/";
 	public static final String REPERTOIRE_BOUTONS = "ressources/Images/Boutons/";
 	public static final String REPERTOIRE_ICONES = "ressources/Images/Icones/";
+	
+
+	public static final int HAUTEUR_CARTE = 300;
+	public static final int LARGEUR_CARTE = 200;
 }

@@ -38,8 +38,11 @@ public class ReseauScreenClient extends Screen implements IncomingListenerClient
 				// on lance la partie
 				Screen.setScreen(new GameScreenReseauClient());	
 			}
-			else
+			else {
 				System.out.println("nouveau :" + message);
+				listeMessage+=("\n"+message);
+			}
+			
 		}	
 
 
