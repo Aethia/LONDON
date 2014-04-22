@@ -41,7 +41,7 @@ public class GameScreenReseauServeur extends Screen implements IncomingPartieObj
 	private TableauScores scores;
 
 	private Stage stage; 
-	private String joueurActif;
+	public static String joueurActif;
 	private String login = "host";
 	private int time =0;
 	private static final int TIME_OUT_CARD = 150;
@@ -89,7 +89,8 @@ public class GameScreenReseauServeur extends Screen implements IncomingPartieObj
 		
 		/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
 		if(!londonG.partie.isTourTermine()){
-MenuActions tableActions = new MenuActions();			stage.addActor(tableActions);
+		MenuActions tableActions = new MenuActions(this.login,this.joueurActif,"serveur");			
+		stage.addActor(tableActions);
 		}else{ /*sinon, on demande au joueur de confirmer qu'il a termine son tour*/
 			finTourBtn = new Button(Buttons.styleBtnFinTour);
 			finTourBtn.setPosition(700, 400); //changer la position
@@ -103,7 +104,7 @@ MenuActions tableActions = new MenuActions();			stage.addActor(tableActions);
 					Joueur j = londonG.partie.getObjJoueurActif();
 					if(j.getMainDuJoueur().getNb_cartes()>Regles.NBMAXCARTES){
 						int nbD = j.getMainDuJoueur().getNb_cartes()- Regles.NBMAXCARTES;
-						londonG.setScreen(new DefausserScreen(j,nbD));
+						londonG.setScreen(new DefausserScreen(j,nbD,login,GameScreenReseauServeur.joueurActif, "host"));
 					}else{
 						londonG.partie.joueurSuivant();	
 						j = londonG.partie.getObjJoueurActif();

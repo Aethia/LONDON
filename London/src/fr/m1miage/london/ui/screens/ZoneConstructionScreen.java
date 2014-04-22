@@ -81,7 +81,15 @@ public class ZoneConstructionScreen extends Screen{
 		messageConstruire = msg;
 		this.log = login;
 		this.joueurActif = joueurActif;
-		this.sender = sender;
+		this.sender = sender; 
+		joueur = londonG.partie.getObjJoueurActif();
+		constructionScreen();
+	}
+	
+	public ZoneConstructionScreen(String login,String joueurActif,String sender){
+		this.log = login;
+		this.joueurActif = joueurActif;
+		this.sender = sender; 
 		joueur = londonG.partie.getObjJoueurActif();
 		constructionScreen();
 	}

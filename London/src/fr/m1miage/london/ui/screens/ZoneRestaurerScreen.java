@@ -36,14 +36,39 @@ public class ZoneRestaurerScreen extends Screen{
 	private CarteActor carteDefausse;
 	/* Scores */
 	private Score scoreJoueur;
+	public String login = null;
+	public String joeurActif = null;
+	public String sender = null;
 
 	public ZoneRestaurerScreen(String msg){
 		messageAction = msg;
 		joueur = londonG.partie.getObjJoueurActif();
 		restaurerScreen();
 	}
+	
+	public ZoneRestaurerScreen(String msg,String login,String joeurActif,String sender){
+		messageAction = msg;
+		this.login = login;
+		this.joeurActif = joeurActif;
+		this.sender = sender;
+		joueur = londonG.partie.getObjJoueurActif();
+		restaurerScreen();
+	}
 
 	private void restaurerScreen() {
+		afficherRestaurer();
+
+	}
+
+	private void restaurerScreen(String login,String joeurActif,String sender) {
+		this.login = login;
+		this.joeurActif = joeurActif;
+		this.sender = sender;
+		afficherRestaurer();
+
+	}
+	
+	private void afficherRestaurer() {
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
@@ -55,7 +80,15 @@ public class ZoneRestaurerScreen extends Screen{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new GameScreen());
+				// si c'est une partie multijoueur
+				if (ZoneConstructionScreen.log != null) {
+					if (ZoneConstructionScreen.sender.equals("client"))
+						Screen.setScreen(new GameScreenReseauClient(ZoneConstructionScreen.log, ZoneConstructionScreen.joueurActif));
+					else
+						Screen.setScreen(new GameScreenReseauServeur(ZoneConstructionScreen.joueurActif));
+				}
+				else
+					Screen.setScreen(new GameScreen());
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -120,7 +153,6 @@ public class ZoneRestaurerScreen extends Screen{
 		stage.addActor(scoreJoueur);
 
 		mainJoueur();
-
 	}
 
 

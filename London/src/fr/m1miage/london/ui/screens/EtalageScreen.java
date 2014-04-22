@@ -141,7 +141,14 @@ public class EtalageScreen extends Screen{
 						int pointer, int button) {
 					londonG.partie.setActionChoisie(4);
 					londonG.partie.setTourTermine(true);
-					Screen.setScreen(new GameScreen());
+					if (EtalageScreen.sender != null) {
+						if (EtalageScreen.sender.equals("client"))
+							Screen.setScreen(new GameScreenReseauClient(EtalageScreen.log, EtalageScreen.joueurActif));
+						else
+							Screen.setScreen(new GameScreenReseauServeur(EtalageScreen.joueurActif));
+					}
+					else
+						Screen.setScreen(new GameScreen());
 					super.touchUp(event, x, y, pointer, button);
 				}
 
