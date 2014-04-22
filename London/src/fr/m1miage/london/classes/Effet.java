@@ -226,14 +226,14 @@ public class Effet implements Serializable{
 	//cartes 103
 	//effet 28
 	//Prenez £1 et perdez un point de pauvreté pour chaque carte "Pauvres" que vous placez sur l'étalage
-	public void pauvresSurEtalage(Partie partie, Joueur j, List<Carte> lc){
-		for(Carte c : lc){
-			if(c.getCouleur().equals("Gris")){
-				j.setAddArgent(1);
-				j.setAddPoint_pauvrete(-1);
-				j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
-				partie.getEtalage().ajouterCarte(c);
-			}
+	public void pauvresSurEtalage(Partie partie, Joueur j, Carte c){
+		//for(Carte c : lc){
+		if(c.getCouleur().equals("Gris")){
+			j.setAddArgent(1);
+			j.setAddPoint_pauvrete(-1);
+			j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
+			partie.getEtalage().ajouterCarte(c);
 		}
+		//}
 	}
 }

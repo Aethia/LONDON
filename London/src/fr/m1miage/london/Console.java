@@ -477,6 +477,13 @@ public class Console {
 								effet.argentRecolterDeuxParJoueur(partie, partie.getObjJoueurActif());
 								break;
 								
+							//cartes 103
+							//effet 28
+							//Prenez £1 et perdez un point de pauvreté pour chaque carte "Pauvres" que vous placez sur l'étalage
+							case 103:
+								echangePauvresContreArgent();
+								break;
+								
 							default:
 								
 								break;
@@ -603,5 +610,26 @@ public class Console {
 			}			
 
 		}
+		
+		private void echangePauvresContreArgent() {
+			int finEchange=1;
+			System.out.println(partie.getEtalage().toString());
+			while(finEchange == 1){
+				Joueur jActif = partie.getObjJoueurActif();
+				jActif.afficherMain();
+				System.out.println("Choisissez la carte à échanger : ");
+				int idCarte=(Integer.parseInt(sc.next()));
+				Carte cChoix = jActif.choisirCarteParId(idCarte);
+				
+				effet.pauvresSurEtalage(partie, jActif, cChoix);
 
+				jActif.afficherMain();
+				System.out.println(partie.getEtalage().toString());
+
+				System.out.println("1. Echanger une autre carte \n 2. Finir l'échange");
+				if(sc.hasNextInt()){
+					finEchange = sc.nextInt();
+				}
+			}
+		}
 }

@@ -330,22 +330,11 @@ public class EffetTest {
 		j.ajouterCartesMain(list);
 		p.getPlateau().setEtalage(etalage);
 		
-		effet.pauvresSurEtalage(p, j, list);
-		assertEquals(7, j.getArgent());
-		assertEquals(3, j.getPoint_pauvrete());
+		effet.pauvresSurEtalage(p, j, c3);
+		assertEquals(6, j.getArgent());
+		assertEquals(4, j.getPoint_pauvrete());
 	}
-	
-	@Test
-	public void testPauvresSurEtalagePasDeCarte(){
-		ArrayList<Carte> list = new ArrayList(); 
-		j.ajouterCartesMain(list);
-		p.getPlateau().setEtalage(etalage);
 		
-		effet.pauvresSurEtalage(p, j, list);
-		assertEquals(5, j.getArgent());
-		assertEquals(5, j.getPoint_pauvrete());
-	}
-	
 	@Test
 	public void testPauvresSurEtalageNonPauvre(){
 		c3 = new Carte(4,"nom","A",2,"Brun",null);
@@ -356,7 +345,7 @@ public class EffetTest {
 		j.ajouterCartesMain(list);
 		p.getPlateau().setEtalage(etalage);
 		
-		effet.pauvresSurEtalage(p, j, list);
+		effet.pauvresSurEtalage(p, j, c3);
 		assertEquals(5, j.getArgent());
 		assertEquals(5, j.getPoint_pauvrete());
 	}
