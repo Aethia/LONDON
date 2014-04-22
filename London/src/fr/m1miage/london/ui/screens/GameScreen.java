@@ -37,11 +37,17 @@ public class GameScreen extends Screen{
 	private Button investirBtn;
 	private Button piocherBtn;
 	private Button finTourBtn;
+	
+	private TextButton btnJouerCarte;
 
 	/* Main du joueur */
 	public int idCarteSelected=0;
 	public Map<Integer, CarteActor> main = new HashMap<Integer,CarteActor>();
 	public int idCarteOver =0;
+	
+	/*Cartes qui peuvent être jouées*/
+	private int[] cartesAJouer = {106, 110, 19, 24 };
+	
 
 	/* Scores */
 	private Score scoreJoueur;
@@ -59,6 +65,28 @@ public class GameScreen extends Screen{
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
+		final Joueur jouActif = londonG.partie.getObjJoueurActif();
+		//jouer une carte
+		btnJouerCarte = new TextButton("Jouer carte", Buttons.styleInGameMenu);
+		btnJouerCarte.setPosition(1100, 180);
+		btnJouerCarte.setVisible(false);
+		btnJouerCarte.addListener(new InputListener(){
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				londonG.partie.getObjJoueurActif().jouerCarte(jouActif,jouActif.choisirCarteParId(idCarteSelected),londonG.partie.getPioche());
+				Screen.setScreen(new GameScreen());
+				btnJouerCarte.setVisible(false);
+				super.touchUp(event, x, y, pointer, button);
+			}
+		});
+		stage.addActor(btnJouerCarte);
 		
 		//sauvegarde
 		btnSauvegarde = new Button(Buttons.styleBtnSauvegarde);
@@ -301,9 +329,15 @@ public class GameScreen extends Screen{
 					if(ca.isSelected()){
 						ca.setSelected(false);
 						idCarteSelected=0;
+
 					}else{
 						ca.setSelected(true);
 						idCarteSelected = c.getId_carte();
+					}
+					for(int i : cartesAJouer){
+						if(i == ca.getId()){
+							btnJouerCarte.setVisible(true);
+						}
 					}
 					return super.touchDown(event, x, y, pointer, button);
 				}
