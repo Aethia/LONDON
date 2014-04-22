@@ -1,27 +1,30 @@
 package fr.m1.miage.london.network.client;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.m1.miage.london.network.*;
+import fr.m1.miage.london.network.Action;
+import fr.m1.miage.london.network.IncomingMessageListenerClient;
+import fr.m1.miage.london.network.IncomingObjectListenerClient;
+import fr.m1.miage.london.network.IncomingPartieObjectListenerClient;
+import fr.m1miage.london.classes.Joueur;
 
 
 public class Reception implements Runnable {
 
 	private ObjectInputStream  in;
 	private Action action = null;
-	private String login;
+	private Joueur joueur;
 	private static List<IncomingMessageListenerClient> listenersM = new ArrayList<IncomingMessageListenerClient>();
 	private static List<IncomingObjectListenerClient> listenersO = new ArrayList<IncomingObjectListenerClient>();
 	public static List<IncomingPartieObjectListenerClient> listenersPartie = new ArrayList<IncomingPartieObjectListenerClient>();
 	
 	
 	
-	public Reception(ObjectInputStream  in, String login){
-		this.login = login;
+	public Reception(ObjectInputStream  in, Joueur joueur){
+		this.joueur = joueur;
 		this.in = in;
 	}
 	

@@ -1,25 +1,24 @@
 package fr.m1.miage.london.network.client;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
+
+import fr.m1.miage.london.network.Action;
+import fr.m1miage.london.classes.Joueur;
 
 public class Connexion implements Runnable {
 
 	private Socket socket = null;
 	public static Thread t2;
-	public static String login = null, pass = null, message1 = null, message2 = null, message3 = null;
+	public static Joueur joueur = null;
 	private ObjectOutputStream  out = null;
 	private ObjectInputStream  in = null;
 	private boolean connect = false;
 	
-	public Connexion(Socket s,String client){
-		this.login = client;
+	public Connexion(Socket s,Joueur client){
+		this.joueur = client;
 		socket = s;
 	}
 	
@@ -29,8 +28,11 @@ public class Connexion implements Runnable {
 			
 		out = new ObjectOutputStream (socket.getOutputStream());
 		in = new ObjectInputStream (socket.getInputStream());		
-		
-		out.writeObject(login);
+		Action a = new Action();
+		a.setObject(joueur);
+		a.setType(0);
+		out.writeObject(a);
+		out.reset();
 		out.flush();
 		
 		
@@ -45,7 +47,7 @@ public class Connexion implements Runnable {
 		
 	
 			
-			t2 = new Thread(new Chat_ClientServeur(socket,login));
+			t2 = new Thread(new Chat_ClientServeur(socket,joueur));
 			t2.start();
 		
 		} catch (IOException e) {

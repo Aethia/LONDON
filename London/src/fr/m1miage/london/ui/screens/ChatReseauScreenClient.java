@@ -217,7 +217,7 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		for (Emission e : Serveur.lesClients){
 			System.out.println("wut");
 			jPosition = jPosition+ 35;
-			Fonts.FONT_BLACK.draw(spriteBatch, e.getLogin(), 1200, jPosition);
+			Fonts.FONT_BLACK.draw(spriteBatch, e.getJoueur().getNom(), 1200, jPosition);
 		}
 		jPosition = 200;
 

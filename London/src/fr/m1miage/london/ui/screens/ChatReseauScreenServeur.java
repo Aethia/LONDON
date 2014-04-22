@@ -133,7 +133,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 				int i=1;
 				for(Emission cli : Serveur.lesClients){
 					
-					j = new Joueur(i++, cli.getLogin(), java.awt.Color.BLUE);
+					j = new Joueur(i++, cli.getJoueur().getNom(), cli.getJoueur().getCouleur());
 					listeJoueurs.add(j);
 				}
 
@@ -244,7 +244,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		
 		for (Emission e : Serveur.lesClients){
 			jPosition = jPosition+ 35;
-			Fonts.FONT_BLACK.draw(spriteBatch, e.getLogin(), 1200, jPosition);
+			Fonts.FONT_BLACK.draw(spriteBatch, e.getJoueur().getNom(), 1200, jPosition);
 		}
 		jPosition = 200;
 		

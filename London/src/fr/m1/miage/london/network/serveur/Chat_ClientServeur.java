@@ -1,12 +1,11 @@
 package fr.m1.miage.london.network.serveur;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
+
+import fr.m1miage.london.classes.Joueur;
 
 
 public class Chat_ClientServeur implements Runnable {
@@ -14,13 +13,13 @@ public class Chat_ClientServeur implements Runnable {
 	private Socket socket = null;
 	private ObjectInputStream in = null;
 	private ObjectOutputStream out = null;
-	private String login;
+	private Joueur joueur;
 	private Thread t3, t4;
 	
 	
-	public Chat_ClientServeur(Socket s, String log){
+	public Chat_ClientServeur(Socket s, Joueur joueur){
 		socket = s;
-		login = log;
+		this.joueur = joueur;
 	}
 	
 	
@@ -31,15 +30,15 @@ public class Chat_ClientServeur implements Runnable {
 		out = new ObjectOutputStream(socket.getOutputStream());
 		
 		
-		Thread t3 = new Thread(new Reception(in,login));
+		Thread t3 = new Thread(new Reception(in,joueur));
 		t3.start();
-		Emission e = new Emission(out,login);
+		Emission e = new Emission(out,joueur);
 		Serveur.lesClients.add(e);
 		Thread t4 = new Thread(e);
 		t4.start();
 		
 		} catch (IOException e) {
-			System.err.println(login +"s'est d�connect� ");
+			System.err.println(joueur.getNom() +"s'est d�connect� ");
 		}
 }
 }

@@ -1,26 +1,28 @@
 package fr.m1.miage.london.network.serveur;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.m1.miage.london.network.*;
+import fr.m1.miage.london.network.Action;
+import fr.m1.miage.london.network.IncomingMessageListenerServeur;
+import fr.m1.miage.london.network.IncomingPartieObjectListenerServeur;
+import fr.m1miage.london.classes.Joueur;
 
 
 public class Reception implements Runnable {
 
 	private ObjectInputStream in;
 	private Action action = null;
-	private String login = null;
+	private Joueur joueur = null;
 	public static List<IncomingMessageListenerServeur> listeners = new ArrayList<IncomingMessageListenerServeur>();
 	public static List<IncomingPartieObjectListenerServeur> listenersPartie = new ArrayList<IncomingPartieObjectListenerServeur>();
 	
-	public Reception(ObjectInputStream in, String login){
+	public Reception(ObjectInputStream in,Joueur joueur){
 		
 		this.in = in;
-		this.login = login;
+		this.joueur = joueur;
 	}
 	
 	public static void addListener(IncomingMessageListenerServeur toAdd){
@@ -37,6 +39,10 @@ public class Reception implements Runnable {
 	   
 	        try {
 				action = (Action) in.readObject();
+				if(action.getType()==0){
+					
+					//?
+				}
 				 if (action.getType() == 2 ) {
 				        for (IncomingMessageListenerServeur list : listeners){
 							list.nouveauMessage(action.getText());

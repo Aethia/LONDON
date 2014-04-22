@@ -4,13 +4,15 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import fr.m1miage.london.classes.Joueur;
+
 public class Client {
 
 	public static Socket socket = null;
 	public static Thread t1;
 	public static Emission emiss;
 
-	public void seConnecter(String client){
+	public void seConnecter(Joueur client){
 
 		try {
 

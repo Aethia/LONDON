@@ -2,21 +2,22 @@ package fr.m1.miage.london.network.client;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.util.Scanner;
 
 import fr.m1.miage.london.network.Action;
+import fr.m1miage.london.classes.Joueur;
 
 
 
 public class Emission implements Runnable{
 
 	private ObjectOutputStream  out;
-	private String login = null, message = null;
+	private Joueur joueur = null;
+	private String message = null;
 	private Scanner sc = null;
 	
-	public Emission(ObjectOutputStream  out, String login) {
-		this.login = login;
+	public Emission(ObjectOutputStream  out, Joueur joueur) {
+		this.joueur = joueur;
 		this.out = out;
 		
 	}

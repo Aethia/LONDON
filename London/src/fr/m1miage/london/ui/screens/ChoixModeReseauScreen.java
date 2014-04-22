@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import fr.m1.miage.london.network.client.Client;
+import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.sound.SoundPlayer;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.AreaColorRect;
@@ -156,8 +157,13 @@ public class ChoixModeReseauScreen extends Screen{
 						 */
 						SoundPlayer.jouerSon("clic.wav");
 						String login = textBoxPseudo.getText();
+						System.out.println(colorJ.getColor().r*255);
+						System.out.println(colorJ.getColor().g*255);
+						System.out.println(colorJ.getColor().b*255);
+						java.awt.Color c = new java.awt.Color((float)colorJ.getColor().r,(float)colorJ.getColor().g,(float)colorJ.getColor().b);
+						Joueur joueur = new Joueur(0, login, c);
 						Client cli = new Client();
-						cli.seConnecter(login);
+						cli.seConnecter(joueur);
 						
 						
 						Screen.setScreen(new ChatReseauScreenClient(login));

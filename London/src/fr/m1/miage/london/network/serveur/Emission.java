@@ -2,10 +2,10 @@ package fr.m1.miage.london.network.serveur;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.util.Scanner;
 
 import fr.m1.miage.london.network.Action;
+import fr.m1miage.london.classes.Joueur;
 
 
 public class Emission implements Runnable {
@@ -13,11 +13,11 @@ public class Emission implements Runnable {
 	private ObjectOutputStream out;
 	private String message = null;
 	private Scanner sc = null;
-	private String login;
+	private Joueur joueur;
 	
-	public Emission(ObjectOutputStream out,String login) {
+	public Emission(ObjectOutputStream out,Joueur joueur) {
 		this.out = out;
-		this.login = login;
+		this.joueur = joueur;
 	}
 
 	
@@ -26,8 +26,8 @@ public class Emission implements Runnable {
 		 
 	}
 	
-	public String getLogin(){
-		return login;
+	public Joueur getJoueur(){
+		return joueur;
 	}
 	
 	
