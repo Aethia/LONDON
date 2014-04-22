@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.m1miage.london.db.QuartiersManager;
+import fr.m1miage.london.ui.graphics.AreaColorRect;
 
 public class Plateau implements Serializable{
 	/**
@@ -12,7 +13,9 @@ public class Plateau implements Serializable{
 	 */
 	private static final long serialVersionUID = 2566214763475494062L;
 	private Map<Integer,Quartier> quartiers = new HashMap<Integer, Quartier>();
+	
 	private Etalage etalage;
+	private HashMap<Integer, AreaColorRect> listeZones = new HashMap<Integer, AreaColorRect>();
 	
 	public Plateau(){
 		
@@ -45,6 +48,10 @@ public class Plateau implements Serializable{
 	}
 	public void setEtalage(Etalage etalage) {
 		this.etalage = etalage;
+	}
+	
+	public HashMap getInvestis(){
+		return listeZones;
 	}
 	
 	

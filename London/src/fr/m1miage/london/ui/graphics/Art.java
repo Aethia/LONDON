@@ -1,5 +1,7 @@
 package fr.m1miage.london.ui.graphics;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,7 +12,7 @@ import fr.m1miage.london.ui.Prefs;
 /**
  * 
  * @author Aethia
- * Classe ou sont "initialis�es" toutes nos ressources
+ * Classe ou sont "initialisées" toutes nos ressources
  */
 public class Art {
 	public static TextureRegion bg;
@@ -26,6 +28,7 @@ public class Art {
 	public static TextureRegion iconePV;
 	public static TextureRegion iconeLivres;
 	public static TextureRegion iconeCartePioche;
+	public static HashMap<Integer, TextureRegion> imagesQuartiers = new HashMap<Integer, TextureRegion>();
 	private static int tailleIcon =64;
 	
 	/*-- Game screen --*/
@@ -70,9 +73,8 @@ public class Art {
 		ico_Emprunt = load(Prefs.REPERTOIRE_ICONES+"ico_emprunt.png", 64,40);
 		ico_Pauvre = load(Prefs.REPERTOIRE_ICONES+"ico_pauvrete.png", 40,40);
 		
+		chargerImagesQuartiers();
 		emplacement_etalage = load(Prefs.REPERTOIRE + "etalage_carte.png", 256,512);
-		
-		
 	}
 
 	public static TextureRegion load (String name, int width, int height) {
@@ -99,6 +101,12 @@ public class Art {
 			}
 		}
 		return res;
+	}
+	
+	private static void chargerImagesQuartiers(){
+		for(int i = 0; i<=20; i++){
+			imagesQuartiers.put(i,load("ressources/Images/Quartiers/q"+i+".png", 1024, 1024));
+		}
 	}
 
 }
