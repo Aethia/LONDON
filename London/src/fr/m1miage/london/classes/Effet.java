@@ -1,5 +1,6 @@
 package fr.m1miage.london.classes;
 
+import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -185,7 +186,7 @@ public class Effet implements Serializable{
 	//cartes 71
 	//effet 19
 	//Chaque autre joueur doit payer £1 à la banque pour chaque quartier que vous avez investi
-	public void joueursPayeQuartiersInversti(Partie partie, Joueur jcourant){
+	public void joueursPayeQuartiersInvestir(Partie partie, Joueur jcourant){
 		Map<Integer,Quartier> quartiers = partie.getPlateau().getQuartiers();
 		for(Integer key : quartiers.keySet()){
 			if(quartiers.get(key).getProprietaireQuartier() == jcourant){
@@ -225,7 +226,14 @@ public class Effet implements Serializable{
 	//cartes 103
 	//effet 28
 	//Prenez £1 et perdez un point de pauvreté pour chaque carte "Pauvres" que vous placez sur l'étalage
-	public void pauvresSurEtalage(Partie partie, Joueur j){
-		
+	public void pauvresSurEtalage(Partie partie, Joueur j, List<Carte> lc){
+		for(Carte c : lc){
+			if(c.getCouleur().equals("Gris")){
+				j.setAddArgent(1);
+				j.setAddPoint_pauvrete(-1);
+				j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
+				partie.getEtalage().ajouterCarte(c);
+			}
+		}
 	}
 }
