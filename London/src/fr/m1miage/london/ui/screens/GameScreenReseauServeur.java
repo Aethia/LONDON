@@ -38,6 +38,11 @@ public class GameScreenReseauServeur extends Screen {
 				afficherBouton();
 			}			
 			londonG.partie =  (Partie)o;
+			scores = new TableauScores(londonG.partie.getListeJoueurs());
+			scores.reset();
+//			stage.getRoot().removeActor(scores);
+	
+//			stage.addActor(scores);
 			afficherBouton();
 		}
 	};
@@ -60,9 +65,11 @@ public class GameScreenReseauServeur extends Screen {
 	private TextButton btnSuivant;
 	public static Button btnSauvegarde;
 private MenuGlobal tMenu ;
+private MenuActions tableActions;
 	
 	private void afficherBouton() {
-		btnSuivant.setVisible(true);
+	//	btnSuivant.setVisible(true);
+		tableActions.setVisible(true);
 		tMenu.setVisible(true);
 	}
 	
@@ -167,11 +174,14 @@ private MenuGlobal tMenu ;
 			});
 			stage.addActor(btnSauvegarde);
 
+			tableActions = new MenuActions();			
+			stage.addActor(tableActions);
+			
 			/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
 			if(!londonG.partie.isTourTermine()){
-				MenuActions tableActions = new MenuActions();			
-				stage.addActor(tableActions);
+				tableActions.setVisible(true);
 			}else{ /*sinon, on demande au joueur de confirmer qu'il a termine son tour*/
+				tableActions.setVisible(false);
 				finTourBtn = new Button(Buttons.styleBtnFinTour);
 				finTourBtn.setPosition(700, 400); //changer la position
 				finTourBtn.addListener(new InputListener(){
@@ -229,8 +239,9 @@ private MenuGlobal tMenu ;
 		tick();
 
 		draw(Art.bg, 0, 0);
+		draw(Art.menu_bg,70,150);
 		if (GameScreenReseauServeur.joueur.getNom().equals(londonG.partie.getObjJoueurActif().getNom())) {
-			draw(Art.menu_bg,70,150);
+			
 
 			if(londonG.partie.isTourTermine()){
 				draw(Art.finTour_bg,400,150);

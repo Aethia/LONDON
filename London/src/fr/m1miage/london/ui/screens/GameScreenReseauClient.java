@@ -43,6 +43,10 @@ public class GameScreenReseauClient extends Screen{
 				afficherBouton();
 			}			
 			londonG.partie =  (Partie)o;
+			
+			stage.getRoot().removeActor(scores);
+			scores = new TableauScores(londonG.partie.getListeJoueurs());
+			stage.addActor(scores);
 		}
 	};
 	private Button finTourBtn;
@@ -60,6 +64,7 @@ public class GameScreenReseauClient extends Screen{
 	public static Joueur joueur=null;
 
 	private MenuGlobal tMenu;
+	private MenuActions tableActions;
 
 	private int time =0;
 	private static final int TIME_OUT_CARD = 150;
@@ -70,7 +75,8 @@ public class GameScreenReseauClient extends Screen{
 
 
 	private void afficherBouton() {
-		btnSuivant.setVisible(true);
+		//btnSuivant.setVisible(true);
+		tableActions.setVisible(true);
 		tMenu.emprunterBtn.setVisible(true);
 	}
 
@@ -165,14 +171,18 @@ public class GameScreenReseauClient extends Screen{
 			}
 		});
 		stage.addActor(btnSuivant);
-
+		
+		tableActions = new MenuActions()	;	
+		tableActions.setVisible(false);
+		stage.addActor(tableActions);
+		
 		// si c'est a moi
 		if (GameScreenReseauClient.joueur.getNom().equals(londonG.partie.getObjJoueurActif().getNom())) {
 			/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
 			if(!londonG.partie.isTourTermine()){
-				MenuActions tableActions = new MenuActions()	;		
-				stage.addActor(tableActions);
+				tableActions.setVisible(true);
 			}else{ //sinon, on demande au joueur de confirmer qu'il a termine son tour
+				tableActions.setVisible(false);
 				finTourBtn = new Button(Buttons.styleBtnFinTour);
 				finTourBtn.setPosition(700, 400); //changer la position
 				finTourBtn.addListener(new InputListener(){
@@ -228,11 +238,10 @@ public class GameScreenReseauClient extends Screen{
 			}
 		}
 		else {
-			draw(Art.menu_bg,70,150);
 			Fonts.FONT_TITLE.draw(spriteBatch, "Au tour de : "+londonG.partie.getObjJoueurActif().getNom(), 450, 300);
 		}
 
-
+		draw(Art.menu_bg,70,150);
 		spriteBatch.end();
 		if(idCarteSelected!=0){
 			CarteActor c = main.get(idCarteSelected);
