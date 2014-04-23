@@ -279,7 +279,7 @@ public class Joueur implements Serializable, Comparable {
 						return GestionErreurs.NOT_ENOUGH_MONEY;
 					}
 				}
-				else if(cPosee.getId_carte()!=1 && cPosee.getId_carte()!=5){
+				else if(cPosee.getId_carte()==2 || cPosee.getId_carte()==58 || cPosee.getId_carte()==60){
 					if(indexPile-1 <= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
 						this.zoneConstruction.addPile(cPosee);	
 					}
@@ -287,6 +287,15 @@ public class Joueur implements Serializable, Comparable {
 						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
 					}
 					this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
+					return GestionErreurs.NONE;
+				}
+				else if(cDefaussee.getId_carte() == 24){
+					if(indexPile-1 <= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
+						this.zoneConstruction.addPile(cPosee);	
+					}
+					else{
+						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
+					}
 					return GestionErreurs.NONE;
 				}
 			else{

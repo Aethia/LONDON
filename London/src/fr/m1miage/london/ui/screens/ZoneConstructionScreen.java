@@ -33,14 +33,19 @@ public class ZoneConstructionScreen extends Screen{
 
 	private TextButton btnRetour;
 	private TextButton btnAnnulCarte;
-
+	private TextButton btnJouerCarte;
 	private TextButton validerConstru;
 
 	private int idCarteSelected =0;
+	private int idCarteSelected2=0;
 	private int idDefausseSelected =0;
 	private int pileSelected = -1;
+	private int pileSelected2 =-1;
+	private int idCarteEffet;
 	private CarteActor cDefausse;
 
+	private boolean effet = false;
+	private boolean effetPile = false;
 	private List<CarteActor> cActorList= new ArrayList<CarteActor>();
 	//private List<CarteActor> cActorListColor=new ArrayList<CarteActor>();
 
@@ -54,6 +59,8 @@ public class ZoneConstructionScreen extends Screen{
 	private String messageConstruire = new String("");
 	private GestionErreurs erreur;
 	private Joueur joueur;
+	
+	private int compteur = 2;
 
 	/* Scores */
 	private Score scoreJoueur;
@@ -82,7 +89,20 @@ public class ZoneConstructionScreen extends Screen{
 		Gdx.input.setInputProcessor(stage);
 		fondChoixCartes.setVisible(false);
 		fondChoixCartes.setShapeFillColor(1, 1, 1, 0.7f);
-
+		btnJouerCarte = new TextButton("Jouer carte",Buttons.styleInGameMenu);
+		btnJouerCarte.setPosition(1000, 280);
+		btnJouerCarte.addListener(new InputListener(){
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				
+				
+				btnJouerCarte.setVisible(false);
+				return true;
+			}
+		});
+		stage.addActor(btnJouerCarte);
+		btnJouerCarte.setVisible(false);
 		btnRetour =new TextButton("Retour",Buttons.styleInGameMenu); 
 		btnRetour.setPosition(1100, 135); 
 		btnRetour.addListener(new InputListener(){
@@ -119,6 +139,7 @@ public class ZoneConstructionScreen extends Screen{
 	}
 
 	private void gestionBoutonsConstruction() {
+		
 		//bouton pour retirer les cartes selectionnée
 		btnAnnulCarte = new TextButton("X", Buttons.styleInGameMenu);
 		btnAnnulCarte.setSize(50, 50);
@@ -176,10 +197,24 @@ public class ZoneConstructionScreen extends Screen{
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				Carte cPosee = joueur.getMainDuJoueur().choisirCarte(idCarteSelected);
-				
-				Carte cDefaussee = joueur.getMainDuJoueur().choisirCarte(idDefausseSelected);
-
-				erreur = joueur.construire(cPosee, cDefaussee, pileSelected+1, londonG.partie.getPlateau().getEtalage());
+				Carte cDefaussee = null;
+				System.out.println("idcarte effet : "+idCarteEffet);
+				if(idCarteEffet==24 && idCarteSelected != 0 && idCarteSelected2 != 0){
+					cDefaussee=joueur.getMainDuJoueur().choisirCarte(idCarteEffet);
+					
+					System.out.println("id : "+idCarteSelected);
+					messageConstruire="Vous pouvez encore construire "+compteur+" cartes";
+					erreur = joueur.construire(cPosee, cDefaussee, pileSelected+1, londonG.partie.getPlateau().getEtalage());
+					cPosee = joueur.getMainDuJoueur().choisirCarte(idCarteSelected2);
+					erreur = joueur.construire(cPosee, cDefaussee, pileSelected2+1, londonG.partie.getPlateau().getEtalage());
+					
+					joueur.getMainDuJoueur().supprimerCarteParId(idCarteEffet);
+					
+				}
+				else{
+					cDefaussee = joueur.getMainDuJoueur().choisirCarte(idDefausseSelected);
+					erreur = joueur.construire(cPosee, cDefaussee, pileSelected+1, londonG.partie.getPlateau().getEtalage());
+				}
 				if(erreur.equals(GestionErreurs.NONE)){ //si aucune erreur, le tour est terminé
 					londonG.partie.setActionChoisie(1);
 					londonG.partie.setTourTermine(true);
@@ -262,7 +297,6 @@ public class ZoneConstructionScreen extends Screen{
 
 	private void afficherCartes() {
 		int i=0;
-
 		for(final Carte c: joueur.getLesCartes()){
 
 			i++;
@@ -270,75 +304,126 @@ public class ZoneConstructionScreen extends Screen{
 			stage.addActor(ca);
 			final Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE_CARTES+"validTarget.png"));
 			final Texture tNew = new Texture(Gdx.files.internal(Prefs.REPERTOIRE+"carte_etalage.png"));
-			ca.addListener(new DragListener(){
-				public void touchDragged (InputEvent event, float x, float y, int pointer) {
-                    float dx = x-ca.getWidth()*0.5f; 
-                    float dy = y-ca.getHeight()*0.5f; 
-                    ca.setX(ca.getX()+dx);
-                    ca.setY(ca.getY()+dy);
-                	for(PileActor c : lPiles){
-                		//Si la carte se trouve dans l'une des zones de la pile, on met une autre texture
-						if(c.inZone(ca) == true && c.empty()==true ){
-							c.setImg(t);
+			if(ca.getId() !=24){
+				ca.addListener(new DragListener(){
+					public void touchDragged (InputEvent event, float x, float y, int pointer) {
+	                    float dx = x-ca.getWidth()*0.5f; 
+	                    float dy = y-ca.getHeight()*0.5f; 
+	                    ca.setX(ca.getX()+dx);
+	                    ca.setY(ca.getY()+dy);
+	                	for(PileActor c : lPiles){
+	                		//Si la carte se trouve dans l'une des zones de la pile, on met une autre texture
+							if(c.inZone(ca) == true && c.empty()==true ){
+								c.setImg(t);
+							}
+							else if(c.empty()==true) {
+	
+								c.setImg(tNew);
+							}
 						}
-						else if(c.empty()==true) {
-
-							c.setImg(tNew);
+	                	if (idCarteSelected==0){ //si on a selectionné aucune carte, on rend visible certains boutons/fonds
+							idCarteSelected = c.getId_carte();
+							System.out.println("Je suis passée par là");
+							if(effet == true){
+								idCarteSelected2 = idCarteSelected;
+								
+							}
+							else{
+								effet = true;
+							}
+							
+	
 						}
-					}
-                	if (idCarteSelected==0){ //si on a selectionné aucune carte, on rend visible certains boutons/fonds
-						idCarteSelected = c.getId_carte();
-
-					}
-                    super.touchDragged(event, dx, dy, pointer);
-                }
-
-
-
-				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button) {
-					if(c.isConstructible()==false){
-						messageConstruire = "Cette carte n'est pas constructible";
-						ca.setDefaultPosition();
-						idCarteSelected=0;
-					}
-					return super.touchDown(event, x, y, pointer, button);
-				}
-
-
-
-				public void touchUp(InputEvent event,float x,float y,int pointer,int button){
-					PileActor pA = new PileActor();
-					if(idCarteSelected != 0){
-						Iterator<PileActor> pileI = lPiles.iterator();
-						while(pileI.hasNext() && pileSelected < 0){
-							//On va parcourir chaque pile pour vérifier si la carte se trouve dans une des zones
-							pA = pileI.next();
-							if(pA.inZone(ca) == true){
-								ca.setX(pA.getX());
-								ca.setY(pA.getY());
-								pileSelected=pA.getId();
-								btnAnnulCarte.setX(ca.getX()+75);
-								btnAnnulCarte.setVisible(true);
-
-		                    	afficherCartesCouleurs(ca);	
-
-
-								}
-							if(pileSelected < 0 && pileI.hasNext()==false){
-								//Si à la fin du parcours, elle ne se trouve dans aucune pile, on la remet à sa place
-								ca.setDefaultPosition();
-								}
+	                	
+	                    super.touchDragged(event, dx, dy, pointer);
+	                }
+	
+	
+	
+					@Override
+					public boolean touchDown(InputEvent event, float x, float y,
+							int pointer, int button) {
+						if(c.isConstructible()==false){
+							messageConstruire = "Cette carte n'est pas constructible";
+							ca.setDefaultPosition();
+							idCarteSelected=0;
 						}
+						return super.touchDown(event, x, y, pointer, button);
 					}
-					super.touchUp(event, x, y, pointer, button);
-				}
-
-		});
+	
+	
+	
+					public void touchUp(InputEvent event,float x,float y,int pointer,int button){
+						PileActor pA = new PileActor();
+						if(idCarteSelected != 0){
+							Iterator<PileActor> pileI = lPiles.iterator();
+							while(pileI.hasNext() && pileSelected < 0){
+								//On va parcourir chaque pile pour vérifier si la carte se trouve dans une des zones
+								pA = pileI.next();
+								if(pA.inZone(ca) == true){
+									System.out.println("Je suis dans la zone");
+									System.out.println("Id selected "+idCarteSelected);
+									System.out.println("Id selected 2"+idCarteSelected2);
+									if(pileSelected != 0 && idCarteSelected2!=0){
+										pileSelected2=pA.getId();
+									}
+									else{
+										System.out.println("Et dans cette boucle");
+										pileSelected=pA.getId();
+										if(idCarteEffet==24){
+											if(effetPile == true){
+												pileSelected2=pA.getId();
+												
+											}
+											else{
+												effetPile=true;
+											}
+										}
+										else{
+											afficherCartesCouleurs(ca);	
+										}
+									}
+									
+									ca.setX(pA.getX());
+									ca.setY(pA.getY());
+									
+									btnAnnulCarte.setX(ca.getX()+75);
+									btnAnnulCarte.setVisible(true);
+	
+			                    	
+	
+	
+									}
+								if(pileSelected < 0 && pileI.hasNext()==false){
+									//Si à la fin du parcours, elle ne se trouve dans aucune pile, on la remet à sa place
+									ca.setDefaultPosition();
+									}
+								
+							}
+						}
+						super.touchUp(event, x, y, pointer, button);
+					}
+	
+			});
+			}
+			else{
+				ca.addListener(new InputListener(){
+					@Override
+					public boolean touchDown(InputEvent event, float x,
+							float y, int pointer, int button) {
+						messageConstruire="Utiliser cette carte ? Elle sera défaussée à la fin de l'action.";
+						idCarteEffet=ca.getId();
+						btnJouerCarte.setVisible(true);
+						return super.touchDown(event, x, y, pointer, button);
+					}
+				});
+			}
 
 			main.put(c.getId_carte(), ca);
 
+		}
+		if(effet == true && effetPile == false){
+			validerConstru.setVisible(true);
 		}
 	}
 
