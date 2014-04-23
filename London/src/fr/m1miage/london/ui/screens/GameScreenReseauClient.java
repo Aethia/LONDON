@@ -40,10 +40,14 @@ public class GameScreenReseauClient extends Screen{
 			Partie partieRecue =  (Partie)o;
 			//si on est le nouveau joueur actif de la partie recue
 			if(partieRecue.getObjJoueurActif().getNom().equals(GameScreenReseauClient.joueur.getNom())){
+				GameScreenReseauClient.joueur = partieRecue.getObjJoueurActif();
 				afficherBouton();
-			}			
+				afficherMain();
+			}else{
+				masquerBouton();
+			}
 			londonG.partie =  (Partie)o;
-			
+
 			stage.getRoot().removeActor(scores);
 			scores = new TableauScores(londonG.partie.getListeJoueurs());
 			stage.addActor(scores);
@@ -69,10 +73,14 @@ public class GameScreenReseauClient extends Screen{
 	private int time =0;
 	private static final int TIME_OUT_CARD = 150;
 
-	public static GameScreenReseauClient game;
-	private TextButton btnSuivant;
+	//	private TextButton btnSuivant;
 
 
+	private void masquerBouton() {
+		//btnSuivant.setVisible(true);
+		tableActions.setVisible(false);
+		tMenu.emprunterBtn.setVisible(false);
+	}
 
 	private void afficherBouton() {
 		//btnSuivant.setVisible(true);
@@ -80,36 +88,13 @@ public class GameScreenReseauClient extends Screen{
 		tMenu.emprunterBtn.setVisible(true);
 	}
 
-	public GameScreenReseauClient(Joueur joueur){
-		GameScreenReseauClient.game = this;
-		GameScreenReseauClient.joueur = joueur;
-		this.init(londonG);
-		Timer timer = new Timer();
-
-
-
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				Reception.addListenerO(partieObjListener);
-				//Reception.addListenerO(GameScreenReseauClient.game);
-			}
-		}, 2000);
-
-
-
-
-		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
-		stage.clear();
-		Gdx.input.setInputProcessor(stage);
-
-		/* Parametres Boutons Menu General (menu de droite)*/
-		tMenu = new MenuGlobal();
-		stage.addActor(tMenu);
-
-
-
+	private void afficherMain(){
 		//a ameliorer
+		//maj de la main : on supprime d'abord celles qui exitent deja
+		for(Integer id : main.keySet()){
+			stage.getRoot().removeActor(main.get(id));
+		}
+		main.clear();
 		// les cartes du joueur host
 		Joueur j = GameScreenReseauClient.joueur;
 		int i=0;
@@ -141,41 +126,64 @@ public class GameScreenReseauClient extends Screen{
 			main.put(c.getId_carte(), ca);
 			stage.addActor(ca);
 		}
+	}
+
+	public GameScreenReseauClient(Joueur joueur){
+		GameScreenReseauClient.joueur = londonG.partie.getJoueurParNom(joueur.getNom());
+		//this.init(londonG);
+		Timer timer = new Timer();
+
+
+
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				Reception.addListenerO(partieObjListener);
+				//Reception.addListenerO(GameScreenReseauClient.game);
+			}
+		}, 2000);
+
+
+
+
+		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
+		stage.clear();
+		Gdx.input.setInputProcessor(stage);
+
+		/* Parametres Boutons Menu General (menu de droite)*/
+		tMenu = new MenuGlobal();
+		stage.addActor(tMenu);
+
+		afficherMain();
 
 		scores = new TableauScores(londonG.partie.getListeJoueurs());
 		stage.addActor(scores);
-		scoreJoueur = new Score(joueur);
+		scoreJoueur = new Score(GameScreenReseauClient.joueur);
 		stage.addActor(scoreJoueur);
+		//
+		//		btnSuivant =new TextButton("A moi",Buttons.styleInGameMenu); 
+		//		btnSuivant.setPosition(600, 350); 
+		//		btnSuivant.setVisible(false);
+		//		btnSuivant.addListener(new InputListener(){
+		//			@Override
+		//			public void touchUp(InputEvent event, float x, float y,
+		//					int pointer, int button) {
+		//				Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.joueur));
+		//				super.touchUp(event, x, y, pointer, button);
+		//			}
+		//
+		//			@Override
+		//			public boolean touchDown(InputEvent event, float x, float y,
+		//					int pointer, int button) {
+		//				return true;
+		//			}
+		//		});
+		//		stage.addActor(btnSuivant);
 
-		btnSuivant =new TextButton("A moi",Buttons.styleInGameMenu); 
-		btnSuivant.setPosition(600, 350); 
-		btnSuivant.setVisible(false);
-		btnSuivant.addListener(new InputListener(){
-			@Override
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				//traitement reseau
-				// event ok client
-
-				/*
-				 * On lance le client
-				 */
-				Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.joueur));
-				super.touchUp(event, x, y, pointer, button);
-			}
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				return true;
-			}
-		});
-		stage.addActor(btnSuivant);
-		
 		tableActions = new MenuActions()	;	
 		tableActions.setVisible(false);
 		stage.addActor(tableActions);
-		
+
 		// si c'est a moi
 		if (GameScreenReseauClient.joueur.getNom().equals(londonG.partie.getObjJoueurActif().getNom())) {
 			/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
@@ -217,7 +225,7 @@ public class GameScreenReseauClient extends Screen{
 				stage.addActor(finTourBtn);	
 			}
 		}else{//si c'est pas mon tour
-			tMenu.emprunterBtn.setVisible(false);
+			masquerBouton();
 		}
 	}
 
@@ -229,7 +237,7 @@ public class GameScreenReseauClient extends Screen{
 
 		draw(Art.bg, 0, 0);
 		if (GameScreenReseauClient.joueur.getNom().equals(londonG.partie.getObjJoueurActif().getNom())) {
-			
+
 
 			if(londonG.partie.isTourTermine()){
 				draw(Art.finTour_bg,400,150);

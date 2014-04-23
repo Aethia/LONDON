@@ -250,7 +250,7 @@ private ChatReseauScreenClient aFermer;
 			public void run() {
 				Sender.e.sendObject(0, null);
 			}
-		}, 1000);
+		}, 3000);
 
 
 

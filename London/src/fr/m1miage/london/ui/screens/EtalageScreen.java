@@ -24,8 +24,6 @@ import fr.m1miage.london.ui.graphics.Fonts;
 public class EtalageScreen extends Screen{
 
 	private ShapeRenderer fondEtalage;
-	//	private List<CarteActor> cartesTop = new ArrayList<CarteActor>();
-	//	private List<CarteActor> cartesBottom = new ArrayList<CarteActor>();
 	private Etalage etalage;
 	private int nbColonnes=0;
 	private int topC = 400;
@@ -39,14 +37,23 @@ public class EtalageScreen extends Screen{
 
 	private Joueur joueur;
 	private Pioche pioche;
-	
+
 	private int cartesPiochees = 0;
 
 	public EtalageScreen(boolean actionPioche){ //si action choisie = piocher 3 cartes
 		afficher(actionPioche);
-
 	}
+
 	private void afficher(boolean actionPioche) {
+		if(londonG.partie.isMultijoueur()){
+			if(GameScreenReseauClient.joueur!=null){
+				joueur = GameScreenReseauClient.joueur;
+			}else{
+				joueur = GameScreenReseauServeur.joueur;
+			}
+		}else{
+			joueur = londonG.partie.getObjJoueurActif();
+		}
 		joueur = londonG.partie.getObjJoueurActif();
 		pioche = londonG.partie.getPioche();
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
@@ -64,7 +71,7 @@ public class EtalageScreen extends Screen{
 				// si c'est une partie multijoueur
 				if (londonG.partie.isMultijoueur()) {
 					if (GameScreenReseauClient.joueur!=null)
-						Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.joueur));
+						Screen.setScreen(new GameScreenReseauClient(joueur));
 					else
 						Screen.setScreen(new GameScreenReseauServeur());
 				}
@@ -84,48 +91,49 @@ public class EtalageScreen extends Screen{
 		etalage = londonG.partie.getPlateau().getEtalage();
 		nbColonnes = londonG.partie.getListeJoueurs().size()+1;
 		fondEtalage = new ShapeRenderer();
-		int i = 0;
-		for(Carte c :etalage.getRangee1()){
-			final CarteActor ca = new CarteActor(c, leftC+i*250,topC);
-			ca.addListener(new InputListener(){
-				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button) {
-					if(cartesPiochees<Regles.PIOCHER_X_CARTES){
-						Carte c = etalage.recupererCarte(ca.getId());
-						joueur.ajouterCarteMain(c);
-						cartesPiochees++;
-						stage.getRoot().removeActor(ca);
-					}
-					return super.touchDown(event, x, y, pointer, button);
-				}
 
-			});
-			stage.addActor(ca);
-			i++;
-		}
-		i=0;
-		for(Carte c :etalage.getRangee2()){
-			final CarteActor ca = new CarteActor(c, leftC+i*250,topC-300);
-			ca.addListener(new InputListener(){
-				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button) {
-					if(cartesPiochees<Regles.PIOCHER_X_CARTES){
-						Carte c = etalage.recupererCarte(ca.getId());
-						joueur.ajouterCarteMain(c);
-						cartesPiochees++;
-						stage.getRoot().removeActor(ca);
-					}
-					return super.touchDown(event, x, y, pointer, button);
-				}
-
-			});
-			stage.addActor(ca);
-			i++;
-		}
 
 		if(actionPioche){
+			int i = 0;
+			for(Carte c :etalage.getRangee1()){
+				final CarteActor ca = new CarteActor(c, leftC+i*250,topC);
+				ca.addListener(new InputListener(){
+					@Override
+					public boolean touchDown(InputEvent event, float x, float y,
+							int pointer, int button) {
+						if(cartesPiochees<Regles.PIOCHER_X_CARTES){
+							Carte c = etalage.recupererCarte(ca.getId());
+							joueur.ajouterCarteMain(c);
+							cartesPiochees++;
+							stage.getRoot().removeActor(ca);
+						}
+						return super.touchDown(event, x, y, pointer, button);
+					}
+
+				});
+				stage.addActor(ca);
+				i++;
+			}
+			i=0;
+			for(Carte c :etalage.getRangee2()){
+				final CarteActor ca = new CarteActor(c, leftC+i*250,topC-300);
+				ca.addListener(new InputListener(){
+					@Override
+					public boolean touchDown(InputEvent event, float x, float y,
+							int pointer, int button) {
+						if(cartesPiochees<Regles.PIOCHER_X_CARTES){
+							Carte c = etalage.recupererCarte(ca.getId());
+							joueur.ajouterCarteMain(c);
+							cartesPiochees++;
+							stage.getRoot().removeActor(ca);
+						}
+						return super.touchDown(event, x, y, pointer, button);
+					}
+
+				});
+				stage.addActor(ca);
+				i++;
+			}
 			btnValider = new TextButton("Valider", Buttons.styleInGameMenu);
 			btnValider.setPosition(1100, 135);
 			btnValider.addListener(new InputListener(){
@@ -177,6 +185,19 @@ public class EtalageScreen extends Screen{
 				}
 			});
 			stage.addActor(btnPiocher);
+		}else{ //si on n'a pas le droit de se servir
+			int i=0;
+			for(Carte c :etalage.getRangee1()){
+				CarteActor ca = new CarteActor(c, leftC+i*250,topC);
+				stage.addActor(ca);
+				i++;
+			}
+			i=0;
+			for(Carte c :etalage.getRangee2()){
+				CarteActor ca = new CarteActor(c, leftC+i*250,topC-300);
+				i++;
+				stage.addActor(ca);
+			}
 		}
 	}
 

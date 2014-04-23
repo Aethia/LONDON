@@ -79,13 +79,16 @@ public class EmprunterScreen extends Screen{
 				if(montantEmprunt==0){
 					messageMontant = "Veuillez selectionner un montant";
 				}else{
-					joueur.emprunter(montantEmprunt);
 					if (londonG.partie.isMultijoueur()) {
-						if (GameScreenReseauClient.joueur!=null)
-							Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.joueur));
-						else
+						//changer directement le montant du joueur dans l'objet partie
+						londonG.partie.getJoueurParNom(joueur.getNom()).emprunter(montantEmprunt);
+						if (GameScreenReseauClient.joueur!=null){
+							Screen.setScreen(new GameScreenReseauClient(joueur));
+						}else{
 							Screen.setScreen(new GameScreenReseauServeur());
+						}
 					}else{
+						joueur.emprunter(montantEmprunt);
 						Screen.setScreen(new GameScreen());
 					}
 				}

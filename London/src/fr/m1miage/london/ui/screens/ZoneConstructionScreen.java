@@ -96,7 +96,7 @@ public class ZoneConstructionScreen extends Screen{
 				lanceur = GameScreenReseauServeur.joueur;
 			}
 			System.out.println("lanceur"+lanceur.getNom());
-			if(lanceur.getNom().equals(londonG.partie.getObjJoueurActif().getNom())){//si c'est le meme joueur
+			if(londonG.partie.getObjJoueurActif().getNom().equals(lanceur.getNom()) && lanceur.getNom().equals(this.joueur.getNom())){//si c'est le meme joueur
 				if((londonG.partie.isTourTermine()==true && londonG.partie.getActionChoisie()==1) || !londonG.partie.isTourTermine()   ){ 
 					afficherCartes();
 					gestionBoutonsConstruction();
