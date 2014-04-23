@@ -466,11 +466,38 @@ public class ZoneConstructionScreen extends Screen{
         pa.sethGauche(p);
         pa.setbDroit(p);
         pa.setId(i);
+        Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE+"carte_etalage.png"));
+        
+        
         lPiles.add(pa);
         stage.addActor(pa);
-        Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE+"carte_etalage.png"));
-
+        
         pa.setImg(t);   
+	}
+	
+	public void ajouterPileEffet(int left){
+		Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE+"carte_etalage.png"));
+        	int i = joueur.getZone_construction().cartesTop().size();
+        	System.out.println("OI");
+        	Carte pile = new Carte();
+			final PileActor paEffet= new PileActor(pile, left+i*215, 360);
+            Point pEffet = new Point(left+i*215, 360);
+            
+            paEffet.sethGauche(pEffet);
+            paEffet.setbDroit(pEffet);
+            paEffet.setId(i);
+            paEffet.addListener(new InputListener(){
+            	@Override
+            	public void enter(InputEvent event, float x, float y,
+            			int pointer, Actor fromActor) {
+            		// TODO Auto-generated method stub
+            		System.out.println("Hellooooooooo2");
+            		super.enter(event, x, y, pointer, fromActor);
+            	}
+            });
+            stage.addActor(paEffet);
+            paEffet.setImg(t);
+
 	}
 
 	@Override
