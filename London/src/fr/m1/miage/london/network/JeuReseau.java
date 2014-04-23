@@ -1,9 +1,11 @@
 package fr.m1.miage.london.network;
 
+import java.awt.Color;
 import java.util.Scanner;
 
 import fr.m1.miage.london.network.client.Client;
 import fr.m1.miage.london.network.serveur.Serveur;
+import fr.m1miage.london.classes.Joueur;
 
 public class JeuReseau {
 	
@@ -29,7 +31,7 @@ public class JeuReseau {
 		}
 		case 2 : {
 				Client cli = new Client();
-				cli.seConnecter("toto");
+				cli.seConnecter(new Joueur(0,"toto",Color.RED));
 				break;
 		}
 		default : break;

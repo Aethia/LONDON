@@ -34,11 +34,12 @@ public class Partie implements Serializable{
 	// le joueur actuellement actif
 	private int joueurActif=0;
 	private Joueur jActif;
+	
 	private int actionChoisie =0; //1 construire, 2 restaurer, 3 investir, 4 piocher
 	private boolean tourTermine=false;
 
-
-
+	private boolean multijoueur = false;
+	
 	public Partie(){
 		this.plateau = new Plateau();
 		this.pioche = new Pioche();
@@ -61,7 +62,8 @@ public class Partie implements Serializable{
 		pioche.init();
 
 		// on initialise le premier joueur 
-		joueurActif = (int) (0 + (Math.random() * (nbJoueurs - 0)));
+		//joueurActif = (int) (0 + (Math.random() * (nbJoueurs - 0)));
+		joueurActif = 0;
 		jActif = listeJoueurs.get(joueurActif);
 
 		// on distribue les cartes (los cartos en espagnol)
@@ -75,6 +77,18 @@ public class Partie implements Serializable{
 		//le premier joueur pioche une carte
 		jActif.piocher(pioche);
 	}
+
+
+
+	public boolean isMultijoueur() {
+		return multijoueur;
+	}
+
+
+	public void setMultijoueur(boolean multijoueur) {
+		this.multijoueur = multijoueur;
+	}
+
 
 	// faire passer le joueur actif au joueur suivant
 	public void joueurSuivant() {
@@ -258,6 +272,11 @@ public class Partie implements Serializable{
 	public Joueur getObjJoueurActif(){
 		return jActif;
 	}
+	
+	public void setObjJoueurActif(Joueur j){
+		this.jActif = j;
+	}
+	
 	
 	public Joueur getJoueurParNom(String nom){
 		for (Joueur j : this.listeJoueurs) {

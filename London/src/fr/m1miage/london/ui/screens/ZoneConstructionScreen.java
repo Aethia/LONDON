@@ -54,27 +54,63 @@ public class ZoneConstructionScreen extends Screen{
 	private String messageConstruire = new String("");
 	private GestionErreurs erreur;
 	private Joueur joueur;
-
 	/* Scores */
 	private Score scoreJoueur;
 
-	public ZoneConstructionScreen(){
-		messageConstruire = "Voici votre zone de construction";
-		joueur = londonG.partie.getObjJoueurActif();
+	//	public ZoneConstructionScreen(boolean actionPossible){
+	//		this.actionPossible = actionPossible;
+	//		messageConstruire = "Voici votre zone de construction";
+	//		joueur = londonG.partie.getObjJoueurActif();
+	//		constructionScreen();
+	//	}
+	public ZoneConstructionScreen(Joueur j, String message){
+		this.joueur = j;
+		this.messageConstruire = message;
 		constructionScreen();
+		affichageMultiJ();
 	}
 
 	public ZoneConstructionScreen(Joueur j){
-		messageConstruire = "Voici la zone de construction de " + j.getNom();
 		this.joueur = j;
+
+		messageConstruire = "Voici la zone de construction de " + j.getNom();
+
 		constructionScreen();
+		affichageMultiJ();
 	}
 
-	public ZoneConstructionScreen(String msg){
-		messageConstruire = msg;
-		joueur = londonG.partie.getObjJoueurActif();
-		constructionScreen();
+	private void affichageMultiJ(){
+		if(!londonG.partie.isMultijoueur()){
+			
+			if(londonG.partie.getObjJoueurActif().equals(joueur)==true){
+				if((londonG.partie.isTourTermine()==true && londonG.partie.getActionChoisie()==1) || !londonG.partie.isTourTermine()   ){ 
+					afficherCartes();
+					gestionBoutonsConstruction();
+				}
+			}
+		}else{//si c'est du multijoueur	
+			Joueur lanceur;
+			if(GameScreenReseauClient.joueur!=null){
+				lanceur = GameScreenReseauClient.joueur;
+			}else{
+				lanceur = GameScreenReseauServeur.joueur;
+			}
+			System.out.println("lanceur"+lanceur.getNom());
+			if(londonG.partie.getObjJoueurActif().getNom().equals(lanceur.getNom()) && lanceur.getNom().equals(this.joueur.getNom())){//si c'est le meme joueur
+				if((londonG.partie.isTourTermine()==true && londonG.partie.getActionChoisie()==1) || !londonG.partie.isTourTermine()   ){ 
+					afficherCartes();
+					gestionBoutonsConstruction();
+				}
+			}
+		}
 	}
+
+	//
+	//	public ZoneConstructionScreen(String msg){
+	//		messageConstruire = msg;
+	//		joueur = londonG.partie.getObjJoueurActif();
+	//		constructionScreen();
+	//	}
 
 	private void constructionScreen() {
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
@@ -90,7 +126,15 @@ public class ZoneConstructionScreen extends Screen{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new GameScreen());
+				// si c'est une partie multijoueur
+				if (londonG.partie.isMultijoueur()) {
+					if (GameScreenReseauClient.joueur!=null)
+						Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.joueur));
+					else
+						Screen.setScreen(new GameScreenReseauServeur());
+				}
+				else
+					Screen.setScreen(new GameScreen());
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -105,13 +149,20 @@ public class ZoneConstructionScreen extends Screen{
 		afficherPiles();
 
 		stage.addActor(fondChoixCartes);
-		if(londonG.partie.getObjJoueurActif().equals(joueur)==true){ //si on est bien sur le joueur actif 
-			//si tour terminé, mais action construire => on peut continuer ou tour pas terminé mais zoneC du joueur Actif
-			if((londonG.partie.isTourTermine()==true && londonG.partie.getActionChoisie()==1) || !londonG.partie.isTourTermine() ){ 
-				afficherCartes();
-				gestionBoutonsConstruction();
-			}
-		}
+		//si partie multijoueur on va verifier 
+		//		if(londonG.partie.isMultijoueur()){
+
+		//		}else{
+		//			//si tour terminé, mais action construire => on peut continuer ou tour pas terminé mais zoneC du joueur Actif
+		//			if(londonG.partie.getObjJoueurActif().equals(joueur)==true){
+		//				if((londonG.partie.isTourTermine()==true && londonG.partie.getActionChoisie()==1) || !londonG.partie.isTourTermine()   ){ 
+		//					afficherCartes();
+		//					gestionBoutonsConstruction();
+		//				}
+		//			}
+		//		}
+
+
 
 		scoreJoueur = new Score(joueur);
 		stage.addActor(scoreJoueur);
@@ -183,7 +234,11 @@ public class ZoneConstructionScreen extends Screen{
 					londonG.partie.setActionChoisie(1);
 					londonG.partie.setTourTermine(true);
 				}
-				Screen.setScreen(new ZoneConstructionScreen(erreur.getMsgErrorString())); 
+				messageConstruire =erreur.getMsgErrorString();
+
+				Screen.setScreen(new ZoneConstructionScreen(joueur,erreur.getMsgErrorString())); 
+
+
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -242,14 +297,14 @@ public class ZoneConstructionScreen extends Screen{
 							cDefausse=main.get(i);	
 							idDefausseSelected=main.get(i).getId();
 							fondChoixCartes.setVisible(true);
-						 	main.get(i).setX(1000);
-						 	main.get(i).setY(360);
-						 	//On peut affiche le bouton pour valider
-						 	validerConstru.setVisible(true);
-						 }
+							main.get(i).setX(1000);
+							main.get(i).setY(360);
+							//On peut affiche le bouton pour valider
+							validerConstru.setVisible(true);
+						}
 
-						 super.touchDown(event, x, y, pointer, button);
-						 return true;
+						super.touchDown(event, x, y, pointer, button);
+						return true;
 					}
 				});
 
@@ -261,22 +316,22 @@ public class ZoneConstructionScreen extends Screen{
 
 	private void afficherCartes() {
 		int i=0;
-
+		
 		for(final Carte c: joueur.getLesCartes()){
-
+			
 			i++;
 			final CarteActor ca = new CarteActor(c,350+i*50,10);
 			stage.addActor(ca);
-			final Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE_CARTES+"ValidTarget.png"));
-			final Texture tNew = new Texture(Gdx.files.internal(Prefs.REPERTOIRE+"carte_etalage.png"));
+			final Texture t = Art.validTarget;
+			final Texture tNew = Art.carteEtalage;
 			ca.addListener(new DragListener(){
 				public void touchDragged (InputEvent event, float x, float y, int pointer) {
-                    float dx = x-ca.getWidth()*0.5f; 
-                    float dy = y-ca.getHeight()*0.5f; 
-                    ca.setX(ca.getX()+dx);
-                    ca.setY(ca.getY()+dy);
-                	for(PileActor c : lPiles){
-                		//Si la carte se trouve dans l'une des zones de la pile, on met une autre texture
+					float dx = x-ca.getWidth()*0.5f; 
+					float dy = y-ca.getHeight()*0.5f; 
+					ca.setX(ca.getX()+dx);
+					ca.setY(ca.getY()+dy);
+					for(PileActor c : lPiles){
+						//Si la carte se trouve dans l'une des zones de la pile, on met une autre texture
 						if(c.inZone(ca) == true && c.empty()==true ){
 							c.setImg(t);
 						}
@@ -285,12 +340,12 @@ public class ZoneConstructionScreen extends Screen{
 							c.setImg(tNew);
 						}
 					}
-                	if (idCarteSelected==0){ //si on a selectionné aucune carte, on rend visible certains boutons/fonds
+					if (idCarteSelected==0){ //si on a selectionné aucune carte, on rend visible certains boutons/fonds
 						idCarteSelected = c.getId_carte();
 
 					}
-                    super.touchDragged(event, dx, dy, pointer);
-                }
+					super.touchDragged(event, dx, dy, pointer);
+				}
 
 
 
@@ -321,20 +376,20 @@ public class ZoneConstructionScreen extends Screen{
 								btnAnnulCarte.setX(ca.getX()+75);
 								btnAnnulCarte.setVisible(true);
 
-		                    	afficherCartesCouleurs(ca);	
+								afficherCartesCouleurs(ca);	
 
 
-								}
+							}
 							if(pileSelected < 0 && pileI.hasNext()==false){
 								//Si à la fin du parcours, elle ne se trouve dans aucune pile, on la remet à sa place
 								ca.setDefaultPosition();
-								}
+							}
 						}
 					}
 					super.touchUp(event, x, y, pointer, button);
 				}
 
-		});
+			});
 
 			main.put(c.getId_carte(), ca);
 
@@ -358,26 +413,26 @@ public class ZoneConstructionScreen extends Screen{
 
 			final PileActor paLi = new PileActor(pileC, left+i*215, 360);
 			Point p = new Point(left+i*215, 360);
-	        paLi.sethGauche(p);
-	        paLi.setbDroit(p);
-	        paLi.setId(i);
+			paLi.sethGauche(p);
+			paLi.setbDroit(p);
+			paLi.setId(i);
 			i++;
 			stage.addActor(paLi);
 			lPiles.add(paLi);
 		}
-        //Permet de rajouter une pile fictive lorsqu'on veut ajouter une pile à la zone de construction
-        Carte pile = new Carte();
-        final PileActor pa= new PileActor(pile, left+i*215, 360);
-        Point p = new Point(left+i*215, 360);
-        
-        pa.sethGauche(p);
-        pa.setbDroit(p);
-        pa.setId(i);
-        lPiles.add(pa);
-        stage.addActor(pa);
-        Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE+"carte_etalage.png"));
+		//Permet de rajouter une pile fictive lorsqu'on veut ajouter une pile à la zone de construction
+		Carte pile = new Carte();
+		final PileActor pa= new PileActor(pile, left+i*215, 360);
+		Point p = new Point(left+i*215, 360);
 
-        pa.setImg(t);   
+		pa.sethGauche(p);
+		pa.setbDroit(p);
+		pa.setId(i);
+		lPiles.add(pa);
+		stage.addActor(pa);
+		Texture t = Art.carteEtalage;
+
+		pa.setImg(t);   
 	}
 
 	@Override

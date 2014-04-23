@@ -41,40 +41,60 @@ public class QuartiersScreen extends Screen{
 	private TextButton btnRetour;
 	private TextButton btnValider;
 	private TextButton btnRetourMap;
-	
+
 
 	private Stage stage; 
 
 	private GestionErreurs erreur;
 	private String messageInvestir = new String("");
-	
+
 	private Joueur joueur;
 
 	/* Scores */
 	private Score scoreJoueur;
 
+
 	public QuartiersScreen(){
+		if(GameScreenReseauClient.joueur!=null){
+			joueur = GameScreenReseauClient.joueur;
+		}else if(GameScreenReseauServeur.joueur!=null){
+			joueur = GameScreenReseauServeur.joueur;
+		}else{
+			joueur = londonG.partie.getObjJoueurActif();
+		}
+		affichage();
+		
+	}
+
+	private void affichage() {
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
-		
+
 		final Regles r = new Regles();
 		Gdx.input.setInputProcessor(stage);
-		joueur = londonG.partie.getObjJoueurActif();
+
 		scoreJoueur = new Score(joueur);
 		stage.addActor(scoreJoueur);
-		
+
 		fondQuartier = new ShapeRenderer();
 		listeInvestis = londonG.partie.getPlateau().getInvestis();
 
 		listerQuartiers();
-				btnRetour =new TextButton("Retour",Buttons.styleInGameMenu); 
+		btnRetour =new TextButton("Retour",Buttons.styleInGameMenu); 
 		btnRetour.setPosition(190, 70); 
 		btnRetour.addListener(new InputListener(){
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new GameScreen());
+				if (londonG.partie.isMultijoueur()) {
+					if (GameScreenReseauClient.joueur!=null)
+						Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.joueur));
+					else
+						Screen.setScreen(new GameScreenReseauServeur());
+				}
+				else
+					Screen.setScreen(new GameScreen());
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -89,7 +109,7 @@ public class QuartiersScreen extends Screen{
 		btnRetourMap =new TextButton("Annuler",Buttons.styleInGameMenu); 
 		btnRetourMap.setPosition(980, 135); 
 		btnRetourMap.addListener(new InputListener(){
-		
+
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -99,7 +119,7 @@ public class QuartiersScreen extends Screen{
 				btnValider.setVisible(false);
 				super.touchUp(event, x, y, pointer, button);
 			}
-		
+
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -108,12 +128,10 @@ public class QuartiersScreen extends Screen{
 		});
 		btnRetourMap.setVisible(false);
 		stage.addActor(btnRetourMap);
-		
+
 		btnValider = new TextButton("Valider", Buttons.styleInGameMenu);
 		btnValider.setPosition(700, 135);
 		btnValider.setVisible(false);
-		
-
 		if(!londonG.partie.isTourTermine()){
 			btnValider.addListener(new InputListener(){
 
@@ -124,23 +142,21 @@ public class QuartiersScreen extends Screen{
 						messageInvestir = "Veuillez selectionner un quartier";
 					}else{
 						Joueur j = londonG.partie.getObjJoueurActif();
-
 						erreur = j.invest(nbQuartierSelected, londonG.partie.getPlateau(), londonG.partie.getPioche());
+						
 						if(erreur.equals(GestionErreurs.NONE)){
 							Point p = r.listePoints.get(nbQuartierSelected);
 							final AreaColorRect proprietaire = new AreaColorRect(p.x, p.y, 15, 15);
 							proprietaire.setShapeFillColor((float)j.getCouleur().getRed()/255, (float)j.getCouleur().getGreen()/255, (float)j.getCouleur().getBlue()/255, 1.0f);
 							stage.addActor(proprietaire);
 							listeInvestis.put(nbQuartierSelected, proprietaire);
-							btnValider.setVisible(true);
-							
+System.out.println("a investi");
 							londonG.partie.setActionChoisie(3);
 							londonG.partie.setTourTermine(true);
 							Screen.setScreen(new GameScreen());
 						}else{
 							messageInvestir=erreur.getMsgErrorString();
 						}
-
 
 					}
 					super.touchUp(event, x, y, pointer, button);
@@ -153,21 +169,21 @@ public class QuartiersScreen extends Screen{
 					return true;
 				}
 			});
-			
+
 		}
 		else{
 			messageInvestir="Vous ne pouvez investir qu'une fois par tour";
 		}
 		stage.addActor(btnValider);
-		
+
 	}
 
 	private void listerQuartiers(){
 		/* Parametres Boutons */
 		int i=0;
 		Table tQuartiers = new Table();
-		
-		
+
+
 		final Map<Integer, Quartier> quartiers = londonG.partie.getPlateau().getQuartiers();
 		for(final Integer q: quartiers.keySet()){	
 			final Integer j = q;
@@ -184,7 +200,7 @@ public class QuartiersScreen extends Screen{
 					listeInvestis.get(q).setVisible(true);
 				}
 			}
-			
+
 
 			btn.addListener(new InputListener(){
 				@Override
@@ -192,7 +208,7 @@ public class QuartiersScreen extends Screen{
 					nbQuartierHovered = j;
 					super.enter(event, x, y, pointer, fromActor);
 				}
-				
+
 				@Override
 				public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
 					nbQuartierHovered=0;
@@ -202,13 +218,30 @@ public class QuartiersScreen extends Screen{
 				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
 					nbQuartierSelected = j;
-					btnRetourMap.setVisible(true);
-					
-					btnRetour.setVisible(false);
+					btnRetourMap.setVisible(true);					
+					Joueur jActif = londonG.partie.getObjJoueurActif();
+					if(!londonG.partie.isMultijoueur()){
+System.out.println("la");
+						if(londonG.partie.getObjJoueurActif().equals(joueur)==true){
+							if(!londonG.partie.isTourTermine()   ){ 
+								btnValider.setVisible(true);
+							}else{
+								btnValider.setVisible(false);
+							}
+						}
+					}else{//si c'est du multijoueur
+						if(jActif.getNom().equals(joueur.getNom())){//si c'est le meme joueur
+							if(!londonG.partie.isTourTermine()   ){ 
+								btnValider.setVisible(true);
+							}else{
+								btnValider.setVisible(false);
+							}
+						}
+					}
 					for(Integer zone : listeInvestis.keySet()){
 						listeInvestis.get(zone).setVisible(false);
 					}
-					
+
 					super.touchUp(event, x, y, pointer, button);
 				}
 
@@ -234,18 +267,18 @@ public class QuartiersScreen extends Screen{
 
 
 	}
-	
+
 	@Override
 	public void render() {
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		
+
 		spriteBatch.begin();
 
 		draw(Art.bgPartie, 0, 0);
 
 		Fonts.FONT_TITLE.draw(spriteBatch, "QUARTIERS", 500, 20);
-		
+
 		if(nbQuartierSelected!=0){
 
 			spriteBatch.end();
@@ -283,18 +316,16 @@ public class QuartiersScreen extends Screen{
 			}else{
 				Fonts.FONT_BLACK.draw(spriteBatch, "Propriétaire : "+quartier.getProprietaireQuartier().getNom(), 600, 470);
 			}
-			
+
 			Fonts.FONT_BLACK.draw(spriteBatch, messageInvestir , 700, 250);
-			btnRetour.setVisible(true);
-			btnValider.setVisible(true);
 		}
 		else if(nbQuartierHovered < 21){
 			
-		
+
 			draw(Art.imagesQuartiers.get(0), 580, 100);
 			draw(Art.imagesQuartiers.get(nbQuartierHovered), 580, 100);
 		}
-		
+
 		spriteBatch.end();
 		stage.act();
 		stage.draw();

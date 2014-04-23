@@ -1,8 +1,12 @@
 package fr.m1.miage.london.network.client;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.Scanner;
+
+import fr.m1miage.london.classes.Joueur;
 
 
 public class Chat_ClientServeur implements Runnable {
@@ -12,10 +16,10 @@ public class Chat_ClientServeur implements Runnable {
 	private ObjectInputStream  in = null;
 	private Scanner sc;
 	private Thread t3, t4;
-	private String login;
+	private Joueur joueur;
 	
-	public Chat_ClientServeur(Socket s,String login){
-		this.login = login;
+	public Chat_ClientServeur(Socket s,Joueur joueur){
+		this.joueur = joueur;
 		socket = s;
 	}
 	
@@ -26,11 +30,11 @@ public class Chat_ClientServeur implements Runnable {
 			
 			sc = new Scanner(System.in);
 			
-			Emission e1 = new Emission(out,login);
+			Emission e1 = new Emission(out,joueur);
 			Sender.e = e1;
 			Thread t4 = new Thread(e1);
 			t4.start();
-			Thread t3 = new Thread(new Reception(in,login));
+			Thread t3 = new Thread(new Reception(in,joueur));
 			t3.start();
 		
 		   

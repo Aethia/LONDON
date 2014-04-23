@@ -1,10 +1,12 @@
 package fr.m1miage.london.ui.graphics;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import fr.m1miage.london.ui.Prefs;
 
@@ -46,10 +48,23 @@ public class Art {
 	/*--- carte ---*/
 	public static TextureRegion  emplacement_etalage;
 	public static TextureRegion carteDisabled;
+	public static Map<Integer, TextureRegion> cartes = new HashMap<Integer, TextureRegion>();
+	public static Texture validTarget;
+	public static Texture carteEtalage;
+	public static Skin skinTableauScores;
+	public static Skin skinScoreJoueur;
+	public static Skin skin;
+	
+	
+	public static Texture scroll;
+	public static TextureRegion getCarteID(int idCarte){
+		return cartes.get(idCarte);
+	}
 	
 	public static void load () {
 		Fonts.load();
 		Buttons.load();
+		scroll = new Texture(Gdx.files.internal(Prefs.REPERTOIRE+"default-scroll.png"));
 		bg = load("ressources/Images/background.png", 1400, 800);
 		bgPartie = load("ressources/Images/backgroundPartie.png", 1400, 800);
 		menu_bg = Art.load("ressources/Images/menu_background.png", 256, 512);
@@ -75,7 +90,19 @@ public class Art {
 		ico_Pauvre = load(Prefs.REPERTOIRE_ICONES+"ico_pauvrete.png", 40,40);
 		
 		chargerImagesQuartiers();
+		skinTableauScores= new Skin(Gdx.files.internal(Prefs.REPERTOIRE +"ui.json"));
+		skinScoreJoueur =new Skin( Gdx.files.internal(Prefs.REPERTOIRE +"ui.json"));
+		skin = new Skin( Gdx.files.internal(Prefs.REPERTOIRE +"ui.json"));
 		emplacement_etalage = load(Prefs.REPERTOIRE + "etalage_carte.png", 256,512);
+		/*cartes*/
+		for(int i=1;i<=110;i++){
+			TextureRegion c = load(Prefs.REPERTOIRE_CARTES + "carte"+i+".png", 200,300);
+			c.flip(false, true);
+			cartes.put(i, c);
+		}
+		
+		validTarget= new Texture(Gdx.files.internal(Prefs.REPERTOIRE_CARTES+"validTarget.png"));
+		carteEtalage = new Texture(Gdx.files.internal(Prefs.REPERTOIRE+"carte_etalage.png"));
 		Texture t= new Texture(Gdx.files.internal(Prefs.REPERTOIRE_CARTES+"carteDisabled.png"));
 		carteDisabled = new TextureRegion(t, 0, 0, Prefs.LARGEUR_CARTE, Prefs.HAUTEUR_CARTE);
 		carteDisabled.flip(false, false);

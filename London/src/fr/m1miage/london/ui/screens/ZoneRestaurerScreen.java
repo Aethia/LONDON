@@ -42,8 +42,16 @@ public class ZoneRestaurerScreen extends Screen{
 		joueur = londonG.partie.getObjJoueurActif();
 		restaurerScreen();
 	}
+	
 
 	private void restaurerScreen() {
+		afficherRestaurer();
+
+	}
+
+
+	
+	private void afficherRestaurer() {
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
@@ -55,7 +63,15 @@ public class ZoneRestaurerScreen extends Screen{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				Screen.setScreen(new GameScreen());
+				// si c'est une partie multijoueur
+				if (londonG.partie.isMultijoueur()) {
+					if (GameScreenReseauClient.joueur!=null)
+						Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.joueur));
+					else
+						Screen.setScreen(new GameScreenReseauServeur());
+				}
+				else
+					Screen.setScreen(new GameScreen());
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -120,7 +136,6 @@ public class ZoneRestaurerScreen extends Screen{
 		stage.addActor(scoreJoueur);
 
 		mainJoueur();
-
 	}
 
 
@@ -169,7 +184,7 @@ public class ZoneRestaurerScreen extends Screen{
 		int i = 0;
 		for(Carte pile : joueur.getZone_construction().cartesTop()){
 			final CarteActor ca = new CarteActor(pile, left+i*215, 360);
-
+System.out.println("pile");
 			ca.addListener(new InputListener(){
 
 				@Override
@@ -177,6 +192,7 @@ public class ZoneRestaurerScreen extends Screen{
 						float y, int pointer, int button) {
 					if(!ca.getCarte().isDesactivee()){ //si c'est pas null et que la carte n'est pas desactivée
 						carteActivation = ca;
+						System.out.println(ca.getCarte().getNom());
 						Carte cActiv = carteActivation.getCarte();
 						int type = cActiv.getCoutActivation().getTypeActiv();
 						switch(type){
@@ -218,7 +234,7 @@ public class ZoneRestaurerScreen extends Screen{
 			});
 
 
-
+i++;
 			stage.addActor(ca);
 		}
 

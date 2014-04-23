@@ -20,6 +20,8 @@ public class Score extends Table{
 	private Color color;
 	private static TextureRegionDrawable score_bg;
 
+	private Skin skin = new Skin();
+	
 	public Score(Joueur j) {
 		super();
 		java.awt.Color c = j.getCouleur();
@@ -29,8 +31,7 @@ public class Score extends Table{
 		this.ptsPauvrete = String.valueOf(j.getPoint_pauvrete());
 		this.ptsVictoire = String.valueOf(j.getPoint_victoire());
 
-
-		Skin skin= new Skin(Gdx.files.internal(Prefs.REPERTOIRE +"ui.json"));
+		this.skin = Art.skinScoreJoueur;
 		score_bg = new TextureRegionDrawable(Art.scoreJoueur_bg);
 
 		TextureRegion tr = new TextureRegion (Art.scoreJoueur_bg);

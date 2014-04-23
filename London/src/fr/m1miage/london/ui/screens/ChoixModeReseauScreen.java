@@ -14,10 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import fr.m1.miage.london.network.client.Client;
+import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.sound.SoundPlayer;
 import fr.m1miage.london.ui.Prefs;
+import fr.m1miage.london.ui.graphics.AreaColorRect;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.Fonts;
@@ -29,6 +32,8 @@ public class ChoixModeReseauScreen extends Screen{
 	private Stage stage; 
 
 	private ShapeRenderer fondChat;
+
+	private AreaColorRect colorJ;
 	
 	public ChoixModeReseauScreen(){
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
@@ -66,7 +71,7 @@ public class ChoixModeReseauScreen extends Screen{
 				//traitement reseau
 				// event serveur
 				SoundPlayer.jouerSon("clic.wav");
-				Screen.setScreen(new ReseauScreenServeur());
+				Screen.setScreen(new ChatReseauScreenServeur());
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -86,6 +91,28 @@ public class ChoixModeReseauScreen extends Screen{
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 					// event client
+				colorJ = new AreaColorRect(650,380 , 100f, 100f);
+				colorJ.setShapeFillColor((float)Math.random(), (float)Math.random(), (float)Math.random(),1.0f);
+				colorJ.setPosition(650, 380);
+				colorJ.setHeight(100); colorJ.setWidth(100);
+				colorJ.addListener(new InputListener(){
+
+					@Override
+					public boolean touchDown(InputEvent event, float x, float y,
+							int pointer, int button) {
+						// Si click sur acteur, on change la couleur de la forme
+						stage.getRoot().removeActor(colorJ);
+						colorJ.setShapeFillColor((float)Math.random(), (float)Math.random(), (float)Math.random(), 1.0f);
+						stage.addActor(colorJ);
+						return super.touchDown(event, x, y, pointer, button);
+					}
+
+				});
+				//ajout des nouveaux elements au stage
+				stage.addActor(colorJ);
+				
+				
+				
 
 				Skin menuSkin = new Skin();
 				TextureAtlas menuAtlas = new TextureAtlas("ressources/Images/text_area.pack");
@@ -96,15 +123,28 @@ public class ChoixModeReseauScreen extends Screen{
 				txtStyle.fontColor = Color.BLACK;
 				txtStyle.background.setBottomHeight(32f);
 				txtStyle.background.setLeftWidth(10f);
-				final TextField mTextField = new TextField("", txtStyle);
-				mTextField.setPosition(600 , 400);
-				mTextField.setHeight(70);
-				mTextField.setWidth(300);
-				stage.addActor(mTextField);
+				
+				
+				final TextField textBoxPseudo = new TextField("pseudo", txtStyle);
+				
+				
+				
+				textBoxPseudo.setPosition(580 , 280);
+				textBoxPseudo.setHeight(70);
+				textBoxPseudo.setWidth(300);
+				textBoxPseudo.addListener(new ClickListener(){
+					 @Override
+					 public void clicked(InputEvent event, float x, float y) {
+						 textBoxPseudo.setText("");
+					 
+					 }
+				});
+				stage.addActor(textBoxPseudo);
+				
 				
 				
 				TextButton btnRejoindrePartie =new TextButton("Rejoindre",Buttons.styleInGameMenu); 
-				btnRejoindrePartie.setPosition(600, 350); 
+				btnRejoindrePartie.setPosition(600, 230); 
 				btnRejoindrePartie.addListener(new InputListener(){
 					@Override
 					public void touchUp(InputEvent event, float x, float y,
@@ -116,12 +156,17 @@ public class ChoixModeReseauScreen extends Screen{
 						 * On lance le client
 						 */
 						SoundPlayer.jouerSon("clic.wav");
-						String login = mTextField.getText();
+						String login = textBoxPseudo.getText();
+						System.out.println(colorJ.getColor().r*255);
+						System.out.println(colorJ.getColor().g*255);
+						System.out.println(colorJ.getColor().b*255);
+						java.awt.Color c = new java.awt.Color((float)colorJ.getColor().r,(float)colorJ.getColor().g,(float)colorJ.getColor().b);
+						Joueur joueur = new Joueur(0, login, c);
 						Client cli = new Client();
-						cli.seConnecter(login);
+						cli.seConnecter(joueur);
 						
 						
-						Screen.setScreen(new ReseauScreenClient(login));
+						Screen.setScreen(new ChatReseauScreenClient(login));
 						super.touchUp(event, x, y, pointer, button);
 					}
 

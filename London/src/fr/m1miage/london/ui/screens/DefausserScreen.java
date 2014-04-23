@@ -28,6 +28,10 @@ public class DefausserScreen extends Screen {
 	private int left = 200;
 
 	public DefausserScreen(Joueur j, int nbDefausse){
+		prepareAffichage(j, nbDefausse);
+	}
+
+	private void prepareAffichage(Joueur j, int nbDefausse) {
 		this.nbDefausse = nbDefausse;
 		this.joueur = j;
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
@@ -45,7 +49,15 @@ public class DefausserScreen extends Screen {
 				for(Integer key : cDefausse.keySet()){
 					joueur.seDefausser(cDefausse.get(key).getCarte(), londonG.partie.getPlateau().getEtalage());;
 				}
-				Screen.setScreen(new GameScreen());
+				if (londonG.partie.isMultijoueur()) {
+					if (GameScreenReseauClient.joueur!=null)
+						Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.joueur));
+					else
+						Screen.setScreen(new GameScreenReseauServeur());
+				}
+				else{
+					Screen.setScreen(new GameScreen());
+				}
 				super.touchUp(event, x, y, pointer, button);
 			}
 
