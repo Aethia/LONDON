@@ -5,12 +5,12 @@ import fr.m1miage.london.ui.screens.GameScreenReseauClient;
 
 public class RegisterClient implements Runnable{
 	GameScreenReseauClient obj;
-	public RegisterClient(GameScreenReseauClient o) {
-		obj = o;
-		
-	}
+//	public RegisterClient(GameScreenReseauClient o) {
+//		obj = o;
+//		
+//	}
 	
 	public void run() {
-		Reception.addListenerPartie(obj);
+		//Reception.addListenerPartie(obj);
 	}
 }

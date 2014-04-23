@@ -33,7 +33,7 @@ import fr.m1miage.london.ui.graphics.Chat;
 import fr.m1miage.london.ui.graphics.Fonts;
 import fr.m1miage.london.Partie;
 
-public class ChatReseauScreenClient extends Screen implements IncomingMessageListenerClient,IncomingObjectListenerClient{
+public class ChatReseauScreenClient extends Screen implements IncomingMessageListenerClient{
 
 	@Override
 	public void nouveauMessage(String message) {
@@ -43,28 +43,62 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		messageChat(message);
 	}	
 
-	@Override
-	public void nouvelObjet(Object o, int type) {	
-		System.out.println("type de la reception : " + type);
-		if(type==5){
-			londonG.partie = (Partie) o;
-			Joueur thisJoueur = londonG.partie.getJoueurParNom(login);
-			Screen.setScreen(new GameScreenReseauClient(thisJoueur));
-			//afficherbouton();
-		}
-		if (type == 3) {
-			afficherbouton();
-		}
-		if (type == 4) {
-			this.joueurActif = (String)o;
-		}
-		if (type == 0){
-			lesJoueurs = (ArrayList<Joueur>)o;
-		}
+	private IncomingObjectListenerClient objListener = new IncomingObjectListenerClient(){
+		@Override
+		public void nouvelObjet(Object o, int type) {	
+			System.out.println("type de la reception : " + type);
+			if(type==5){
+				londonG.partie = (Partie) o;
+				Joueur thisJoueur = londonG.partie.getJoueurParNom(login);
+				
+				
+				Timer timer = new Timer();
 
-	}
+				
+				//aFermer.removed();
+//				if(spriteBatch!=null){
+////					Screen.spriteBatch.flush();
+////						Screen.spriteBatch.dispose();
+//					try {
+//						spriteBatch.begin();
+//						spriteBatch.end();
+//					} catch (Exception e) {
+//		
+//					}
+//					
+//				}
+				//Reception.removeListenerO(objListener);
+//				timer.schedule(new TimerTask() {
+//					@Override
+//					public void run() {
+//						
+//
+//						//Reception.addListenerO(GameScreenReseauClient.game);
+//						changer();
+//					}
+//				}, 2000);
+				
+				afficherbouton();
+				//afficherbouton();
+				
+			}
+			if (type == 3) {
+				afficherbouton();
+			}
+			if (type == 4) {
+				joueurActif = (String)o;
+			}
+			if (type == 0){
+				lesJoueurs = (ArrayList<Joueur>)o;
+			}
 
+		}
+	};
+	
 
+public void changer(){
+	
+}
 
 
 	private List<Joueur> lesJoueurs = new ArrayList<Joueur>();
@@ -78,15 +112,16 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 	private Chat chat;
 	private int jPosition=200;
 	private int cPosition=0;
-
+private ChatReseauScreenClient aFermer;
 	public void afficherbouton(){
 		btnLancerPartie.setVisible(true);
 	}
 
 
 	public ChatReseauScreenClient(String log){
+		aFermer = this;
 		Reception.addListenerM(this);
-		Reception.addListenerO(this);
+		Reception.addListenerO(objListener);
 		this.login = log;
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
@@ -96,26 +131,26 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 		/*
 		 * bouton lancer partie
 		 */
-//		btnLancerPartie =new TextButton("Lancer partie",Buttons.styleInGameMenu); 
-//		btnLancerPartie.setPosition(100, 600); 
-//		btnLancerPartie.setVisible(false);
-//		btnLancerPartie.addListener(new InputListener(){
-//			@Override
-//			public void touchUp(InputEvent event, float x, float y,
-//					int pointer, int button) {
-//				//lancement de la partie
-//				super.touchUp(event, x, y, pointer, button);		
+		btnLancerPartie =new TextButton("Lancer partie",Buttons.styleInGameMenu); 
+		btnLancerPartie.setPosition(100, 600); 
+		btnLancerPartie.setVisible(false);
+		btnLancerPartie.addListener(new InputListener(){
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				//lancement de la partie
+				super.touchUp(event, x, y, pointer, button);		
 //				Screen.setScreen(new GameScreenReseauClient(login));	
-//
-//			}
-//
-//			@Override
-//			public boolean touchDown(InputEvent event, float x, float y,
-//					int pointer, int button) {
-//				return true;
-//			}
-//		});
-//		stage.addActor(btnLancerPartie);
+				Screen.setScreen(new GameScreenReseauClient(londonG.partie.getJoueurParNom(login)));
+			}
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+		});
+		stage.addActor(btnLancerPartie);
 
 
 		/*

@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import fr.m1.miage.london.network.IncomingPartieObjectListenerClient;
 import fr.m1.miage.london.network.IncomingPartieObjectListenerServeur;
 import fr.m1.miage.london.network.client.Reception;
 import fr.m1.miage.london.network.serveur.Emission;
@@ -27,8 +29,15 @@ import fr.m1miage.london.ui.graphics.MenuGlobal;
 import fr.m1miage.london.ui.graphics.Score;
 import fr.m1miage.london.ui.graphics.TableauScores;
 
-public class GameScreenReseauServeur extends Screen implements IncomingPartieObjectListenerServeur{
-
+public class GameScreenReseauServeur extends Screen {
+	public IncomingPartieObjectListenerServeur partieObjListener = new IncomingPartieObjectListenerServeur(){
+		@Override
+		public void nouvelObjet(Object o) {
+			londonG.partie = (Partie)o;
+			afficherBouton();
+		}
+	};
+	
 	private Button finTourBtn;
 
 	/* Main du joueur */
@@ -45,21 +54,17 @@ public class GameScreenReseauServeur extends Screen implements IncomingPartieObj
 	public static Joueur joueur;
 	private int time =0;
 	private static final int TIME_OUT_CARD = 150;
-
+	private TextButton btnSuivant;
 	public static Button btnSauvegarde;
 
-	@Override
-	// arrivée d'un nouvel objet de type Partie
-	public void nouvelObjet(Object o) {
-		londonG.partie = (Partie)o;
-		System.out.println("j'ai recu une partie");
-		Screen.setScreen(new GameScreenReseauServeur());	
-
+	
+	private void afficherBouton() {
+		btnSuivant.setVisible(true);
 	}
-
+	
 	public GameScreenReseauServeur(){
 		synchronized (Reception.listenersPartie) {
-			fr.m1.miage.london.network.serveur.Reception.addListenerPartie(this);
+			fr.m1.miage.london.network.serveur.Reception.addListenerPartie(partieObjListener);
 		}
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
@@ -109,8 +114,35 @@ public class GameScreenReseauServeur extends Screen implements IncomingPartieObj
 		scoreJoueur = new Score(j);
 		stage.addActor(scoreJoueur);
 
+		
+		btnSuivant =new TextButton("A moi",Buttons.styleInGameMenu); 
+		btnSuivant.setPosition(600, 350); 
+		btnSuivant.setVisible(false);
+		btnSuivant.addListener(new InputListener(){
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				//traitement reseau
+				// event ok client
+
+				/*
+				 * On lance le client
+				 */
+				Screen.setScreen(new GameScreenReseauServeur());
+				super.touchUp(event, x, y, pointer, button);
+			}
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+		});
+		stage.addActor(btnSuivant);
+		
+		
 		// si c'est a moi
-		if (GameScreenReseauServeur.login.equalsIgnoreCase(londonG.partie.getObjJoueurActif().getNom())) {
+		if (GameScreenReseauServeur.joueur.getNom().equals(londonG.partie.getObjJoueurActif().getNom())) {
 			//sauvegarde
 			btnSauvegarde = new Button(Buttons.styleBtnSauvegarde);
 			btnSauvegarde.setPosition(1250, 720); //changer la position
@@ -192,7 +224,7 @@ public class GameScreenReseauServeur extends Screen implements IncomingPartieObj
 		tick();
 
 		draw(Art.bg, 0, 0);
-		if (GameScreenReseauServeur.login.equalsIgnoreCase(londonG.partie.getObjJoueurActif().getNom())) {
+		if (GameScreenReseauServeur.joueur.getNom().equals(londonG.partie.getObjJoueurActif().getNom())) {
 			draw(Art.menu_bg,70,150);
 
 			if(londonG.partie.isTourTermine()){

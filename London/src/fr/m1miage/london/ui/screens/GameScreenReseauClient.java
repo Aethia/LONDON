@@ -30,8 +30,17 @@ import fr.m1miage.london.ui.graphics.MenuGlobal;
 import fr.m1miage.london.ui.graphics.Score;
 import fr.m1miage.london.ui.graphics.TableauScores;
 
-public class GameScreenReseauClient extends Screen implements IncomingPartieObjectListenerClient,IncomingObjectListenerClient{
+public class GameScreenReseauClient extends Screen{
 
+	public IncomingObjectListenerClient partieObjListener = new IncomingObjectListenerClient(){
+
+		@Override
+		public void nouvelObjet(Object o, int type) {
+			System.out.println("le client a recu une partie");
+			londonG.partie = (Partie)o;
+			afficherBouton();
+		}
+	};
 	private Button finTourBtn;
 
 	/* Main du joueur */
@@ -52,18 +61,6 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 	public static GameScreenReseauClient game;
 	private TextButton btnSuivant;
 
-	@Override
-	// arrivée d'un nouvel objet de type Partie
-	public void nouvelObjet(Object o) {
-		londonG.partie = (Partie)o;
-		afficherBouton();
-	}
-
-	@Override
-	public void nouvelObjet(Object o, int type) {
-		afficherBouton();
-	}
-
 
 
 	private void afficherBouton() {
@@ -73,7 +70,7 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 	public GameScreenReseauClient(Joueur joueur){
 		GameScreenReseauClient.game = this;
 		GameScreenReseauClient.joueur = joueur;
-		
+		this.init(londonG);
 		Timer timer = new Timer();
 
 
@@ -81,10 +78,10 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				Reception.addListenerPartie(GameScreenReseauClient.game);
-				Reception.addListenerO(GameScreenReseauClient.game);
+				Reception.addListenerO(partieObjListener);
+				//Reception.addListenerO(GameScreenReseauClient.game);
 			}
-		}, 5000);
+		}, 2000);
 
 
 		
@@ -101,7 +98,7 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 		
 		//a ameliorer
 		// les cartes du joueur host
-		Joueur j = joueur;
+		Joueur j = GameScreenReseauClient.joueur;
 		int i=0;
 		for(final Carte c: j.getLesCartes()){
 			i++;
@@ -163,7 +160,7 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 		stage.addActor(btnSuivant);
 		
 		// si c'est a moi
-		if (GameScreenReseauClient.joueur.equals(londonG.partie.getObjJoueurActif())) {
+		if (GameScreenReseauClient.joueur.getNom().equals(londonG.partie.getObjJoueurActif().getNom())) {
 			/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
 			if(!londonG.partie.isTourTermine()){
 				MenuActions tableActions = new MenuActions()	;		
@@ -212,7 +209,7 @@ public class GameScreenReseauClient extends Screen implements IncomingPartieObje
 		tick();
 
 		draw(Art.bg, 0, 0);
-		if (GameScreenReseauClient.joueur.equals(londonG.partie.getObjJoueurActif())) {
+		if (GameScreenReseauClient.joueur.getNom().equals(londonG.partie.getObjJoueurActif().getNom())) {
 			draw(Art.menu_bg,70,150);
 
 			if(londonG.partie.isTourTermine()){

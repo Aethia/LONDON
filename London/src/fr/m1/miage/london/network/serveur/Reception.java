@@ -33,6 +33,10 @@ public class Reception implements Runnable {
 		listenersPartie.add(toAdd);
 	}
 	
+	public static void removeListenerPartie(IncomingPartieObjectListenerServeur toDel){
+		listenersPartie.remove(toDel);
+	}
+	
 	public void run() {
 		int type;
 		while(true){

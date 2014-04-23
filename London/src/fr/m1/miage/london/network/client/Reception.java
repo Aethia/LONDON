@@ -35,6 +35,10 @@ public class Reception implements Runnable {
 	public static void addListenerO(IncomingObjectListenerClient toAdd){
 		listenersO.add(toAdd);
 	}
+	
+	public static void removeListenerO(IncomingObjectListenerClient toDel){
+		listenersO.remove(toDel);
+	}
 
 	public static void addListenerPartie(IncomingPartieObjectListenerClient toAdd){
 		listenersPartie.add(toAdd);
