@@ -39,7 +39,8 @@ public class CreationPartieScreen extends Screen {
 	private BitmapFont font;
 
 	//boutons
-	public static TextButton btnValider;
+	private TextButton btnValider;
+	private TextButton btnRetour;
 	public static Map<Integer,TextButton> buttonsNbj=new HashMap<Integer,TextButton>() ; //boutons nombre de joueurs
 
 
@@ -47,7 +48,7 @@ public class CreationPartieScreen extends Screen {
 	private static List<AreaColorRect> lColors = new ArrayList<AreaColorRect>();
 
 	public static int idNbJSelected=0;
-	private static Stage stage; 
+	private Stage stage; 
 
 	public CreationPartieScreen(){
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
@@ -58,6 +59,7 @@ public class CreationPartieScreen extends Screen {
 		font.setColor(Color.BLACK);
 		boutonNbJoueurs();
 		boutonValider();
+		boutonRetour();
 		stage.addListener(new InputListener(){
 
 			@Override
@@ -74,7 +76,7 @@ public class CreationPartieScreen extends Screen {
 		});
 	}
 
-	private static void boutonNbJoueurs(){
+	private void boutonNbJoueurs(){
 
 		int i;
 		for(i=2;i<6;i++){
@@ -114,7 +116,7 @@ public class CreationPartieScreen extends Screen {
 
 
 	//cr�� un nombre de textfield egal au nombre de joueurs choisi.
-	private static void majFormJoueurs(){
+	private void majFormJoueurs(){
 		int top = 215;
 		int left =200;
 		//on enleve les anciens elements du stage
@@ -181,7 +183,7 @@ public class CreationPartieScreen extends Screen {
 		}
 	}
 
-	private static void boutonValider(){	
+	private void boutonValider(){	
 		btnValider = new TextButton("Valider", Buttons.styleInGameMenu); 
 		btnValider.setPosition(600, 80); 
 
@@ -201,6 +203,30 @@ public class CreationPartieScreen extends Screen {
 				return true;
 			}
 		});
+		stage.addActor(btnValider);
+	}
+	
+	private void boutonRetour(){	
+		btnRetour = new TextButton("Retour", Buttons.styleInGameMenu); 
+		btnRetour.setPosition(900, 80); 
+
+		btnRetour.addListener(new InputListener() {
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Screen.setScreen(new MainMenuScreen());
+				super.touchUp(event, x, y, pointer, button);
+			}
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				
+				return true;
+			}
+		});
+		stage.addActor(btnRetour);
 	}
 
 	private static void creerPartie(){
@@ -246,8 +272,6 @@ public class CreationPartieScreen extends Screen {
 			stage.addActor(buttonsNbj.get(mapKey));
 		}
 
-
-		stage.addActor(btnValider);
 
 		stage.act();
 		stage.draw();

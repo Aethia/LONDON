@@ -112,6 +112,7 @@ public class MenuGlobal extends Table{
 
 		});
 		this.add(emprunterBtn).row();
+		
 
 		this.setPosition(200, 460);
 	}

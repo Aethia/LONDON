@@ -57,21 +57,29 @@ public class ZoneConstructionScreen extends Screen{
 	/* Scores */
 	private Score scoreJoueur;
 
-//	public ZoneConstructionScreen(boolean actionPossible){
-//		this.actionPossible = actionPossible;
-//		messageConstruire = "Voici votre zone de construction";
-//		joueur = londonG.partie.getObjJoueurActif();
-//		constructionScreen();
-//	}
+	//	public ZoneConstructionScreen(boolean actionPossible){
+	//		this.actionPossible = actionPossible;
+	//		messageConstruire = "Voici votre zone de construction";
+	//		joueur = londonG.partie.getObjJoueurActif();
+	//		constructionScreen();
+	//	}
+	public ZoneConstructionScreen(Joueur j, String message){
+		this.joueur = j;
+		this.messageConstruire = message;
+		constructionScreen();
+		affichageMultiJ();
+	}
 
 	public ZoneConstructionScreen(Joueur j){
 		this.joueur = j;
-		
+
 		messageConstruire = "Voici la zone de construction de " + j.getNom();
-		
-		
-		
+
 		constructionScreen();
+		affichageMultiJ();
+	}
+
+	private void affichageMultiJ(){
 		if(!londonG.partie.isMultijoueur()){
 			
 			if(londonG.partie.getObjJoueurActif().equals(joueur)==true){
@@ -84,10 +92,8 @@ public class ZoneConstructionScreen extends Screen{
 			Joueur lanceur;
 			if(GameScreenReseauClient.joueur!=null){
 				lanceur = GameScreenReseauClient.joueur;
-			}else if(GameScreenReseauServeur.joueur!=null){
-				lanceur = GameScreenReseauServeur.joueur;
 			}else{
-				lanceur = londonG.partie.getObjJoueurActif();
+				lanceur = GameScreenReseauServeur.joueur;
 			}
 			System.out.println("lanceur"+lanceur.getNom());
 			if(lanceur.getNom().equals(londonG.partie.getObjJoueurActif().getNom())){//si c'est le meme joueur
@@ -98,12 +104,13 @@ public class ZoneConstructionScreen extends Screen{
 			}
 		}
 	}
-//
-//	public ZoneConstructionScreen(String msg){
-//		messageConstruire = msg;
-//		joueur = londonG.partie.getObjJoueurActif();
-//		constructionScreen();
-//	}
+
+	//
+	//	public ZoneConstructionScreen(String msg){
+	//		messageConstruire = msg;
+	//		joueur = londonG.partie.getObjJoueurActif();
+	//		constructionScreen();
+	//	}
 
 	private void constructionScreen() {
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
@@ -144,7 +151,7 @@ public class ZoneConstructionScreen extends Screen{
 		stage.addActor(fondChoixCartes);
 		//si partie multijoueur on va verifier 
 		//		if(londonG.partie.isMultijoueur()){
-		
+
 		//		}else{
 		//			//si tour terminé, mais action construire => on peut continuer ou tour pas terminé mais zoneC du joueur Actif
 		//			if(londonG.partie.getObjJoueurActif().equals(joueur)==true){
@@ -228,6 +235,10 @@ public class ZoneConstructionScreen extends Screen{
 					londonG.partie.setTourTermine(true);
 				}
 				messageConstruire =erreur.getMsgErrorString();
+
+				Screen.setScreen(new ZoneConstructionScreen(joueur,erreur.getMsgErrorString())); 
+
+
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -305,9 +316,9 @@ public class ZoneConstructionScreen extends Screen{
 
 	private void afficherCartes() {
 		int i=0;
-
+		
 		for(final Carte c: joueur.getLesCartes()){
-
+			
 			i++;
 			final CarteActor ca = new CarteActor(c,350+i*50,10);
 			stage.addActor(ca);

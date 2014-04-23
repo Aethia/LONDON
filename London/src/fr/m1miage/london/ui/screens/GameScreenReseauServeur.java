@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-import fr.m1.miage.london.network.IncomingPartieObjectListenerClient;
 import fr.m1.miage.london.network.IncomingPartieObjectListenerServeur;
 import fr.m1.miage.london.network.client.Reception;
 import fr.m1.miage.london.network.serveur.Emission;
@@ -33,7 +32,12 @@ public class GameScreenReseauServeur extends Screen {
 	public IncomingPartieObjectListenerServeur partieObjListener = new IncomingPartieObjectListenerServeur(){
 		@Override
 		public void nouvelObjet(Object o) {
-			londonG.partie = (Partie)o;
+			Partie partieRecue =  (Partie)o;
+			//si on est le nouveau joueur actif de la partie recue
+			if(partieRecue.getObjJoueurActif().getNom().equals(GameScreenReseauServeur.joueur.getNom())){
+				afficherBouton();
+			}			
+			londonG.partie =  (Partie)o;
 			afficherBouton();
 		}
 	};
@@ -50,16 +54,16 @@ public class GameScreenReseauServeur extends Screen {
 	private TableauScores scores;
 
 	private Stage stage; 
-	private static String login = "host";
 	public static Joueur joueur;
 	private int time =0;
 	private static final int TIME_OUT_CARD = 150;
 	private TextButton btnSuivant;
 	public static Button btnSauvegarde;
-
+private MenuGlobal tMenu ;
 	
 	private void afficherBouton() {
 		btnSuivant.setVisible(true);
+		tMenu.setVisible(true);
 	}
 	
 	public GameScreenReseauServeur(){
@@ -71,7 +75,7 @@ public class GameScreenReseauServeur extends Screen {
 		Gdx.input.setInputProcessor(stage);
 		
 		/* Parametres Boutons Menu General*/
-		MenuGlobal tMenu = new MenuGlobal();
+		tMenu = new MenuGlobal();
 		stage.addActor(tMenu);
 
 		joueur = londonG.partie.getJoueurParNom("host");
@@ -177,15 +181,14 @@ public class GameScreenReseauServeur extends Screen {
 					public void touchUp(InputEvent event, float x, float y,
 							int pointer, int button) {
 						//avant de finir le tour, on verifie la taille de la main
-						Joueur j = londonG.partie.getObjJoueurActif();
+						Joueur j =GameScreenReseauServeur.joueur;
+						londonG.partie.setObjJoueurActif(GameScreenReseauServeur.joueur);
 						if(j.getMainDuJoueur().getNb_cartes()>Regles.NBMAXCARTES){
 							int nbD = j.getMainDuJoueur().getNb_cartes()- Regles.NBMAXCARTES;
 							londonG.setScreen(new DefausserScreen(j,nbD));
 						}else{
 							londonG.partie.joueurSuivant();	
-							j = londonG.partie.getObjJoueurActif();
-
-
+							//j = londonG.partie.getObjJoueurActif();
 							// on envoie le nouvel objet au clients
 							for (Emission e : Serveur.lesClients){		
 								Partie partie = londonG.partie;
@@ -207,6 +210,8 @@ public class GameScreenReseauServeur extends Screen {
 			}
 
 
+		}else{//si c'est pas mon tour
+			tMenu.emprunterBtn.setVisible(false);
 		}
 
 

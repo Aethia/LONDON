@@ -25,13 +25,20 @@ public class EmprunterScreen extends Screen{
 
 	/* Scores */
 	private Score scoreJoueur;
+	private Joueur joueur;
 
 	public EmprunterScreen(){
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
-
-		final Joueur j = londonG.partie.getObjJoueurActif();
+		if(GameScreenReseauClient.joueur!=null){
+			joueur = GameScreenReseauClient.joueur;
+		}else if(GameScreenReseauServeur.joueur!=null){
+			joueur = GameScreenReseauServeur.joueur;
+		}else{
+			joueur = londonG.partie.getObjJoueurActif();
+		}
+		//final Joueur j = joueur;
 		Table tableauEmprunts = new Table();
 		tableauEmprunts.setPosition(700, 465);
 		for(int i=10; i<=Regles.EMPRUNTMAX;i=i+10){
@@ -72,8 +79,15 @@ public class EmprunterScreen extends Screen{
 				if(montantEmprunt==0){
 					messageMontant = "Veuillez selectionner un montant";
 				}else{
-					j.emprunter(montantEmprunt);
-					Screen.setScreen(new GameScreen());
+					joueur.emprunter(montantEmprunt);
+					if (londonG.partie.isMultijoueur()) {
+						if (GameScreenReseauClient.joueur!=null)
+							Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.joueur));
+						else
+							Screen.setScreen(new GameScreenReseauServeur());
+					}else{
+						Screen.setScreen(new GameScreen());
+					}
 				}
 				super.touchUp(event, x, y, pointer, button);
 			}
@@ -121,7 +135,7 @@ public class EmprunterScreen extends Screen{
 		stage.addActor(paramBtn);
 
 
-		scoreJoueur = new Score(j);
+		scoreJoueur = new Score(joueur);
 		stage.addActor(scoreJoueur);
 	}
 

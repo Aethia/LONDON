@@ -270,6 +270,11 @@ public class Partie implements Serializable{
 		return jActif;
 	}
 	
+	public void setObjJoueurActif(Joueur j){
+		this.jActif = j;
+	}
+	
+	
 	public Joueur getJoueurParNom(String nom){
 		for (Joueur j : this.listeJoueurs) {
 			if (j.getNom().equalsIgnoreCase(nom)) {
