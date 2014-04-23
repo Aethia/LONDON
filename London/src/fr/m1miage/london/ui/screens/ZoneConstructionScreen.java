@@ -176,6 +176,7 @@ public class ZoneConstructionScreen extends Screen{
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				Carte cPosee = joueur.getMainDuJoueur().choisirCarte(idCarteSelected);
+				
 				Carte cDefaussee = joueur.getMainDuJoueur().choisirCarte(idDefausseSelected);
 
 				erreur = joueur.construire(cPosee, cDefaussee, pileSelected+1, londonG.partie.getPlateau().getEtalage());
@@ -347,6 +348,13 @@ public class ZoneConstructionScreen extends Screen{
 		}
 		cActorList.clear();
 	}
+	
+	private boolean constructionSansDefausse(Carte c){
+		if(c.getId_carte() == 1 || c.getId_carte() ==5){
+			return true;
+		}
+		return false;
+		}
 
 	private void afficherPiles() {
 		int left = 100;

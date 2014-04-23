@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import fr.m1miage.london.classes.Carte;
-import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.classes.Effet;
-import fr.m1miage.london.classes.Plateau;
+import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.classes.TraderClassRestaurerVille;
 
 public class Console {

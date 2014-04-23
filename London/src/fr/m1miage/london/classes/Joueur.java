@@ -261,24 +261,34 @@ public class Joueur implements Serializable, Comparable {
 	//On construit "une carte" sur une pile donn?e, et on d?fausse une carte de la m?me couleur
 	public GestionErreurs construire(Carte cPosee, Carte cDefaussee, int indexPile, Etalage etalage){
 		if(this.verifPresenceCarte(cPosee, mainDuJoueur.getLesCartes())){
-			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
-				if(cPosee.getPrix()<= argent){ 		
+				if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
+					if(cPosee.getPrix()<= argent){ 		
+						if(indexPile-1 <= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
+							this.zoneConstruction.addPile(cPosee);	
+						}
+						else{
+							this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
+						}
+						argent -= cPosee.getPrix();
+						this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
+						this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
+						etalage.ajouterCarte(cDefaussee);
+						return GestionErreurs.NONE;
+					}
+					else{
+						return GestionErreurs.NOT_ENOUGH_MONEY;
+					}
+				}
+				else if(cPosee.getId_carte()!=1 && cPosee.getId_carte()!=5){
 					if(indexPile-1 <= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
 						this.zoneConstruction.addPile(cPosee);	
 					}
 					else{
 						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
 					}
-					argent -= cPosee.getPrix();
-					this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
 					this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
-					etalage.ajouterCarte(cDefaussee);
 					return GestionErreurs.NONE;
 				}
-				else{
-					return GestionErreurs.NOT_ENOUGH_MONEY;
-				}
-			}
 			else{
 				return GestionErreurs.INCORRECT_CARTE_DEFAUSSE;
 
