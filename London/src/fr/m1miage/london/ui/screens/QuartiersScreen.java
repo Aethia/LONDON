@@ -35,7 +35,7 @@ public class QuartiersScreen extends Screen{
 	private Integer nbQuartierHovered = 0;
 	private static int iconsMarginLeft = 815;
 	private static int iconsMarginTop = 400;
-	private HashMap<Integer, AreaColorRect> listeInvestis;
+	private HashMap<Integer, AreaColorRect> listeInvestis = new HashMap<Integer, AreaColorRect>();
 
 	private ShapeRenderer fondQuartier;
 	private TextButton btnRetour;
@@ -70,14 +70,13 @@ public class QuartiersScreen extends Screen{
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 
-		final Regles r = new Regles();
+		final Prefs r = new Prefs();
 		Gdx.input.setInputProcessor(stage);
 
 		scoreJoueur = new Score(joueur);
 		stage.addActor(scoreJoueur);
 
 		fondQuartier = new ShapeRenderer();
-		listeInvestis = londonG.partie.getPlateau().getInvestis();
 
 		listerQuartiers();
 		btnRetour =new TextButton("Retour",Buttons.styleInGameMenu); 
@@ -141,19 +140,21 @@ public class QuartiersScreen extends Screen{
 					if(nbQuartierSelected==0){
 						messageInvestir = "Veuillez selectionner un quartier";
 					}else{
-						Joueur j = londonG.partie.getObjJoueurActif();
-						erreur = j.invest(nbQuartierSelected, londonG.partie.getPlateau(), londonG.partie.getPioche());
+					//	Joueur j = londonG.partie.getObjJoueurActif();
+						erreur = joueur.invest(nbQuartierSelected, londonG.partie.getPlateau(), londonG.partie.getPioche());
 						
-						if(erreur.equals(GestionErreurs.NONE)){
-							Point p = r.listePoints.get(nbQuartierSelected);
-							final AreaColorRect proprietaire = new AreaColorRect(p.x, p.y, 15, 15);
-							proprietaire.setShapeFillColor((float)j.getCouleur().getRed()/255, (float)j.getCouleur().getGreen()/255, (float)j.getCouleur().getBlue()/255, 1.0f);
-							stage.addActor(proprietaire);
-							listeInvestis.put(nbQuartierSelected, proprietaire);
-System.out.println("a investi");
+						if(erreur.equals(GestionErreurs.NONE)){	
+							System.out.println("a investi");
 							londonG.partie.setActionChoisie(3);
 							londonG.partie.setTourTermine(true);
-							Screen.setScreen(new GameScreen());
+							if (londonG.partie.isMultijoueur()) {
+								if (GameScreenReseauClient.joueur!=null)
+									Screen.setScreen(new GameScreenReseauClient(GameScreenReseauClient.joueur));
+								else
+									Screen.setScreen(new GameScreenReseauServeur());
+							}
+							else
+								Screen.setScreen(new GameScreen());
 						}else{
 							messageInvestir=erreur.getMsgErrorString();
 						}
@@ -194,8 +195,15 @@ System.out.println("a investi");
 			}else{
 				btn= new TextButton(quartier.getNom(),Buttons.styleInGameMenuDisabled); 
 			}
-			if(nbQuartierSelected == 0){		
+			if(nbQuartierSelected == 0){	
+				
+				/*--------AFFICHER LES POINTS COULEURS POUR PROPRIETAIRES ----------*/
 				if(quartiers.get(q).getProprietaireQuartier()!= null){
+					Point p = Prefs.listePoints.get(nbQuartierSelected);
+					final AreaColorRect proprietaire = new AreaColorRect(p.x, p.y, 15, 15);
+					proprietaire.setShapeFillColor(Prefs.conversionCouleur(joueur.getCouleur()));
+					stage.addActor(proprietaire);
+					listeInvestis.put(q, proprietaire);
 					stage.addActor(listeInvestis.get(q));
 					listeInvestis.get(q).setVisible(true);
 				}

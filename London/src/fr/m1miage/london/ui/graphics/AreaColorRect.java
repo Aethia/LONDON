@@ -49,5 +49,7 @@ public class AreaColorRect extends Actor {
     public void setShapeFillColor(float r, float g, float b, float a) {
         this.shapeFillColor = new Color(r, g, b, a);
     }
-
+    public void setShapeFillColor(Color c) {
+        this.shapeFillColor = c;
+    }
 }
