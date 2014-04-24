@@ -56,6 +56,16 @@ public class Joueur implements Serializable, Comparable {
 	}
 
 
+	public int getNbQuartiers() {
+		return nbQuartiers;
+	}
+
+
+	public void setPoint_pauvrete(int point_pauvrete) {
+		this.point_pauvrete = point_pauvrete;
+	}
+
+
 	public void setMontantEmprunts(int montantEmprunts) {
 		this.montantEmprunts = montantEmprunts;
 	}
@@ -191,13 +201,20 @@ public class Joueur implements Serializable, Comparable {
 		return this.mainDuJoueur.getLesCartes();
 	}
 
-	/*
-	 * compter le nb de cartes dans la main
+	/**
+	 * @return int : nombre de cartes dans la main du joueur
 	 */
 	public int getNb_cartes() {
 		return this.mainDuJoueur.getNb_cartes();
 	}
-
+	
+	/**
+	 * permet d'investir un quartier
+	 * @param quartier : numero du quartier que le joueur souhaite investir
+	 * @param plateau
+	 * @param pioche : permet au joueur de piocher les cartes necessaires apres son investissement
+	 * @return GestionErreurs : message d'erreur
+	 */
 
 	public GestionErreurs invest(int quartier, Plateau plateau,Pioche pioche){
 
@@ -214,7 +231,7 @@ public class Joueur implements Serializable, Comparable {
 
 					//le joueur pioche le nb de cartes pr�cis� sur le quartier
 					this.ajouterCartesMain(pioche.tirerNCartes(plateau.getQuartier(quartier).getNb_carte_a_piocher()));
-
+					nbQuartiers++;
 					return GestionErreurs.NONE;
 				}	
 				else{
@@ -259,6 +276,14 @@ public class Joueur implements Serializable, Comparable {
 	}
 
 	//On construit "une carte" sur une pile donn?e, et on d?fausse une carte de la m?me couleur
+	/**
+	 * Permet a un joueur de construire sur sa zone 
+	 * @param cPosee : carte que l'on souhaite poser
+	 * @param cDefaussee : carte que l'on souhaite defausser
+	 * @param indexPile : index de la pile ou l'on souhaite poser
+	 * @param etalage
+	 * @return
+	 */
 	public GestionErreurs construire(Carte cPosee, Carte cDefaussee, int indexPile, Etalage etalage){
 		if(this.verifPresenceCarte(cPosee, mainDuJoueur.getLesCartes())){
 			if(!cPosee.isConstructible()){
@@ -266,11 +291,14 @@ public class Joueur implements Serializable, Comparable {
 			}
 			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
 				if(cPosee.getPrix()<= argent){ 		
-					if(indexPile-1 <= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
-						this.zoneConstruction.addPile(cPosee);	
+					System.out.println("pile : " +indexPile);
+					System.out.println("nb piles "+ zoneConstruction.getNbPiles());
+					if(indexPile-1 < this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
+						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
 					}
 					else{
-						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
+						this.zoneConstruction.addPile(cPosee);	
+						
 					}
 					argent -= cPosee.getPrix();
 					this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
@@ -303,8 +331,10 @@ public class Joueur implements Serializable, Comparable {
 	}
 
 
-	/*
-	 * Emprunter de l'argent
+	/**
+	 * 
+	 * @param montant : montant souhaité pour l'emprunt
+	 * @return GestionErreurs : message d'erreur
 	 */
 	public GestionErreurs emprunter(int montant){
 		//On v?rifie 
@@ -396,7 +426,8 @@ public class Joueur implements Serializable, Comparable {
 
 			carteAActiver.setDesactivee(true);
 		}
-
+		
+		
 		return GestionErreurs.NONE;
 	}
 

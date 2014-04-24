@@ -24,6 +24,7 @@ public class ZoneRestaurerScreen extends Screen{
 	private Stage stage;
 
 	private TextButton btnRetour;
+	private TextButton validerRestaurations;
 
 
 	private List<CarteActor> main= new ArrayList<CarteActor>();
@@ -119,6 +120,7 @@ public class ZoneRestaurerScreen extends Screen{
 				if(!erreur.equals(GestionErreurs.NONE)){
 					messageAction = erreur.getMsgErrorString();
 				}else{
+					validerRestaurations.setVisible(true);
 					activation(carteActivation);
 				}
 				activerBtn.setVisible(false);
@@ -129,9 +131,35 @@ public class ZoneRestaurerScreen extends Screen{
 			}
 
 		});
-
-
 		stage.addActor(activerBtn);
+		
+		validerRestaurations = new TextButton("Valider les restaurations", Buttons.styleInGameMenu);
+		validerRestaurations.setPosition(1100, 200);
+		validerRestaurations.addListener(new InputListener(){
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				//calculer les points de pauvreté a la fin
+				int nbPiles = joueur.getZone_construction().getNbPiles();
+				int nbCartesMain = joueur.getNb_cartes();
+				//regles du jeu : nombre de piles + cartes en main - nombre de quartiers 
+				int ptPauvrete  = nbPiles + nbCartesMain - joueur.getNbQuartiers();
+				joueur.setPoint_pauvrete(joueur.getPoint_pauvrete() + ptPauvrete);
+				Screen.setScreen(new GameScreen());
+				super.touchUp(event, x, y, pointer, button);
+			}
+			
+		});
+		validerRestaurations.setVisible(false);
+		stage.addActor(validerRestaurations);
+		
 		scoreJoueur = new Score(joueur);
 		stage.addActor(scoreJoueur);
 

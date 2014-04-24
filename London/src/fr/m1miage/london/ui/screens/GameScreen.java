@@ -44,6 +44,10 @@ public class GameScreen extends Screen{
 	
 
 	public GameScreen(){
+		if(londonG.partie.isFinTour()){
+			Screen.setScreen( new FinPartieScreen() );
+		}	
+		
 		joueur = londonG.partie.getObjJoueurActif();
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();

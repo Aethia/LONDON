@@ -53,7 +53,12 @@ public class Partie implements Serializable{
 		this.nbJoueurs = nbJ;
 	}
 
-
+	public boolean isFinTour(){
+		if(pioche.getNbCartes()>0){
+			return false;
+		}
+		return true;
+	}
 
 	public void init(){
 
@@ -112,8 +117,9 @@ public class Partie implements Serializable{
 	
 	
 	
-	
-
+	/**
+	 * Calcul des points de victoire en fin de partie
+	 */
 	public void calculPointsVictoire(){
 		for(int i=0; i < nbJoueurs; i++){
 			
@@ -172,6 +178,9 @@ public class Partie implements Serializable{
 		}
 	}
 	
+	/**
+	 * Calcul du gagnant : on retire des points de victoire en fonction des points de pauvreté
+	 */
 	public void calculGagnant(){
 		
 		//parcours points de pauvreté pour savoir qui a le moins, on supprime ce nombre pour tout le monde ce nombre
@@ -233,7 +242,7 @@ public class Partie implements Serializable{
 			}
 		}
 		
-		//si �galit�, on tri selon diff�rents crit�res
+		//si égalité, on tri selon différents critères
 		java.util.Collections.sort(listeJoueurs);
 		
 		for(Joueur j : listeJoueurs){
