@@ -321,7 +321,7 @@ public class ZoneConstructionScreen extends Screen{
 				ca.setVisible(false);
 			}
 			stage.addActor(ca);
-			final Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE_CARTES+"validTarget.png"));
+			final Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE_CARTES+"ValidTarget.png"));
 			final Texture tNew = new Texture(Gdx.files.internal(Prefs.REPERTOIRE+"carte_etalage.png"));
 			if(ca.getId() !=24){
 				ca.addListener(new DragListener(){
