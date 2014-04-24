@@ -53,7 +53,11 @@ public class Pioche implements Serializable{
 	 * @return Carte : retire la carte "tete" de la pioche
 	 */
 	public Carte tirerUneCarte() {
-		return laPioche.remove(0);
+		if(laPioche.size()!=0){
+			return laPioche.remove(0);
+		}else{
+			return null;
+		}
 	}
 
 	// vider la pioche
@@ -76,12 +80,14 @@ public class Pioche implements Serializable{
 	 * @return cartes : la liste des cartes piochées
 	 */
 	public List<Carte> tirerNCartes(int nbCartes){
-			List<Carte> cartes = new ArrayList<Carte>();
-			for(int i = 0; i<nbCartes; i++){
-				cartes.add(laPioche.get(i));
-				laPioche.remove(laPioche.get(i));
+		List<Carte> cartes = new ArrayList<Carte>();
+		for(int i = 0; i<nbCartes; i++){
+			if(laPioche.size()!=0){
+				cartes.add(laPioche.get(0));
+				laPioche.remove(laPioche.get(0));
 			}
-		
+		}
+
 		return cartes;
 	}
 

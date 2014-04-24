@@ -25,6 +25,7 @@ public enum GestionErreurs {
 	NONEXISTANT_PLAYER("Ce joueur n'existe pas"),
 	WRONG_PLAYER("Vous ne pouvez pas réaliser cette action sur vous même"),
 	NOT_ENOUGH_PAUPERS("Vous n'avez pas assez de point de pauvreté"),
+	PIOCHE_VIDE("Il n'y a plus de cartes dans la pioche")
 	;
 	
 private String name = "";

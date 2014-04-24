@@ -207,7 +207,7 @@ public class Joueur implements Serializable, Comparable {
 	public int getNb_cartes() {
 		return this.mainDuJoueur.getNb_cartes();
 	}
-	
+
 	/**
 	 * permet d'investir un quartier
 	 * @param quartier : numero du quartier que le joueur souhaite investir
@@ -298,7 +298,7 @@ public class Joueur implements Serializable, Comparable {
 					}
 					else{
 						this.zoneConstruction.addPile(cPosee);	
-						
+
 					}
 					argent -= cPosee.getPrix();
 					this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
@@ -322,8 +322,16 @@ public class Joueur implements Serializable, Comparable {
 
 	public GestionErreurs piocher(Pioche laPioche){
 		if(laPioche.getNbCartes() > 0){
-			mainDuJoueur.ajouterCarte(laPioche.tirerUneCarte());
-			return GestionErreurs.NONE;
+			Carte c = laPioche.tirerUneCarte();
+			System.err.println("carte" +c.getNom());
+			if(c!=null){
+				mainDuJoueur.ajouterCarte(laPioche.tirerUneCarte());
+				return GestionErreurs.NONE;
+			}else{
+				return GestionErreurs.PIOCHE_VIDE;
+			}
+			
+			
 		}
 		else
 			return GestionErreurs.NOT_ENOUGH_CARD;
@@ -426,8 +434,8 @@ public class Joueur implements Serializable, Comparable {
 
 			carteAActiver.setDesactivee(true);
 		}
-		
-		
+
+
 		return GestionErreurs.NONE;
 	}
 
@@ -496,7 +504,7 @@ public class Joueur implements Serializable, Comparable {
 		this.point_pauvrete= this.point_pauvrete + carte.getPtsPauvreteGagnes();
 		this.point_pauvrete= this.point_pauvrete - carte.getPtsPauvretePerdus();
 		this.point_victoire= this.point_victoire + carte.getPointsVictoire();
-		
+
 	}
 
 	/*

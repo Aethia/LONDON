@@ -54,7 +54,9 @@ public class Partie implements Serializable{
 	}
 
 	public boolean isFinTour(){
+		System.out.println("nb carte ds la pioche" + pioche.getNbCartes());
 		if(pioche.getNbCartes()>0){
+			System.out.println("nb carte ds la pioche" + pioche.getNbCartes());
 			return false;
 		}
 		return true;
@@ -245,9 +247,9 @@ public class Partie implements Serializable{
 		//si égalité, on tri selon différents critères
 		java.util.Collections.sort(listeJoueurs);
 		
-		for(Joueur j : listeJoueurs){
-			System.out.println(j.toString());
-		}
+//		for(Joueur j : listeJoueurs){
+//			System.out.println(j.toString());
+//		}
 	}
 	public List<Joueur> getListeJoueurs() {
 		return listeJoueurs;

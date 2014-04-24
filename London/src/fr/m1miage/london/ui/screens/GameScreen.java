@@ -17,6 +17,7 @@ import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
 import fr.m1miage.london.ui.graphics.CarteActor;
+import fr.m1miage.london.ui.graphics.Fonts;
 import fr.m1miage.london.ui.graphics.MenuActions;
 import fr.m1miage.london.ui.graphics.MenuGlobal;
 import fr.m1miage.london.ui.graphics.Score;
@@ -40,19 +41,17 @@ public class GameScreen extends Screen{
 	private int time =0;
 	private static final int TIME_OUT_CARD = 150;
 	public static Joueur joueur;
-	public static Button btnSauvegarde;
+	public Button btnSauvegarde;
 	
+	public int nbCartesPioche=0;
 
-	public GameScreen(){
-		if(londonG.partie.isFinTour()){
-			Screen.setScreen( new FinPartieScreen() );
-		}	
-		
+	public GameScreen(){		
 		joueur = londonG.partie.getObjJoueurActif();
+		nbCartesPioche = londonG.partie.getPioche().getNbCartes();
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
-		
+
 		//sauvegarde
 		btnSauvegarde = new Button(Buttons.styleBtnSauvegarde);
 		btnSauvegarde.setPosition(1250, 720); //changer la position
@@ -74,15 +73,15 @@ public class GameScreen extends Screen{
 				}
 				super.touchUp(event, x, y, pointer, button);
 			}
-			
+
 		});
 		stage.addActor(btnSauvegarde);
-		
+
 		/*Parametres Boutons d'action -> si le tour n'est pas terminé, on continue d'afficher actions*/
 		if(!londonG.partie.isTourTermine()){
 			MenuActions tableActions = new MenuActions();
 			stage.addActor(tableActions);
-			
+
 		}else{ /*sinon, on demande au joueur de confirmer qu'il a termine son tour*/
 			finTourBtn = new Button(Buttons.styleBtnFinTour);
 			finTourBtn.setPosition(700, 400); //changer la position
@@ -99,7 +98,12 @@ public class GameScreen extends Screen{
 						londonG.setScreen(new DefausserScreen(j,nbD));
 					}else{
 						londonG.partie.joueurSuivant();	
-						Screen.setScreen(new GameScreen());
+						if(londonG.partie.isFinTour()){
+							System.out.println("fintpur");
+							Screen.setScreen( new FinPartieScreen() );
+						}	else{
+							Screen.setScreen(new GameScreen());
+						}
 					}
 					super.touchUp(event, x, y, pointer, button);
 				}
@@ -118,8 +122,8 @@ public class GameScreen extends Screen{
 		MenuGlobal tMenu = new MenuGlobal();
 		stage.addActor(tMenu);
 
-		
-		
+
+
 		//a ameliorer
 		// les cartes du joueur actif
 		Joueur j = londonG.partie.getObjJoueurActif();
@@ -175,8 +179,8 @@ public class GameScreen extends Screen{
 		}
 		String msg = "COPYRIGHT Aethia 2014";
 		drawString(msg, 2, 800 -6 -2);
-
-
+		
+		Fonts.FONT_TITLE_QUARTIER.draw(spriteBatch,"Pioche : " + nbCartesPioche+ " cartes",1130, 670);
 		spriteBatch.end();
 		if(idCarteSelected!=0){
 			CarteActor c = main.get(idCarteSelected);
