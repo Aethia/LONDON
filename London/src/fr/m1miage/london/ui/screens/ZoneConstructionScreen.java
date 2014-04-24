@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 
 import fr.m1miage.london.GestionErreurs;
 import fr.m1miage.london.classes.Carte;
+import fr.m1miage.london.classes.Effet;
 import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.AreaColorRect;
@@ -84,7 +85,7 @@ public class ZoneConstructionScreen extends Screen{
 
 	private void affichageMultiJ(){
 		if(!londonG.partie.isMultijoueur()){
-			
+
 			if(londonG.partie.getObjJoueurActif().equals(joueur)==true){
 				if((londonG.partie.isTourTermine()==true && londonG.partie.getActionChoisie()==1) || !londonG.partie.isTourTermine()   ){ 
 					afficherCartes();
@@ -107,7 +108,7 @@ public class ZoneConstructionScreen extends Screen{
 			}
 		}
 	}
-	
+
 	public ZoneConstructionScreen(Joueur j,int compteur){
 		this.joueur = j;
 		this.compteurEffet=compteur;
@@ -133,7 +134,7 @@ public class ZoneConstructionScreen extends Screen{
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				
+
 				messageConstruire="Vous pouvez encore construire "+compteurEffet+" cartes";
 				btnJouerCarte.setVisible(false);
 				return true;
@@ -192,7 +193,7 @@ public class ZoneConstructionScreen extends Screen{
 	}
 
 	private void gestionBoutonsConstruction() {
-		
+
 		//bouton pour retirer les cartes selectionnée
 		btnAnnulCarte = new TextButton("X", Buttons.styleInGameMenu);
 		btnAnnulCarte.setSize(50, 50);
@@ -252,9 +253,9 @@ public class ZoneConstructionScreen extends Screen{
 				Carte cDefaussee = null;
 				if(idCarteEffet==24 && idCarteSelected != 0){
 					cDefaussee=joueur.getMainDuJoueur().choisirCarte(idCarteEffet);
-					
+
 					erreur = joueur.construire(cPosee, cDefaussee, pileSelected+1, londonG.partie.getPlateau().getEtalage());
-					
+
 					if(compteurEffet == 1){
 						joueur.getMainDuJoueur().supprimerCarteParId(idCarteEffet);
 					}
@@ -264,28 +265,33 @@ public class ZoneConstructionScreen extends Screen{
 					}
 					compteurEffet=compteurEffet-1;
 					Screen.setScreen(new ZoneConstructionScreen(joueur,compteurEffet)); 
-					
-					
+
+
 				}
-				
+
 				else{
-					if(joueur.getMainDuJoueur().choisirCarte(idCarteSelected).getEffet_passif().getIdEffet() == 1){
-						cDefaussee=joueur.getMainDuJoueur().choisirCarte(idCarteSelected);
+
+					if(joueur.getMainDuJoueur().choisirCarte(idCarteSelected).getEffet_passif()!=null){
+						Carte cEff = joueur.getMainDuJoueur().choisirCarte(idCarteSelected);
+						if(cEff.getEffet_passif().getIdEffet() == Effet.COFFEE_SHOP){
+							cDefaussee=null;
+						
+						}
 					}
 					else{
 						cDefaussee = joueur.getMainDuJoueur().choisirCarte(idDefausseSelected);
 					}
 					erreur = joueur.construire(cPosee, cDefaussee, pileSelected+1, londonG.partie.getPlateau().getEtalage());
-				
-				if(erreur.equals(GestionErreurs.NONE)){ //si aucune erreur, le tour est terminé
-					londonG.partie.setActionChoisie(1);
-					londonG.partie.setTourTermine(true);
-				}
-				messageConstruire =erreur.getMsgErrorString();
 
-				Screen.setScreen(new ZoneConstructionScreen(joueur,erreur.getMsgErrorString())); 
+					if(erreur.equals(GestionErreurs.NONE)){ //si aucune erreur, le tour est terminé
+						londonG.partie.setActionChoisie(1);
+						londonG.partie.setTourTermine(true);
+					}
+					messageConstruire =erreur.getMsgErrorString();
 
-				super.touchUp(event, x, y, pointer, button);
+					Screen.setScreen(new ZoneConstructionScreen(joueur,erreur.getMsgErrorString())); 
+
+					super.touchUp(event, x, y, pointer, button);
 				}
 			}
 
@@ -368,7 +374,7 @@ public class ZoneConstructionScreen extends Screen{
 			messageConstruire="Vous pouvez encore construire "+compteurEffet+" cartes";
 		}
 		for(final Carte c: joueur.getLesCartes()){
-			
+
 			i++;
 			final CarteActor ca = new CarteActor(c,350+i*50,10);
 			if(compteurEffet==1 && ca.getId()==idCarteEffet){
@@ -380,31 +386,31 @@ public class ZoneConstructionScreen extends Screen{
 			if(ca.getId() !=24){
 				ca.addListener(new DragListener(){
 					public void touchDragged (InputEvent event, float x, float y, int pointer) {
-	                    float dx = x-ca.getWidth()*0.5f; 
-	                    float dy = y-ca.getHeight()*0.5f; 
-	                    ca.setX(ca.getX()+dx);
-	                    ca.setY(ca.getY()+dy);
-	                	for(PileActor c : lPiles){
-	                		//Si la carte se trouve dans l'une des zones de la pile, on met une autre texture
+						float dx = x-ca.getWidth()*0.5f; 
+						float dy = y-ca.getHeight()*0.5f; 
+						ca.setX(ca.getX()+dx);
+						ca.setY(ca.getY()+dy);
+						for(PileActor c : lPiles){
+							//Si la carte se trouve dans l'une des zones de la pile, on met une autre texture
 							if(c.inZone(ca) == true && c.empty()==true ){
 								c.setImg(t);
 							}
 							else if(c.empty()==true) {
-	
+
 								c.setImg(tNew);
 							}
 						}
-	                	if (idCarteSelected==0){ //si on a selectionné aucune carte, on rend visible certains boutons/fonds
+						if (idCarteSelected==0){ //si on a selectionné aucune carte, on rend visible certains boutons/fonds
 							idCarteSelected = c.getId_carte();
-							
-	
+
+
 						}
-	                	
-	                    super.touchDragged(event, dx, dy, pointer);
-	                }
-	
-	
-	
+
+						super.touchDragged(event, dx, dy, pointer);
+					}
+
+
+
 					@Override
 					public boolean touchDown(InputEvent event, float x, float y,
 							int pointer, int button) {
@@ -415,11 +421,11 @@ public class ZoneConstructionScreen extends Screen{
 						}
 						return super.touchDown(event, x, y, pointer, button);
 					}
-					
 
 
-	
-	
+
+
+
 					public void touchUp(InputEvent event,float x,float y,int pointer,int button){
 						PileActor pA = new PileActor();
 						if(idCarteSelected != 0){
@@ -442,14 +448,14 @@ public class ZoneConstructionScreen extends Screen{
 									else{
 										messageConstruire="Vous pouvez encore construire "+compteurEffet+" cartes";
 									}
-										
+
 									ca.setX(pA.getX());
 									ca.setY(pA.getY());
-									
+
 									btnAnnulCarte.setX(ca.getX()+75);
 									btnAnnulCarte.setVisible(true);
-	
-									}
+
+								}
 								if(pileSelected < 0 && pileI.hasNext()==false){
 									//Si à la fin du parcours, elle ne se trouve dans aucune pile, on la remet à sa place
 									ca.setDefaultPosition();
@@ -461,7 +467,7 @@ public class ZoneConstructionScreen extends Screen{
 						}
 						super.touchUp(event, x, y, pointer, button);
 					}
-			});
+				});
 			}
 			else{
 				ca.addListener(new InputListener(){
@@ -488,13 +494,13 @@ public class ZoneConstructionScreen extends Screen{
 		}
 		cActorList.clear();
 	}
-	
+
 	private boolean constructionSansDefausse(Carte c){
 		if(c.getId_carte() == 1 || c.getId_carte() ==5){
 			return true;
 		}
 		return false;
-		}
+	}
 
 	private void afficherPiles() {
 		int left = 100;
@@ -513,7 +519,7 @@ public class ZoneConstructionScreen extends Screen{
 			stage.addActor(paLi);
 			lPiles.add(paLi);
 		}
-		
+
 		//Permet de rajouter une pile fictive lorsqu'on veut ajouter une pile à la zone de construction
 		Carte pile = new Carte();
 		final PileActor pa= new PileActor(pile, left+i*215, 360);
@@ -528,7 +534,7 @@ public class ZoneConstructionScreen extends Screen{
 
 		pa.setImg(t);   
 	}
-	
+
 	@Override
 	public void render() {
 		spriteBatch.begin();

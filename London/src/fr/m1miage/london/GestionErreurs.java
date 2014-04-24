@@ -24,7 +24,9 @@ public enum GestionErreurs {
 	NO_ROSE_CARD("Vous n'avez pas de carte rose"),
 	NO_BRUN_CARD("Vous n'avez pas de carte brune"),
 	NO_BLEU_CARD("Vous n'avez pas de carte bleue"),
-	NO_GRIS_CARD("Vous n'avez pas de carte grise");
+	NO_GRIS_CARD("Vous n'avez pas de carte grise"),
+	PIOCHE_VIDE("Il n'y a plus de cartes dans la pioche")
+	;
 	
 private String name = "";
 	

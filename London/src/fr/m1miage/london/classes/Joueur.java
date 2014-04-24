@@ -56,6 +56,16 @@ public class Joueur implements Serializable, Comparable {
 	}
 
 
+	public int getNbQuartiers() {
+		return nbQuartiers;
+	}
+
+
+	public void setPoint_pauvrete(int point_pauvrete) {
+		this.point_pauvrete = point_pauvrete;
+	}
+
+
 	public void setMontantEmprunts(int montantEmprunts) {
 		this.montantEmprunts = montantEmprunts;
 	}
@@ -191,13 +201,20 @@ public class Joueur implements Serializable, Comparable {
 		return this.mainDuJoueur.getLesCartes();
 	}
 
-	/*
-	 * compter le nb de cartes dans la main
+	/**
+	 * @return int : nombre de cartes dans la main du joueur
 	 */
 	public int getNb_cartes() {
 		return this.mainDuJoueur.getNb_cartes();
 	}
 
+	/**
+	 * permet d'investir un quartier
+	 * @param quartier : numero du quartier que le joueur souhaite investir
+	 * @param plateau
+	 * @param pioche : permet au joueur de piocher les cartes necessaires apres son investissement
+	 * @return GestionErreurs : message d'erreur
+	 */
 
 	public GestionErreurs invest(int quartier, Plateau plateau,Pioche pioche){
 
@@ -214,7 +231,7 @@ public class Joueur implements Serializable, Comparable {
 
 					//le joueur pioche le nb de cartes pr�cis� sur le quartier
 					this.ajouterCartesMain(pioche.tirerNCartes(plateau.getQuartier(quartier).getNb_carte_a_piocher()));
-
+					nbQuartiers++;
 					return GestionErreurs.NONE;
 				}	
 				else{
@@ -259,41 +276,48 @@ public class Joueur implements Serializable, Comparable {
 	}
 
 	//On construit "une carte" sur une pile donn?e, et on d?fausse une carte de la m?me couleur
+	/**
+	 * Permet a un joueur de construire sur sa zone 
+	 * @param cPosee : carte que l'on souhaite poser
+	 * @param cDefaussee : carte que l'on souhaite defausser
+	 * @param indexPile : index de la pile ou l'on souhaite poser
+	 * @param etalage
+	 * @return
+	 */
 	public GestionErreurs construire(Carte cPosee, Carte cDefaussee, int indexPile, Etalage etalage){
+
 		if(this.verifPresenceCarte(cPosee, mainDuJoueur.getLesCartes())){
 			if(!cPosee.isConstructible()){
 				return GestionErreurs.NON_CONSTRUCTIBLE_CARD;
 			}
-				if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
-					if(cPosee.getPrix()<= argent){ 		
-						if(indexPile-1 <= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
-							this.zoneConstruction.addPile(cPosee);	
-						}
-						else{
-							this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
-						}
-						argent -= cPosee.getPrix();
-						this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
-						this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
-						etalage.ajouterCarte(cDefaussee);
-						return GestionErreurs.NONE;
-					}
-					else{
-						return GestionErreurs.NOT_ENOUGH_MONEY;
-					}
-				}
-				else if(cPosee.getId_carte()==8 || cPosee.getId_carte()==12 || cDefaussee.getId_carte() == 24){
+			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
+				if(cPosee.getPrix()<= argent){ 		
 					if(indexPile-1 <= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
-						
 						this.zoneConstruction.addPile(cPosee);	
 					}
 					else{
-						
 						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
 					}
+					argent -= cPosee.getPrix();
+					this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
 					this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
+					etalage.ajouterCarte(cDefaussee);
 					return GestionErreurs.NONE;
 				}
+				else{
+					return GestionErreurs.NOT_ENOUGH_MONEY;
+				}
+			}
+			else if(cPosee.getId_carte()==8 || cPosee.getId_carte()==12 || cDefaussee.getId_carte() == 24){
+				if(indexPile-1 < this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
+					this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
+				}
+				else{
+					this.zoneConstruction.addPile(cPosee);	
+				}
+				this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
+				return GestionErreurs.NONE;
+			}
 			else{
 				return GestionErreurs.INCORRECT_CARTE_DEFAUSSE;
 
@@ -306,8 +330,16 @@ public class Joueur implements Serializable, Comparable {
 
 	public GestionErreurs piocher(Pioche laPioche){
 		if(laPioche.getNbCartes() > 0){
-			mainDuJoueur.ajouterCarte(laPioche.tirerUneCarte());
-			return GestionErreurs.NONE;
+			Carte c = laPioche.tirerUneCarte();
+			System.err.println("carte" +c.getNom());
+			if(c!=null){
+				mainDuJoueur.ajouterCarte(laPioche.tirerUneCarte());
+				return GestionErreurs.NONE;
+			}else{
+				return GestionErreurs.PIOCHE_VIDE;
+			}
+
+
 		}
 		else
 			return GestionErreurs.NOT_ENOUGH_CARD;
@@ -315,15 +347,17 @@ public class Joueur implements Serializable, Comparable {
 	}
 
 
-	/*
-	 * Emprunter de l'argent
+	/**
+	 * 
+	 * @param montant : montant souhaité pour l'emprunt
+	 * @return GestionErreurs : message d'erreur
 	 */
 	public GestionErreurs emprunter(int montant){
 		//On v?rifie 
 		if (montant > 0 && montant % 10 == 0 && montant <=100){
 			if((montantEmprunts + montant) <= 100) {
 				boolean carte72=false;
-				
+
 				for(int j = 0; j < this.getZone_construction().getNbPiles(); j++){
 					ArrayList<Carte> pile= this.getZone_construction().getCartesPile(j);
 					for(Carte c: pile){
@@ -339,7 +373,7 @@ public class Joueur implements Serializable, Comparable {
 					this.argent += montant;
 				}
 				this.montantEmprunts += montant;
-				
+
 				return GestionErreurs.NONE;
 			}else{
 				return GestionErreurs.MAX_EMPRUNT;
@@ -398,6 +432,8 @@ public class Joueur implements Serializable, Comparable {
 		// si le joueur n'a pas assez d'argent
 		if (this.argent < coutLivres) {
 			return GestionErreurs.NOT_ENOUGH_MONEY;
+		}else{
+			this.argent -= coutLivres;
 		}
 
 		// on donne l'argent d'activation
@@ -423,6 +459,7 @@ public class Joueur implements Serializable, Comparable {
 
 			carteAActiver.setDesactivee(true);
 		}
+
 
 		return GestionErreurs.NONE;
 	}
@@ -492,7 +529,7 @@ public class Joueur implements Serializable, Comparable {
 		this.point_pauvrete= this.point_pauvrete + carte.getPtsPauvreteGagnes();
 		this.point_pauvrete= this.point_pauvrete - carte.getPtsPauvretePerdus();
 		this.point_victoire= this.point_victoire + carte.getPointsVictoire();
-		
+
 	}
 
 	/*
@@ -577,9 +614,9 @@ public class Joueur implements Serializable, Comparable {
 			}
 		}
 	}
-	
+
 	public void jouerCarte(Joueur j, Carte c, Pioche pioche){
-		
+
 		if(c.getEffet_passif()!= null){
 			int idEffet = c.getEffet_passif().getIdEffet();
 			switch(idEffet){
@@ -588,7 +625,7 @@ public class Joueur implements Serializable, Comparable {
 				j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
 				break;
 			}
-			
+
 		}
 	}
 }

@@ -13,6 +13,8 @@ public class Effet implements Serializable{
 	private String nomEffet;
 	private int type; //1 = passif, 2 = actif
 	
+	
+	public transient static final int  COFFEE_SHOP = 1;
 	public Effet(){
 		
 	}
