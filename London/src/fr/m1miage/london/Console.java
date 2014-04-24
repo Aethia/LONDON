@@ -438,7 +438,7 @@ public class Console {
 								System.out.println("Entrez le numéro du joueur : ");
 								if(sc.hasNextInt()){
 									int numJoueur = sc.nextInt();
-									effet.donneUnDeVosPP(numJoueur, partie, partie.getObjJoueurActif());
+									effet.donneUnDeVosPP(numJoueur, partie, partie.getObjJoueurActif(), nbJoueurs);
 								}
 								else{
 									System.out.println("Valeur incorrecte.");
@@ -454,7 +454,7 @@ public class Console {
 								System.out.println("Entrez le numéro du joueur : ");
 								if(sc.hasNextInt()){
 									int numJoueur = sc.nextInt();
-									effet.prendDeuxPP(numJoueur, partie, partie.getObjJoueurActif());
+									effet.prendDeuxPP(numJoueur, partie, partie.getObjJoueurActif(), nbJoueurs);
 								}
 								else{
 									System.out.println("Valeur incorrecte.");
@@ -466,7 +466,28 @@ public class Console {
 							//effet 19
 							//Chaque autre joueur doit payer £1 à la banque pour chaque quartier que vous avez investi
 							case 71:
-								effet.joueursPayeQuartiersInversti(partie, partie.getObjJoueurActif());
+								effet.joueursPayeQuartiersInvestir(partie, partie.getObjJoueurActif());
+								break;
+								
+							//cartes 42
+							//effet 10
+							//On prend £2 à chaque autres joueurs
+							case 42:
+								effet.argentRecolterDeuxParJoueur(partie, partie.getObjJoueurActif());
+								break;
+								
+							//cartes 103
+							//effet 28
+							//Prenez £1 et perdez un point de pauvreté pour chaque carte "Pauvres" que vous placez sur l'étalage
+							case 103:
+								echangePauvresContreArgent();
+								break;
+								
+							//cartes 56
+							//effet 14
+							//Perdez un point de pauvreté par carte de votre main que vous placez sur l'étalage (jusqu'à 3 cartes).
+							case 56:
+								echangePauvresContrePV();
 								break;
 								
 							default:
@@ -595,5 +616,46 @@ public class Console {
 			}			
 
 		}
+		
+		private void echangePauvresContreArgent() {
+			int finEchange=1;
+			Joueur jActif = partie.getObjJoueurActif();
+			while(finEchange == 1){
+				jActif.afficherMain();
+				System.out.println("Choisissez la carte à échanger : ");
+				int idCarte=(Integer.parseInt(sc.next()));
+				Carte cChoix = jActif.choisirCarteParId(idCarte);
+				
+				effet.pauvresSurEtalage(partie, jActif, cChoix);
 
+				jActif.afficherMain();
+				System.out.println(partie.getEtalage().toString());
+				System.out.println("1. Echanger une autre carte \n 2. Finir l'échange");
+				if(sc.hasNextInt()){
+					finEchange = sc.nextInt();
+				}
+			}
+		}
+		
+		private void echangePauvresContrePV() {
+			int finEchange=1;
+			int nbCarteEchanged=0;
+			Joueur jActif = partie.getObjJoueurActif();
+			while(finEchange == 1 || nbCarteEchanged <= 3){
+				jActif.afficherMain();
+				System.out.println("Choisissez la carte à échanger : ");
+				int idCarte=(Integer.parseInt(sc.next()));
+				Carte cChoix = jActif.choisirCarteParId(idCarte);
+				
+				effet.pauvresParCarteSurEtalage(partie, jActif, cChoix);
+				nbCarteEchanged++;
+
+				jActif.afficherMain();
+				System.out.println(partie.getEtalage().toString());
+				System.out.println("1. Echanger une autre carte \n 2. Finir l'échange");
+				if(sc.hasNextInt()){
+					finEchange = sc.nextInt();
+				}
+			}
+		}
 }

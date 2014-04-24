@@ -17,14 +17,16 @@ import fr.m1miage.london.Partie;
 public class EffetTest {
 	
 	private Joueur j, j1;
-	private Carte c, c1, c2;
+	private Carte c, c1, c2, c3, c4;
 	private ZoneConstruction zc;
 	private Pioche pioche;
 	private Partie p;
+	private Main m;
 	private Effet effet;
 	private List<Joueur> listeJoueurs;
 	private Quartier q1, q2, q3;
 	private Plateau plateau;
+	private Etalage etalage;
 	
 	private Set<Quartier> quartiersAdjacents1;
 	private Set<Quartier> quartiersAdjacents2;
@@ -46,6 +48,8 @@ public class EffetTest {
 		q2 = new Quartier();
 		q3 = new Quartier();
 		plateau = new Plateau();
+		m = new Main();
+		etalage = new Etalage();
 		listeJoueurs = new ArrayList<Joueur>();
 		listeJoueurs.add(j);
 		listeJoueurs.add(j1);
@@ -229,31 +233,121 @@ public class EffetTest {
 	
 	@Test
 	public void testDonneUnDeVosPPEnleve(){
-		effet.donneUnDeVosPP(2, p, j);
+		effet.donneUnDeVosPP(2, p, j, 2);
 		assertEquals(4, j.getPoint_pauvrete());
 	}
 	
 	@Test
 	public void testDonneUnDeVosPPRecoit(){
-		effet.donneUnDeVosPP(2, p, j);
+		effet.donneUnDeVosPP(2, p, j, 2);
 		assertEquals(6, j1.getPoint_pauvrete());
 	}
 	
 	@Test
 	public void testDonneUnDeVosPPInexistant(){
-		assertEquals(GestionErreurs.NONEXISTANT_PLAYER, effet.donneUnDeVosPP(5, p, j));
+		assertEquals(GestionErreurs.NONEXISTANT_PLAYER, effet.donneUnDeVosPP(5, p, j, 2));
 	}
 	
 	@Test
 	public void testDonneUnDeVosPPSoiMeme(){
-		assertEquals(GestionErreurs.WRONG_PLAYER, effet.donneUnDeVosPP(1, p, j));
+		assertEquals(GestionErreurs.WRONG_PLAYER, effet.donneUnDeVosPP(1, p, j, 2));
 	}
 	
 	@Test
 	public void testDonneUnDeVosPPPasDePauvre(){
 		j.setAddPoint_pauvrete(-5);
-		assertEquals(GestionErreurs.NOT_ENOUGH_PAUPERS, effet.donneUnDeVosPP(1, p, j));
+		assertEquals(GestionErreurs.NOT_ENOUGH_PAUPERS, effet.donneUnDeVosPP(1, p, j, 2));
 	}
 
+	@Test
+	public void testJoueursPayeQuartiersInvestirReceveur(){
+		q1.setId(1);
+		q1.setProprietaireQuartier(j);
+		q2.setId(2);
+		q2.setProprietaireQuartier(j);
+		plateau.getQuartiers().put(1, q1);
+		plateau.getQuartiers().put(2, q2);
+		
+		effet.joueursPayeQuartiersInvestir(p, j);
+		assertEquals(7, j.getArgent());
+	}
+	
+	@Test
+	public void testJoueursPayeQuartiersInvestirPayeur(){
+		q1.setId(1);
+		q1.setProprietaireQuartier(j);
+		q2.setId(2);
+		q2.setProprietaireQuartier(j);
+		plateau.getQuartiers().put(1, q1);
+		plateau.getQuartiers().put(2, q2);
+		
+		effet.joueursPayeQuartiersInvestir(p, j);
+		assertEquals(3, j1.getArgent());
+	}	
+	
+	@Test
+	public void testJoueursPayeQuartiersInvestirAucunQuartier(){
+		
+		effet.joueursPayeQuartiersInvestir(p, j);
+		assertEquals(5, j.getArgent());
+	}
 
+	@Test
+	public void testArgentRecolterDeuxParJoueurReceveur(){
+		effet.argentRecolterDeuxParJoueur(p, j);
+		assertEquals(7, j.getArgent());
+	}
+	
+	@Test
+	public void testArgentRecolterDeuxParJoueurPayeur(){
+		effet.argentRecolterDeuxParJoueur(p, j);
+		assertEquals(3, j1.getArgent());
+	}
+	
+	@Test
+	public void testArgentRecolterDeuxParJoueurPasArgent(){
+		j1.setAddArgent(-5);
+		effet.argentRecolterDeuxParJoueur(p, j);
+		assertEquals(0, j1.getArgent());
+		assertEquals(5, j.getArgent());
+	}
+	
+	@Test
+	public void testArgentRecolterDeuxParJoueurUnArgent(){
+		j1.setAddArgent(-4);
+		effet.argentRecolterDeuxParJoueur(p, j);
+		assertEquals(0, j1.getArgent());
+		assertEquals(6, j.getArgent());
+	}
+	
+	@Test
+	public void testPauvresSurEtalage(){
+		c3 = new Carte(4,"nom","A",2,"Gris",null);
+		c4 = new Carte(5,"nom","A",2,"Gris",null);
+		ArrayList<Carte> list = new ArrayList(); 
+		list.add(c3);
+		list.add(c4);
+		j.ajouterCartesMain(list);
+		p.getPlateau().setEtalage(etalage);
+		
+		effet.pauvresSurEtalage(p, j, c3);
+		assertEquals(6, j.getArgent());
+		assertEquals(4, j.getPoint_pauvrete());
+	}
+		
+	@Test
+	public void testPauvresSurEtalageNonPauvre(){
+		c3 = new Carte(4,"nom","A",2,"Brun",null);
+		c4 = new Carte(5,"nom","A",2,"Bleu",null);
+		ArrayList<Carte> list = new ArrayList(); 
+		list.add(c3);
+		list.add(c4);
+		j.ajouterCartesMain(list);
+		p.getPlateau().setEtalage(etalage);
+		
+		effet.pauvresSurEtalage(p, j, c3);
+		assertEquals(5, j.getArgent());
+		assertEquals(5, j.getPoint_pauvrete());
+	}
+	
 }

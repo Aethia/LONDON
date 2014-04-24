@@ -264,24 +264,36 @@ public class Joueur implements Serializable, Comparable {
 			if(!cPosee.isConstructible()){
 				return GestionErreurs.NON_CONSTRUCTIBLE_CARD;
 			}
-			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
-				if(cPosee.getPrix()<= argent){ 		
+				if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
+					if(cPosee.getPrix()<= argent){ 		
+						if(indexPile-1 <= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
+							this.zoneConstruction.addPile(cPosee);	
+						}
+						else{
+							this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
+						}
+						argent -= cPosee.getPrix();
+						this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
+						this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
+						etalage.ajouterCarte(cDefaussee);
+						return GestionErreurs.NONE;
+					}
+					else{
+						return GestionErreurs.NOT_ENOUGH_MONEY;
+					}
+				}
+				else if(cPosee.getId_carte()==8 || cPosee.getId_carte()==12 || cDefaussee.getId_carte() == 24){
 					if(indexPile-1 <= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
+						
 						this.zoneConstruction.addPile(cPosee);	
 					}
 					else{
+						
 						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
 					}
-					argent -= cPosee.getPrix();
-					this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
 					this.mainDuJoueur.supprimerCarteParId(cPosee.getId_carte());
-					etalage.ajouterCarte(cDefaussee);
 					return GestionErreurs.NONE;
 				}
-				else{
-					return GestionErreurs.NOT_ENOUGH_MONEY;
-				}
-			}
 			else{
 				return GestionErreurs.INCORRECT_CARTE_DEFAUSSE;
 
@@ -310,9 +322,24 @@ public class Joueur implements Serializable, Comparable {
 		//On v?rifie 
 		if (montant > 0 && montant % 10 == 0 && montant <=100){
 			if((montantEmprunts + montant) <= 100) {
-				this.argent += montant;
+				boolean carte72=false;
+				
+				for(int j = 0; j < this.getZone_construction().getNbPiles(); j++){
+					ArrayList<Carte> pile= this.getZone_construction().getCartesPile(j);
+					for(Carte c: pile){
+						if(!c.isDesactivee() && c.getId_carte()==72){
+							carte72=true;
+						}
+					}
+				}
+				if(carte72==true){		
+					this.argent += (montant+(0.2*montant));
+				}
+				else{
+					this.argent += montant;
+				}
 				this.montantEmprunts += montant;
-
+				
 				return GestionErreurs.NONE;
 			}else{
 				return GestionErreurs.MAX_EMPRUNT;
@@ -548,6 +575,23 @@ public class Joueur implements Serializable, Comparable {
 					return 0;
 
 			}
+		}
+	}
+	
+	public void jouerCarte(Joueur j, Carte c, Pioche pioche){
+		if(c.getEffet_passif()!= null){
+			int idEffet = c.getEffet_passif().getIdEffet();
+			switch(idEffet){
+			case 106:
+				c.getEffet_passif().prendreDeuxCartes(pioche, j);
+				j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
+				break;
+			case 110:
+				c.getEffet_passif().prendreDeuxCartes(pioche, j);
+				j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
+				break;
+			}
+			this.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
 		}
 	}
 }

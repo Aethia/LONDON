@@ -7,7 +7,6 @@ import java.util.Map;
 
 import fr.m1miage.london.GestionErreurs;
 import fr.m1miage.london.Partie;
-import fr.m1miage.london.Regles;
 
 public class Effet implements Serializable{
 	private int idEffet;
@@ -148,14 +147,11 @@ public class Effet implements Serializable{
 	//cartes 39
 	//effet 8
 	//donne à un joueur de notre choix 1 point de pauvreté
-	public GestionErreurs donneUnDeVosPP(int numJoueur, Partie partie, Joueur j){
+	public GestionErreurs donneUnDeVosPP(int numJoueur, Partie partie, Joueur j, int nbJoueur){
 		if(j.getPoint_pauvrete() < 1)
 			return GestionErreurs.NOT_ENOUGH_PAUPERS;
-		int nbJoueur = 0; 
+		
 		List<Joueur> l = partie.getListeJoueurs();
-		for(Joueur i : l){
-			nbJoueur++;
-		}
 		if(numJoueur <= nbJoueur)
 			if(j.getId() != numJoueur){
 				j.setAddPoint_pauvrete(-1);
@@ -171,12 +167,9 @@ public class Effet implements Serializable{
 	//cartes 41
 	//effet 9
 	//le joueur de votre choix prend 2 points de pauvreté
-	public GestionErreurs prendDeuxPP(int numJoueur, Partie partie, Joueur j){
-		int nbJoueur = 0; 
+	public GestionErreurs prendDeuxPP(int numJoueur, Partie partie, Joueur j, int nbJoueur){ 
 		List<Joueur> l = partie.getListeJoueurs();
-		for(Joueur i : l){
-			nbJoueur++;
-		}
+		
 		if(numJoueur <= nbJoueur)
 			if(j.getId() != numJoueur){
 				l.get(numJoueur-1).setAddPoint_pauvrete(2);;
@@ -186,5 +179,70 @@ public class Effet implements Serializable{
 				return GestionErreurs.WRONG_PLAYER;
 		else 
 			return GestionErreurs.NONEXISTANT_PLAYER;
+	}
+	
+	//cartes 71
+	//effet 19
+	//Chaque autre joueur doit payer £1 à la banque pour chaque quartier que vous avez investi
+	public void joueursPayeQuartiersInvestir(Partie partie, Joueur jcourant){
+		Map<Integer,Quartier> quartiers = partie.getPlateau().getQuartiers();
+		for(Integer key : quartiers.keySet()){
+			if(quartiers.get(key).getProprietaireQuartier() == jcourant){
+				List<Joueur> l = partie.getListeJoueurs();
+				for(Joueur joueur : l){
+					//on vérifie si le joueur a au moins £1
+					if(joueur.getArgent() >= 1 || !joueur.equals(jcourant)){
+						joueur.setAddArgent(-1);
+						jcourant.setAddArgent(1);
+					}
+				}
+			}
+		}
+	}
+	
+	//cartes 42
+	//effet 10
+	//On prend £2 à chaque autres joueurs
+	public void argentRecolterDeuxParJoueur(Partie partie, Joueur jcourant){
+		List<Joueur> l = partie.getListeJoueurs();
+		for(Joueur joueur : l){
+			if(!joueur.equals(jcourant)){
+				//on vérifie si le joueur a £2
+				if(joueur.getArgent() >= 2){
+					joueur.setAddArgent(-2);
+					jcourant.setAddArgent(2);
+				}
+				//ou au moins £1
+				else if(joueur.getArgent() == 1){
+					joueur.setAddArgent(-1);
+					jcourant.setAddArgent(1);
+				}
+			}
+		}
+	}
+	
+	
+	
+	//cartes 103
+	//effet 28
+	//Prenez £1 et perdez un point de pauvreté pour chaque carte "Pauvres" que vous placez sur l'étalage
+	public void pauvresSurEtalage(Partie partie, Joueur j, Carte c){
+		//for(Carte c : lc){
+		if(c.getCouleur().equals("Gris")){
+			j.setAddArgent(1);
+			j.setAddPoint_pauvrete(-1);
+			j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
+			partie.getEtalage().ajouterCarte(c);
+		}
+		//}
+	}
+	
+	//cartes 56
+	//effet 14
+	//Perdez un point de pauvreté par carte de votre main que vous placez sur l'étalage (jusqu'à 3 cartes).
+	public void pauvresParCarteSurEtalage(Partie partie, Joueur j, Carte c){
+		j.setAddPoint_pauvrete(-1);
+		j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
+		partie.getEtalage().ajouterCarte(c);
 	}
 }
