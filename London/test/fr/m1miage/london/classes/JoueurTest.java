@@ -120,6 +120,16 @@ public class JoueurTest {
 		assertEquals(55, j.getArgent());
 		assertEquals(GestionErreurs.MAX_EMPRUNT, j.emprunter(60));
 	}
+	
+	@Test
+	public void testEmpruntAvecEffetCarte72(){
+		Joueur j = new Joueur(1,"toto",Color.black);
+		Carte carte = new Carte(72, "nom1", "A", 1, "Rose", null);
+		j.getZone_construction().addPile(carte);
+		j.emprunter(50);
+		assertEquals(65, j.getArgent());
+		assertEquals(50, j.getMontantEmprunts());
+	}
 		
 	
 	@Test

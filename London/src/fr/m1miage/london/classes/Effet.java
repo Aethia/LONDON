@@ -1,6 +1,5 @@
 package fr.m1miage.london.classes;
 
-import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.Map;
 
 import fr.m1miage.london.GestionErreurs;
 import fr.m1miage.london.Partie;
-import fr.m1miage.london.Regles;
 
 public class Effet implements Serializable{
 	private int idEffet;
@@ -222,6 +220,8 @@ public class Effet implements Serializable{
 			}
 		}
 	}
+	
+	
 	
 	//cartes 103
 	//effet 28
