@@ -37,15 +37,12 @@ public class ZoneConstructionScreen extends Screen{
 	private TextButton validerConstru;
 
 	private int idCarteSelected =0;
-	private int idCarteSelected2=0;
 	private int idDefausseSelected =0;
 	private int pileSelected = -1;
-	private int pileSelected2 =-1;
 	private int idCarteEffet;
 	private CarteActor cDefausse;
 
-	private boolean effet = false;
-	private boolean effetPile = false;
+	private int compteurEffet = 2;
 	private List<CarteActor> cActorList= new ArrayList<CarteActor>();
 	//private List<CarteActor> cActorListColor=new ArrayList<CarteActor>();
 
@@ -60,7 +57,6 @@ public class ZoneConstructionScreen extends Screen{
 	private GestionErreurs erreur;
 	private Joueur joueur;
 	
-	private int compteur = 2;
 
 	/* Scores */
 	private Score scoreJoueur;
@@ -82,6 +78,12 @@ public class ZoneConstructionScreen extends Screen{
 		joueur = londonG.partie.getObjJoueurActif();
 		constructionScreen();
 	}
+	
+	public ZoneConstructionScreen(Joueur j,int compteur){
+		this.joueur = j;
+		this.compteurEffet=compteur;
+		constructionScreen();
+	}
 
 	private void constructionScreen() {
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
@@ -90,13 +92,13 @@ public class ZoneConstructionScreen extends Screen{
 		fondChoixCartes.setVisible(false);
 		fondChoixCartes.setShapeFillColor(1, 1, 1, 0.7f);
 		btnJouerCarte = new TextButton("Jouer carte",Buttons.styleInGameMenu);
-		btnJouerCarte.setPosition(1000, 280);
+		btnJouerCarte.setPosition(1100, 280);
 		btnJouerCarte.addListener(new InputListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				
-				
+				messageConstruire="Vous pouvez encore construire "+compteurEffet+" cartes";
 				btnJouerCarte.setVisible(false);
 				return true;
 			}
@@ -179,11 +181,10 @@ public class ZoneConstructionScreen extends Screen{
 		});
 		stage.addActor(btnAnnulCarte);
 
-
 		//bouton de validation des choix
 		validerConstru = new TextButton("Valider construction", Buttons.styleInGameMenu);
 		validerConstru.setSize(200, 50);
-		validerConstru.setPosition(1000, 280);
+		validerConstru.setPosition(1100, 280);
 		validerConstru.setVisible(false);
 		validerConstru.addListener(new InputListener(){
 
@@ -198,28 +199,33 @@ public class ZoneConstructionScreen extends Screen{
 					int pointer, int button) {
 				Carte cPosee = joueur.getMainDuJoueur().choisirCarte(idCarteSelected);
 				Carte cDefaussee = null;
-				System.out.println("idcarte effet : "+idCarteEffet);
-				if(idCarteEffet==24 && idCarteSelected != 0 && idCarteSelected2 != 0){
+				if(idCarteEffet==24 && idCarteSelected != 0){
 					cDefaussee=joueur.getMainDuJoueur().choisirCarte(idCarteEffet);
 					
-					System.out.println("id : "+idCarteSelected);
-					messageConstruire="Vous pouvez encore construire "+compteur+" cartes";
 					erreur = joueur.construire(cPosee, cDefaussee, pileSelected+1, londonG.partie.getPlateau().getEtalage());
-					cPosee = joueur.getMainDuJoueur().choisirCarte(idCarteSelected2);
-					erreur = joueur.construire(cPosee, cDefaussee, pileSelected2+1, londonG.partie.getPlateau().getEtalage());
 					
-					joueur.getMainDuJoueur().supprimerCarteParId(idCarteEffet);
+					if(compteurEffet == 1){
+						joueur.getMainDuJoueur().supprimerCarteParId(idCarteEffet);
+					}
+					if(erreur.equals(GestionErreurs.NONE)){ //si aucune erreur, le tour est terminé
+						londonG.partie.setActionChoisie(1);
+						londonG.partie.setTourTermine(true);
+					}
+					compteurEffet=compteurEffet-1;
+					Screen.setScreen(new ZoneConstructionScreen(joueur,compteurEffet)); 
+					
 					
 				}
 				else{
 					cDefaussee = joueur.getMainDuJoueur().choisirCarte(idDefausseSelected);
 					erreur = joueur.construire(cPosee, cDefaussee, pileSelected+1, londonG.partie.getPlateau().getEtalage());
-				}
+				
 				if(erreur.equals(GestionErreurs.NONE)){ //si aucune erreur, le tour est terminé
 					londonG.partie.setActionChoisie(1);
 					londonG.partie.setTourTermine(true);
 				}
 				Screen.setScreen(new ZoneConstructionScreen(erreur.getMsgErrorString())); 
+				}
 				super.touchUp(event, x, y, pointer, button);
 			}
 
@@ -234,7 +240,7 @@ public class ZoneConstructionScreen extends Screen{
 
 
 	private void afficherCartesCouleurs(CarteActor c){ //Méthode qui va afficher les cartes à défausser possibles
-		messageConstruire="Choisissez une carte à défausser";
+		messageConstruire="Cliquez sur une carte pour la défausser";
 		for(final Integer i : main.keySet()){
 			//Si la carte n'a pas la même couleur que la carte choisie, on va mettre son setVisible à false
 			if(main.get(i).getCarte().getCouleur().compareTo(c.getCarte().getCouleur())!=0 && main.get(i).getId()!=c.getId()){
@@ -297,10 +303,17 @@ public class ZoneConstructionScreen extends Screen{
 
 	private void afficherCartes() {
 		int i=0;
+		if(compteurEffet==1){
+			idCarteEffet=24;
+			messageConstruire="Vous pouvez encore construire "+compteurEffet+" cartes";
+		}
 		for(final Carte c: joueur.getLesCartes()){
 
 			i++;
 			final CarteActor ca = new CarteActor(c,350+i*50,10);
+			if(compteurEffet==1 && ca.getId()==idCarteEffet){
+				ca.setVisible(false);
+			}
 			stage.addActor(ca);
 			final Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE_CARTES+"validTarget.png"));
 			final Texture tNew = new Texture(Gdx.files.internal(Prefs.REPERTOIRE+"carte_etalage.png"));
@@ -323,14 +336,6 @@ public class ZoneConstructionScreen extends Screen{
 						}
 	                	if (idCarteSelected==0){ //si on a selectionné aucune carte, on rend visible certains boutons/fonds
 							idCarteSelected = c.getId_carte();
-							System.out.println("Je suis passée par là");
-							if(effet == true){
-								idCarteSelected2 = idCarteSelected;
-								
-							}
-							else{
-								effet = true;
-							}
 							
 	
 						}
@@ -361,44 +366,28 @@ public class ZoneConstructionScreen extends Screen{
 								//On va parcourir chaque pile pour vérifier si la carte se trouve dans une des zones
 								pA = pileI.next();
 								if(pA.inZone(ca) == true){
-									System.out.println("Je suis dans la zone");
-									System.out.println("Id selected "+idCarteSelected);
-									System.out.println("Id selected 2"+idCarteSelected2);
-									if(pileSelected != 0 && idCarteSelected2!=0){
-										pileSelected2=pA.getId();
+									pileSelected=pA.getId();
+									if(idCarteEffet !=24){
+										afficherCartesCouleurs(ca);	
 									}
 									else{
-										System.out.println("Et dans cette boucle");
-										pileSelected=pA.getId();
-										if(idCarteEffet==24){
-											if(effetPile == true){
-												pileSelected2=pA.getId();
-												
-											}
-											else{
-												effetPile=true;
-											}
-										}
-										else{
-											afficherCartesCouleurs(ca);	
-										}
+										messageConstruire="Vous pouvez encore construire "+compteurEffet+" cartes";
 									}
-									
+										
 									ca.setX(pA.getX());
 									ca.setY(pA.getY());
 									
 									btnAnnulCarte.setX(ca.getX()+75);
 									btnAnnulCarte.setVisible(true);
 	
-			                    	
-	
-	
 									}
 								if(pileSelected < 0 && pileI.hasNext()==false){
 									//Si à la fin du parcours, elle ne se trouve dans aucune pile, on la remet à sa place
 									ca.setDefaultPosition();
-									}
-								
+								}
+								if(idCarteSelected != 0 && compteurEffet > 0 && idCarteEffet == 24 && pileSelected != -1 ){
+									validerConstru.setVisible(true);
+								}
 							}
 						}
 						super.touchUp(event, x, y, pointer, button);
@@ -414,6 +403,7 @@ public class ZoneConstructionScreen extends Screen{
 						messageConstruire="Utiliser cette carte ? Elle sera défaussée à la fin de l'action.";
 						idCarteEffet=ca.getId();
 						btnJouerCarte.setVisible(true);
+						ca.setVisible(false);
 						return super.touchDown(event, x, y, pointer, button);
 					}
 				});
@@ -421,9 +411,6 @@ public class ZoneConstructionScreen extends Screen{
 
 			main.put(c.getId_carte(), ca);
 
-		}
-		if(effet == true && effetPile == false){
-			validerConstru.setVisible(true);
 		}
 	}
 
@@ -475,31 +462,6 @@ public class ZoneConstructionScreen extends Screen{
         pa.setImg(t);   
 	}
 	
-	public void ajouterPileEffet(int left){
-		Texture t = new Texture(Gdx.files.internal(Prefs.REPERTOIRE+"carte_etalage.png"));
-        	int i = joueur.getZone_construction().cartesTop().size();
-        	System.out.println("OI");
-        	Carte pile = new Carte();
-			final PileActor paEffet= new PileActor(pile, left+i*215, 360);
-            Point pEffet = new Point(left+i*215, 360);
-            
-            paEffet.sethGauche(pEffet);
-            paEffet.setbDroit(pEffet);
-            paEffet.setId(i);
-            paEffet.addListener(new InputListener(){
-            	@Override
-            	public void enter(InputEvent event, float x, float y,
-            			int pointer, Actor fromActor) {
-            		// TODO Auto-generated method stub
-            		System.out.println("Hellooooooooo2");
-            		super.enter(event, x, y, pointer, fromActor);
-            	}
-            });
-            stage.addActor(paEffet);
-            paEffet.setImg(t);
-
-	}
-
 	@Override
 	public void render() {
 		spriteBatch.begin();
