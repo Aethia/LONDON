@@ -409,6 +409,8 @@ public class Joueur implements Serializable, Comparable {
 		// si le joueur n'a pas assez d'argent
 		if (this.argent < coutLivres) {
 			return GestionErreurs.NOT_ENOUGH_MONEY;
+		}else{
+			this.argent -= coutLivres;
 		}
 
 		// on donne l'argent d'activation

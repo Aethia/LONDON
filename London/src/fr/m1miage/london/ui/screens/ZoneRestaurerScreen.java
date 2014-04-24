@@ -95,7 +95,8 @@ public class ZoneRestaurerScreen extends Screen{
 
 
 		}
-
+		mainJoueur();
+		
 		activerBtn = new TextButton("activer", Buttons.styleInGameMenu );
 		activerBtn.setPosition(100, 250);
 		activerBtn.setVisible(false);
@@ -163,7 +164,7 @@ public class ZoneRestaurerScreen extends Screen{
 		scoreJoueur = new Score(joueur);
 		stage.addActor(scoreJoueur);
 
-		mainJoueur();
+		
 	}
 
 
@@ -220,20 +221,24 @@ System.out.println("pile");
 						float y, int pointer, int button) {
 					if(!ca.getCarte().isDesactivee()){ //si c'est pas null et que la carte n'est pas desactivée
 						carteActivation = ca;
+						activerBtn.setPosition(ca.getX(), 250);
 						System.out.println(ca.getCarte().getNom());
 						Carte cActiv = carteActivation.getCarte();
 						int type = cActiv.getCoutActivation().getTypeActiv();
 						switch(type){
 						case Regles.ACTIVATION_AUCUN :
+							masquerMain();
 							activerBtn.setText("Activer");
 							activerBtn.setVisible(true);
 							break;
 						case Regles.ACTIVATION_LIVRES :
+							masquerMain();
 							//demander au joueur s'il veut payer pour activer
-							activerBtn.setText("Payer £" + cActiv.getArgentActivation());
+							activerBtn.setText("Payer £" + cActiv.getCoutActivation().getLivresAPayer());
 							activerBtn.setVisible(true);
 							break;
 						case Regles.ACTIVATION_UNIQUE :
+							activerBtn.setVisible(false);
 							int nb = 0;
 							nb = masquerCartes(cActiv.getCoutActivation().getCouleurADefausser());
 							if(nb==0){
@@ -245,6 +250,7 @@ System.out.println("pile");
 
 							break;
 						case Regles.ACTIVATION_ANYCOLOR :
+							activerBtn.setVisible(false);
 							nb = main.size();
 							if(nb==0){
 								messageAction = "Vous n'avez pas de carte à defausser";
