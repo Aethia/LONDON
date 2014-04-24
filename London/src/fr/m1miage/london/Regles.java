@@ -1,12 +1,9 @@
 package fr.m1miage.london;
 
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Regles {
 	public final static int PTPAUVRETE = 5;
-	public final static int ARGENT = 20;
+	public final static int ARGENT = 5;
 	public final static int NBMAXCARTES=9;
 	public final static int NBCARTESDEPART=6;
 	public final static int NBMAXJOUEURS=5;

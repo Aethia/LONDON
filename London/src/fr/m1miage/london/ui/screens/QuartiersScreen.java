@@ -35,13 +35,12 @@ public class QuartiersScreen extends Screen{
 	private Integer nbQuartierHovered = 0;
 	private static int iconsMarginLeft = 815;
 	private static int iconsMarginTop = 400;
-	private HashMap<Integer, AreaColorRect> listeInvestis = new HashMap<Integer, AreaColorRect>();
 
 	private ShapeRenderer fondQuartier;
 	private TextButton btnRetour;
 	private TextButton btnValider;
 	private TextButton btnRetourMap;
-
+	private Table proprietairesCarte;
 
 	private Stage stage; 
 
@@ -113,6 +112,7 @@ public class QuartiersScreen extends Screen{
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				nbQuartierSelected=0;
+				proprietairesCarte.setVisible(true);
 				nbQuartierHovered=0;
 				btnRetourMap.setVisible(false);
 				btnValider.setVisible(false);
@@ -185,7 +185,7 @@ public class QuartiersScreen extends Screen{
 		Table tQuartiers = new Table();
 
 
-		final Map<Integer, Quartier> quartiers = londonG.partie.getPlateau().getQuartiers();
+		Map<Integer, Quartier> quartiers = londonG.partie.getPlateau().getQuartiers();
 		for(final Integer q: quartiers.keySet()){	
 			final Integer j = q;
 			final Quartier quartier = quartiers.get(q);
@@ -195,20 +195,6 @@ public class QuartiersScreen extends Screen{
 			}else{
 				btn= new TextButton(quartier.getNom(),Buttons.styleInGameMenuDisabled); 
 			}
-			if(nbQuartierSelected == 0){	
-				
-				/*--------AFFICHER LES POINTS COULEURS POUR PROPRIETAIRES ----------*/
-				if(quartiers.get(q).getProprietaireQuartier()!= null){
-					Point p = Prefs.listePoints.get(nbQuartierSelected);
-					final AreaColorRect proprietaire = new AreaColorRect(p.x, p.y, 15, 15);
-					proprietaire.setShapeFillColor(Prefs.conversionCouleur(joueur.getCouleur()));
-					stage.addActor(proprietaire);
-					listeInvestis.put(q, proprietaire);
-					stage.addActor(listeInvestis.get(q));
-					listeInvestis.get(q).setVisible(true);
-				}
-			}
-
 
 			btn.addListener(new InputListener(){
 				@Override
@@ -226,7 +212,8 @@ public class QuartiersScreen extends Screen{
 				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
 					nbQuartierSelected = j;
-					btnRetourMap.setVisible(true);					
+					btnRetourMap.setVisible(true);	
+					proprietairesCarte.setVisible(false);
 					Joueur jActif = londonG.partie.getObjJoueurActif();
 					if(!londonG.partie.isMultijoueur()){
 System.out.println("la");
@@ -245,9 +232,6 @@ System.out.println("la");
 								btnValider.setVisible(false);
 							}
 						}
-					}
-					for(Integer zone : listeInvestis.keySet()){
-						listeInvestis.get(zone).setVisible(false);
 					}
 
 					super.touchUp(event, x, y, pointer, button);
@@ -271,8 +255,21 @@ System.out.println("la");
 		tQuartiers.setPosition(300, 400);
 
 		stage.addActor(tQuartiers);
-
-
+		
+		proprietairesCarte = new Table();
+		if(nbQuartierSelected == 0){	
+			
+			for(Integer q :quartiers.keySet())
+			/*--------AFFICHER LES POINTS COULEURS POUR PROPRIETAIRES ----------*/
+			if(quartiers.get(q).getProprietaireQuartier()!= null){
+				Point p = Prefs.listePoints.get(q);
+				
+				AreaColorRect proprietaire = new AreaColorRect(p.x, p.y, 15, 15);
+				proprietaire.setShapeFillColor(Prefs.conversionCouleur(quartiers.get(q).getProprietaireQuartier().getCouleur()));
+				proprietairesCarte.addActor(proprietaire);
+			}
+		}
+		stage.addActor(proprietairesCarte);
 
 	}
 
@@ -329,7 +326,7 @@ System.out.println("la");
 		}
 		else if(nbQuartierHovered < 21){
 			
-
+			
 			draw(Art.imagesQuartiers.get(0), 580, 100);
 			draw(Art.imagesQuartiers.get(nbQuartierHovered), 580, 100);
 		}
