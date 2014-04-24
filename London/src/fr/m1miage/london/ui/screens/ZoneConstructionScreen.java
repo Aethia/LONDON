@@ -216,8 +216,14 @@ public class ZoneConstructionScreen extends Screen{
 					
 					
 				}
+				
 				else{
-					cDefaussee = joueur.getMainDuJoueur().choisirCarte(idDefausseSelected);
+					if(joueur.getMainDuJoueur().choisirCarte(idCarteSelected).getEffet_passif().getIdEffet() == 1){
+						cDefaussee=joueur.getMainDuJoueur().choisirCarte(idCarteSelected);
+					}
+					else{
+						cDefaussee = joueur.getMainDuJoueur().choisirCarte(idDefausseSelected);
+					}
 					erreur = joueur.construire(cPosee, cDefaussee, pileSelected+1, londonG.partie.getPlateau().getEtalage());
 				
 				if(erreur.equals(GestionErreurs.NONE)){ //si aucune erreur, le tour est terminé
@@ -368,7 +374,14 @@ public class ZoneConstructionScreen extends Screen{
 								if(pA.inZone(ca) == true){
 									pileSelected=pA.getId();
 									if(idCarteEffet !=24){
-										afficherCartesCouleurs(ca);	
+										if(ca.getCarte().getEffet_passif() != null){
+											if(ca.getCarte().getEffet_passif().getIdEffet() == 1){
+												validerConstru.setVisible(true);
+											}
+										}
+										else{
+											afficherCartesCouleurs(ca);	
+										}
 									}
 									else{
 										messageConstruire="Vous pouvez encore construire "+compteurEffet+" cartes";

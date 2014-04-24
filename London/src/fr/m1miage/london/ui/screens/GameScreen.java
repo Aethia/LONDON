@@ -46,7 +46,7 @@ public class GameScreen extends Screen{
 	public int idCarteOver =0;
 	
 	/*Cartes qui peuvent être jouées*/
-	private int[] cartesAJouer = {106, 110, 19, 24 };
+	private int[] cartesAJouer = {106, 110, 19 };
 	
 
 	/* Scores */
@@ -80,9 +80,9 @@ public class GameScreen extends Screen{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				londonG.partie.getObjJoueurActif().jouerCarte(jouActif,jouActif.choisirCarteParId(idCarteSelected),londonG.partie.getPioche());
-				Screen.setScreen(new GameScreen());
-				btnJouerCarte.setVisible(false);
+					londonG.partie.getObjJoueurActif().jouerCarte(jouActif,jouActif.choisirCarteParId(idCarteSelected),londonG.partie.getPioche());
+					Screen.setScreen(new GameScreen());
+					btnJouerCarte.setVisible(false);
 				super.touchUp(event, x, y, pointer, button);
 			}
 		});
@@ -335,7 +335,7 @@ public class GameScreen extends Screen{
 						idCarteSelected = c.getId_carte();
 					}
 					for(int i : cartesAJouer){
-						if(i == ca.getId()){
+						if(i == ca.getId() && londonG.partie.isTourTermine() ==false){
 							btnJouerCarte.setVisible(true);
 						}
 					}

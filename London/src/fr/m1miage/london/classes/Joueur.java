@@ -279,7 +279,7 @@ public class Joueur implements Serializable, Comparable {
 						return GestionErreurs.NOT_ENOUGH_MONEY;
 					}
 				}
-				else if(cPosee.getId_carte()==2 || cPosee.getId_carte()==58 || cPosee.getId_carte()==60 || cDefaussee.getId_carte() == 24){
+				else if(cPosee.getId_carte()==8 || cPosee.getId_carte()==12 || cDefaussee.getId_carte() == 24){
 					if(indexPile-1 <= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
 						
 						this.zoneConstruction.addPile(cPosee);	
@@ -564,10 +564,6 @@ public class Joueur implements Serializable, Comparable {
 		if(c.getEffet_passif()!= null){
 			int idEffet = c.getEffet_passif().getIdEffet();
 			switch(idEffet){
-			case 5 : 
-				c.getEffet_passif().prendreDeuxCartes(pioche, j);
-				j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
-				break;
 			case 106:
 				c.getEffet_passif().prendreDeuxCartes(pioche, j);
 				j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
