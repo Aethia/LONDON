@@ -45,13 +45,6 @@ public class MetroScreen extends Screen {
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 		Gdx.input.setInputProcessor(stage);
-		if(compteur==2){
-			messageMetro="Choisir un marqueur";
-		}
-		else{
-			messageMetro="Choisir un 2nd marqueur";
-		}
-		
 		retourActivation = new TextButton("Retour à l'activation", Buttons.styleInGameMenu);
 		retourActivation.setPosition(100, 95);
 		retourActivation.setVisible(false);
@@ -65,6 +58,18 @@ public class MetroScreen extends Screen {
 		});
 		
 		stage.addActor(retourActivation);
+		
+		if(compteur==2){
+			messageMetro="Choisir un marqueur";
+		}
+		else if(compteur==1){
+			messageMetro="Choisir un 2nd marqueur";
+		}
+		else{
+			//validerMetro.setVisible(false);
+			retourActivation.setVisible(true);
+		}
+		
 		
 		
 		validerMetro = new TextButton("Valider", Buttons.styleInGameMenu);
@@ -86,8 +91,9 @@ public class MetroScreen extends Screen {
 					if(q1.isAuSudTamise() != londonG.partie.getPlateau().getQuartiers().get(quartierSelected).isAuSudTamise()){
 						londonG.partie.getListeJoueurs().get(londonG.partie.getJoueurActif()).setAddArgent(argent);
 					}
-					validerMetro.setVisible(false);
-					retourActivation.setVisible(true);
+					compteur--;
+					Screen.setScreen(new MetroScreen(compteur, q1));
+					
 				}
 				return super.touchDown(event, x, y, pointer, button);
 			}
@@ -99,7 +105,7 @@ public class MetroScreen extends Screen {
 		Map<Integer, Quartier> quartiers = londonG.partie.getPlateau().getQuartiers();
 		for(final Integer q: quartiers.keySet()){	
 			Quartier qa = quartiers.get(q);
-			if(quartiers.get(q).isMetro() == true){
+			if(quartiers.get(q).isMetro() == true && quartiers.get(q).getProprietaireQuartier() != null){
 			Point p = r.listePoints.get(q);
 			Image quartier = new Image(Art.iconeMetro);
 			quartier.setX(p.x-200);
@@ -134,7 +140,7 @@ public class MetroScreen extends Screen {
 		spriteBatch.begin();
 		draw(Art.bgPartie, 0, 0);
 		draw(Art.imagesQuartiers.get(0), 400, 100);
-		Fonts.FONT_TITLE.draw(spriteBatch, "METRO", 700, 20);
+		Fonts.FONT_TITLE.draw(spriteBatch, "METRO", 500, 20);
 
 		Fonts.FONT_BLACK.draw(spriteBatch, messageMetro, 100, 100);
 

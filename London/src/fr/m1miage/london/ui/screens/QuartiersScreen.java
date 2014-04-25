@@ -1,7 +1,6 @@
 package fr.m1miage.london.ui.screens;
 
 import java.awt.Point;
-import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
@@ -19,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import fr.m1miage.london.GestionErreurs;
-import fr.m1miage.london.Regles;
 import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.classes.Quartier;
 import fr.m1miage.london.ui.Prefs;
@@ -216,7 +214,6 @@ public class QuartiersScreen extends Screen{
 					proprietairesCarte.setVisible(false);
 					Joueur jActif = londonG.partie.getObjJoueurActif();
 					if(!londonG.partie.isMultijoueur()){
-System.out.println("la");
 						if(londonG.partie.getObjJoueurActif().equals(joueur)==true){
 							if(!londonG.partie.isTourTermine()   ){ 
 								btnValider.setVisible(true);
@@ -275,6 +272,7 @@ System.out.println("la");
 
 	@Override
 	public void render() {
+		Prefs r = new Prefs();
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
@@ -326,9 +324,18 @@ System.out.println("la");
 		}
 		else if(nbQuartierHovered < 21){
 			
-			
 			draw(Art.imagesQuartiers.get(0), 580, 100);
-			draw(Art.imagesQuartiers.get(nbQuartierHovered), 580, 100);
+			
+				for(Integer q : londonG.partie.getPlateau().getQuartiers().keySet()){
+					if(londonG.partie.getPlateau().getQuartiers().get(q).isMetro_pose()){
+						Point p = r.listePoints.get(q);
+						draw(Art.iconeMetro, p.x-20,Prefs.HAUTEUR_FENETRE-p.y-40);
+					}
+				}
+			if(nbQuartierHovered>0){
+				draw(Art.imagesQuartiers.get(nbQuartierHovered), 580, 100);
+			}
+
 		}
 
 		spriteBatch.end();

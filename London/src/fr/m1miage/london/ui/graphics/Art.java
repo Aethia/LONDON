@@ -54,6 +54,7 @@ public class Art {
 	public static Skin skinTableauScores;
 	public static Skin skinScoreJoueur;
 	public static Skin skin;
+	public static TextureRegion iconeMetro;
 	
 	
 	public static Texture scroll;
@@ -77,6 +78,7 @@ public class Art {
 		iconePV = Art.load("ressources/Images/icone_pv.png", tailleIcon, tailleIcon);
 		iconeLivres = Art.load("ressources/Images/icone_livre.png", tailleIcon, tailleIcon);
 		iconeCartePioche = Art.load("ressources/Images/icone_cartePioche.png", tailleIcon, tailleIcon);
+		iconeMetro = Art.load("ressources/Images/Quartiers/metro.png", 50, 50);
 
 		/*---- game ---- */
 		action_bg = load(Prefs.REPERTOIRE+"background_action.png", 750,315);

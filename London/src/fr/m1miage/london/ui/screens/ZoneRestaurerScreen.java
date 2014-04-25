@@ -95,8 +95,8 @@ public class ZoneRestaurerScreen extends Screen{
 
 		}
 
-		activerBtn = new TextButton("activer", Buttons.styleInGameMenu );
-		activerBtn.setPosition(100, 250);
+		activerBtn = new TextButton("Activer", Buttons.styleInGameMenu );
+		activerBtn.setPosition(1100, 250);
 		activerBtn.setVisible(false);
 		activerBtn.addListener(new InputListener(){
 
@@ -112,7 +112,8 @@ public class ZoneRestaurerScreen extends Screen{
 					float y, int pointer, int button) {
 				if(carteDefausse == null){ //si le type d'activation = aucun ou livre, rien a defausser
 					erreur =joueur.restaurerVille2(carteActivation.getCarte(), null, londonG.partie.getEtalage());
-				}else{
+				}
+				else{
 					erreur =joueur.restaurerVille2(carteActivation.getCarte(), carteDefausse.getCarte(), londonG.partie.getEtalage());
 				}
 
@@ -120,6 +121,9 @@ public class ZoneRestaurerScreen extends Screen{
 					messageAction = erreur.getMsgErrorString();
 				}else{
 					activation(carteActivation);
+					if(carteActivation.getId() == 76 ||carteActivation.getId() == 79 || carteActivation.getId() == 84 || carteActivation.getId() == 85 || carteActivation.getId() == 97){
+					Screen.setScreen(new MetroScreen());
+					}
 				}
 				activerBtn.setVisible(false);
 				carteActivation =null;
@@ -159,11 +163,13 @@ public class ZoneRestaurerScreen extends Screen{
 						ca.setY(300);
 						activerBtn.setVisible(true);
 						carteDefausse = ca;
-					}else if(carteDefausse ==null){
+					}
+					else if(carteDefausse ==null){
 						carteDefausse = ca;
 						ca.setY(300);
 						activerBtn.setVisible(true);
 					}
+					
 					return super.touchDown(event, x, y, pointer, button);
 				}
 
@@ -184,7 +190,6 @@ public class ZoneRestaurerScreen extends Screen{
 		int i = 0;
 		for(Carte pile : joueur.getZone_construction().cartesTop()){
 			final CarteActor ca = new CarteActor(pile, left+i*215, 360);
-System.out.println("pile");
 			ca.addListener(new InputListener(){
 
 				@Override
@@ -192,7 +197,6 @@ System.out.println("pile");
 						float y, int pointer, int button) {
 					if(!ca.getCarte().isDesactivee()){ //si c'est pas null et que la carte n'est pas desactivée
 						carteActivation = ca;
-						System.out.println(ca.getCarte().getNom());
 						Carte cActiv = carteActivation.getCarte();
 						int type = cActiv.getCoutActivation().getTypeActiv();
 						switch(type){
@@ -211,7 +215,7 @@ System.out.println("pile");
 							if(nb==0){
 								messageAction = "Vous n'avez pas de carte à defausser";
 							}else{
-								messageAction = "choisir une carte" + cActiv.getCoutActivation().getCouleurADefausser();
+								messageAction = "Choisir une carte" + cActiv.getCoutActivation().getCouleurADefausser();
 								messageAction+= " à défausser";
 							}
 
@@ -221,7 +225,7 @@ System.out.println("pile");
 							if(nb==0){
 								messageAction = "Vous n'avez pas de carte à defausser";
 							}else{
-								messageAction = "choisir une carte de n'importe quelle couleur à défausser";
+								messageAction = "Choisir une carte de n'importe quelle couleur à défausser";
 								afficherMain();
 							}
 
@@ -279,9 +283,9 @@ i++;
 	public void render() {
 		spriteBatch.begin();
 		draw(Art.bgPartie, 0, 0);
-		Fonts.FONT_TITLE.draw(spriteBatch, "RESTAURER", 200, 20);
+		Fonts.FONT_TITLE.draw(spriteBatch, "RESTAURER", 420, 20);
 
-		Fonts.FONT_BLACK.draw(spriteBatch, messageAction, 500, 100);
+		Fonts.FONT_BLACK.draw(spriteBatch, messageAction, 450, 100);
 
 		spriteBatch.end();
 

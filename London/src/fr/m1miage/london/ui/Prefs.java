@@ -2,12 +2,9 @@ package fr.m1miage.london.ui;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
-
-import fr.m1miage.london.ui.graphics.AreaColorRect;
 
 public class Prefs {
 
@@ -40,7 +37,7 @@ public class Prefs {
 	public final static Point q16= new Point(674, 180);
 	public final static Point q15= new Point(864, 280);
 	public final static Point q2= new Point(1071, 355);
-	public final static Point q6= new Point(896, 296);
+	public final static Point q6= new Point(896, 490);
 	public final static Point q4= new Point(846, 440);
 	public final static Point q20= new Point(745, 470);
 	public final static Point q19= new Point(699, 430);
