@@ -216,7 +216,7 @@ public class JoueurTest {
 		List<Integer> cartes = new ArrayList<Integer>();
 		cartes.add(c.getId_carte());	
 		cartes.add(c1.getId_carte());	
-		assertEquals(1,j.restaurerVille(cartes));
+		assertEquals(GestionErreurs.NONE,j.restaurerVille(cartes));
 		assertEquals(2,TraderClassRestaurerVille.getCoutEnLivres());
 
 	}
@@ -252,7 +252,7 @@ public class JoueurTest {
 		cartes.add(c.getId_carte());	
 		cartes.add(c1.getId_carte());	
 		cartes.add(c2.getId_carte());
-		assertEquals(1,j.restaurerVille(cartes));
+		assertEquals(GestionErreurs.NONE,j.restaurerVille(cartes));
 		assertEquals(1,TraderClassRestaurerVille.getNbCartesBleues());
 		assertEquals(2,TraderClassRestaurerVille.getCoutEnLivres());
 		
@@ -290,7 +290,7 @@ public class JoueurTest {
 		List<Integer> cartes = new ArrayList<Integer>();	
 		cartes.add(c1.getId_carte());	
 		cartes.add(c2.getId_carte());
-		assertEquals(1,j.restaurerVille(cartes));
+		assertEquals(GestionErreurs.NONE,j.restaurerVille(cartes));
 		assertEquals(1,TraderClassRestaurerVille.getNbCartesBleues());
 		assertEquals(2,TraderClassRestaurerVille.getCoutEnLivres());
 		
@@ -306,7 +306,7 @@ public class JoueurTest {
 		zc.addPile(c1);
 		List<Integer> cartes = new ArrayList<Integer>();
 		cartes.add(c2.getId_carte());
-		assertEquals(-1,j.restaurerVille(cartes));
+		assertEquals(GestionErreurs.INCORRECT_NUMBER,j.restaurerVille(cartes));
 	}	
 	
 	@Test
@@ -324,7 +324,7 @@ public class JoueurTest {
 		
 		TraderClassRestaurerVille.addNbCartesGrises();
 		
-		assertEquals(1, j.payerRestaurationVille(cartes));
+		assertEquals(GestionErreurs.NONE, j.payerRestaurationVille(cartes));
 	}
 	
 }
