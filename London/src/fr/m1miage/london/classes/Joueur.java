@@ -330,11 +330,11 @@ public class Joueur implements Serializable, Comparable {
 			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
 				System.out.println("meow");
 				if(cPosee.getPrix()<= argent){ 		
-					if(indexPile-1 <= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
-						this.zoneConstruction.addPile(cPosee);	
+					if(indexPile-1 < this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
+						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
 					}
 					else{
-						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
+						this.zoneConstruction.addPile(cPosee);	
 					}
 					argent -= cPosee.getPrix();
 					this.mainDuJoueur.supprimerCarteParId(cDefaussee.getId_carte());
