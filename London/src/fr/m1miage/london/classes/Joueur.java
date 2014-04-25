@@ -8,6 +8,9 @@ import java.util.List;
 import fr.m1miage.london.GestionErreurs;
 import fr.m1miage.london.Regles;
 
+/**
+ * la classe Joueur modélise un jour et tout ce qui lui appartient
+ */
 public class Joueur implements Serializable, Comparable {
     /**
      * L'id du joueur
@@ -372,7 +375,7 @@ public class Joueur implements Serializable, Comparable {
 			Carte c = laPioche.tirerUneCarte();
 			System.err.println("carte" +c.getNom());
 			if(c!=null){
-				mainDuJoueur.ajouterCarte(laPioche.tirerUneCarte());
+				mainDuJoueur.ajouterCarte(c);
 				return GestionErreurs.NONE;
 			}else{
 				return GestionErreurs.PIOCHE_VIDE;
@@ -629,7 +632,11 @@ public class Joueur implements Serializable, Comparable {
 	}
 
 
-	//En cas d'égalité lors du calcul du vainqueur
+	/**
+	 * Méthode de comparaison entre deux joueurs
+	 * @param Joueur : le joueur à comparer
+	 * @return int : -1 si joueur A > joueur B, 0 si joueur A = joueur B, 1 si joueur A < joueur B
+	 */
 	@Override
 	public int compareTo(Object joueur) {
 		Joueur j = (Joueur)joueur;
@@ -654,6 +661,12 @@ public class Joueur implements Serializable, Comparable {
 		}
 	}
 
+	/**
+	 * Méthode de jeu d'une carte
+	 * @param Joueur : le joueur qui veut jouer une carte
+	 * @param Carte : la carte à jouer
+	 * @param Pioche : la pioche dans laquelle est la carte
+	 */
 	public void jouerCarte(Joueur j, Carte c, Pioche pioche){
 
 		if(c.getEffet_passif()!= null){
