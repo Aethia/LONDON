@@ -112,6 +112,7 @@ public class ZoneConstructionScreen extends Screen{
 		this.joueur = j;
 		this.compteurEffet=compteur;
 		constructionScreen();
+		affichageMultiJ();
 	}
 
 	//
@@ -169,7 +170,7 @@ public class ZoneConstructionScreen extends Screen{
 		stage.addActor(btnRetour);
 
 		afficherPiles();
-
+		
 		stage.addActor(fondChoixCartes);
 		//si partie multijoueur on va verifier 
 		//		if(londonG.partie.isMultijoueur()){
@@ -252,9 +253,8 @@ public class ZoneConstructionScreen extends Screen{
 				Carte cDefaussee = joueur.getMainDuJoueur().choisirCarte(idDefausseSelected);
 				if(idCarteEffet==24 && idCarteSelected != 0){
 					cDefaussee=joueur.getMainDuJoueur().choisirCarte(idCarteEffet);
-
+					
 					erreur = joueur.construire(cPosee, cDefaussee, pileSelected+1, londonG.partie.getPlateau().getEtalage());
-
 					if(compteurEffet == 1){
 						joueur.getMainDuJoueur().supprimerCarteParId(idCarteEffet);
 					}
