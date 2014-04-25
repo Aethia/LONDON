@@ -325,6 +325,7 @@ public class Joueur implements Serializable, Comparable {
 				return GestionErreurs.NON_CONSTRUCTIBLE_CARD;
 			}
 			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
+				System.out.println("meow");
 				if(cPosee.getPrix()<= argent){ 		
 					if(indexPile-1 <= this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
 						this.zoneConstruction.addPile(cPosee);	

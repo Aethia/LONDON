@@ -250,7 +250,7 @@ public class ZoneConstructionScreen extends Screen{
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				Carte cPosee = joueur.getMainDuJoueur().choisirCarte(idCarteSelected);
-				Carte cDefaussee = null;
+				Carte cDefaussee = joueur.getMainDuJoueur().choisirCarte(idDefausseSelected);
 				if(idCarteEffet==24 && idCarteSelected != 0){
 					cDefaussee=joueur.getMainDuJoueur().choisirCarte(idCarteEffet);
 
@@ -437,18 +437,19 @@ public class ZoneConstructionScreen extends Screen{
 								pA = pileI.next();
 								if(pA.inZone(ca) == true){
 									pileSelected=pA.getId();
-									if(idCarteEffet !=24){
-										if(ca.getCarte().getEffet_passif() != null){
-											if(ca.getCarte().getEffet_passif().getIdEffet() == 1){
-												validerConstru.setVisible(true);
-											}
-										}
+									if(idCarteEffet ==24){
+										messageConstruire="Vous pouvez encore construire "+compteurEffet+" cartes";
+									}
+									else if(ca.getCarte().getEffet_passif() != null){
+										if(ca.getCarte().getEffet_passif().getIdEffet() == 1){
+											validerConstru.setVisible(true);
+										}			
 										else{
 											afficherCartesCouleurs(ca);	
 										}
 									}
-									else{
-										messageConstruire="Vous pouvez encore construire "+compteurEffet+" cartes";
+									else {
+										afficherCartesCouleurs(ca);
 									}
 
 									ca.setX(pA.getX());
