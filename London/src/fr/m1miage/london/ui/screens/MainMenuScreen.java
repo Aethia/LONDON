@@ -78,7 +78,6 @@ public class MainMenuScreen extends Screen {
 					
 					londonG.partie.chargerPartie();
 					Screen.setScreen(new GameScreen());
-					System.out.println("gamescreen");
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {

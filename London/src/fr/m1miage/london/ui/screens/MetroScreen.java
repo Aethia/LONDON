@@ -104,9 +104,8 @@ public class MetroScreen extends Screen {
 		Prefs r = new Prefs();
 		Map<Integer, Quartier> quartiers = londonG.partie.getPlateau().getQuartiers();
 		for(final Integer q: quartiers.keySet()){	
-			Quartier qa = quartiers.get(q);
 			if(quartiers.get(q).isMetro() == true && quartiers.get(q).getProprietaireQuartier() != null){
-			Point p = r.listePoints.get(q);
+			Point p = Prefs.listePoints.get(q);
 			Image quartier = new Image(Art.iconeMetro);
 			quartier.setX(p.x-200);
 			quartier.setY(p.y);

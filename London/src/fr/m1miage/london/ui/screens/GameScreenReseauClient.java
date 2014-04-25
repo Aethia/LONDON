@@ -10,10 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import fr.m1.miage.london.network.IncomingObjectListenerClient;
-import fr.m1.miage.london.network.IncomingPartieObjectListenerClient;
 import fr.m1.miage.london.network.client.Reception;
 import fr.m1.miage.london.network.client.Sender;
 import fr.m1miage.london.Partie;

@@ -170,9 +170,6 @@ public class ChoixModeReseauScreen extends Screen{
 						 */
 						SoundPlayer.jouerSon("clic.wav");
 						String login = textBoxPseudo.getText();
-						System.out.println(colorJ.getColor().r*255);
-						System.out.println(colorJ.getColor().g*255);
-						System.out.println(colorJ.getColor().b*255);
 						java.awt.Color c = new java.awt.Color((float)colorJ.getColor().r,(float)colorJ.getColor().g,(float)colorJ.getColor().b);
 						Joueur joueur = new Joueur(0, login, c);
 						Client cli = new Client(textBoxIp.getText());

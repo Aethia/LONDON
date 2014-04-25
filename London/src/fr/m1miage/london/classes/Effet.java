@@ -9,12 +9,25 @@ import fr.m1miage.london.GestionErreurs;
 import fr.m1miage.london.Partie;
 
 public class Effet implements Serializable{
+	/**
+	 * L'id de l'effet
+	 * @see Effet#getIdEffet()
+	 */
 	private int idEffet;
+	/**
+	 * Le nom de l'effet
+	 * @see Effet#getNomEffet()
+	 */
 	private String nomEffet;
-	private int type; //1 = passif, 2 = actif
+	/**
+	 * Le type de l'effet: 1 = passif, 2 = actif
+	 * @see Effet#getType()
+	 */
+	private int type;
 	
 	
 	public transient static final int  COFFEE_SHOP = 1;
+	
 	public Effet(){
 		
 	}
@@ -50,9 +63,13 @@ public class Effet implements Serializable{
 		return msg.toString();
 	}
 
-	//cartes 19, 106, 110
-	//effet 5
-	//on pioche 2 cartes
+
+	/**
+	 * Effet : Défaussez cette carte pour piocher deux autres cartes.
+	 * @param pioche : la pioche du jeu
+	 * @param j : joueur qui active l'effet
+	 * @return GestionErreurs : NONE si le joueur peut piocher 2 cartes, sinon NOT_ENOUGH_CARD
+	 */
 	public GestionErreurs prendreDeuxCartes(Pioche pioche, Joueur j){
 		if(pioche.getNbCartes() >= 2){
 			j.ajouterCartesMain(pioche.tirerNCartes(2));
@@ -62,9 +79,10 @@ public class Effet implements Serializable{
 			return GestionErreurs.NOT_ENOUGH_CARD;
 	}
 	
-	//cartes 37, 63
-	//effet 7
-	//on reçoit un point de victoire pour chaque carte non brune dans la zone de construction
+	/**
+	 * Effet : Prenez 1 PV pour chaque carte autre que brune présente dans votre zone de construction (celle-ci incluse).
+	 * @param j : joueur qui active l'effet
+	 */
 	public void pVPourCartesNonBrune(Joueur j){
 		//for(int i = 0; i < j.getZone_construction().getNbPiles(); i++){
 			//ArrayList<Carte> pile= j.getZone_construction().getCartesPile(i);
@@ -79,9 +97,10 @@ public class Effet implements Serializable{
 		}
 	}
 	
-	//cartes 50, 62, 94
-	//effet 11
-	//on reçoit un point de victoire pour chaque carte brune dans la zone de construction
+	/**
+	 * Effet : Prenez £1 pour chaque carte brune dans votre zone de construction.
+	 * @param j : joueur qui active l'effet
+	 */
 	public void pVPourCartesBrune(Joueur j){
 		ArrayList<ArrayList<Carte>> zc = j.getZone_construction().getCartes();
 		for(ArrayList<Carte> pile : zc){
@@ -91,10 +110,12 @@ public class Effet implements Serializable{
 			}
 		}
 	}
-	
-	//cartes 91, 93
-	//effet 25
-	//£2 pour chaque quartier au nord de la tamise
+
+	/**
+	 * Effet : Prenez £2 pour chaque quartier au nord de la Tamise que vous avez investi.
+	 * @param plateau : le plateau du jeu
+	 * @param j : joueur qui active l'effet
+	 */
 	public void argentQuartiersNord(Plateau plateau, Joueur j){
 		Map<Integer,Quartier> quartiers = plateau.getQuartiers();
 		for(Integer key : quartiers.keySet()){
@@ -103,10 +124,12 @@ public class Effet implements Serializable{
 			}
 		}
 	}
-	
-	//cartes 83
-	//effet 23
-	//£2 pour chaque quartier au sud de la tamise
+
+	/**
+	 * Effet : Prenez £2 pour chaque quartier au sud de la Tamise que vous avez investi.
+	 * @param plateau : le plateau du jeu
+	 * @param j : joueur qui active l'effet
+	 */
 	public void argentQuartiersSud(Plateau plateau, Joueur j){
 		Map<Integer,Quartier> quartiers = plateau.getQuartiers();
 		for(Integer key : quartiers.keySet()){
@@ -116,9 +139,11 @@ public class Effet implements Serializable{
 		}
 	}
 	
-	//cartes 54, 67
-	//effet 12
-	//£1 pour chaque quartier occupé
+	/**
+	 * Effet : Gagnez £1 pour chaque quartier que vous avez investi.
+	 * @param plateau : le plateau du jeu
+	 * @param j : joueur qui active l'effet
+	 */
 	public void argentQuartiersOccupes(Plateau plateau, Joueur j){
 		Map<Integer,Quartier> quartiers = plateau.getQuartiers();
 		for(Integer key : quartiers.keySet()){
@@ -128,9 +153,11 @@ public class Effet implements Serializable{
 		}
 	}
 	
-	//cartes 57, 59
-	//effet 15
-	//£2 pour chaque quartier adjacent à la tamise
+	/**
+	 * Effet : Gagnez £2 pour chacun de vos quartiers adjacents à la Tamise.
+	 * @param plateau : le plateau du jeu
+	 * @param j : joueur qui active l'effet
+	 */
 	public void argentQuartiersAdjacentsTamise(Plateau plateau, Joueur j){
 		Map<Integer,Quartier> quartiers = plateau.getQuartiers();
 		for(Integer key : quartiers.keySet()){
@@ -146,9 +173,15 @@ public class Effet implements Serializable{
 		}
 	}
 	
-	//cartes 39
-	//effet 8
-	//donne à un joueur de notre choix 1 point de pauvreté
+	/**
+	 * Effet : Donnez au joueur de votre choix un de vos points de pauvreté.
+	 * @param numJoueur : id du joueur visé par l'effet
+	 * @param partie : la partie actuelle
+	 * @param j : joueur qui active l'effet
+	 * @param nbJoueur : nombre de joueurs de la partie courante
+	 * @return GestionErreurs : NONE si le joueur visé est différent du joueur activant la carte, sinon WRONG_PLAYER, et
+	 * 							NONEXISTANT_PLAYER si l'id du joueur visé n'existe pas
+	 */
 	public GestionErreurs donneUnDeVosPP(int numJoueur, Partie partie, Joueur j, int nbJoueur){
 		if(j.getPoint_pauvrete() < 1)
 			return GestionErreurs.NOT_ENOUGH_PAUPERS;
@@ -166,9 +199,16 @@ public class Effet implements Serializable{
 			return GestionErreurs.NONEXISTANT_PLAYER;
 	}
 	
-	//cartes 41
-	//effet 9
-	//le joueur de votre choix prend 2 points de pauvreté
+
+	/**
+	 * Effet : Un joueur de votre choix doit prendre deux points de pauvreté depuis le stock.
+	 * @param numJoueur : id du joueur visé par l'effet
+	 * @param partie : la partie actuelle
+	 * @param j : joueur qui active l'effet
+	 * @param nbJoueur : nombre de joueurs de la partie courante
+	 * @return GestionErreurs : NONE si le joueur visé est différent du joueur activant la carte, sinon WRONG_PLAYER, et
+	 * 							NONEXISTANT_PLAYER si l'id du joueur visé n'existe pas
+	 */
 	public GestionErreurs prendDeuxPP(int numJoueur, Partie partie, Joueur j, int nbJoueur){ 
 		List<Joueur> l = partie.getListeJoueurs();
 		
@@ -183,9 +223,12 @@ public class Effet implements Serializable{
 			return GestionErreurs.NONEXISTANT_PLAYER;
 	}
 	
-	//cartes 71
-	//effet 19
-	//Chaque autre joueur doit payer £1 à la banque pour chaque quartier que vous avez investi
+
+	/**
+	 * Effet : Chaque autre joueur doit payer £1 à la banque pour chaque quartier que vous avez investi.
+	 * @param partie : la partie actuelle
+	 * @param jcourant : joueur qui active l'effet
+	 */
 	public void joueursPayeQuartiersInvestir(Partie partie, Joueur jcourant){
 		Map<Integer,Quartier> quartiers = partie.getPlateau().getQuartiers();
 		for(Integer key : quartiers.keySet()){
@@ -202,9 +245,12 @@ public class Effet implements Serializable{
 		}
 	}
 	
-	//cartes 42
-	//effet 10
-	//On prend £2 à chaque autres joueurs
+
+	/**
+	 * Effet : Prenez £2 à chacun des autres joueurs.
+	 * @param partie : la partie actuelle
+	 * @param jcourant : joueur qui active l'effet
+	 */
 	public void argentRecolterDeuxParJoueur(Partie partie, Joueur jcourant){
 		List<Joueur> l = partie.getListeJoueurs();
 		for(Joueur joueur : l){
@@ -223,25 +269,28 @@ public class Effet implements Serializable{
 		}
 	}
 	
-	
-	
-	//cartes 103
-	//effet 28
-	//Prenez £1 et perdez un point de pauvreté pour chaque carte "Pauvres" que vous placez sur l'étalage
+	/**
+	 * Effet : Prenez £1 et perdez un point de pauvreté pour chaque carte "Pauvres" que vous placez sur l'étalage.
+	 * @param partie : la partie actuelle
+	 * @param j : joueur qui active l'effet
+	 * @param c : carte pauvre choisie par le joueur (la boucle pour selectionner plusieurs cartes ne se fait pas dans cette fonction)
+	 */
 	public void pauvresSurEtalage(Partie partie, Joueur j, Carte c){
-		//for(Carte c : lc){
 		if(c.getCouleur().equals("Gris")){
 			j.setAddArgent(1);
 			j.setAddPoint_pauvrete(-1);
 			j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());
 			partie.getEtalage().ajouterCarte(c);
 		}
-		//}
 	}
 	
-	//cartes 56
-	//effet 14
-	//Perdez un point de pauvreté par carte de votre main que vous placez sur l'étalage (jusqu'à 3 cartes).
+
+	/**
+	 * Effet : Perdez un point de pauvreté par carte de votre main que vous placez sur l'étalage (jusqu'à 3 cartes).
+	 * @param partie : la partie actuelle
+	 * @param j : joueur qui active l'effet
+	 * @param c : carte choisie par le joueur
+	 */
 	public void pauvresParCarteSurEtalage(Partie partie, Joueur j, Carte c){
 		j.setAddPoint_pauvrete(-1);
 		j.getMainDuJoueur().supprimerCarteParId(c.getId_carte());

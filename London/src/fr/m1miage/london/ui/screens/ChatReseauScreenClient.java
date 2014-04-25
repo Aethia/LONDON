@@ -50,7 +50,6 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 			System.out.println("type de la reception : " + type);
 			if(type==5){
 				londonG.partie = (Partie) o;
-				Joueur thisJoueur = londonG.partie.getJoueurParNom(login);
 				afficherbouton();
 				SoundPlayer.jouerSon("alabataille.wav");
 				
@@ -175,9 +174,7 @@ private ChatReseauScreenClient aFermer;
 			@Override
 			public boolean keyUp(InputEvent event, int keycode) {
 				if(keycode==66){
-					if(Sender.e==null){
-						System.out.println("wtf");
-					}else{
+					if(Sender.e!=null){
 						Sender.e.sendMessageString(login+" : "+mTextField.getText());
 						mTextField.setText("");
 					}
@@ -236,13 +233,9 @@ private ChatReseauScreenClient aFermer;
 		System.out.println(message);
 
 		if(message.contains(" : ")){
-			System.out.println("huehue "+message);
 			String[] msg = message.split(" : ");
-			System.out.println(msg[0]);
-			System.out.println(msg[1]);
 			Label proprietaire =new Label(msg[0], Art.skin);
 			for(Joueur j : lesJoueurs){
-				System.out.println(msg[0] + j.getNom());
 				if(msg[0].equals(j.getNom())){
 					proprietaire.setColor(Prefs.conversionCouleur(j.getCouleur()));
 				}

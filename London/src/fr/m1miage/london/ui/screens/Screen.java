@@ -21,7 +21,6 @@ public abstract class Screen {
 	protected static Random random = new Random();
 	protected static LondonGame londonG;
 	public SpriteBatch spriteBatch;
-	private static int time = 0;
 
 	public void removed () {
 		spriteBatch.dispose();

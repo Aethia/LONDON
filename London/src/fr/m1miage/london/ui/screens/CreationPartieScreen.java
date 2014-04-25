@@ -102,7 +102,6 @@ public class CreationPartieScreen extends Screen {
 					TextButton btnSelected  = buttonsNbj.get(idNbJSelected);
 					btnSelected.getStyle().up =Buttons.nbButtonStyle.down;// buttonSkin.getDrawable("ButtonOn");
 					btnSelected.getStyle().over = Buttons.nbButtonStyle.down; //buttonSkin.getDrawable("ButtonOn");
-					System.out.println("Bouton selectionn� : " + idNbJSelected);
 					majFormJoueurs();
 					return true;
 				}				
@@ -250,7 +249,7 @@ public class CreationPartieScreen extends Screen {
 			Screen.setScreen(new GameScreen());	
 		}else{
 			//changer par graphique
-			System.out.println("choisir nb joueurs");
+			//System.out.println("choisir nb joueurs");
 		}
 	}
 
