@@ -30,7 +30,7 @@ public class JeuReseau {
 				break;
 		}
 		case 2 : {
-				Client cli = new Client();
+				Client cli = new Client("127.0.0.1");
 				cli.seConnecter(new Joueur(0,"toto",Color.RED));
 				break;
 		}

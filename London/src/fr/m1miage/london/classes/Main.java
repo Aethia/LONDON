@@ -4,14 +4,23 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe Main qui représente les main du joueur (les cartes qu'il possède)
+ */
+
 public class Main implements Cloneable, Serializable{
-	// les cartes qui constituent la main
+    /**
+     * Les cartes qui constituent la main
+     */
 	private List<Carte> lesCartes = new ArrayList<Carte>(); 
 	
 	public Main(){
 	}
 	
-	// ajouter une carte dans la main
+    /**
+     * Ajouter une carte dans la main
+     * @param Carte : la carte que l'on souhaite ajouter
+     */
 	public void ajouterCarte(Carte c){
 		lesCartes.add(c);
 	}
