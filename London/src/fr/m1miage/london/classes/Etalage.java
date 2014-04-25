@@ -3,23 +3,39 @@ package fr.m1miage.london.classes;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * la classe Etalage modélise les 2 rangées de cartes dans lesquelles on défausse les cartes
+ */
+
 public class Etalage implements Serializable{
-	
+    /**
+     * La taille de l'étalage (qui est fonction du nombre de joueurs)
+     */
 	private int tailleEtalage;
+    /**
+     * première rangée de l'étalage
+     */
 	private ArrayList<Carte> rangee1 = new ArrayList<Carte>();
+    /**
+     * deuxième rangée de l'étalage
+     */
 	private ArrayList<Carte> rangee2 = new ArrayList<Carte>();
 	
 	public Etalage(){		
 	}
 	
-	/*
-	 * si on ajoute une carte dans la 2e rang�e qui est pleine, on remonte la 2e rang�e
+
+	/**
+	 * Méthode de remplissage de la 1e rangée si la 2e est pleine
 	 */
 	private void remonterCartes(){
 		rangee1 = new ArrayList<Carte>(rangee2);
 	}
-	/*
-	 * Recuperer une carte de l'étalage (action piocher 3 cartes)
+
+	/**
+	 * Méthode de récupérage d'une carte de l'étalage
+	 * @param id : l'id de la carte désirée
+	 * @return Carte : la carte désirée
 	 */
 	public Carte recupererCarte(int idCarte){
 		Carte c=null;
@@ -45,8 +61,11 @@ public class Etalage implements Serializable{
 		return c;
 	}
 	
-	/*
-	 * retourner la carte par l'id
+
+	/**
+	 * Méthode d'obtention d'une carte par son id
+	 * @param index : l'index de la carte désirée dans l'étalage
+	 * @return Carte : la carte désirée
 	 */
 	public Carte getCarteParIdRangee2(int index){
 		for (Carte c : rangee2){
@@ -56,8 +75,10 @@ public class Etalage implements Serializable{
 		return null;		
 	}
 	
-	/*
-	 * retourner la carte par l'id
+	/**
+	 * Méthode d'obtention d'une carte par son id
+	 * @param id : l'id de la carte désirée dans l'étalage
+	 * @return Carte : la carte désirée
 	 */
 	public Carte getCarteParIdRangee1(int index){
 		for (Carte c : rangee1){
@@ -81,8 +102,10 @@ public class Etalage implements Serializable{
 		return new ArrayList<Carte>(rangee1);
 	}
 	
-	/*
-	 * ajouter une carte dans la zone de construction
+
+	/**
+	 * Méthode d'ajout d'une carte dans l'étalage
+	 * @param Carte : la carte que l'on veut ajouter
 	 */
 	public void ajouterCarte(Carte c){
 		if (rangee1.size() < tailleEtalage){
@@ -107,8 +130,8 @@ public class Etalage implements Serializable{
 		
 	}
 	
-	/*
-	 * vider totalement la zone de construction
+	/**
+	 * Méthode de vidage des 2 rangées de l'étalage
 	 */
 	public void viderEtalage(){
 		rangee1 = new ArrayList<Carte>();
