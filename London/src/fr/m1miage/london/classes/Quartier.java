@@ -186,10 +186,8 @@ public class Quartier implements Serializable{
 		
 		for(Quartier q : quartiersAdjacents){
 			//String n = q.getNom();
-			if(q==null){
-				System.out.println("wtf");
-			}else{
-			msg.append(q.getNom()).append(", ");
+			if(q!=null){		
+				msg.append(q.getNom()).append(", ");
 			}
 		}
 		msg.append("\n");

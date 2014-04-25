@@ -281,6 +281,7 @@ public class ZoneConstructionScreen extends Screen{
 					else{
 						cDefaussee = joueur.getMainDuJoueur().choisirCarte(idDefausseSelected);
 					}
+					
 					erreur = joueur.construire(cPosee, cDefaussee, pileSelected+1, londonG.partie.getPlateau().getEtalage());
 
 					if(erreur.equals(GestionErreurs.NONE)){ //si aucune erreur, le tour est terminé
@@ -373,6 +374,7 @@ public class ZoneConstructionScreen extends Screen{
 			idCarteEffet=24;
 			messageConstruire="Vous pouvez encore construire "+compteurEffet+" cartes";
 		}
+		messageConstruire="Glissez-déposez une carte sur une pile";
 		for(final Carte c: joueur.getLesCartes()){
 
 			i++;
@@ -474,7 +476,7 @@ public class ZoneConstructionScreen extends Screen{
 					@Override
 					public boolean touchDown(InputEvent event, float x,
 							float y, int pointer, int button) {
-						messageConstruire="Utiliser cette carte ? Elle sera défaussée à la fin de l'action.";
+						messageConstruire="Utiliser cette carte ?";
 						idCarteEffet=ca.getId();
 						btnJouerCarte.setVisible(true);
 						ca.setVisible(false);
