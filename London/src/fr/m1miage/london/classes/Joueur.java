@@ -9,7 +9,7 @@ import fr.m1miage.london.GestionErreurs;
 import fr.m1miage.london.Regles;
 
 /**
- * la classe Joueur modélise un jour et tout ce qui lui appartient
+ * la classe Joueur modélise un joueur et tout ce qui lui appartient
  */
 public class Joueur implements Serializable, Comparable {
     /**
@@ -26,7 +26,7 @@ public class Joueur implements Serializable, Comparable {
      * @see Joueur#getCouleur()
      */
 	private Color couleur;
-    /** Les points de peuvreté du joueur
+    /** Les points de pauvreté du joueur
      * @see Joueur#getPoint_pauvrete()
      */
 	private int point_pauvrete;
