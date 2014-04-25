@@ -26,6 +26,7 @@ import fr.m1.miage.london.network.IncomingObjectListenerClient;
 import fr.m1.miage.london.network.client.Reception;
 import fr.m1.miage.london.network.client.Sender;
 import fr.m1miage.london.classes.Joueur;
+import fr.m1miage.london.sound.SoundPlayer;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -50,40 +51,14 @@ public class ChatReseauScreenClient extends Screen implements IncomingMessageLis
 			if(type==5){
 				londonG.partie = (Partie) o;
 				Joueur thisJoueur = londonG.partie.getJoueurParNom(login);
-				
-				
-				Timer timer = new Timer();
-
-				
-				//aFermer.removed();
-//				if(spriteBatch!=null){
-////					Screen.spriteBatch.flush();
-////						Screen.spriteBatch.dispose();
-//					try {
-//						spriteBatch.begin();
-//						spriteBatch.end();
-//					} catch (Exception e) {
-//		
-//					}
-//					
-//				}
-				//Reception.removeListenerO(objListener);
-//				timer.schedule(new TimerTask() {
-//					@Override
-//					public void run() {
-//						
-//
-//						//Reception.addListenerO(GameScreenReseauClient.game);
-//						changer();
-//					}
-//				}, 2000);
-				
 				afficherbouton();
-				//afficherbouton();
+				SoundPlayer.jouerSon("alabataille.wav");
 				
 			}
 			if (type == 3) {
 				afficherbouton();
+				SoundPlayer.jouerSon("alabataille.wav");
+				
 			}
 			if (type == 4) {
 				joueurActif = (String)o;
@@ -139,8 +114,8 @@ private ChatReseauScreenClient aFermer;
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				//lancement de la partie
-				super.touchUp(event, x, y, pointer, button);		
-//				Screen.setScreen(new GameScreenReseauClient(login));	
+				super.touchUp(event, x, y, pointer, button);			
+				SoundPlayer.jouerSon("lancement.wav");
 				Screen.setScreen(new GameScreenReseauClient(londonG.partie.getJoueurParNom(login)));
 			}
 

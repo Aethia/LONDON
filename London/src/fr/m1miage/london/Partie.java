@@ -69,8 +69,7 @@ public class Partie implements Serializable{
 		pioche.init();
 
 		// on initialise le premier joueur 
-		//joueurActif = (int) (0 + (Math.random() * (nbJoueurs - 0)));
-		joueurActif = 0;
+		joueurActif = (int) (0 + (Math.random() * (nbJoueurs - 0)));
 		jActif = listeJoueurs.get(joueurActif);
 
 		// on distribue les cartes (los cartos en espagnol)

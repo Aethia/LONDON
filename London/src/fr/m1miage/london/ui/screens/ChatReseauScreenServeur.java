@@ -24,6 +24,7 @@ import fr.m1.miage.london.network.serveur.Reception;
 import fr.m1.miage.london.network.serveur.Serveur;
 import fr.m1miage.london.Partie;
 import fr.m1miage.london.classes.Joueur;
+import fr.m1miage.london.sound.SoundPlayer;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
 import fr.m1miage.london.ui.graphics.Buttons;
@@ -53,6 +54,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 
 	private Chat chat;
 	private int cPosition=0;
+	private TextButton btnLancerPartie;
 
 	public ChatReseauScreenServeur(){
 		Reception.addListener(this);
@@ -116,7 +118,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		stage.addActor(btnRetour);
 
 
-		TextButton btnLancerPartie =new TextButton("Lancer partie",Buttons.styleInGameMenu); 
+		btnLancerPartie =new TextButton("Lancer partie",Buttons.styleInGameMenu); 
 		btnLancerPartie.setPosition(100, 600); 
 		btnLancerPartie.addListener(new InputListener(){
 			@Override
@@ -138,6 +140,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 
 
 				// on lance la partie
+				SoundPlayer.jouerSon("lancement.wav");
 				londonG.partie = new Partie(listeJoueurs,listeJoueurs.size());
 				londonG.partie.init();
 				londonG.partie.setMultijoueur(true);
@@ -175,6 +178,7 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 				return true;
 			}
 		});
+		btnLancerPartie.setVisible(false);
 		stage.addActor(btnLancerPartie);
 
 		/*
@@ -272,8 +276,9 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		Fonts.FONT_BLACK.draw(spriteBatch, "Joueurs connectés", 1180, 150);
 
 		Fonts.FONT_BLACK.draw(spriteBatch, "hôte", 1200, 200);
-
+		int i=1;
 		for (Emission e : Serveur.lesClients){
+			i++;
 			jPosition = jPosition- 35;
 			Label l = new Label(e.getJoueur().getNom(),Art.skin);
 			java.awt.Color c = e.getJoueur().getCouleur();
@@ -284,6 +289,9 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 			l.setPosition(1200, jPosition);
 			stage.addActor(l);
 			//Fonts.FONT_BLACK.draw(spriteBatch, e.getJoueur().getNom(), 1200, jPosition);
+		}
+		if (i>1) {
+			btnLancerPartie.setVisible(true);
 		}
 		jPosition = 565;
 
