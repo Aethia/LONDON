@@ -328,7 +328,6 @@ public class Joueur implements Serializable, Comparable {
 				return GestionErreurs.NON_CONSTRUCTIBLE_CARD;
 			}
 			if(this.verifPresenceCarte(cDefaussee, this.getCartesCouleur(cPosee))){
-				System.out.println("meow");
 				if(cPosee.getPrix()<= argent){ 		
 					if(indexPile-1 < this.zoneConstruction.getNbPiles() ){ //s'il n'y a pas de piles ou que le joueur choisit l'option cr?er une pile
 						this.zoneConstruction.ajouterCarte(indexPile-1, cPosee); //si le joueur choisir le num?ro de la pile
@@ -373,7 +372,6 @@ public class Joueur implements Serializable, Comparable {
 	public GestionErreurs piocher(Pioche laPioche){
 		if(laPioche.getNbCartes() > 0){
 			Carte c = laPioche.tirerUneCarte();
-			System.err.println("carte" +c.getNom());
 			if(c!=null){
 				mainDuJoueur.ajouterCarte(c);
 				return GestionErreurs.NONE;
@@ -606,8 +604,8 @@ public class Joueur implements Serializable, Comparable {
 		}
 
 		// test pour voir si on manque de ressources
-		System.err.println( "argent du joueur :" + this.argent);
-		System.err.println( "truc :" + TraderClassRestaurerVille.getCoutEnLivres());
+		//System.err.println( "argent du joueur :" + this.argent);
+		//System.err.println( "truc :" + TraderClassRestaurerVille.getCoutEnLivres());
 		if (this.argent - TraderClassRestaurerVille.getCoutEnLivres() < 0)
 			return GestionErreurs.NOT_ENOUGH_MONEY;
 		if (rose-roseADefausser < 0){

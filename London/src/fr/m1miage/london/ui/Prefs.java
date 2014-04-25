@@ -72,7 +72,6 @@ public class Prefs {
 	}
 	
 	public static Color conversionCouleur(java.awt.Color c){
-		System.out.println("huahuahu"+ (float)c.getRed()/255);
 		return new Color((float)c.getRed()/255,(float)c.getGreen()/255,(float)c.getBlue()/255,1);
 	}
 }

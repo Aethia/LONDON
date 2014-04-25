@@ -54,9 +54,7 @@ public class Partie implements Serializable{
 	}
 
 	public boolean isFinTour(){
-		System.out.println("nb carte ds la pioche" + pioche.getNbCartes());
 		if(pioche.getNbCartes()>0){
-			System.out.println("nb carte ds la pioche" + pioche.getNbCartes());
 			return false;
 		}
 		return true;
@@ -344,7 +342,7 @@ public class Partie implements Serializable{
 
 		Etalage etalage = (Etalage)s.readObject();
 		p.getPlateau().setEtalage(etalage);
-		System.out.println("Partie chargé");
+		System.out.println("Partie chargée");
 		s.close();
 		this.listeJoueurs=p.listeJoueurs;
 		this.nbJoueurs=p.nbJoueurs;
