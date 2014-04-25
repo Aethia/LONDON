@@ -2,27 +2,91 @@ package fr.m1miage.london.classes;
 
 import java.io.Serializable;
 
+
+/**
+ * Classe Carte qui permet de stocker toutes les informations sur les cartes
+ */
+
 public class Carte implements Serializable{
+    /**
+     * L'id de la carte
+     * @see Carte#getId_carte()
+     */
 	private int id_carte;
+    /**
+     * Le nom de la carte
+     * @see Carte#getNom()
+     */
 	private String nom;
+    /**
+     * La période de la carte (A,B,C)
+     * @see Carte#getPeriode()
+     */
 	private String periode;
+    /**
+     * Le prix à payer pour poser la carte
+     * @see Carte#getPrix()
+     */
 	private int prix;
+    /**
+     * La couleur de la carte
+     * @see Carte#getCouleur()
+     */
 	private String couleur;
-	private int pointsVictoire; //points de victoire gagnés en fin de partie
+    /**
+     * les points de victoire que la carte rapportera en fin de partie
+     * @see Carte#getPointsVictoire()
+     */
+	private int pointsVictoire; 
 
-
+    /**
+     * L'effet que va produire cette carte lorsque qu'elle sera posée
+     * @see Carte#getEffet_passif()
+     */
 	private Effet effet_passif;
+    /**
+     * L'effet que va produire cette carte lorsque qu'elle sera activée
+     * @see Carte#getEffet_actif()
+     */
 	private Effet effet_actif;
+    /**
+     * True si la carte est retournée et donc non jouable, false sinon
+     * @see Carte#isDesactivee()
+     */
 	private boolean desactivee;
+    /**
+     * L'image qui représente cette carte
+     * @see Carte#getImage()
+     */
 	private String image;
 
 	//zone bas de carte => lors de l'activation
 	//voir page 3 du manuel
+    /**
+     * le cout pour l'activation de cette carte (argent, autre carte...)
+     * @see CoutActivation
+     */
 	private CoutActivation coutActivation; //argent ou carte
 
+    /**
+     * L'argent gagné à l'activation
+     * @see Carte#getCoutActivation()
+     */
 	private int argentActivation;
+    /**
+     * Les points de victoire gagnés a l'activation
+     * @see Carte#getPtsVictActivation()
+     */
 	private int ptsVictActivation;
+    /**
+     * Les points de pauvreté perdus a l'activation
+     * @see Carte#getPtsPauvretePerdus()
+     */
 	private int ptsPauvretePerdus;
+    /**
+     * Les points de pauvreté gagnés a l'activation
+     * @see Carte#getPtsPauvreteGagnes()
+     */
 	private int ptsPauvreteGagnes;
 
 

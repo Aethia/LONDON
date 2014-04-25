@@ -9,23 +9,47 @@ import fr.m1miage.london.GestionErreurs;
 import fr.m1miage.london.Regles;
 
 public class Joueur implements Serializable, Comparable {
-
+    /**
+     * L'id du joueur
+     * @see Joueur#getId()
+     */
 	private int id;
+    /**
+     * Le nom du joueur
+     * @see Joueur#getNom()
+     */
 	private String nom;
+    /**La couleur du joueur
+     * @see Joueur#getCouleur()
+     */
 	private Color couleur;
-	// les points de pauvret� du joueur
+    /** Les points de peuvreté du joueur
+     * @see Joueur#getPoint_pauvrete()
+     */
 	private int point_pauvrete;
-	// les pts de victoire du joueur
+    /** Les points de victoire du joueur
+     * @see Joueur#getPoint_victoire()
+     */
 	private int point_victoire;
-	// l'argent dont il dispose
+    /** L'argent dont dispose le joueur
+     * @see Joueur#getArgent()
+     */
 	private int argent;
-
+    /** Le montant d'argent que le joueur a emprunté
+     * @see Joueur#getMontantEmprunts()
+     */
 	private int montantEmprunts;
-	// les zones de construction qu'il peut poss�der
+    /** La zone de construction (zone ou il pose ses cartes) du joueur
+     * @see Joueur#getZone_construction()
+     */
 	private ZoneConstruction zoneConstruction;
-	// la main du joueurs (ses cartes)
+    /** La main du joueur (les cartes qu'il a en main)
+     * @see Joueur#getMainDuJoueur()
+     */
 	private Main mainDuJoueur;
-
+    /** le nombre de quartiers dont le joueur dispose
+     * @see Joueur#getMainDuJoueur()
+     */
 	private int nbQuartiers;
 
 
@@ -246,6 +270,11 @@ public class Joueur implements Serializable, Comparable {
 
 	}
 
+	/**
+	 * Obtenir toutes les cartes de la même couleur que la carte donnée en paramètre dans la main du joueur
+	 * @param carte : carte dont on cherche celles de la même couleur
+	 * @return List<Carte> : cartes d'une même couleur
+	 */
 	public List<Carte> getCartesCouleur(Carte c){
 
 		List<Carte> cartesCouleur = new ArrayList<Carte>();
@@ -261,7 +290,12 @@ public class Joueur implements Serializable, Comparable {
 
 	}
 
-	//on v?rifie que la carte choisie par la joueur existe dans sa main
+	/**
+	 * Rechercher si la carte ets présente dans une liste de cartes
+	 * @param carte : la carte que l'on cherche
+	 * @param List<Carte> : la liste où l'on recherche
+	 * @return presence : true si trouvé, false sinon
+	 */
 	public boolean verifPresenceCarte(Carte carte, List<Carte> liste){
 
 		boolean presence=false;
@@ -327,7 +361,11 @@ public class Joueur implements Serializable, Comparable {
 			return GestionErreurs.INCORRECT_CARTE;
 		}
 	}
-
+	/**
+	 * Méthode de tirage d'une carte dans la pioche
+	 * @param pioche : la pioche où l'on essaye de tirer une carte
+	 * @return GestionErreurs : message d'erreur 
+	 */
 	public GestionErreurs piocher(Pioche laPioche){
 		if(laPioche.getNbCartes() > 0){
 			Carte c = laPioche.tirerUneCarte();
