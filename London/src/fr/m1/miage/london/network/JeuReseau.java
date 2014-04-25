@@ -9,7 +9,7 @@ import fr.m1miage.london.classes.Joueur;
 
 public class JeuReseau {
 	
-	public void JeuReseau(){
+	public JeuReseau(){
 		
 	}
 	
@@ -18,7 +18,7 @@ public class JeuReseau {
 	}
 	
 	public static void lancerPartieReseau(){
-		System.out.println("\t 1 : h�berger une partie");
+		System.out.println("\t 1 : héberger une partie");
 		System.out.println("\t 2 : rejoindre une partie");
 		Scanner sc = new Scanner(System.in);
 		int nb;
@@ -36,7 +36,7 @@ public class JeuReseau {
 		}
 		default : break;
 		}
-		
+		sc.close();
 	}
 
 }

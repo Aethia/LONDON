@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import fr.m1miage.london.classes.Joueur;
 import fr.m1miage.london.ui.Prefs;
 import fr.m1miage.london.ui.graphics.Art;
-import fr.m1miage.london.ui.graphics.CarteActor;
 import fr.m1miage.london.ui.graphics.Fonts;
 
 public class FinPartieScreen extends Screen {

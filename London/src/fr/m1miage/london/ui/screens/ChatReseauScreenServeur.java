@@ -221,13 +221,9 @@ public class ChatReseauScreenServeur extends Screen implements IncomingMessageLi
 		System.out.println(message);
 
 		if(message.contains(" : ")){
-			System.out.println("huehue "+message);
 			String[] msg = message.split(" : ");
-			System.out.println(msg[0]);
-			System.out.println(msg[1]);
 			Label proprietaire =new Label(msg[0], Art.skin);
 			for(Emission e : Serveur.lesClients){
-				System.out.println(msg[0] + e.getJoueur().getNom());
 				if(msg[0].equals(e.getJoueur().getNom())){
 					proprietaire.setColor(Prefs.conversionCouleur(e.getJoueur().getCouleur()));
 				}

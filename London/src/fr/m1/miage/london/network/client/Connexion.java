@@ -34,7 +34,7 @@ public class Connexion implements Runnable {
 		
 		if(in.readInt() == 1){
 			
-		System.out.println("Je suis connect� "); 
+		System.out.println("Je suis connecté "); 
 		connect = true;
 		  }
 		else {

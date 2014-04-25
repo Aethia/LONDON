@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import fr.m1.miage.london.network.IncomingPartieObjectListenerServeur;
 import fr.m1.miage.london.network.client.Reception;

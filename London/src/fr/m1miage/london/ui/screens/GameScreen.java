@@ -128,7 +128,6 @@ public class GameScreen extends Screen{
 					}else{
 						londonG.partie.joueurSuivant();	
 						if(londonG.partie.isFinTour()){
-							System.out.println("fintpur");
 							Screen.setScreen( new FinPartieScreen() );
 						}	else{
 							Screen.setScreen(new GameScreen());

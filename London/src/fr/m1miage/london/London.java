@@ -3,12 +3,10 @@ package fr.m1miage.london;
 import java.io.IOException;
 import java.util.Scanner;
 
-import fr.m1miage.london.sound.*;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
-import fr.m1.miage.london.network.JeuReseau;
 import fr.m1miage.london.ui.LondonGame;
 import fr.m1miage.london.ui.Prefs;
 

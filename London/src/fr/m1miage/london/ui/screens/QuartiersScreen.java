@@ -67,7 +67,7 @@ public class QuartiersScreen extends Screen{
 		stage = new Stage(Prefs.LARGEUR_FENETRE, Prefs.HAUTEUR_FENETRE, false); 
 		stage.clear();
 
-		final Prefs r = new Prefs();
+		
 		Gdx.input.setInputProcessor(stage);
 
 		scoreJoueur = new Score(joueur);
@@ -142,7 +142,6 @@ public class QuartiersScreen extends Screen{
 						erreur = joueur.invest(nbQuartierSelected, londonG.partie.getPlateau(), londonG.partie.getPioche());
 						
 						if(erreur.equals(GestionErreurs.NONE)){	
-							System.out.println("a investi");
 							londonG.partie.setActionChoisie(3);
 							londonG.partie.setTourTermine(true);
 							if (londonG.partie.isMultijoueur()) {

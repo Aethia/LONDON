@@ -31,7 +31,6 @@ public class ZoneConstruction implements Serializable{
 		try{
 			return cartes.size();
 		}catch(NullPointerException e){
-			System.out.println("Votre zone de construction est vide.");
 			return 0;
 		}
 	}
@@ -61,7 +60,7 @@ public class ZoneConstruction implements Serializable{
 	public  void afficherCarteDessus(){
 		if(this.getNbPiles()>0){
 			for(int i=0; i<this.getNbPiles();i++){
-				System.out.println("Pile n�"+(i+1)+" : \n");
+				System.out.println("Pile n°"+(i+1)+" : \n");
 				System.out.println(cartes.get(i).get(cartes.get(i).size()-1).toString());
 				System.out.println("carte desactivee "+cartes.get(i).get(cartes.get(i).size()-1).isDesactivee()+"----- \n");
 			}

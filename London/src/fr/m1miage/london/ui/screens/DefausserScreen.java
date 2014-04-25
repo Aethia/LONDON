@@ -24,7 +24,7 @@ public class DefausserScreen extends Screen {
 	private Map<Integer, CarteActor> cDefausse = new HashMap<Integer, CarteActor>();
 	private int nbDefausse;
 
-	private String messageDefausse= new String("");
+	//private String messageDefausse= new String("");
 	private int left = 200;
 
 	public DefausserScreen(Joueur j, int nbDefausse){
@@ -92,7 +92,6 @@ public class DefausserScreen extends Screen {
 						ca.setY(ca.getyDefault()+325);
 						ca.setX(left + (cDefausse.size()-1)*250);
 					}
-					System.out.println("selected nb : " + cDefausse.size());
 					if(cDefausse.size()==nbDefausse){ //si on a selectionné le nb de cartes necessaires
 						btnValider.setVisible(true);
 					}else{
