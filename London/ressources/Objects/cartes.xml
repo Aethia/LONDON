@@ -845,7 +845,7 @@ id_EffActivation*, Activation?)>
 		<id>50</id>
 		<nom>Pont</nom>
 		<prix>2</prix>
-		<couleur>Bleu</couleur>
+		<couleur>Rose</couleur>
 		<periode>B</periode>
 		<image>carte50.png</image>
 		<ptsVictoire>2</ptsVictoire>

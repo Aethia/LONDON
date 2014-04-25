@@ -129,6 +129,7 @@ public class ZoneRestaurerScreen extends Screen{
 					}
 				}
 				activerBtn.setVisible(false);
+				btnRetour.setVisible(false);
 				carteActivation =null;
 				carteDefausse = null;
 				masquerMain();

@@ -129,7 +129,7 @@ public class ChoixModeReseauScreen extends Screen{
 				
 				
 				
-				textBoxPseudo.setPosition(580 , 280);
+				textBoxPseudo.setPosition(580 , 300);
 				textBoxPseudo.setHeight(70);
 				textBoxPseudo.setWidth(300);
 				textBoxPseudo.addListener(new ClickListener(){
@@ -141,10 +141,23 @@ public class ChoixModeReseauScreen extends Screen{
 				});
 				stage.addActor(textBoxPseudo);
 				
+				final TextField textBoxIp = new TextField("127.0.0.1", txtStyle);
+				textBoxIp.setPosition(580 , 250);
+				textBoxIp.setHeight(70);
+				textBoxIp.setWidth(300);
+				textBoxIp.addListener(new ClickListener(){
+					 @Override
+					 public void clicked(InputEvent event, float x, float y) {
+						 textBoxIp.setText("");
+					 
+					 }
+				});
+				stage.addActor(textBoxIp);
+				
 				
 				
 				TextButton btnRejoindrePartie =new TextButton("Rejoindre",Buttons.styleInGameMenu); 
-				btnRejoindrePartie.setPosition(600, 230); 
+				btnRejoindrePartie.setPosition(600, 200); 
 				btnRejoindrePartie.addListener(new InputListener(){
 					@Override
 					public void touchUp(InputEvent event, float x, float y,
@@ -162,7 +175,7 @@ public class ChoixModeReseauScreen extends Screen{
 						System.out.println(colorJ.getColor().b*255);
 						java.awt.Color c = new java.awt.Color((float)colorJ.getColor().r,(float)colorJ.getColor().g,(float)colorJ.getColor().b);
 						Joueur joueur = new Joueur(0, login, c);
-						Client cli = new Client();
+						Client cli = new Client(textBoxIp.getText());
 						cli.seConnecter(joueur);
 						
 						

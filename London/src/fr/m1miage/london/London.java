@@ -23,7 +23,7 @@ public class London {
 		System.out.println("Choix du lancement de LONDON :");
 		System.out.println("\t 1 : Console");
 		System.out.println("\t 2 : Graphique");
-		System.out.println("\t 3 : Console mode r�seau");
+		//System.out.println("\t 3 : Console mode réseau");
 		int nb=0;
 		boolean err = true;
 		Scanner sc = new Scanner(System.in);
@@ -51,10 +51,10 @@ public class London {
 
 			new LwjglApplication(new LondonGame(), cfg);
 			break;
-		case 3 : 
-			JeuReseau jr = new JeuReseau();
-			jr.lancerPartieReseau();
-			break;
+//		case 3 : 
+//			JeuReseau jr = new JeuReseau();
+//			jr.lancerPartieReseau();
+//			break;
 		default : ;
 		break;
 		}

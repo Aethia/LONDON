@@ -11,13 +11,18 @@ public class Client {
 	public static Socket socket = null;
 	public static Thread t1;
 	public static Emission emiss;
+	private String ip;
+	
+	public Client(String ip){
+		this.ip = ip;
+	}
 
 	public void seConnecter(Joueur client){
 
 		try {
 
 			System.out.println("Demande de connexion");
-			socket = new Socket("127.0.0.1",2009);
+			socket = new Socket(ip,2009);
 
 			t1 = new Thread(new Connexion(socket,client));
 			t1.start();
