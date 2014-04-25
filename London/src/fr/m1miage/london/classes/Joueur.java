@@ -374,7 +374,7 @@ public class Joueur implements Serializable, Comparable {
 			Carte c = laPioche.tirerUneCarte();
 			System.err.println("carte" +c.getNom());
 			if(c!=null){
-				mainDuJoueur.ajouterCarte(laPioche.tirerUneCarte());
+				mainDuJoueur.ajouterCarte(c);
 				return GestionErreurs.NONE;
 			}else{
 				return GestionErreurs.PIOCHE_VIDE;
