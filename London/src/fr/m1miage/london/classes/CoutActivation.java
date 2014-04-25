@@ -2,10 +2,26 @@ package fr.m1miage.london.classes;
 
 import java.io.Serializable;
 
+/**
+ * Classe CoutActivation qui stocke toutes les informations nécessaires pour l'activation de la carte
+ */
+
 public class CoutActivation implements Serializable {
-	private int typeActiv; //0: aucun cout, 1 :montantLivres, 2 : Carte couleur unique, 3 : n'importe quelle couleur
+    /**
+     * le type d'activation de la carte (1:argent, 2:carte d'une couleur précise, 3:carte n'importe quelle couleur)
+     */
+	private int typeActiv; 
+    /**
+     * si le type activation est 1,le montant est renseigné
+     */
 	private int livresAPayer;
+    /**
+     * si le type activation est 2,la couleur est renseigné
+     */
 	private String couleurADefausser;
+    /**
+     * si on doit retourné la carte une fois activé le boolean est à true, false sinon
+     */
 	private boolean aRetourner;
 	
 	public CoutActivation(){
@@ -60,7 +76,7 @@ public class CoutActivation implements Serializable {
 		switch(typeActiv){
 		case 0 : msg.append(" Aucun ");
 		break;
-		case 1 : msg.append(" Montant en Livres ( ").append(livresAPayer).append("� )");
+		case 1 : msg.append(" Montant en Livres ( ").append(livresAPayer).append("� )");
 		break;
 		case 2 : msg.append(" Carte de couleur unique ( ").append(couleurADefausser).append(" )");
 		break;
